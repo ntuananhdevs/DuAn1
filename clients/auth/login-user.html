@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Andev web - Validar formulario</title>
+    <link rel="stylesheet" href="/public/css/userlog.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="container" id="container">
+        <div class="form-container login-container">
+            <form class="form-lg">
+                <h1>WELLCOME</h1>
+                <div class="form-control2">
+                    <input type="email" class="email-2" placeholder="email" />
+                    <small class="email-error-2"></small>
+                    <span></span>
+                </div>
+                <div class="form-control2">
+                    <input type="password" class="password-2" placeholder="password " />
+                    <small class="password-error-2"></small>
+                    <span></span>
+                </div>
+
+                <div class="content">
+                    <div class="checkbox">
+                        <input type="checkbox" name="checkbox" id="checkbox" />
+                        <label for="">Show pass</label>
+                    </div>
+                    <div class="pass-link">
+                        <a href="#">Quên mật khẩu ?</a>
+                    </div>
+                </div>
+                <button type="submit" value="submit">LOGIN</button>
+                <span>Tùy Chọn Khác</span>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class "social"><i class="fa-brands fa-google"></i></a>
+                    <a href="#" class="social"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </form>
+        </div>
+
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1 class="title">
+                        Hola <br />
+                        amigos
+                    </h1>
+                    <p>Si tienes una cuenta, inicia sesión aquí y diviértete</p>
+                    <button class="ghost" id="login">
+                        Iniciar sesión
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                </div>
+
+                <div class="overlay-panel overlay-right">
+                    <h1 class="title">
+                        Tham gia với chúng tôi
+                    </h1>
+                    <p>
+                        bạn chưa có tài khoản, hãy đăng kí ngay để hưởng những ưu đã độc quyền
+                    </p>
+                    <button class="ghost" id="register">
+                        Đăng Kí Ngay
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="main.js"></script>
+
+</html>
