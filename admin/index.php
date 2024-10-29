@@ -5,8 +5,7 @@ require_once '../commons/core.php';
 #require Controller
 require_once '../admin/controllers/HomeController.php';
 require_once '../admin/controllers/ProductsContronller.php';
-
-
+require_once '../admin/controllers/UserController.php';
 
 
 
@@ -15,7 +14,7 @@ require_once '../admin/controllers/ProductsContronller.php';
 
 #require Model
 require_once '../admin/models/products.php';
-
+require_once '../admin/models/user.php';
 
 
 
@@ -24,7 +23,7 @@ require_once '../admin/models/products.php';
 
 $home = new HomeController();
 $products = new ProductsController();
-
+$user = new UserController();
 
 
 
@@ -43,6 +42,7 @@ if ($act == 'login') {
 #CRUD product
         'products' => $products->views_products(),
         'add-product' => $products->views_add(),
+        
 
 
 
@@ -59,6 +59,12 @@ if ($act == 'login') {
 
 
 #CRUD user
+'users' => $user->views_users(),
+'add-user' => $user->views_add(),
+'add-user-post' => $user->add(),
+'edit-user' => $user->views_edit(),
+'edit-user-post' => $user->edit(),
+'delete-user' => $user->delete(),
 
 
 
