@@ -47,5 +47,4 @@ class Products {
             echo "Connection failed: " . $e->getMessage();
         }
     }
-    
 }
