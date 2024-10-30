@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Quản lý người dùng</h1>
+        <h3 class="mb-0 h4 font-weight-bolder ">Users</h3>
     </div>
     
     <div class="card shadow mb-4">
