@@ -14,7 +14,7 @@ class CommentController {
         $comments = $this->commentModel->getAllComments();
         
         // Display the comment view
-        include '../admin/views/comment.php';
+        include '../admin/views/comment/index.php';
     }
     public function edit($id, $data) {
         $this->commentModel->updateComment($id, $data);
