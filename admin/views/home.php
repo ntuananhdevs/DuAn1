@@ -1,1 +1,1 @@
-<h1>Welcom to Admin</h1>
+<h1>WELLCOME TO ADMIN</h1>
