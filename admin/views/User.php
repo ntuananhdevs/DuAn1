@@ -6,6 +6,9 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Danh sách người dùng</h6>
+            <a href="index.php?act=add-user" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-plus fa-sm text-white-50"></i> Thêm mới
+            </a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -46,7 +49,5 @@
         </div>
     </div>
 </div>
-<a href="index.php?act=add-user" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-    <i class="fas fa-plus fa-sm text-white-50"></i> Thêm mới
-</a>
+
 </div>

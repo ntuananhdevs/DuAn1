@@ -83,7 +83,7 @@ if ($act == 'login') {
 
 
 
-    };
+};
     include '../admin/views/layout/footer.php';
 }
 ?>
