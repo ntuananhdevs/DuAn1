@@ -7,9 +7,7 @@
     require_once '../admin/controllers/ProductsContronller.php';
     require_once '../admin/controllers/CommentContronller.php';
     require_once '../admin/controllers/UserController.php';
-
-
-
+    require_once '../admin/controllers/CategoryController.php';
 
 
 
@@ -17,8 +15,7 @@
     require_once '../admin/models/products.php';
     require_once '../admin/models/user.php';
     require_once '../admin/models/Comment.php';
-
-
+    require_once '../admin/models/Category.php';
 
 
 
@@ -27,7 +24,7 @@
     $products = new ProductsController();
     $user = new UserController();
     $comment = new CommentController();
-
+    $category = new CategoryController();
 
 
 
@@ -35,25 +32,22 @@
     $act = $_GET['act'] ?? '/';
 
     if ($act == 'login') {
-        $auth->login(); 
+        $auth->login();
     } else {
         // $auth->check_login();
         include '../admin/views/layout/header.php';
-
         match ($act) {
             '/' => $home->views_home(),
-    #CRUD product
+            #CRUD product
             'products' => $products->views_products(),
             'add-product' => $products->views_add(),
-            
 
 
 
 
 
-
-#CRUD category
-
+            #CRUD category
+            'category' => $category->index(),
 
 
 
@@ -61,7 +55,7 @@
 
 
 
-#CRUD user
+            #CRUD user
             'users' => $user->views_users(),
             'add-user' => $user->views_add(),
             'add-user-post' => $user->add(),
@@ -69,15 +63,7 @@
             'edit-user-post' => $user->edit(),
             'delete-user' => $user->delete(),
 
-
-
-
-
-
-
-
-
-#CRUD comment
+            #CRUD comment
             'comments' => $comment->views_comment(),
 
 
@@ -86,7 +72,6 @@
 
 
             default => $home->views_home(),
-    };
+        };
         include '../admin/views/layout/footer.php';
-    }
-?>
+}

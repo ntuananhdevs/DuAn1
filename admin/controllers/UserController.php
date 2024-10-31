@@ -27,7 +27,7 @@ class UserController {
             } else {
                 $_SESSION['error'] = "Có lỗi xảy ra khi thêm người dùng!";
             }
-            header('Location: index.php?act=users');
+            header('Location:?act=users');
         }
     }
 
@@ -38,7 +38,7 @@ class UserController {
             } else {
                 $_SESSION['error'] = "Có lỗi xảy ra khi cập nhật!";
             }
-            header('Location: index.php?act=users');
+            header('Location:?act=users');
         }
     }
 
@@ -48,7 +48,7 @@ class UserController {
         } else {
             $_SESSION['error'] = "Có lỗi xảy ra khi xóa người dùng!";
         }
-        header('Location: index.php?act=users');
+        header('Location:?act=users');
     }
 }
 ?>

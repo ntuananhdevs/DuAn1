@@ -7,7 +7,7 @@ class User {
     }
 
     public function getAll() {
-        $sql = "SELECT * FROM users ORDER BY created_at DESC";
+        $sql = "SELECT * FROM users ORDER BY user_id ASC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
