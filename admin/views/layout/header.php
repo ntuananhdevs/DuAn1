@@ -54,10 +54,11 @@
           <span class="nav-link-text ms-1">Users</span>
     </a>
   </li>
+
   <li class="nav-item">
-    <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'notifications' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="../pages/notifications.html">
-      <i class="material-symbols-rounded opacity-5">notifications</i>
-      <span class="nav-link-text ms-1">Notifications</span>
+    <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'notifications' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=comments">
+    <ion-icon name="chatbox-ellipses-outline" size="small"></ion-icon>
+          <span class="nav-link-text ms-1">Comments</span>
     </a>
   </li>
 
