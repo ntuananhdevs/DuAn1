@@ -85,7 +85,7 @@
 
 
 
-
+            default => $home->views_home(),
     };
         include '../admin/views/layout/footer.php';
     }

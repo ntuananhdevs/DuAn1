@@ -37,51 +37,53 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
     <ul class="navbar-nav">
   <li class="nav-item">
-    <a class="nav-link <?php echo ($_GET['act'] == '/' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=/">
+    <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == '/' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=/">
       <i class="material-symbols-rounded opacity-5">dashboard</i>
       <span class="nav-link-text ms-1">Dashboard</span>
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link <?php echo ($_GET['act'] == 'products' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=products">
+    <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'products' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=products">
       <i class="material-symbols-rounded opacity-5">table_view</i>
       <span class="nav-link-text ms-1">Products</span>
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link <?php echo ($_GET['act'] == 'users' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=users">
-    <ion-icon name="people-circle-outline" size="small"></ion-icon>
+    <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'users' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=users">
+    <ion-icon name="person-circle-outline" size="small"></ion-icon>
           <span class="nav-link-text ms-1">Users</span>
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link <?php echo ($_GET['act'] == 'notifications' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="../pages/notifications.html">
+    <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'notifications' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="../pages/notifications.html">
       <i class="material-symbols-rounded opacity-5">notifications</i>
       <span class="nav-link-text ms-1">Notifications</span>
     </a>
-  </li> 
+  </li>
+
   <li class="nav-item mt-3">
     <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-5">Account pages</h6>
   </li>
   <li class="nav-item">
-    <a class="nav-link <?php echo ($_GET['act'] == 'profile' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="../pages/profile.html">
+    <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'profile' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="../pages/profile.html">
       <i class="material-symbols-rounded opacity-5">person</i>
       <span class="nav-link-text ms-1">Profile</span>
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link <?php echo ($_GET['act'] == 'sign-in' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="../pages/sign-in.html">
+    <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'sign-in' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="../pages/sign-in.html">
       <i class="material-symbols-rounded opacity-5">login</i>
       <span class="nav-link-text ms-1">Sign In</span>
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link <?php echo ($_GET['act'] == 'sign-up' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="../pages/sign-up.html">
+    <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'sign-up' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="../pages/sign-up.html">
       <i class="material-symbols-rounded opacity-5">assignment</i>
       <span class="nav-link-text ms-1">Sign Up</span>
     </a>
   </li>
 </ul>
+
 
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
