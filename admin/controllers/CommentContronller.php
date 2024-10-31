@@ -13,7 +13,7 @@ class CommentController {
         $comments = $this->commentModel->getAllComments();
         
         // Display the comment view
-        include '../admin/views/comment/index.php';
+        include '../admin/views/comments/comments.php';
 
     }
     public function edit($id, $data) {

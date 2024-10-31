@@ -1,7 +1,7 @@
 <div class="container">
-<h3 class="mb-0 h4 font-weight-bolder">Products</h3>
+<h3 class="mb-0 h4 font-weight-bolder mb-4">Products</h3>
 <a href="?act=add-product" class="btn btn-primary">Add Product</a>
-    <table class="table">
+    <table class="table  table-hover">
         <thead>
             <tr>
                 <th scope="col">ID</th>
