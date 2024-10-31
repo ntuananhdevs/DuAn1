@@ -1,6 +1,6 @@
 <div class="container">
-    <h2 class="">Products</h2>
-    <a href="?act=add-product" class="btn btn-primary">Add Product</a>
+<h3 class="mb-0 h4 font-weight-bolder">Products</h3>
+<a href="?act=add-product" class="btn btn-primary">Add Product</a>
     <table class="table">
         <thead>
             <tr>

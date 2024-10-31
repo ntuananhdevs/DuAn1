@@ -5,6 +5,7 @@
     #require Controller
     require_once '../admin/controllers/HomeController.php';
     require_once '../admin/controllers/ProductsContronller.php';
+    require_once '../admin/controllers/CommentContronller.php';
     require_once '../admin/controllers/UserController.php';
 
 
@@ -15,6 +16,7 @@
     #require Model
     require_once '../admin/models/products.php';
     require_once '../admin/models/user.php';
+    require_once '../admin/models/Comment.php';
 
 
 
@@ -24,6 +26,7 @@
     $home = new HomeController();
     $products = new ProductsController();
     $user = new UserController();
+    $comment = new CommentController();
 
 
 
@@ -75,14 +78,14 @@
 
 
 #CRUD comment
+            'comments' => $comment->views_comment(),
 
 
 
 
 
 
-
-
+            default => $home->views_home(),
     };
         include '../admin/views/layout/footer.php';
     }

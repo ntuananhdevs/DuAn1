@@ -1,14 +1,11 @@
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Quản lý người dùng</h1>
+        <h3 class="mb-0 h4 font-weight-bolder ">Users</h3>
     </div>
     
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Danh sách người dùng</h6>
-            <a href="index.php?act=add-user" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                <i class="fas fa-plus fa-sm text-white-50"></i> Thêm mới
-            </a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -20,6 +17,7 @@
                             <th>Email</th>
                             <th>Số điện thoại</th>
                             <th>Ngày tạo</th>
+                            <th>Ngày Sửa</th>
                             <th width="150">Thao tác</th>
                         </tr>
                     </thead>
@@ -31,6 +29,7 @@
                                 <td><?= $user['email'] ?></td>
                                 <td><?= $user['phone_number'] ?></td>
                                 <td><?= date('d/m/Y H:i', strtotime($user['created_at'])) ?></td>
+                                <td><?= date('d/m/Y H:i', strtotime($user['updated_at'])) ?></td>
                                 <td>
                                     <a href="index.php?act=edit-user&id=<?= $user['user_id'] ?>" 
                                     class="btn btn-warning btn-sm">
@@ -49,5 +48,8 @@
         </div>
     </div>
 </div>
+<a href="index.php?act=add-user" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+    <i class="fas fa-plus fa-sm text-white-50"></i> Thêm mới
+</a>
 
 </div>
