@@ -17,7 +17,7 @@ class User {
         $sql = "SELECT * FROM users WHERE user_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$id]);
-        return $stmt->fetch();
+        return $stmt->fetch(); 
     }
 
     public function create($data) {
