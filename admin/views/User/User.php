@@ -20,18 +20,18 @@
         <tbody>
             <?php foreach ($users as $user): ?>
                 <tr>
-                    <td><?= $user['user_id'] ?></td>
-                    <td><?= $user['username'] ?></td>
+                    <td><?= $user['id'] ?></td>
+                    <td><?= $user['user_name'] ?></td>
                     <td><?= $user['email'] ?></td>
                     <td><?= $user['phone_number'] ?></td>
                     <td><?= date('d/m/Y H:i', strtotime($user['created_at'])) ?></td>
                     <td><?= date('d/m/Y H:i', strtotime($user['updated_at'])) ?></td>
                     <td>
-                        <a href="?act=edit-user&id=<?= $user['user_id'] ?>"
+                        <a href="?act=edit-user&id=<?= $user['id'] ?>"
                             class="btn btn-warning ">
                             Sửa
                         </a>
-                        <a href="?act=delete-user&id=<?= $user['user_id'] ?>"
+                        <a href="?act=delete-user&id=<?= $user['id'] ?>"
                             class="btn btn-danger "
                             onclick="return confirm('Bạn có chắc muốn xóa người dùng này?')">
                             Xóa
