@@ -41,7 +41,7 @@
             #CRUD product
             'products' => $products->views_products(),
             'add-product' => $products->views_add(),
-
+            'product_detail' => $products->viewPrd_Variant($_GET['id']),
 
 
 
