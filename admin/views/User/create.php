@@ -47,6 +47,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Avatar</label>
+                            <div class="col-sm-9">
+                                <input type="file" name="avatar" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <div class="col-sm-9 offset-sm-3">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save"></i> Thêm mới
