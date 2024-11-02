@@ -18,7 +18,7 @@ function connectDB() {
 }
 
 function uploadFile($file , $folder) {
-    $pathStorage = $folder . time() . $file['name'];
+    $pathStorage =  $folder . time() . $file['name'];
     $from = $file['tmp_name'];  
     $to = PATH_ROOT . $pathStorage;
 
