@@ -20,7 +20,7 @@
                 <tr>
                     <td><?php echo $value['variant_id'] ?></td>
                     <td><?php echo $value['product_name'] ?> | <?php echo $value['color'] ?> | <?php echo $value['storage'] ?></td>
-                    <td></td>
+                    <td><img src=".<?php echo $value['variant_image']; ?>" alt="img" style="width:100px;height:auto;"></td>
                     <td><?php echo $value['color'] ?></td>
                     <td><?php echo $value['ram'] ?></td>
                     <td><?php echo $value['storage'] ?></td>

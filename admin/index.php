@@ -42,7 +42,8 @@
             'products' => $products->views_products(),
             'add-product' => $products->views_add(),
             'product_detail' => $products->viewPrd_Variant($_GET['id']),
-
+            'add-product' => $products->views_add(),
+            'post-product' => $products->add_product(),
 
 
 

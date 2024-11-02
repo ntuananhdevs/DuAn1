@@ -17,17 +17,24 @@ function connectDB() {
     }
 }
 
-function uploadFile($file , $folder) {
-    $pathStorage = $folder . time() . $file['name'];
-    $from = $file['tmp_name'];  
-    $to = PATH_ROOT . $pathStorage;
-
-    if (move_uploaded_file($from, $to)) {
-        return $pathStorage;
-    } else {
-        return null;
+function uploadFile($file, $destination) {
+    // Ensure $file is an array and contains the expected keys
+    if (!is_array($file) || !isset($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
+        throw new InvalidArgumentException("Invalid file input provided to uploadFile()");
     }
-}   
+
+    // Generate a unique filename to avoid conflicts
+    $filename = uniqid() . '_' . basename($file['name']);
+    $targetPath = rtrim($destination, '/') . '/' . $filename;
+
+    // Attempt to move the uploaded file to the destination directory
+    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+        return $targetPath;
+    } else {
+        throw new RuntimeException("Failed to upload file to the specified destination.");
+    }
+}
+
 function deleteFile($file){
     $path = PATH_ROOT . $file;
     if (file_exists($path)) {

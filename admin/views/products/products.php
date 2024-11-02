@@ -21,7 +21,7 @@
                 <tr>
                     <td><?php echo $value['ID'] ?></td>
                     <td><?php echo $value['Name'] ?></td>
-                    <td></td>
+                    <td><img src="<?php echo $value['Image']; ?>" alt="img" style="width:100px;height:auto;"></td>
                     <td><?php echo $value['Category_name'] ?></td>
                     <td><?php echo $value['Total_color'] ?></td>
                     <td><?php echo $value['Quantity'] ?></td>
