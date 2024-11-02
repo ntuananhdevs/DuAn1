@@ -14,5 +14,8 @@ class ProductsController
     public function views_add() {
         require_once './views/products/add_products.php';
     }
-
+    public function viewPrd_Variant($id) {
+        $listPrd_Variant = $this->producsts->getPrd_Variant($id);
+        require_once './views/products/product_variant.php';
+    }
 }
