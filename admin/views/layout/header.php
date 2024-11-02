@@ -101,11 +101,14 @@ ob_start();
             case 'category':
               $pageName = 'Categories';
               break;
+            case 'add-produc':
+              $pageName = 'Them san pham';
+              break;
             case 'sign-up':
               $pageName = 'Sign Up';
               break;
             default:
-              $pageName = 'Dashboard';
+              $pageName = 'Hello World';
               break;
           }
         }

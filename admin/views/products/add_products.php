@@ -6,13 +6,13 @@
             <input type="text" class="form-control" id="name" name="name" required style="width: 40%;">
         </div>
         <div class="col-md-7">
-        <label class="form-label mb-0 font-weight-bolder">Brand</label>
-                    <select class="form-select text-center" style="width: 40%;" name="category">
-                        <option value="" selected class="text-center">Brand</option>
-                        <?php foreach ($list_Category as $key) : ?>
-                            <option value="<?php echo $key['id']; ?>"><?php echo $key['category_name']; ?></option>
-                        <?php endforeach; ?>
-                    </select>
+            <label class="form-label mb-0 font-weight-bolder">Brand</label>
+            <select class="form-select text-center" style="width: 40%;" name="category">
+                <option value="" selected class="text-center">Brand</option>
+                <?php foreach ($list_Category as $key) : ?>
+                    <option value="<?php echo $key['id']; ?>"><?php echo $key['category_name']; ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
         <div class="col-md-7">
             <label for="description" class="form-label mb-0 font-weight-bolder">Mô Tả</label>
@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-<!-- RAM & lưu trữ -->
+            <!-- RAM & lưu trữ -->
 
         </div>
         <hr>
