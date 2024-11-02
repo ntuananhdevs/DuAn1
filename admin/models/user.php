@@ -7,41 +7,46 @@ class User {
     }
 
     public function getAll() {
-        $sql = "SELECT * FROM users ORDER BY user_id ASC";
+        $sql = "SELECT * FROM users WHERE role = 'user' ORDER BY id ASC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
     public function getById($id) {
-        $sql = "SELECT * FROM users WHERE user_id = ?";
+        $sql = "SELECT * FROM users WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$id]);
-        return $stmt->fetch();
+        return $stmt->fetch(); 
     }
 
     public function create($data) {
-        $sql = "INSERT INTO users (username, password, email, phone_number, created_at) 
-                VALUES (?, ?, ?, ?, NOW())";
+        $avatar = !empty($data['avatar']) ? $data['avatar'] : '../uploads/UserIMG/default.jpg';
+        
+        $sql = "INSERT INTO users (user_name, password, email, phone_number, created_at, avatar) 
+                VALUES (?, ?, ?, ?, NOW(), ?)";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([
             $data['username'],
             password_hash($data['password'], PASSWORD_DEFAULT),
             $data['email'],
-            $data['phone_number']
+            $data['phone_number'],
+            $avatar
         ]);
     }
 
     public function update($id, $data) {
         $sql = "UPDATE users SET 
-                username = ?, 
+                avatar = ?,
+                user_name = ?, 
                 email = ?, 
                 phone_number = ?,
                 updated_at = NOW()
-                WHERE user_id = ?";
+                WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([
-            $data['username'],
+            $data['avatar'],
+            $data['user_name'],
             $data['email'],
             $data['phone_number'],
             $id
@@ -49,7 +54,7 @@ class User {
     }
 
     public function delete($id) {
-        $sql = "DELETE FROM users WHERE user_id = ?";
+        $sql = "DELETE FROM users WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$id]);
     }

@@ -1,50 +1,72 @@
 <?php
-class Products {
+class Products
+{
     public $conn;
 
-    public function __construct(){
+    public function __construct()
+    {
 
         $this->conn = connectDB();
     }
 
-    public function get_products() {
+    public function get_products()
+    {
         try {
             $sql = "SELECT 
-                    p.product_id,
-                    p.product_name,
-                    c.category_name,
-                    co.color_name,
-                    pv.price AS variant_price,
-                    pv.quantity AS variant_stock_quantity,
-                    r.ram_size,
-                    s.storage_size,
-                    GROUP_CONCAT(CONCAT(ps.spec_name, ': ', ps.spec_value) SEPARATOR ', ') AS specifications
-                        FROM 
-                            products p
-                        JOIN 
-                            categories c ON p.category_id = c.category_id
-                        JOIN 
-                            product_variants pv ON p.product_id = pv.product_id
-                        JOIN 
-                            colors co ON pv.color_id = co.color_id
-                        JOIN 
-                            rams r ON pv.ram_id = r.ram_id
-                        JOIN 
-                            storages s ON pv.storage_id = s.storage_id
-                        LEFT JOIN 
-                            product_specs ps ON p.product_id = ps.product_id
-                        GROUP BY 
-                            pv.variant_id
-                        ORDER BY 
-                            p.product_id, pv.variant_id;
-                        ";
-                    
+                    p.id AS ID,
+                    p.product_name AS Name,
+                    p.img AS Image,
+                    c.category_name AS Category_name,
+                    COUNT(DISTINCT pv.color) AS Total_color,      
+                    p.quantity AS Quantity,
+                    p.views AS Views,
+                    MIN(pv.price) AS Lowest_Price,                
+                    MAX(pv.price) AS Highest_Price                
+                FROM 
+                    Products p
+                JOIN 
+                    Category c ON p.category_id = c.id
+                LEFT JOIN 
+                    Product_variants pv ON p.id = pv.product_id  
+                GROUP BY 
+                    p.id, p.product_name, p.img, c.category_name, p.quantity, p.views;
+                ";
+
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
             $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $products;
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
+        }
+    }
+    public function getPrd_Variant($id)
+    {
+        try {
+            $sql = "SELECT 
+                        p.id AS product_id,                  
+                        p.product_name AS product_name,      
+                        pv.id AS variant_id,                 
+                        pv.img AS variant_image,             
+                        pv.color AS color,                   
+                        pv.ram AS ram,                       
+                        pv.storage AS storage,               
+                        pv.price AS price,                   
+                        pv.quantity AS quantity              
+                    FROM 
+                        Products p
+                    JOIN 
+                        Product_variants pv ON p.id = pv.product_id
+                    WHERE 
+                        p.id = ?;
+                    ";
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$id]);
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $products;
+        } catch (PDOException $e) {
+            echo "SQL Error: " . $e->getMessage();
         }
     }
 }
