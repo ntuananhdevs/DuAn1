@@ -16,6 +16,7 @@ class ProductsController
         require_once './views/products/add_products.php';
     }
     public function viewPrd_Variant($id) {
+        $list_img = $this->producsts->get_img();
         $listPrd_Variant = $this->producsts->getPrd_Variant($id);
         require_once './views/products/product_variant.php';
     }
@@ -57,8 +58,6 @@ class ProductsController
                     $price = $variant['price'] ?? 0;
     
                     $variants_id = $this->producsts->add_variants($products_id, $color, $ram, $storage, $price, $quantity);
-    
-                    // Kiểm tra file hình ảnh biến thể
                     if (isset($_FILES['variants']['name'][$index]['image']) && is_uploaded_file($_FILES['variants']['tmp_name'][$index]['image'])) {
                         $imageFile = [
                             'name' => $_FILES['variants']['name'][$index]['image'],
@@ -68,6 +67,8 @@ class ProductsController
                     }
                 }
             }
+            // theem anh bien the
+
         }
         header('Location: ?act=products');
     }

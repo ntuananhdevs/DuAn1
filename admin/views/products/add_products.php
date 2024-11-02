@@ -10,7 +10,7 @@
                     <select class="form-select text-center" style="width: 40%;" name="category">
                         <option value="" selected class="text-center">Brand</option>
                         <?php foreach ($list_Category as $key) : ?>
-                            <option value="<?php echo $key['id']; ?>"><?php echo $key['id']; ?></option>
+                            <option value="<?php echo $key['id']; ?>"><?php echo $key['category_name']; ?></option>
                         <?php endforeach; ?>
                     </select>
         </div>

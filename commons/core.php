@@ -1,5 +1,6 @@
 <?php
-function connectDB() {
+function connectDB()
+{
     $host = DB_HOST;
     $port = DB_PORT;
     $dbname = DB_NAME;
@@ -10,36 +11,32 @@ function connectDB() {
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    
+
         return $conn;
     } catch (PDOException $e) {
         echo ("Connection failed: " . $e->getMessage());
     }
 }
 
-function uploadFile($file, $destination) {
-    // Ensure $file is an array and contains the expected keys
-    if (!is_array($file) || !isset($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
-        throw new InvalidArgumentException("Invalid file input provided to uploadFile()");
-    }
 
-    // Generate a unique filename to avoid conflicts
-    $filename = uniqid() . '_' . basename($file['name']);
-    $targetPath = rtrim($destination, '/') . '/' . $filename;
+function uploadFile($file, $folder)
+{
+    $pathStorage =  $folder . time() . $file['name'];
+    $from = $file['tmp_name'];
+    $to = PATH_ROOT . $pathStorage;
 
-    // Attempt to move the uploaded file to the destination directory
-    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
-        return $targetPath;
+    if (move_uploaded_file($from, $to)) {
+        return $pathStorage;
     } else {
-        throw new RuntimeException("Failed to upload file to the specified destination.");
+        return null;
     }
 }
 
-function deleteFile($file){
+
+function deleteFile($file)
+{
     $path = PATH_ROOT . $file;
     if (file_exists($path)) {
         unlink($path);
     }
 }
-
-?>
