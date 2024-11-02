@@ -1,7 +1,7 @@
 <div class="container">
 <h3 class="mb-0 h4 font-weight-bolder mb-4">Products</h3>
 <a href="?act=add-product" class="btn btn-primary">Add Product</a>
-    <table class="table  table-hover">
+    <table class="table ">
         <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -21,7 +21,7 @@
                 <tr>
                     <td><?php echo $value['ID'] ?></td>
                     <td><?php echo $value['Name'] ?></td>
-                    <td></td>
+                    <td><img src="<?php echo $value['Image']; ?>" alt="img" style="width:50px;height:auto;"></td>
                     <td><?php echo $value['Category_name'] ?></td>
                     <td><?php echo $value['Total_color'] ?></td>
                     <td><?php echo $value['Quantity'] ?></td>
