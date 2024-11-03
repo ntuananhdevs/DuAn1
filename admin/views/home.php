@@ -150,7 +150,7 @@
               </div>
             </div>
             <div class=" px-0 pb-2">
-              <div class="card bg-black" style="overflow: hidden; object-fit: cover; align-items:last baseline; width: 840px; height: 500px; justify-content: center;">
+              <div class="card bg-black" style=" object-fit: cover; align-items:last baseline; width: 840px; height: 500px; justify-content: center;">
             <img src="../assets/img/earth.svg" alt="" style="width: 1200px; height: 790px">
             </div>
             </div>
