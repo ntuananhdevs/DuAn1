@@ -14,7 +14,7 @@ class Products
             $sql = "SELECT 
                         p.id AS ID,
                         p.product_name AS Name,
-                        p.description AS description,                   
+                        p.description AS descriptionss,                   
                         COALESCE(MIN(vi.img), '') AS Image,            
                         c.category_name AS Category_name,
                         COUNT(DISTINCT pv.color) AS Total_color,      
@@ -53,7 +53,8 @@ class Products
     pv.storage AS storage,                
     pv.price AS price,                    
     pv.quantity AS quantity,              
-    vi.img AS img                         
+    vi.img AS img,                        
+    p.description AS description           -- Thêm cột description từ bảng Products
 FROM 
     Products p
 JOIN 
@@ -61,7 +62,8 @@ JOIN
 LEFT JOIN 
     Variants_img vi ON pv.id = vi.variant_id AND vi.is_default = 0 
 WHERE 
-    p.id = ?;                                       
+    p.id = ?;      
+                                     
 
                 ";
 
