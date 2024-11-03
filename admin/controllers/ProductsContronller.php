@@ -16,8 +16,10 @@ class ProductsController
         require_once './views/products/add_products.php';
     }
     public function viewPrd_Variant($id) {
+        $description = $this->producsts->get_products();
         $list_img = $this->producsts->get_img();
         $listPrd_Variant = $this->producsts->getPrd_Variant($id);
+        $list_spect = $this->producsts->get_spect($id);
         require_once './views/products/product_variant.php';
     }
     public function add_product() {
@@ -29,7 +31,6 @@ class ProductsController
             // Thêm sản phẩm
             $products_id = $this->producsts->addProduct($productName, $category, $description);
     
-            // Thêm thông số kỹ thuật
             if ($products_id) {
                 $spect = [
                     'Kích thước màn hình' => $_POST['screen_size'] ?? '',

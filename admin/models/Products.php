@@ -12,38 +12,35 @@ class Products
     {
         try {
             $sql = "SELECT 
-    p.id AS ID,
-    p.product_name AS Name,
-    COALESCE(MIN(vi.img), '') AS Image,               -- Lấy một ảnh duy nhất
-    c.category_name AS Category_name,
-    COUNT(DISTINCT pv.color) AS Total_color,      
-    p.quantity AS Quantity,
-    p.views AS Views,
-    MIN(pv.price) AS Lowest_Price,                
-    MAX(pv.price) AS Highest_Price                
-FROM 
-    Products p
-JOIN 
-    Category c ON p.category_id = c.id
-LEFT JOIN 
-    Product_variants pv ON p.id = pv.product_id  
-LEFT JOIN 
-    Variants_img vi ON pv.id = vi.variant_id AND vi.is_default = 0 -- Lấy ảnh mặc định nếu có
-GROUP BY 
-    p.id, p.product_name, c.category_name, p.quantity, p.views;
-
-
-                ";
-
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $products;
-        } catch (PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
-        }
+                        p.id AS ID,
+                        p.product_name AS Name,
+                        p.description AS description,                   -- Thêm cột Description
+                        COALESCE(MIN(vi.img), '') AS Image,             -- Lấy một ảnh duy nhất
+                        c.category_name AS Category_name,
+                        COUNT(DISTINCT pv.color) AS Total_color,      
+                        p.quantity AS Quantity,
+                        p.views AS Views,
+                        MIN(pv.price) AS Lowest_Price,                
+                        MAX(pv.price) AS Highest_Price                
+                    FROM 
+                        Products p
+                    JOIN 
+                        Category c ON p.category_id = c.id
+                    LEFT JOIN 
+                        Product_variants pv ON p.id = pv.product_id  
+                    LEFT JOIN 
+                        Variants_img vi ON pv.id = vi.variant_id AND vi.is_default = 0 -- Lấy ảnh mặc định nếu có
+                    GROUP BY 
+                        p.id, p.product_name, p.description, c.category_name, p.quantity, p.views;
+                    ";
+                    $stmt = $this->conn->prepare($sql);
+                    $stmt->execute();
+                    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    return $products;
+                } catch (PDOException $e) {
+                    echo "Connection failed: " . $e->getMessage();
+                }
     }
-
     public function getPrd_Variant($id)
     {
         try {
@@ -176,5 +173,22 @@ WHERE
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
+    }
+    public function get_spect($id){
+        $sql = "SELECT 
+                    sp.id AS Spect_ID,                -- ID của specification
+                    sp.product_id AS Product_ID,      -- ID của sản phẩm
+                    sp.spect_name AS Specification_Name,    -- Tên của thông số kỹ thuật
+                    sp.spects_value AS Specification_Value   -- Giá trị của thông số kỹ thuật
+                FROM 
+                    products_spect sp
+                WHERE 
+                    sp.product_id = ?;                -- Thay '?' bằng ID của sản phẩm cần tìm
+                ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$_GET['id']]);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
     }
 }
