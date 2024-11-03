@@ -44,7 +44,7 @@
             'product_detail' => $products->viewPrd_Variant($_GET['id']),
             'add-product' => $products->views_add(),
             'post-product' => $products->add_product(),
-
+            'delete_product' => $products->deletePrd($_GET['id']),
 
 
             #CRUD category

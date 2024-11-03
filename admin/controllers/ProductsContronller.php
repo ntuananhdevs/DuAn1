@@ -17,7 +17,6 @@ class ProductsController
     }
     public function viewPrd_Variant($id) {
         $description = $this->producsts->get_products();
-        $list_img = $this->producsts->get_img();
         $listPrd_Variant = $this->producsts->getPrd_Variant($id);
         $list_spect = $this->producsts->get_spect($id);
         require_once './views/products/product_variant.php';
@@ -73,6 +72,8 @@ class ProductsController
         }
         header('Location: ?act=products');
     }
-    
-    
+    public function deletePrd($id) {
+        $this->producsts->deletePrd($id);
+        header('Location: ?act=products');
+    }
 }

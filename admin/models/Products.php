@@ -161,18 +161,6 @@ WHERE
         }
         return false;
     }
-    public function get_img()
-    {
-        try {
-            $sql = "SELECT * FROM Variants_img";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            $img = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $img;
-        } catch (PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
-        }
-    }
     public function get_spect($id){
         $sql = "SELECT 
                     sp.id AS Spect_ID,                
@@ -189,5 +177,10 @@ WHERE
         $stmt->execute([$_GET['id']]);
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $data;
+    }
+    public function deletePrd($id){
+        $sql = "DELETE FROM products WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$id]);
     }
 }
