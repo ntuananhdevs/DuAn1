@@ -14,8 +14,8 @@ class Products
             $sql = "SELECT 
                         p.id AS ID,
                         p.product_name AS Name,
-                        p.description AS description,                   -- Thêm cột Description
-                        COALESCE(MIN(vi.img), '') AS Image,             -- Lấy một ảnh duy nhất
+                        p.description AS description,                   
+                        COALESCE(MIN(vi.img), '') AS Image,            
                         c.category_name AS Category_name,
                         COUNT(DISTINCT pv.color) AS Total_color,      
                         p.quantity AS Quantity,
@@ -29,7 +29,7 @@ class Products
                     LEFT JOIN 
                         Product_variants pv ON p.id = pv.product_id  
                     LEFT JOIN 
-                        Variants_img vi ON pv.id = vi.variant_id AND vi.is_default = 0 -- Lấy ảnh mặc định nếu có
+                        Variants_img vi ON pv.id = vi.variant_id AND vi.is_default = 0 
                     GROUP BY 
                         p.id, p.product_name, p.description, c.category_name, p.quantity, p.views;
                     ";
@@ -109,7 +109,6 @@ WHERE
             $sql = "INSERT INTO Product_variants (product_id, color, ram, storage, price, quantity) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($sql);
             if ($stmt->execute([$products_id, $color, $ram, $storage, $price, $quantity])) {
-                // Trả về variant_id mới được tạo để dùng trong saveVariantImage
                 return $this->conn->lastInsertId();
             }
             return false;
@@ -176,14 +175,14 @@ WHERE
     }
     public function get_spect($id){
         $sql = "SELECT 
-                    sp.id AS Spect_ID,                -- ID của specification
-                    sp.product_id AS Product_ID,      -- ID của sản phẩm
-                    sp.spect_name AS Specification_Name,    -- Tên của thông số kỹ thuật
-                    sp.spects_value AS Specification_Value   -- Giá trị của thông số kỹ thuật
+                    sp.id AS Spect_ID,                
+                    sp.product_id AS Product_ID,      
+                    sp.spect_name AS Specification_Name,    
+                    sp.spects_value AS Specification_Value   
                 FROM 
                     products_spect sp
                 WHERE 
-                    sp.product_id = ?;                -- Thay '?' bằng ID của sản phẩm cần tìm
+                    sp.product_id = ?;                
                 ";
 
         $stmt = $this->conn->prepare($sql);
