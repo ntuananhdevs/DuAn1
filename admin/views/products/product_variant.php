@@ -36,42 +36,46 @@
         </tbody>
     </table>
     <hr class="mt-4">
-    
+
     <div class="des border p-3 bg-light rounded table">
-    <h3 class="mb-0 h4 font-weight-bolder mb-4 text-center">Description</h3>
-    <?php 
-    function splitTextIntoLines($text) {
-        $lines = preg_split('/(?<=[.?!])\s+/', $text);
-        return implode("\n- ", array_map('trim', $lines));
-    }
-    foreach ($listPrd_Variant as $key => $value) : ?>
-        <p class="mb-2">
-            - <?php 
-                echo  nl2br(splitTextIntoLines($value['description'])); 
+        <h3 class="mb-0 h4 font-weight-bolder mb-4 text-center">Description</h3>
+        <?php 
+function splitTextIntoLines($text) {
+    $lines = preg_split('/(?<=[.?!])\s+/', $text);
+    return array_map('trim', $lines); // Trả về mảng các câu đã được trim
+}
+
+foreach ($listPrd_Variant as $key => $value) : ?>
+    <p class="mb-2">
+        <ul> 
+            <?php  
+                $sentences = splitTextIntoLines($value['description']);
+                foreach ($sentences as $sentence) {
+                    echo "<li>" . nl2br($sentence) . "</li>"; 
+                }
             ?>
-        </p>
-    <?php endforeach; ?>
-    <a href="?act=add-product" class="btn btn-primary mt-2">Edit</a>
-</div>
+        </ul>
+    </p>
+<?php endforeach; ?>
+
+        <a href="?act=add-product" class="btn btn-primary mt-2">Edit</a>
+    </div>
 
 
 
     <hr>
     <div class="des border p-3 bg-light rounded table">
-
-    <h3 class="mb-0 h4 font-weight-bolder mb-4 text-center">Thông số kỹ thuật</h3>
-    <table class="table table-bordered">
-        <tbody>
-            <?php foreach ($list_spect as $index => $spec) : ?>
-                <tr class="<?php echo $index % 2 == 0 ? 'bg-light' : ''; ?>">
-                    <td class="font-weight-bold" style="width: 20%;"><?php echo htmlspecialchars($spec['Specification_Name']); ?></td>
-                    <td><?php echo htmlspecialchars($spec['Specification_Value']); ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <a href="?act=add-product" class="btn btn-primary mt-2">Edit</a>
+        <h3 class="mb-0 h4 font-weight-bolder mb-4 text-center">Thông số kỹ thuật</h3>
+        <table class="table table-bordered">
+            <tbody>
+                <?php foreach ($list_spect as $index => $spec) : ?>
+                    <tr class="<?php echo $index % 2 == 0 ? 'bg-light' : ''; ?>">
+                        <td class="font-weight-bold" style="width: 20%;"><?php echo htmlspecialchars($spec['Specification_Name']); ?></td>
+                        <td><?php echo htmlspecialchars($spec['Specification_Value']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <a href="?act=add-product" class="btn btn-primary mt-2">Edit</a>
     </div>
-
-
 </div>
