@@ -77,6 +77,7 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <a href="?act=add-product" class="btn btn-primary mt-2">Edit</a>
+        
+        <a href="?act=update_spect&id=<?php echo $value['product_id'] ?>" class="btn btn-primary mt-2">Edit</a>
     </div>
 </div>

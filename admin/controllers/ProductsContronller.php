@@ -80,12 +80,23 @@ class ProductsController
         $this->producsts->deletePrd($id);
         header('Location: ?act=products');
     }
-    public function views_update($id)
+    public function views_update_des($id)
     {
         $des_value = $this->producsts->getPrd_Variant($id);
         if($des_value){
             $des_value = $des_value[0];
             require_once './views/products/update_des.php';
+        }else{
+
+        }
+    }
+    public function views_update_spect($id)
+    {
+        $list_spect = $this->producsts->get_spect($id);
+        $list_value = $this->producsts->get_spect($id);
+        if($list_value){
+            $list_value = $list_value[0];
+            require_once './views/products/update_spect.php';
         }else{
 
         }
