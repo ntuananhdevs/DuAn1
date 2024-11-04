@@ -45,26 +45,24 @@ class Products
     {
         try {
             $sql = "SELECT 
-    p.id AS product_id,                  
-    p.product_name AS product_name,      
-    pv.id AS variant_id,                  
-    pv.color AS color,                    
-    pv.ram AS ram,                        
-    pv.storage AS storage,                
-    pv.price AS price,                    
-    pv.quantity AS quantity,              
-    vi.img AS img,                        
-    p.description AS description           -- Thêm cột description từ bảng Products
-FROM 
-    Products p
-JOIN 
-    Product_variants pv ON p.id = pv.product_id      
-LEFT JOIN 
-    Variants_img vi ON pv.id = vi.variant_id AND vi.is_default = 0 
-WHERE 
-    p.id = ?;      
-                                     
-
+                        p.id AS product_id,                  
+                        p.product_name AS product_name,      
+                        pv.id AS variant_id,                  
+                        pv.color AS color,                    
+                        pv.ram AS ram,                        
+                        pv.storage AS storage,                
+                        pv.price AS price,                    
+                        pv.quantity AS quantity,              
+                        vi.img AS img,                        
+                        p.description AS description           -- Thêm cột description từ bảng Products
+                    FROM 
+                        Products p
+                    JOIN 
+                        Product_variants pv ON p.id = pv.product_id      
+                    LEFT JOIN 
+                        Variants_img vi ON pv.id = vi.variant_id AND vi.is_default = 0 
+                    WHERE 
+                        p.id = ?;      
                 ";
 
             $stmt = $this->conn->prepare($sql);
@@ -185,4 +183,5 @@ WHERE
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$id]);
     }
+    
 }

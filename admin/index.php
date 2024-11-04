@@ -15,7 +15,7 @@
     require_once '../admin/models/products.php';
     require_once '../admin/models/user.php';
     require_once '../admin/models/Comment.php';
-    require_once '../admin/models/Category.php';
+    require_once '../admin/models/category.php';
 
 
 
@@ -45,8 +45,8 @@
             'add-product' => $products->views_add(),
             'post-product' => $products->add_product(),
             'delete_product' => $products->deletePrd($_GET['id']),
-
-
+            'update_des' => $products->views_update($_GET['id']),
+            
             #CRUD category
             'category' => $category->index(),
 
