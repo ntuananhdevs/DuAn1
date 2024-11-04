@@ -7,7 +7,7 @@ class User {
     }
 
     public function getAll() {
-        $sql = "SELECT * FROM users WHERE role = 'user' ORDER BY id ASC";
+        $sql = "SELECT * FROM users ORDER BY id ASC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();

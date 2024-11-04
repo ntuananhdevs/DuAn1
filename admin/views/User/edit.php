@@ -21,7 +21,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Thông tin người dùng</h6>
                 </div>
                 <div class="card-body">
-                    <form action="index.php?act=edit-user-post&id=<?= $user['id'] ?>" method="POST">
+                    <form action="index.php?act=edit-user-post&id=<?= $user['id'] ?>" method="POST" enctype="multipart/form-data">
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Tên đăng nhập</label>
                             <div class="col-sm-9">
