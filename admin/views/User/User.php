@@ -2,6 +2,9 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h3 class="mb-0 h4 font-weight-bolder ">Users</h3>
     </div>
+    <a href="?act=add-user" class=" btn  btn-primary ">
+ Thêm mới
+</a>
     <table class="table  table-hover" id="dataTable" cellspacing="0">
         <thead class="thead-light">
             <tr>
@@ -42,8 +45,6 @@
         <?php endforeach; ?>
     </tbody>
 </table>
-<a href="?act=add-user" class=" btn  btn-primary ">
- Thêm mới
-</a>
+
 </div>
 </div>
