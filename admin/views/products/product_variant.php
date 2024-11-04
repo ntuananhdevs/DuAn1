@@ -39,26 +39,27 @@
 
     <div class="des border p-3 bg-light rounded table">
         <h3 class="mb-0 h4 font-weight-bolder mb-4 text-center">Description</h3>
-        <?php 
-function splitTextIntoLines($text) {
-    $lines = preg_split('/(?<=[.?!])\s+/', $text);
-    return array_map('trim', $lines); // Trả về mảng các câu đã được trim
-}
+        <?php
+        function splitTextIntoLines($text)
+        {
+            $lines = preg_split('/(?<=[.?!])\s+/', $text);
+            return array_map('trim', $lines); // Trả về mảng các câu đã được trim
+        }
 
-foreach ($listPrd_Variant as $key => $value) : ?>
-    <p class="mb-2">
-        <ul> 
-            <?php  
+        foreach ($listPrd_Variant as $key => $value) : ?>
+            <p class="mb-2">
+            <ul>
+                <?php
                 $sentences = splitTextIntoLines($value['description']);
                 foreach ($sentences as $sentence) {
-                    echo "<li>" . nl2br($sentence) . "</li>"; 
+                    echo "<li>" . nl2br($sentence) . "</li>";
                 }
-            ?>
-        </ul>
-    </p>
-<?php endforeach; ?>
+                ?>
+            </ul>
+            </p>
+        <?php endforeach; ?>
 
-        <a href="?act=add-product" class="btn btn-primary mt-2">Edit</a>
+        <a href="?act=update_des&id=<?php echo $value['product_id'] ?>" class="btn btn-primary mt-2">Edit</a>
     </div>
 
 

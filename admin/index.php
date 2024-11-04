@@ -45,8 +45,8 @@
             'add-product' => $products->views_add(),
             'post-product' => $products->add_product(),
             'delete_product' => $products->deletePrd($_GET['id']),
-
-
+            'update_des' => $products->views_update($_GET['id']),
+            
             #CRUD category
             'category' => $category->index(),
 
