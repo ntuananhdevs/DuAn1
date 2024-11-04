@@ -15,7 +15,7 @@
     require_once '../admin/models/products.php';
     require_once '../admin/models/user.php';
     require_once '../admin/models/Comment.php';
-    require_once '../admin/models/Category.php';
+    require_once '../admin/models/category.php';
 
 
 
