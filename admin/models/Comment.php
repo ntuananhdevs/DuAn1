@@ -9,33 +9,34 @@ class Comment {
     public function getAllCommentsCountByProduct()
     {
         try {
-            // Chuẩn bị câu lệnh SQL để đếm số lượng bình luận cho mỗi sản phẩm và lấy thông tin có liên quan
+            // Chuẩn bị câu lệnh SQL để đếm số lượng bình luận từ bảng Comments và lấy thông tin sản phẩm
             $stmt = $this->conn->prepare("
                 SELECT 
-                    p.id AS Product_ID,
+                    c.product_id AS Product_ID,
                     p.product_name AS Name_Product,
                     COUNT(c.id) AS Comment_Count,
                     MAX(c.created_at) AS Last_Comment_Date,
                     (SELECT content FROM Comments 
-                     WHERE product_id = p.id 
+                     WHERE product_id = c.product_id 
                      ORDER BY created_at DESC LIMIT 1) AS Latest_Comment_Content
-                FROM Products p
-                LEFT JOIN Comments c ON c.product_id = p.id
-                GROUP BY p.id, p.product_name
+                FROM Comments c
+                LEFT JOIN Products p ON c.product_id = p.id
+                GROUP BY c.product_id, p.product_name
             ");
             
-           // Thực hiện câu lệnh
+            // Thực hiện câu lệnh
             $stmt->execute();
     
-           // Lấy tất cả kết quả
+            // Lấy tất cả kết quả
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
     
         } catch (Exception $e) {
-           // Xử lý ngoại lệ một cách thích hợp
+            // Xử lý ngoại lệ một cách thích hợp
             return ['error' => $e->getMessage()];
         }
     }
+    
     public function getCommentsByProductId($productId)
     {
         try {
