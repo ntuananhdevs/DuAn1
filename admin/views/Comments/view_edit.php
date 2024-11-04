@@ -17,7 +17,7 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Sửa Bình Luận</h2>
 
-    <form action="update_comment.php" method="POST">
+    <form action="index.php?act=edit_comment" method="POST">
         <!-- ID của bình luận (ẩn đi) -->
         <input type="hidden" name="id" value="<?php echo htmlspecialchars($comment['id']); ?>">
 
@@ -29,7 +29,7 @@
         
         <!-- Nút gửi form -->
         <button type="submit" class="btn btn-primary">Cập Nhật Bình Luận</button>
-        <a href=".php" class="btn btn-secondary">Hủy</a>
+        <a href="" class="btn btn-secondary">Hủy</a>
     </form>
 </div>
 

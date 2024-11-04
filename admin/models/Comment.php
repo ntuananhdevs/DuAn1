@@ -9,7 +9,7 @@ class Comment {
     public function getAllCommentsCountByProduct()
     {
         try {
-            // Prepare the SQL statement to count the number of comments per product and get relevant information
+            // Chuẩn bị câu lệnh SQL để đếm số lượng bình luận cho mỗi sản phẩm và lấy thông tin có liên quan
             $stmt = $this->conn->prepare("
                 SELECT 
                     p.id AS Product_ID,
@@ -24,15 +24,15 @@ class Comment {
                 GROUP BY p.id, p.product_name
             ");
             
-            // Execute the statement
+           // Thực hiện câu lệnh
             $stmt->execute();
     
-            // Fetch all results
+           // Lấy tất cả kết quả
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
     
         } catch (Exception $e) {
-            // Handle exceptions appropriately
+           // Xử lý ngoại lệ một cách thích hợp
             return ['error' => $e->getMessage()];
         }
     }
@@ -91,12 +91,14 @@ class Comment {
     public function deleteComment($commentId)
     {
         try {
-            $stmt = $this->conn->prepare("DELETE FROM comments WHERE comment_id = :comment_id");
-            $stmt->bindParam(':comment_id', $commentId, PDO::PARAM_INT);
+            $stmt = $this->conn->prepare("DELETE FROM Comments WHERE id = :id");
+            $stmt->bindParam(':id', $commentId, PDO::PARAM_INT);
+            
             return $stmt->execute();
         } catch (PDOException $e) {
-            echo "Error deleting comment: " . $e->getMessage();
+            echo "Lỗi khi xóa bình luận: " . $e->getMessage();
             return false;
         }
     }
+        
 }

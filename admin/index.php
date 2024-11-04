@@ -42,8 +42,9 @@
             'products' => $products->views_products(),
             'add-product' => $products->views_add(),
             'product_detail' => $products->viewPrd_Variant($_GET['id']),
-
-
+            'add-product' => $products->views_add(),
+            'post-product' => $products->add_product(),
+            'delete_product' => $products->deletePrd($_GET['id']),
 
 
             #CRUD category
@@ -66,8 +67,8 @@
             #CRUD comment
             'comments' => $comment->views_comment(),
             'delete' => $comment->deleteComment($_GET['id']),
-            'edit' => $comment->edit($_GET['id']),
-            'view_comments' => $comment->vieweditComments($_GET['product_id'] ),
+            'view_edit' => $comment->edit($_GET['id']),
+            'view_comments' => $comment->viewComments($_GET['product_id'] ),
            
             
 
