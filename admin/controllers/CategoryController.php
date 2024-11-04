@@ -13,4 +13,3 @@ class CategoryController {
         require_once './views/Category/category.php';
     }
 }
-?>

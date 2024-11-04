@@ -1,3 +1,4 @@
+
 <?php
 class Category
 {
@@ -12,18 +13,18 @@ class Category
     {
         try {
             $sql = "SELECT 
-    c.category_id, 
+    c.id, 
     c.category_name, 
     c.description, 
-    COUNT(p.product_id) AS product_count
+    COUNT(p.id) AS product_count
 FROM 
-    categories c
+    category c
 LEFT JOIN 
     products p 
 ON 
-    c.category_id = p.category_id
+    c.id = p.category_id
 GROUP BY 
-    c.category_id, c.category_name, c.description;
+    c.id, c.category_name, c.description;
 ";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
@@ -35,7 +36,7 @@ GROUP BY
     public function categorybyid($id)
     {
         try {
-            $sql = "SELECT * FROM categories WHERE id = ?";
+            $sql = "SELECT * FROM category WHERE id = ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([$id]);
             return $stmt->fetch();
@@ -43,12 +44,12 @@ GROUP BY
             echo "Connection failed: " . $e->getMessage();
         }
     }
-    public function add($name, $description)
+    public function add($category_name, $description)
     {
         try {
-            $sql = "INSERT INTO categories (name, description) VALUES (:name, :description)";
+            $sql = "INSERT INTO category (category_name, description) VALUES (:category_name, :description)";
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':category_name', $category_name);
             $stmt->bindParam(':description', $description);
             return $stmt->execute();
         } catch (PDOException $e) {
@@ -56,24 +57,25 @@ GROUP BY
         }
     }
 
-    public function update($id, $name, $description)
+    public function update($id, $category_name, $description)
     {
         try {
-            $sql = "UPDATE categories SET name = :name, description = :description WHERE id = :id";
+            $sql = "UPDATE category SET name = :category_name, description = :description WHERE id = :id";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':id', $id);
-            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':category_name', $category_name);
             $stmt->bindParam(':description', $description);
             return $stmt->execute();
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
     }
+
 
     public function delete($id)
     {
         try {
-            $sql = "DELETE FROM categories WHERE id = :id";
+            $sql = "DELETE FROM category WHERE id = :id";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':id', $id);
             return $stmt->execute();
@@ -84,7 +86,7 @@ GROUP BY
     public function getCategorybyID($id)
     {
         try {
-            $sql = "SELECT * FROM categories WHERE id = :id";
+            $sql = "SELECT * FROM category WHERE id = :id";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':id', $id);
             $stmt->execute();
