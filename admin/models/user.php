@@ -7,7 +7,7 @@ class User {
     }
 
     public function getAll() {
-        $sql = "SELECT * FROM users WHERE role = 'user' ORDER BY id ASC";
+        $sql = "SELECT * FROM users ORDER BY id ASC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
@@ -21,7 +21,7 @@ class User {
     }
 
     public function create($data) {
-        $avatar = !empty($data['avatar']) ? $data['avatar'] : '../uploads/UserIMG/default.jpg';
+        $avatar = !empty($data['avatar']) ? $data['avatar'] : '../uploads/UserIMG/default.png';
         
         $sql = "INSERT INTO users (user_name, password, email, phone_number, created_at, avatar) 
                 VALUES (?, ?, ?, ?, NOW(), ?)";

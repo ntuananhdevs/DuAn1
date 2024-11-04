@@ -22,7 +22,7 @@
 
 
                     <td>
-                        <a href="index.php?act=view_comments&product_id=<?= $comment['Product_ID']; ?>" class="btn btn-info">View Comments</a>
+                        <a href="index.php?act=view_comments&product_id=<?= $comment['Product_ID']; ?>" class="btn btn-primary">View Comments</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

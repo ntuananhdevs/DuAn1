@@ -21,12 +21,12 @@ class CommentController
     {
         // Fetch comments for the product
         $comments = $this->commentModel->getCommentsByProductId($productId);
-        include '../admin/views/comments/view_comments.php';
+        include '../admin/views/Comments/view_comments.php';
     }
 
     public function edit($id) {
         $comment = $this->commentModel->getCommentById($id);
-        include '../admin/views/comments/view_edit.php';
+        include '../admin/views/Comments/view_edit.php';
     }
 
    

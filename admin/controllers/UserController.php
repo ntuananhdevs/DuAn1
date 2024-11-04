@@ -22,6 +22,18 @@ class UserController {
 
     public function add() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $avatar = '../uploads/UserIMG/default.png';
+            if(isset($_FILES['avatar']) && $_FILES['avatar']['error'] === 0) {
+                $uploadDir = '../uploads/UserIMG/';
+                $fileName = time() . '_' . $_FILES['avatar']['name'];
+                $uploadFile = $uploadDir . $fileName;
+                
+                if(move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadFile)) {
+                    $avatar = $uploadFile;
+                }
+            }
+            
+            $_POST['avatar'] = $avatar;
             if($this->userModel->create($_POST)) {
                 $_SESSION['success'] = "Thêm người dùng thành công!";
             } else {
@@ -33,6 +45,18 @@ class UserController {
 
     public function edit() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if(isset($_FILES['avatar']) && $_FILES['avatar']['error'] === 0) {
+                $uploadDir = '../uploads/UserIMG/';
+                $fileName = time() . '_' . $_FILES['avatar']['name'];
+                $uploadFile = $uploadDir . $fileName;
+                
+                if(move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadFile)) {
+                    $_POST['avatar'] = $uploadFile;
+                }
+            } else {
+                $_POST['avatar'] = $_POST['old_avatar'];
+            }
+
             if($this->userModel->update($_GET['id'], $_POST)) {
                 $_SESSION['success'] = "Cập nhật thông tin thành công!";
             } else {

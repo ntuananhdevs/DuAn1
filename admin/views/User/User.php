@@ -20,7 +20,7 @@
             <?php foreach ($users as $user): ?>
                 <tr>
                     <td><?= $user['id'] ?></td>
-                    <td><img src="./<?= $user['avatar'] ?>" style="width: 50px; height: 50px; border-radius: 100%;" alt=""></td>
+                    <td><img src="<?= $user['avatar'] ?>" style="width: 50px; height: 50px; border-radius: 100%;" alt=""></td>
                     <td><?= $user['user_name'] ?></td>
                     <td><?= $user['email'] ?></td>
                     <td><?= $user['role'] ?></td>
