@@ -49,11 +49,9 @@
             'update_spect'=> $products->views_update_spect($_GET['id']),
             #CRUD category
             'category' => $category->index(),
-
-
-
-
-
+            'add_category' => $category->addCategory(),
+            'edit_category' => $category->editCategory($_GET['id']),
+            'delete_category' => $category->deleteCategory($_GET['id']),
 
 
             #CRUD user
