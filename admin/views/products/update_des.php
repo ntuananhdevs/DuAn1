@@ -13,8 +13,6 @@ function splitTextIntoLines($text)
 <div class="container">
     <form action="?act=post_update_des" method="post" enctype="multipart/form-data">
         <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($des_value['product_id']); ?>">
-
-        <!-- Hiển thị danh sách các câu từ mô tả -->
         <label class="form-label mb-0 font-weight-bolder">Description Sentences</label>
         <ul>
             <?php
