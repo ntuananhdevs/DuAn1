@@ -21,7 +21,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Thông tin người dùng</h6>
                 </div>
                 <div class="card-body">
-                    <form action="index.php?act=add-user-post" method="POST">
+                    <form action="index.php?act=add-user-post" method="POST" enctype="multipart/form-data">
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Tên đăng nhập</label>
                             <div class="col-sm-9">
@@ -49,7 +49,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Avatar</label>
                             <div class="col-sm-9">
-                                <input type="file" name="avatar" class="form-control">
+                                <input type="file" name="avatar" class="form-control" accept="image/*">
                             </div>
                         </div>
                         <div class="form-group row">

@@ -15,7 +15,7 @@
     require_once '../admin/models/products.php';
     require_once '../admin/models/user.php';
     require_once '../admin/models/Comment.php';
-    require_once '../admin/models/Category.php';
+    require_once '../admin/models/category.php';
 
 
 
@@ -44,16 +44,14 @@
             'product_detail' => $products->viewPrd_Variant($_GET['id']),
             'add-product' => $products->views_add(),
             'post-product' => $products->add_product(),
-
-
-
+            'delete_product' => $products->deletePrd($_GET['id']),
+            'update_des' => $products->views_update_des($_GET['id']),
+            'update_spect'=> $products->views_update_spect($_GET['id']),
             #CRUD category
             'category' => $category->index(),
-
-
-
-
-
+            'add_category' => $category->addCategory(),
+            'edit_category' => $category->editCategory($_GET['id']),
+            'delete_category' => $category->deleteCategory($_GET['id']),
 
 
             #CRUD user
@@ -66,7 +64,11 @@
 
             #CRUD comment
             'comments' => $comment->views_comment(),
-
+            'delete' => $comment->deleteComment($_GET['id']),
+            'view_edit' => $comment->edit($_GET['id']),
+            'view_comments' => $comment->viewComments($_GET['product_id'] ),
+           
+            
 
 
 

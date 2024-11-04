@@ -1,27 +1,46 @@
 <?php
 
-class CommentController {
+class CommentController
+{
     public $commentModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->commentModel = new Comment();
     }
 
     public function views_comment()
     {
-        // Fetch all comments from the model
-        $comments = $this->commentModel->getAllComments();
-        
-        // Display the comment view
-        include '../admin/views/comments/comments.php';
+        // Fetch the count of comments per product from the model
+        $commentCounts = $this->commentModel->getAllCommentsCountByProduct();
 
+        // Display the comment count view
+        include '../admin/views/Comments/comments.php';
     }
-    public function edit($id, $data) {
-        $this->commentModel->updateComment($id, $data);
-        header("Location: ../admin/views/comment.php");
+    public function viewComments($productId)
+    {
+        // Fetch comments for the product
+        $comments = $this->commentModel->getCommentsByProductId($productId);
+        include '../admin/views/Comments/view_comments.php';
     }
-    public function delete($id) {
-        $this->commentModel->deleteComment($id);
-        header("Location: ../admin/views/comment.php");
+
+    public function edit($id) {
+        $comment = $this->commentModel->getCommentById($id);
+        include '../admin/views/Comments/view_edit.php';
+    }
+
+   
+    // Phương thức để xử lý việc cập nhật bình luận
+    
+
+
+     public function deleteComment($commentId)
+    {
+        if ($this->commentModel->deleteComment($commentId)) {
+            header("Location: index.php?act=view_comments&product_id=" . $_GET['product_id']);
+            exit;
+        } else {
+            echo "Error deleting comment.";
+        }
     }
 }
