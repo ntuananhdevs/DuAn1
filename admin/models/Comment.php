@@ -43,13 +43,13 @@ class Comment {
             $stmt = $this->conn->prepare("
                 SELECT 
                     Comments.id AS ID,
-                    Users.user_name AS User,  -- sửa từ 'username' thành 'user_name'
+                    Users.user_name AS User,  
                     Comments.content AS Content,
-                    Comments.`like` AS Likes,  -- sửa từ 'likes' thành 'like'
-                    Comments.dislike AS DisLikes,  -- sửa từ 'dislikes' thành 'dislike'
+                    Comments.`like` AS Likes,  
+                    Comments.dislike AS DisLikes,  
                     Comments.created_at AS Ngay_Tao
                 FROM Comments
-                JOIN Users ON Comments.user_id = Users.id  -- sửa từ 'users' thành 'Users' và 'user_id' thành 'id'
+                JOIN Users ON Comments.user_id = Users.id 
                 WHERE Comments.product_id = :product_id
                 ORDER BY Comments.created_at DESC
             ");
@@ -68,56 +68,25 @@ class Comment {
         }
     }
     
-    
-            
-            // Bind the product ID parameter to the query
-            // Handle any errors that occur during the query execution
-            public function getCommentById($commentId) {
-                // Lấy comment theo ID
-                try {
-                    // Chuẩn bị câu lệnh SQL
-                    $stmt = $this->conn->prepare("
-                        SELECT 
-                            comments.comment_id AS ID,
-                            comments.content AS Content
-                        FROM comments
-                        WHERE comment_id = :comment_id
-                    ");
-                    
-                    // Ràng buộc tham số comment_id
-                    $stmt->bindParam(':comment_id', $commentId, PDO::PARAM_INT);
-                    
-                    // Thực hiện truy vấn
-                    $stmt->execute();
-                    
-                    // Trả về comment nếu tìm thấy
-                    return $stmt->fetch(PDO::FETCH_ASSOC);
-                } catch (PDOException $e) {
-                    // Xử lý lỗi nếu có
-                    echo "Error retrieving comment: " . $e->getMessage();
-                    return null;
-                }
-            }
-            
-            public function updateCommentContent($commentId, $newContent) {
-                // Cập nhật nội dung của comment
-                try {
-                    // Chuẩn bị câu lệnh SQL để cập nhật
-                    $stmt = $this->conn->prepare("UPDATE comments SET content = :content WHERE comment_id = :comment_id");
-                    
-                    // Ràng buộc các tham số
-                    $stmt->bindParam(':content', $newContent, PDO::PARAM_STR);
-                    $stmt->bindParam(':comment_id', $commentId, PDO::PARAM_INT);
-                    
-                    // Thực hiện cập nhật và trả về kết quả
-                    return $stmt->execute();
-                } catch (PDOException $e) {
-                    // Xử lý lỗi nếu có
-                    echo "Error updating comment: " . $e->getMessage();
-                    return false;
-                }
-            }
-            
+    public function getCommentById($id) {
+        $query = "SELECT * FROM Comments WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Cập nhật bình luận theo ID
+    public function updateCommentById($id, $newComment) {
+        $query = "UPDATE Comments 
+                  SET content = :comment, updated_at = CURRENT_TIMESTAMP 
+                  WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':comment', $newComment);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
+           
    
     public function deleteComment($commentId)
     {

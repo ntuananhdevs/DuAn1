@@ -21,12 +21,12 @@
                     <h6 class="m-0 font-weight-bold text-primary">Thông tin người dùng</h6>
                 </div>
                 <div class="card-body">
-                    <form action="index.php?act=edit-user-post&id=<?= $user['user_id'] ?>" method="POST">
+                    <form action="index.php?act=edit-user-post&id=<?= $user['id'] ?>" method="POST">
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Tên đăng nhập</label>
                             <div class="col-sm-9">
-                                <input type="text" name="username" class="form-control" 
-                                       value="<?= $user['username'] ?>" required>
+                                <input type="text" name="user_name" class="form-control" 
+                                       value="<?= $user['user_name'] ?>" required>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -41,6 +41,13 @@
                             <div class="col-sm-9">
                                 <input type="text" name="phone_number" class="form-control" 
                                        value="<?= $user['phone_number'] ?>" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Avatar</label>
+                            <div class="col-sm-9">
+                                <input type="file" name="avatar" class="form-control" 
+                                       value="<?= $user['avatar'] ?>">
                             </div>
                         </div>
                         <div class="form-group row">

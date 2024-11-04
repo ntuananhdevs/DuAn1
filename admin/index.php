@@ -66,9 +66,9 @@
             #CRUD comment
             'comments' => $comment->views_comment(),
             'delete' => $comment->deleteComment($_GET['id']),
-            'edit' => $comment->editCommentForm($_GET['commentId' ]),
-            'view_comments' => $comment->viewComments($_GET['product_id'] ),
-            
+            'edit' => $comment->edit($_GET['id']),
+            'view_comments' => $comment->vieweditComments($_GET['product_id'] ),
+           
             
 
 
