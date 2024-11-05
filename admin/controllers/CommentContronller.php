@@ -36,11 +36,8 @@ class CommentController
 
      public function deleteComment($commentId)
     {
-        if ($this->commentModel->deleteComment($commentId)) {
-            header("Location: index.php?act=view_comments&product_id=" . $_GET['product_id']);
-            exit;
-        } else {
-            echo "Error deleting comment.";
-        }
+        $this->commentModel->deleteComment($commentId);
+        header("Location: index.php?act=comments");
+        exit();
     }
 }
