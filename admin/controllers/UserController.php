@@ -21,17 +21,10 @@ class UserController {
     }
 
     public function add() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            var_dump($_POST);
-            var_dump($_FILES);
-            
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {            
             $avatar = '../uploads/UserIMG/default.png';
             if(isset($_FILES['avatar']) && $_FILES['avatar']['error'] === 0) {
-                $uploadDir = '../uploads/UserIMG/';
-                if (!file_exists($uploadDir)) {
-                    mkdir($uploadDir, 0777, true);
-                }
-                
+                $uploadDir = '../uploads/UserIMG/';    
                 $fileName = time() . '_' . $_FILES['avatar']['name'];
                 $uploadFile = $uploadDir . $fileName;
                 
@@ -43,14 +36,12 @@ class UserController {
             }
             
             $_POST['avatar'] = $avatar;
-            var_dump($_POST);
-            
+
             if($this->userModel->create($_POST)) {
                 $_SESSION['success'] = "Thêm người dùng thành công!";
             } else {
                 $_SESSION['error'] = "Có lỗi xảy ra khi thêm người dùng!";
             }
-            die();
             header('Location:?act=users');
         }
     }
