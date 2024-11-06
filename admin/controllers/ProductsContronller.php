@@ -82,14 +82,31 @@ class ProductsController
     }
     public function views_update_des($id)
     {
-        $des_value = $this->producsts->getPrd_Variant($id);
-        if($des_value){
-            $des_value = $des_value[0];
+        $value = $this->producsts->getPrd_Variant($id);
+        if($value){
+            $value = $value[0];
             require_once './views/products/update_des.php';
         }else{
-
+            echo 'Khong tim thay san pham';
         }
     }
+    public function views_update_product($id)
+    {
+        $product_variant = $this->producsts->getPrd_Variant($id);
+        $list_spect = $this->producsts->get_spect($id);
+        $list_value = $this->producsts->get_spect($id);
+
+        if ($product_variant && $list_value) {
+            $value = $product_variant[0];
+            $list_value = $list_value[0];
+            require_once './views/products/update_products.php';
+        } else {
+            echo 'Không tìm thấy sản phẩm hoặc thông số kỹ thuật';
+        }
+    }
+    
+    
+
     public function views_update_spect($id)
     {
         $list_spect = $this->producsts->get_spect($id);

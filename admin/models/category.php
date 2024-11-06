@@ -72,7 +72,6 @@ GROUP BY
     }
     
 
-
     public function delete($id)
     {
         try {
