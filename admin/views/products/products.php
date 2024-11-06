@@ -30,6 +30,7 @@
           <td><?php echo number_format(floatval(str_replace('.', '', $value['Highest_Price'])), 0, ',', '.'); ?> vnđ</td>
           <td>
             <a href="?act=product_detail&id=<?php echo $value['ID'] ?>" class="btn btn-primary">Details</a>
+            <a href="?act=update_product&id=<?php echo $value['ID'] ?>" class="btn btn-warning">Edit</a>
             <a href="#" class="btn btn-danger" onclick="openModal(event, '<?php echo $value['ID'] ?>')">Delete</a>
           </td>
         </tr>
