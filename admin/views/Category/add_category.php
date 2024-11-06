@@ -7,7 +7,7 @@
         </div>
         <div class="form-group">
             <label for="description">Mô Tả</label>
-            <textarea class="form-control" name="description" required></textarea>
+            <textarea class="form-control" name="description"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Thêm</button>
         <a href="index.php?act=category" class="btn btn-secondary">Hủy</a>
