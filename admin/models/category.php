@@ -60,7 +60,7 @@ GROUP BY
     public function update($id, $category_name, $description)
     {
         try {
-            $sql = "UPDATE category SET name = :category_name, description = :description WHERE id = :id";
+            $sql = "UPDATE category SET category_name = :category_name, description = :description WHERE id = :id";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':id', $id);
             $stmt->bindParam(':category_name', $category_name);
@@ -70,6 +70,7 @@ GROUP BY
             echo "Connection failed: " . $e->getMessage();
         }
     }
+    
 
 
     public function delete($id)
