@@ -24,10 +24,7 @@ class CommentController
         include '../admin/views/Comments/view_comments.php';
     }
 
-    public function edit($id) {
-        $comment = $this->commentModel->getCommentById($id);
-        include '../admin/views/Comments/view_edit.php';
-    }
+  
 
    
     // Phương thức để xử lý việc cập nhật bình luận

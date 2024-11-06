@@ -22,7 +22,6 @@
                     <td><?= htmlspecialchars($comment['DisLikes']); ?></td>
                     <td><?= htmlspecialchars($comment['Ngay_Tao']); ?></td>
                     <td>
-                        <a href="index.php?act=view_edit&id=<?= $comment['ID']; ?>" class="btn btn-warning">Edit</a>
                         <a href="index.php?act=delete&id=<?=  $comment['ID']; ?>" class="btn btn-danger" onclick="return confirm('Bạn có chắc là muôn xóa bình luận này không ?')">Delete</a>
                     </td>
                 </tr>
