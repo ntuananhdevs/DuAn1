@@ -1,0 +1,778 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #fff;
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #fff; /* Đảm bảo nền màu trắng */
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding: 8px;
+    justify-content: center;
+    gap: 750px;
+}
+
+.header-logo {
+    display: flex;
+    margin-left: 130px;
+    gap: 10px;
+}
+
+.logo-header {
+    border-right: 1px solid #ccc;
+    padding: 0 10px;
+}
+
+.logo-header a {
+    display: block;
+    position: relative;
+    text-decoration: none;
+}
+
+.logo-header > a img:hover + img {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.logo-header a img + img {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.logo-header a:hover img + img {
+    display: block;
+    opacity: 1;
+}
+
+.header-right {
+    margin-right: 130px;
+}
+
+.header-right a {
+    color: #333;
+    text-decoration: none;
+    padding: 0 10px;
+    font-size: 14px;
+    position: relative;
+}
+
+.header-right a:hover::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: #000;
+    transition: width 0.3s;
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+}
+
+.nav-menu {
+    position: sticky; /* Đảm bảo nav-menu dính ở trên cùng */
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding: 12px;
+    justify-content: center;
+    gap: 45px;
+    background-color: #fff; /* Đảm bảo nền màu trắng */
+}
+
+
+.nav-menu .nav-center > a {
+
+    color: #333;
+    text-decoration: none;
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+}
+
+.nav-menu  .nav-center a:hover::after{
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #000;
+    transition: width 0.3s;
+    position: absolute;
+    bottom: -16px;
+    left: 0;
+}
+
+/* nav right */
+.nav-right{
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Đặt khoảng cách hợp lý giữa các liên kết và icon */
+
+}
+.text a{
+    color: #333;
+    text-decoration: none;
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative; 
+}
+.nav-menu  .text a:hover::after{
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #000;
+    transition: width 0.3s;
+    position: absolute;
+    bottom: -16px;
+    left: 0;
+}
+
+.logo-nav {
+    margin-left: 140px;
+}
+
+.logo-nav img {
+    width: 70px;
+}
+.nav-right {
+    margin-right: 130px;
+}
+.icon-nav a{
+    padding: 0 10px;
+    color: #333;
+}
+.icon-nav a:hover{
+    padding: 0 10px;
+    color: #000;
+}
+
+/* Dropdown container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+
+}
+/* Dropdown menu */
+.dropdown-menu {
+    width: 200px;
+    height: 140px;
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0px;
+    bottom: -145px;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-menu a , .dropdown-menu p {
+    color: black;
+    text-decoration: none;
+    display: block;
+    margin: 10px 10px;
+}
+.hi{
+    margin-left: 8px;
+}
+.hi p{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dropdown-menu a:hover {
+    text-decoration: underline;
+    color: rgb(41, 126, 206);
+}
+
+/* slide show */
+header{
+    margin: 40px;
+    background-color: #fff;
+}
+.slide-show{
+    width: 1400px;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:-5px -5px 12px #ffffff,
+    5px 5px 12px rgba(0,0,0,.16);
+    margin: auto;
+    
+}
+.btn{
+    position: absolute;
+    top: 50%;
+    left: 1%;
+    display: flex;
+    width: 98%;
+    justify-content: space-between;
+    
+}
+.btn button{
+    width: 50px;
+    height: 50px;
+    background-color: #fff5;
+    color: white;
+    border: none;
+    font-weight: bold;
+    font-family: monospace;
+    border-radius: 50%;
+}
+.btn button:hover{
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    color: black;
+    border: none;
+    font-weight: bold;
+    font-family: monospace;
+    border-radius: 50%;
+}
+.list-img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: flex;
+    transition: 1.5s;
+   
+}
+.item img{
+    width: 1400px;
+    height: 400px;
+    object-fit: cover;
+}
+header{
+    background-color: #fff;
+    height: 950px;
+}
+.text-sukien{
+    text-align: center;
+    margin: 80px;
+    
+}
+.box-sukien{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.box{
+    background-color: #f5f5f5;
+    color: #808080;
+    text-align: center;
+    height: 300px;
+    overflow: hidden;
+    
+}
+.box img{
+    width: 400px;
+    height: 250px;
+}
+.box img:hover{
+    transform: scale(1.1);
+    transition: 0.5s;
+}
+.text-box {
+    margin-top: 10px;
+}
+article{
+    background-color: #f5f5f5;
+    padding-bottom: 50px;
+}
+/* product */
+.content{
+    width: 1230px;
+    margin: auto;
+}
+
+.products{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap: 20px;
+    padding-top: 90px;
+
+}
+.box-product{
+    width: 400px;
+    height: 740px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;   
+    position: relative;
+    padding-bottom: 60px;
+}
+.deal{
+    border: solid 1px red;
+    width: 45px;
+    height: 22px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+.deal p{
+    color: red;
+    font-size: 12px;
+    margin: 0;
+    text-align: center;
+    line-height: 22px
+}
+.text-box{
+    font-family: TTNormsProMedium,MyriadSemibold,Segoe UI,Arial,PingFang TC,Microsoft JhengHei,sans-serif;
+    display: flex;
+}
+
+.text-box p{
+    color: #808080;
+}
+.text-box a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 600;
+    font-size: 1.0625rem;
+    font-weight: 500;
+
+}
+.text-box a:hover{
+    border-bottom: solid 2px #000;
+}
+
+.img-product{
+    text-align: center;
+}
+.box-product img{
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+.img-product img:hover{
+    transform: scale(1.1);
+    transition: 0.5s;
+}
+.description-box ul {
+    margin-left: 20px;
+}
+.star-box{
+    display: flex;
+}
+.header-box{
+    border-bottom: solid 1px #808080;
+    padding-bottom: 10px; 
+    overflow: hidden;
+}
+.price span{
+    font-size: 12px;
+}
+.price{
+    padding: 10px 10px 0 0 ;    
+}
+.price> p{
+    font-weight: 600;
+    color: rgb(199, 66, 0);
+    display: block;
+    font-family: TTNormsProMedium, MyriadSemibold, "Segoe UI", Arial, "PingFang TC", "Microsoft JhengHei", sans-serif;
+    font-size :19px;
+}
+.underline{
+    font-size: 13px;
+    line-height: 135%;
+    color: #262626;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    /* height: fit-content; */
+    display: flex;
+    gap: 10px;
+    border-bottom: solid 1px #808080;
+    line-height: 30px;
+
+}
+.underline p{
+    text-decoration: line-through;
+
+}
+.underline span{
+    color: rgb(199, 66, 0);;
+}
+.description-box{
+    padding-top: 10px;
+    line-height: 30px;
+    color:rgb(77, 77, 77);
+    font-size: 15px;
+}
+.btn-box{
+    bottom: 60px;
+    position: absolute;
+    width: 100%;
+}
+.btn-box .mua button{
+    background-color:rgb(0, 108, 225);
+    width: 350px;
+    height: 37px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: none;
+    color: #fff;
+    font-size: 17px;
+}
+.mua button:hover{
+    background-color: rgb(4, 72, 146);
+    transition: 1s;
+}
+.btn-box .chitiet button{
+    border: solid 3px rgb(0, 108, 225);
+    width: 350px;
+    height: 37px;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    color: rgb(0, 108, 225);
+}
+
+.chitiet button:hover{
+    background-color: rgb(0, 108, 225);
+    color: #fff;
+    transition: .5s;
+}
+footer{
+    background-color: #f5f5f5;
+}
+.header-ft{
+    width: 1230px;
+    margin: auto;
+    color: rgb(102, 102, 102);
+    font-family: TTNormsProMedium, MyriadSemibold, "Segoe UI", Arial, "PingFang TC", "Microsoft JhengHei", sans-serif;
+    font-size: 13px;
+    font-weight: 450;
+    font-weight: 600;
+    border-top: 1px solid rgb(102, 102, 102);
+}
+
+.fl{
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+    padding-top: 10px;
+}
+.textart{
+    padding-bottom: 30px;
+}
+.sanphamnoibat{
+    text-align: center;
+    color: rgb(102, 102, 102);
+    margin-top: 10px;
+    padding-top: 50px;
+
+}
+.viewsp{
+    margin-left: auto;
+    margin-top: 19px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.viewsp ion-icon{
+    color: rgb(102, 102, 102);
+}
+
+.search-overlay {
+    position: fixed;
+    top: 82px; 
+    left: 0;
+    width: 100%;
+    height: 0;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 1000;
+    overflow: hidden;
+    display: flex;
+    justify-content: left;
+    align-items: flex-start;
+    transition: height 0.3s ease, backdrop-filter 0.5s ease, box-shadow 0.5s ease;
+    backdrop-filter: blur(0px);
+}
+
+.search-overlay.active {
+    height: 300px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
+}
+
+.search-overlay ul {
+    list-style: none;
+}
+
+.search-overlay ul li {
+    margin-top: 5px;
+}
+
+.search-overlay ul li a {
+    text-decoration: none;
+    color: black;
+}
+
+/* Blurred Content */
+.blurred {
+    filter: blur(5px);
+}
+
+/* No Blur for Nav */
+.no-blur {
+    z-index: 2000;
+}
+
+/* Search Nav */
+.search-nav {
+    /* text-align: center; */
+    width: 1230px;
+    margin: auto;
+}
+
+/* Input Search */
+.inputsearch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inputsearch ion-icon {
+    font-size: 20px;
+    color: #232323;
+    font-size: bold;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-bottom: 30px;
+
+}
+
+.inputsearch input {
+    appearance: auto;
+    background-color: rgba(0, 0, 0, 0);
+    border: none; /* Loại bỏ viền */
+    box-shadow: none; /* Loại bỏ bóng viền */
+    outline: none; /* Loại bỏ đường viền khi focus */
+    border-radius: 0; /* Đảm bảo không có góc bo tròn nếu cần */
+    color: rgb(0, 0, 7);
+    cursor: text;
+    display: block;
+    font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    height: 40px;
+    line-height: 24px;
+    position: relative;
+    text-align: left;
+    width: 981px;
+    margin-right: 210px;
+    margin-bottom: 30px;
+}
+
+/* Đảm bảo không có viền khi hover và focus */
+input:focus, input:hover {
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+/* List Search */
+.list-search {
+    list-style: none;
+    padding: 0;
+}
+
+.list-search li {
+    margin: 10px 0;
+}
+
+.list-search a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.list-search ion-icon {
+    font-size: 16px;
+    margin-right: 8px;
+}
+
+.list-search a:hover {
+    text-decoration: underline;
+    transform: translateX(5px);
+}
+
+/* phone */
+.products-phone{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    padding-top: 80px;
+    gap: 20px;
+}
+.box-product-phone{
+    width: 300px;
+    height: 440px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;   
+    position: relative;
+    padding-bottom: 60px;
+    margin-bottom: 40px;
+}
+.deal{
+    border: solid 1px red;
+    width: 45px;
+    height: 22px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+.deal p{
+    color: red;
+    font-size: 12px;
+    margin: 0;
+    text-align: center;
+    line-height: 22px
+}
+.text-box{
+    font-family: TTNormsProMedium,MyriadSemibold,Segoe UI,Arial,PingFang TC,Microsoft JhengHei,sans-serif;
+    display: flex;
+}
+
+.text-box p{
+    color: #808080;
+}
+.text-box a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 600;
+    font-size: 1.0625rem;
+    font-weight: 500;
+
+}
+.text-box a:hover{
+    border-bottom: solid 2px #000;
+}
+
+.img-product{
+    text-align: center;
+}
+.box-product-phone img{
+    width: 110px;
+    height: 100px;
+    object-fit: cover;
+}
+.img-product img:hover{
+    transform: scale(1.1);
+    transition: 0.5s;
+}
+
+.header-box{
+    border-bottom: solid 1px #808080;
+    padding-bottom: 10px; 
+    overflow: hidden;
+}
+.price span{
+    font-size: 12px;
+}
+.price{
+    padding: 10px 10px 0 0 ;    
+}
+.price> p{
+    font-weight: 600;
+    color: rgb(199, 66, 0);
+    display: block;
+    font-family: TTNormsProMedium, MyriadSemibold, "Segoe UI", Arial, "PingFang TC", "Microsoft JhengHei", sans-serif;
+    font-size :19px;
+}
+.underline-phone{
+    font-size: 13px;
+    line-height: 135%;
+    color: #262626;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    display: flex;
+    gap: 10px;
+    line-height: 30px;
+
+}
+.underline-phone p{
+    text-decoration: line-through;
+
+}
+.underline-phone span{
+    color: rgb(199, 66, 0);;
+}
+.description-box{
+    padding-top: 10px;
+    line-height: 30px;
+    color:rgb(77, 77, 77);
+    font-size: 15px;
+}
+.btn-box-phone{
+    bottom: 10%;
+    position: absolute;
+    width: 100%;
+}
+.btn-box-phone .mua-phone button{
+    background-color:rgb(0, 108, 225);
+    width: 250px;
+    height: 37px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: none;
+    color: #fff;
+    font-size: 17px;
+    margin-top: 10px;
+    
+}
+.mua-phone button:hover{
+    background-color: rgb(4, 72, 146);
+    transition: 1s;
+}
+.btn-box-phone .chitiet-phone button{
+    border: solid 3px rgb(0, 108, 225);
+    width: 250px;
+    height: 37px;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    color: rgb(0, 108, 225);
+}
+
+.chitiet-phone button:hover{
+    background-color: rgb(0, 108, 225);
+    color: #fff;
+    transition: .5s;
+}

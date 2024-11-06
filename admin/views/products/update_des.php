@@ -12,11 +12,11 @@ function splitTextIntoLines($text)
 
 <div class="container">
     <form action="?act=post_update_des" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($des_value['product_id']); ?>">
+        <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($value['product_id']); ?>">
         <label class="form-label mb-0 font-weight-bolder">Description Sentences</label>
         <ul>
             <?php
-                $sentences = splitTextIntoLines($des_value['description']);
+                $sentences = splitTextIntoLines($value['description']);
                 foreach ($sentences as $sentence) {
                     echo "<li>" . nl2br(htmlspecialchars($sentence)) . "</li>";
                 }
@@ -24,7 +24,7 @@ function splitTextIntoLines($text)
         </ul>
         <div class="mb-3">
             <label for="des" class="form-label mb-0 font-weight-bolder">Edit Description</label>
-            <textarea class="form-control" id="des" name="description" rows="5"><?php echo htmlspecialchars($des_value['description']); ?></textarea>
+            <textarea class="form-control" id="des" name="description" rows="5"><?php echo htmlspecialchars($value['description']); ?></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

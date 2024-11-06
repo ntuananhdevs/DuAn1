@@ -54,15 +54,19 @@ class Products
                         pv.price AS price,                    
                         pv.quantity AS quantity,              
                         vi.img AS img,                        
-                        p.description AS description           -- Thêm cột description từ bảng Products
+                        p.description AS description,         
+                        c.category_name AS category_name      -- Thêm cột category_name từ bảng Categories
                     FROM 
                         Products p
                     JOIN 
                         Product_variants pv ON p.id = pv.product_id      
                     LEFT JOIN 
                         Variants_img vi ON pv.id = vi.variant_id AND vi.is_default = 0 
+                    LEFT JOIN 
+                        Category c ON p.category_id = c.id  -- Thêm join với bảng Categories
                     WHERE 
-                        p.id = ?;      
+                        p.id = ?;
+      
                 ";
 
             $stmt = $this->conn->prepare($sql);
