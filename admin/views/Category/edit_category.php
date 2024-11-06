@@ -7,7 +7,7 @@
         </div>
         <div class="form-group">
             <label for="description">Mô Tả</label>
-            <textarea class="form-control" name="description" required><?php echo $category['description']; ?></textarea>
+            <textarea class="form-control" name="description"><?php echo $category['description']; ?></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Cập Nhật</button>
         <a href="index.php?act=category" class="btn btn-secondary">Hủy</a>
