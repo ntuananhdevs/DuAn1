@@ -60,3 +60,4 @@ class InstanceConfig extends \Google\Model
 
 // Adding a class alias for backwards compatibility with the previous class name.
 class_alias(InstanceConfig::class, 'Google_Service_AIPlatformNotebooks_InstanceConfig');
+

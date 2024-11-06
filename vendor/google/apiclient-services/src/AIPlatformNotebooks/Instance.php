@@ -15,6 +15,7 @@
  * the License.
  */
 
+ 
 namespace Google\Service\AIPlatformNotebooks;
 
 class Instance extends \Google\Collection

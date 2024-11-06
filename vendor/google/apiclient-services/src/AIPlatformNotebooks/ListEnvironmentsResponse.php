@@ -17,6 +17,7 @@
 
 namespace Google\Service\AIPlatformNotebooks;
 
+
 class ListEnvironmentsResponse extends \Google\Collection
 {
   protected $collection_key = 'unreachable';
