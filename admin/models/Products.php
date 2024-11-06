@@ -77,9 +77,19 @@ class Products
             echo "SQL Error: " . $e->getMessage();
         }
     }
+    public function get_prdbyid($id){
+        try{
+            $sql = "SELECT * FROM Products WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$id]);
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $products;
+        }catch(PDOException $e){
+            $e->getMessage();
+        }
+    }
 
-    public function get_category()
-    {
+    public function get_category(){
         try {
             $sql = "SELECT * FROM Category";
 
@@ -187,5 +197,59 @@ class Products
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$id]);
     }
+    
+    public function updatePrd($id, $name, $category, $description) {
+        try {
+            // Kiểm tra xem category_id có tồn tại trong bảng Category không
+            $checkCategorySql = "SELECT COUNT(*) FROM Category WHERE id = :category_id";
+            $stmt = $this->conn->prepare($checkCategorySql);
+            $stmt->bindValue(':category_id', $category, PDO::PARAM_INT);
+            $stmt->execute();
+            $categoryExists = $stmt->fetchColumn();
+    
+            if ($categoryExists == 0) {
+                // Nếu category_id không tồn tại trong bảng Category
+                echo "Category ID does not exist!";
+                return false;
+            }
+    
+            // Nếu category_id tồn tại, tiếp tục thực hiện cập nhật thông tin sản phẩm
+            $sql = "UPDATE Products SET product_name = :product_name, category_id = :category_id, description = :description WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            
+            // Gán giá trị cho các tham số
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':product_name', $name, PDO::PARAM_STR);  
+            $stmt->bindValue(':category_id', $category, PDO::PARAM_INT);  
+            $stmt->bindValue(':description', $description, PDO::PARAM_STR);
+            
+            // Thực thi câu lệnh SQL và trả về kết quả
+            $result = $stmt->execute();
+            
+            if ($result) {
+                return true; // Cập nhật thành công
+            } else {
+                return false; // Cập nhật thất bại
+            }
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+        }
+    }
+    
+    
+    public function update_spect($productId, $name, $value) {
+        try {
+            $sql = "UPDATE products_spect SET spects_value = :value WHERE product_id = :productId AND spect_name = :name";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':productId', $productId);
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':value', $value);
+    
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+        }
+    }
+    
     
 }
