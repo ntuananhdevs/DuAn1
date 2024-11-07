@@ -49,11 +49,11 @@
             'update_spect'=> $products->views_update_spect($_GET['id']),
             'update_product' => $products->views_update_product($_GET['id']),
             'update-product-post' => $products->update_products(),
-
-
-
-
-
+            'add_variant' => $products->viewAdd_variant(),
+            'add_variants_post' => $products->add_variants(),
+            'delete_variant' => $products->delete_variant($_GET['id']),
+            'update_variant' => $products->viewUpdate_variant($_GET['id']),
+            'post_update_variants' => $products->update_variants(),
 
 
         

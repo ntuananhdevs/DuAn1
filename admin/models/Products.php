@@ -8,8 +8,7 @@ class Products
         $this->conn = connectDB();
     }
 
-    public function get_products()
-    {
+    public function get_products(){
         try {
             $sql = "SELECT 
                         p.id AS ID,
@@ -33,16 +32,15 @@ class Products
                     GROUP BY 
                         p.id, p.product_name, p.description, c.category_name, p.quantity, p.views;
                     ";
-                    $stmt = $this->conn->prepare($sql);
-                    $stmt->execute();
-                    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    return $products;
-                } catch (PDOException $e) {
-                    echo "Connection failed: " . $e->getMessage();
-                }
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $products;
+        } catch (PDOException $e) {
+                echo "Connection failed: " . $e->getMessage();
+        }
     }
-    public function getPrd_Variant($id)
-    {
+    public function getPrd_Variant($id){
         try {
             $sql = "SELECT 
                         p.id AS product_id,                  
@@ -186,12 +184,12 @@ class Products
                 WHERE 
                     sp.product_id = ?;                
                 ";
-
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$_GET['id']]);
+        $stmt->execute([$id]);
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
+    
     public function deletePrd($id){
         $sql = "DELETE FROM products WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
@@ -200,56 +198,45 @@ class Products
     
     public function updatePrd($id, $name, $category, $description) {
         try {
-            // Kiểm tra xem category_id có tồn tại trong bảng Category không
-            $checkCategorySql = "SELECT COUNT(*) FROM Category WHERE id = :category_id";
-            $stmt = $this->conn->prepare($checkCategorySql);
-            $stmt->bindValue(':category_id', $category, PDO::PARAM_INT);
-            $stmt->execute();
-            $categoryExists = $stmt->fetchColumn();
-    
-            if ($categoryExists == 0) {
-                // Nếu category_id không tồn tại trong bảng Category
-                echo "Category ID does not exist!";
-                return false;
-            }
-    
-            // Nếu category_id tồn tại, tiếp tục thực hiện cập nhật thông tin sản phẩm
-            $sql = "UPDATE Products SET product_name = :product_name, category_id = :category_id, description = :description WHERE id = :id";
+            $sql = "UPDATE Products SET product_name = ?, category_id = ?, description = ? WHERE id = ?";
             $stmt = $this->conn->prepare($sql);
-            
-            // Gán giá trị cho các tham số
-            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-            $stmt->bindValue(':product_name', $name, PDO::PARAM_STR);  
-            $stmt->bindValue(':category_id', $category, PDO::PARAM_INT);  
-            $stmt->bindValue(':description', $description, PDO::PARAM_STR);
-            
-            // Thực thi câu lệnh SQL và trả về kết quả
-            $result = $stmt->execute();
-            
-            if ($result) {
-                return true; // Cập nhật thành công
-            } else {
-                return false; // Cập nhật thất bại
-            }
+            return $stmt->execute([$name, $category, $description, $id]);
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
     }
     
     
-    public function update_spect($productId, $name, $value) {
-        try {
-            $sql = "UPDATE products_spect SET spects_value = :value WHERE product_id = :productId AND spect_name = :name";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':productId', $productId);
-            $stmt->bindParam(':name', $name);
-            $stmt->bindParam(':value', $value);
+    public function get_Products_spect($products_id, $specName) {
+        $sql = "SELECT * FROM products_spect WHERE product_id = ? AND spect_name = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$products_id, $specName]);
+        $result = $stmt->fetch();
     
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
-        }
+        return $result;
+    }
+    public function update_Products_spect($product_id, $specName, $specValue) {
+        $sql = "UPDATE products_spect SET spects_value = ? WHERE product_id = ? AND spect_name = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$specValue, $product_id, $specName]);
     }
     
-    
+    public function delete_variant($id) {
+        $sql = "DELETE FROM Product_variants WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$id]);
+    }
+    public function get_variants($id) {
+        $sql = "SELECT * FROM Product_variants WHERE product_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$id]);
+        $variants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $variants;
+    }
+    public function update_variant($variant_id, $color, $ram, $storage, $price, $quantity) {
+        $sql = "UPDATE variants SET color = ?, ram = ?, storage = ?, price = ?, quantity = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$color, $ram, $storage, $price, $quantity, $variant_id]);
+    }
+
 }

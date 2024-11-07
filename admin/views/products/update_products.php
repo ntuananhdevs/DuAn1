@@ -25,8 +25,7 @@
     <label class="form-label mb-0 font-weight-bolder">Description Sentences</label>
     <ul>
         <?php
-        function splitTextIntoLines($text)
-        {
+        function splitTextIntoLines($text){
             return preg_split('/(?<=[.!?])\s+/', trim($text));
         }
 
@@ -44,15 +43,15 @@
 <hr>
 <div class="container">
     <h3 class="mb-0 h4 font-weight-bolder mb-4">Thông số chi tiết sản phẩm</h3>
-    <div class="spec-item">
+        <div class="spec-item">
         <?php foreach ($list_spect as $index => $spec) : ?>
             <div class="form-group row">
                 <label class="col-sm-3 col-form-label">
-                    <input type="text"
+                <input type="text"
                         name="specifications[<?php echo $index; ?>][Specification_Name]"
                         value="<?php echo htmlspecialchars($spec['Specification_Name']); ?>"
-                        class="form-control"
-                        placeholder="Tên thuộc tính">
+                    class="form-control"
+                                                    placeholder="Tên thuộc tính">
                 </label>
                 <div class="col-sm-9">
                     <input type="text"
@@ -63,8 +62,7 @@
                 </div>
             </div>
         <?php endforeach; ?>
-    </div>
-
+        </div>
 </div>
 
 <button type="submit" class="btn btn-success mt-5">Cập nhật sản phẩm</button>
