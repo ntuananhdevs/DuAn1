@@ -48,7 +48,7 @@
             'update_des' => $products->views_update_des($_GET['id']),
             'update_spect'=> $products->views_update_spect($_GET['id']),
             'update_product' => $products->views_update_product($_GET['id']),
-
+            'update-product-post' => $products->update_products(),
 
 
 

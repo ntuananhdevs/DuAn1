@@ -25,6 +25,7 @@ class ProductsController
         $list_spect = $this->producsts->get_spect($id);
         require_once './views/products/product_variant.php';
     }
+
     public function add_product()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -92,7 +93,8 @@ class ProductsController
     }
     public function views_update_product($id)
     {
-        $product_variant = $this->producsts->getPrd_Variant($id);
+        $list_Category = $this->producsts->get_category();
+        $product_variant = $this->producsts->get_prdbyid($id);
         $list_spect = $this->producsts->get_spect($id);
         $list_value = $this->producsts->get_spect($id);
 
@@ -104,9 +106,6 @@ class ProductsController
             echo 'Không tìm thấy sản phẩm hoặc thông số kỹ thuật';
         }
     }
-    
-    
-
     public function views_update_spect($id)
     {
         $list_spect = $this->producsts->get_spect($id);
@@ -118,4 +117,39 @@ class ProductsController
 
         }
     }
+    public function update_products() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $id = $_POST['id'];
+            $name = $_POST['name'];
+            $category = $_POST['category'];
+            $description = $_POST['description'];
+            
+            $products = $this->producsts->updatePrd($id, $name, $category, $description);
+            
+            if($products) {
+
+                $id = $_POST['id'];
+                $spect = [
+                    'Kích thước môn hình' => $_POST['screen_size'] ?? '',
+                    'Độ phân giải môn hình' => $_POST['screen_resolution'] ?? '',
+                    'Tính năng môn hình' => $_POST['screen_features'] ?? '',
+                    'Camera sau' => $_POST['rear_camera'] ?? '',
+                    'Quay video' => $_POST['video_resolution'] ?? '',
+                    'Chipset' => $_POST['chip'] ?? '',
+                    'GPU' => $_POST['gpu'] ?? ''
+                ];
+                foreach ($spect as $key => $value) {
+                    if (!empty($value)) {
+                        $this->producsts->update_spect($id, $key, $value);
+                    }
+                }
+            }
+
+            
+
+
+            header('Location: ?act=products');
+        }
+    }
+    
 }
