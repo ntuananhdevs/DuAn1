@@ -1,28 +1,28 @@
 <?php
 class ProductsController
 {
-    public $producsts;
+    public $products;
 
     public function __construct()
     {
-        $this->producsts = new Products();
+        $this->products = new Products();
     }
 
     public function views_products()
     {
-        $listProducts = $this->producsts->get_products();
+        $listProducts = $this->products->get_products();
         require_once './views/products/products.php';
     }
     public function views_add()
     {
-        $list_Category = $this->producsts->get_category();
+        $list_Category = $this->products->get_category();
         require_once './views/products/add_products.php';
     }
     public function viewPrd_Variant($id)
     {
-        $description = $this->producsts->get_products();
-        $listPrd_Variant = $this->producsts->getPrd_Variant($id);
-        $list_spect = $this->producsts->get_spect($id);
+        $listProducts = $this->products->get_products();
+        $listPrd_Variant = $this->products->getPrd_Variant($id);
+        $list_spect = $this->products->get_spect($id);
         require_once './views/products/product_variant.php';
     }
 
@@ -34,7 +34,7 @@ class ProductsController
             $description = $_POST['description'] ?? '';
 
             // Thêm sản phẩm
-            $products_id = $this->producsts->addProduct($productName, $category, $description);
+            $products_id = $this->products->addProduct($productName, $category, $description);
 
             if ($products_id) {
                 $spect = [
@@ -49,7 +49,7 @@ class ProductsController
 
                 foreach ($spect as $key => $value) {
                     if (!empty($value)) {
-                        $this->producsts->add_Products_spect($products_id, $key, $value);
+                        $this->products->add_Products_spect($products_id, $key, $value);
                     }
                 }
             }
@@ -57,33 +57,33 @@ class ProductsController
             // Thêm các biến thể
             if (isset($_POST['variants']) && is_array($_POST['variants'])) {
                 foreach ($_POST['variants'] as $index => $variant) {
-                    $color = $variant['color'] ?? '';
-                    $ram = $variant['ram'] ?? '';
-                    $storage = $variant['storage'] ?? '';
-                    $quantity = $variant['quantity'] ?? 0;
-                    $price = $variant['price'] ?? 0;
+                    $color = $variant['color'];
+                    $ram = $variant['ram'];
+                    $storage = $variant['storage'];
+                    $quantity = $variant['quantity'];
+                    $price = $variant['price'];
 
-                    $variants_id = $this->producsts->add_variants($products_id, $color, $ram, $storage, $price, $quantity);
+                    $variants_id = $this->products->add_variants($products_id, $color, $ram, $storage, $price, $quantity);
                     if (isset($_FILES['variants']['name'][$index]['image']) && is_uploaded_file($_FILES['variants']['tmp_name'][$index]['image'])) {
                         $imageFile = [
                             'name' => $_FILES['variants']['name'][$index]['image'],
                             'tmp_name' => $_FILES['variants']['tmp_name'][$index]['image']
                         ];
-                        $this->producsts->saveVariantImage($variants_id, $imageFile);
+                        $this->products->saveVariantImage($variants_id, $imageFile);
                     }
                 }
             }
         }
         header('Location: ?act=products');
     }
-    public function deletePrd($id)
-    {
-        $this->producsts->deletePrd($id);
-        header('Location: ?act=products');
+    public function deletePrd($id){
+        $this->products->deletePrd($id);
+        header('Location: ?act=products' . '&status=success');
     }
+
     public function views_update_des($id)
     {
-        $value = $this->producsts->getPrd_Variant($id);
+        $value = $this->products->getPrd_Variant($id);
         if($value){
             $value = $value[0];
             require_once './views/products/update_des.php';
@@ -91,12 +91,13 @@ class ProductsController
             echo 'Khong tim thay san pham';
         }
     }
+
     public function views_update_product($id)
     {
-        $list_Category = $this->producsts->get_category();
-        $product_variant = $this->producsts->get_prdbyid($id);
-        $list_spect = $this->producsts->get_spect($id);
-        $list_value = $this->producsts->get_spect($id);
+        $list_Category = $this->products->get_category();
+        $product_variant = $this->products->get_prdbyid($id);
+        $list_spect = $this->products->get_spect($id);
+        $list_value = $this->products->get_spect($id);
 
         if ($product_variant && $list_value) {
             $value = $product_variant[0];
@@ -106,10 +107,11 @@ class ProductsController
             echo 'Không tìm thấy sản phẩm hoặc thông số kỹ thuật';
         }
     }
+
     public function views_update_spect($id)
     {
-        $list_spect = $this->producsts->get_spect($id);
-        $list_value = $this->producsts->get_spect($id);
+        $list_spect = $this->products->get_spect($id);
+        $list_value = $this->products->get_spect($id);
         if($list_value){
             $list_value = $list_value[0];
             require_once './views/products/update_spect.php';
@@ -124,31 +126,110 @@ class ProductsController
             $category = $_POST['category'];
             $description = $_POST['description'];
             
-            $products = $this->producsts->updatePrd($id, $name, $category, $description);
+            $products = $this->products->updatePrd($id, $name, $category, $description);
             
-            if($products) {
+            if ($products) {
+                if (isset($_POST['specifications']) && is_array($_POST['specifications'])) {
+                    foreach ($_POST['specifications'] as $spec) {
+                        $specName = $spec['Specification_Name'] ?? '';
+                        $specValue = $spec['Specification_Value'] ?? '';
+    
+                        if (!empty($specName) && !empty($specValue)) {
+                            $existingSpec = $this->products->get_Products_spect($id, $specName);
+                            if ($existingSpec) {
+                                $this->products->update_Products_spect($id, $specName, $specValue);
+                            } else {
+                                $this->products->add_Products_spect($id, $specName, $specValue);
+                            }
+                        }
+                    }
+                }
+            } else {
+                echo "Update product information failed.";
+            }
+    
+            header('Location: ?act=products');
+            exit;
+        } else {
+            echo "Request method is not POST.";
+        }
+    }
+    public function viewAdd_variant() {
+        $listProducts = $this->products->get_products();
+        require_once './views/products/add_variants.php';
+    }
 
-                $id = $_POST['id'];
-                $spect = [
-                    'Kích thước môn hình' => $_POST['screen_size'] ?? '',
-                    'Độ phân giải môn hình' => $_POST['screen_resolution'] ?? '',
-                    'Tính năng môn hình' => $_POST['screen_features'] ?? '',
-                    'Camera sau' => $_POST['rear_camera'] ?? '',
-                    'Quay video' => $_POST['video_resolution'] ?? '',
-                    'Chipset' => $_POST['chip'] ?? '',
-                    'GPU' => $_POST['gpu'] ?? ''
-                ];
-                foreach ($spect as $key => $value) {
-                    if (!empty($value)) {
-                        $this->producsts->update_spect($id, $key, $value);
+    public function add_variants(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $products_id = $_POST['product_id'];
+            if (isset($_POST['variants']) && is_array($_POST['variants'])) {
+                foreach ($_POST['variants'] as $index => $variant) {
+                    $color = $variant['color'] ?? '';
+                    $ram = $variant['ram'] ?? '';
+                    $storage = $variant['storage'] ?? '';
+                    $quantity = $variant['quantity'] ?? 0;
+                    $price = $variant['price'] ?? 0;
+
+                    $variants_id = $this->products->add_variants($products_id, $color, $ram, $storage, $price, $quantity);
+                    if (isset($_FILES['variants']['name'][$index]['image']) && is_uploaded_file($_FILES['variants']['tmp_name'][$index]['image'])) {
+                        $imageFile = [
+                            'name' => $_FILES['variants']['name'][$index]['image'],
+                            'tmp_name' => $_FILES['variants']['tmp_name'][$index]['image']
+                        ];
+                        $this->products->saveVariantImage($variants_id, $imageFile);
                     }
                 }
             }
+        }
+        header('Location: ?act=product_detail&id='.$products_id);
 
+    }
+    public function delete_variant() {
+        if (isset($_GET['variant_id']) && isset($_GET['product_id'])) {
+            $variant_id = $_GET['variant_id'];
+            $product_id = $_GET['product_id'];
             
+            $this->products->delete_variant($variant_id);
 
-
-            header('Location: ?act=products');
+            header('Location: ?act=product_detail&id=' . $product_id . '&status=success');
+            exit;
+        } else {
+            header('Location: ?act=product_list');
+            exit;
+        }
+    }
+    
+    public function viewUpdate_variant() {
+        $id = $_GET['variant_id'] ?? null;
+        if ($id) {
+            $variant = $this->products->get_variants($id); 
+            require_once './views/products/update_variant.php'; 
+        }
+    }
+    public function update_variants(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $variant_id = $_POST['variant_id'];
+            $product_id = $_POST['product_id'];
+            $color = $_POST['color'] ?? '';
+            $ram = $_POST['ram'] ?? '';
+            $storage = $_POST['storage'] ?? '';
+            $quantity = $_POST['quantity'] ?? 0;
+            $price = $_POST['price'] ?? 0;
+    
+            // Cập nhật thông tin biến thể trong database
+            $this->products->update_variant($variant_id, $color, $ram, $storage, $price, $quantity);
+    
+            if (isset($_FILES['image']['name']) && is_uploaded_file($_FILES['image']['tmp_name'])) {
+                $imageFile = [
+                    'name' => $_FILES['image']['name'],
+                    'tmp_name' => $_FILES['image']['tmp_name']
+                ];
+                $this->products->saveVariantImage($variant_id, $imageFile); // Cập nhật ảnh
+            }
+    
+            header('Location: ?act=product_detail&id=' . $product_id . '&status=updated');
+        } else {
+            header('Location: ?act=product_list');
         }
     }
     
