@@ -238,5 +238,12 @@ class Products
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$color, $ram, $storage, $price, $quantity, $variant_id]);
     }
-
+    public function updateDescription($id, $description) {
+        $sql = "UPDATE products SET description = :description WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
+    
 }

@@ -81,16 +81,21 @@ class ProductsController
         header('Location: ?act=products' . '&status=success');
     }
 
-    public function views_update_des($id)
-    {
-        $value = $this->products->getPrd_Variant($id);
-        if($value){
-            $value = $value[0];
-            require_once './views/products/update_des.php';
-        }else{
-            echo 'Khong tim thay san pham';
-        }
+    public function updateProductDescription() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $id = $_POST['id'] ?? null;
+            $description = $_POST['description'] ?? '';
+    
+            if ($id && !empty($description)) {
+                $this->products->updateDescription($id, $description);
+            } else {
+                echo "Product ID or description is missing.";
+            }
+        } 
+
+        header('Location: ?act=product_detail&id=' .$id);
     }
+    
 
     public function views_update_product($id)
     {
@@ -107,18 +112,40 @@ class ProductsController
             echo 'Không tìm thấy sản phẩm hoặc thông số kỹ thuật';
         }
     }
+    
+    public function views_update_des($id)
+    {
+        $list_Category = $this->products->get_category();
+        $product_variant = $this->products->get_prdbyid($id);
+        $list_spect = $this->products->get_spect($id);
+        $list_value = $this->products->get_spect($id);
+
+        if ($product_variant && $list_value) {
+            $value = $product_variant[0];
+            $list_value = $list_value[0];
+            require_once './views/products/update_des.php';
+        }else{
+            echo 'Khong tim thay san pham';
+        }
+    
+    }
 
     public function views_update_spect($id)
     {
+        $list_Category = $this->products->get_category();
+        $product_variant = $this->products->get_prdbyid($id);
         $list_spect = $this->products->get_spect($id);
         $list_value = $this->products->get_spect($id);
-        if($list_value){
+
+        if ($product_variant && $list_value) {
+            $value = $product_variant[0];
             $list_value = $list_value[0];
             require_once './views/products/update_spect.php';
-        }else{
-
+        } else {
+            echo 'Không tìm thấy sản phẩm hoặc thông số kỹ thuật';
         }
     }
+    
     public function update_products() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $id = $_POST['id'];
@@ -154,6 +181,33 @@ class ProductsController
             echo "Request method is not POST.";
         }
     }
+    public function update_spect() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $productId = $_POST['id'] ?? null;
+        $specifications = $_POST['specifications'] ?? null;
+    
+        if ($productId && is_array($specifications)) {
+            foreach ($specifications as $spec) {
+                $specName = $spec['Specification_Name'] ?? '';
+                $specValue = $spec['Specification_Value'] ?? '';
+    
+                if (!empty($specName) && !empty($specValue)) {
+                    $existingSpec = $this->products->get_Products_spect($productId, $specName);
+                    
+                    if ($existingSpec) {
+                        $this->products->update_Products_spect($productId, $specName, $specValue);
+                    } else {
+                        $this->products->add_Products_spect($productId, $specName, $specValue);
+                    }
+                }
+            }
+        }
+    }
+    header('Location: ?act=product_detail&id=' . $productId);
+
+}
+    
+    
     public function viewAdd_variant() {
         $listProducts = $this->products->get_products();
         require_once './views/products/add_variants.php';
