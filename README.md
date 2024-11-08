@@ -1,3 +1,1 @@
 ## Hello World
-766981410961-qn145eckf8k1f45l2trjg6nb6uehncol.apps.googleusercontent.com
-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

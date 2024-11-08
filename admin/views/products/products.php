@@ -70,3 +70,20 @@
     window.location.href = `?act=delete_product&id=${productId}`;
   }
 </script>
+
+<?php if (isset($_GET['status']) && $_GET['status'] == 'success'): ?>
+  <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
+    Xóa thành công!
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><ion-icon name="close-outline"></ion-icon></button>
+  </div>
+  
+  <script>
+    setTimeout(function() {
+      var alert = document.getElementById('success-alert');
+      if (alert) {
+        alert.classList.remove('show');
+        alert.classList.add('fade');
+      }
+    }, 3000);
+  </script>
+<?php endif; ?>

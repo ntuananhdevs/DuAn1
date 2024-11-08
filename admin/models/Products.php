@@ -8,8 +8,7 @@ class Products
         $this->conn = connectDB();
     }
 
-    public function get_products()
-    {
+    public function get_products(){
         try {
             $sql = "SELECT 
                         p.id AS ID,
@@ -33,16 +32,15 @@ class Products
                     GROUP BY 
                         p.id, p.product_name, p.description, c.category_name, p.quantity, p.views;
                     ";
-                    $stmt = $this->conn->prepare($sql);
-                    $stmt->execute();
-                    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    return $products;
-                } catch (PDOException $e) {
-                    echo "Connection failed: " . $e->getMessage();
-                }
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $products;
+        } catch (PDOException $e) {
+                echo "Connection failed: " . $e->getMessage();
+        }
     }
-    public function getPrd_Variant($id)
-    {
+    public function getPrd_Variant($id){
         try {
             $sql = "SELECT 
                         p.id AS product_id,                  
@@ -186,12 +184,12 @@ class Products
                 WHERE 
                     sp.product_id = ?;                
                 ";
-
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$_GET['id']]);
+        $stmt->execute([$id]);
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
+    
     public function deletePrd($id){
         $sql = "DELETE FROM products WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
@@ -200,55 +198,99 @@ class Products
     
     public function updatePrd($id, $name, $category, $description) {
         try {
-            // Kiểm tra xem category_id có tồn tại trong bảng Category không
-            $checkCategorySql = "SELECT COUNT(*) FROM Category WHERE id = :category_id";
-            $stmt = $this->conn->prepare($checkCategorySql);
-            $stmt->bindValue(':category_id', $category, PDO::PARAM_INT);
-            $stmt->execute();
-            $categoryExists = $stmt->fetchColumn();
-    
-            if ($categoryExists == 0) {
-                // Nếu category_id không tồn tại trong bảng Category
-                echo "Category ID does not exist!";
-                return false;
-            }
-    
-            // Nếu category_id tồn tại, tiếp tục thực hiện cập nhật thông tin sản phẩm
-            $sql = "UPDATE Products SET product_name = :product_name, category_id = :category_id, description = :description WHERE id = :id";
+            $sql = "UPDATE Products SET product_name = ?, category_id = ?, description = ? WHERE id = ?";
             $stmt = $this->conn->prepare($sql);
-            
-            // Gán giá trị cho các tham số
-            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-            $stmt->bindValue(':product_name', $name, PDO::PARAM_STR);  
-            $stmt->bindValue(':category_id', $category, PDO::PARAM_INT);  
-            $stmt->bindValue(':description', $description, PDO::PARAM_STR);
-            
-            // Thực thi câu lệnh SQL và trả về kết quả
-            $result = $stmt->execute();
-            
-            if ($result) {
-                return true; // Cập nhật thành công
-            } else {
-                return false; // Cập nhật thất bại
-            }
+            return $stmt->execute([$name, $category, $description, $id]);
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
     }
     
     
-    public function update_spect($productId, $name, $value) {
-        try {
-            $sql = "UPDATE products_spect SET spects_value = :value WHERE product_id = :productId AND spect_name = :name";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':productId', $productId);
-            $stmt->bindParam(':name', $name);
-            $stmt->bindParam(':value', $value);
+    public function get_Products_spect($products_id, $specName) {
+        $sql = "SELECT * FROM products_spect WHERE product_id = ? AND spect_name = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$products_id, $specName]);
+        $result = $stmt->fetch();
     
+        return $result;
+    }
+    public function update_Products_spect($product_id, $specName, $specValue) {
+        $sql = "UPDATE products_spect SET spects_value = ? WHERE product_id = ? AND spect_name = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$specValue, $product_id, $specName]);
+    }
+    
+    public function delete_variant($id) {
+        $sql = "DELETE FROM Product_variants WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$id]);
+    }
+    public function get_variant($id) {
+        $sql = "SELECT Product_variants.*, Variants_img.img, Variants_img.is_default
+        FROM Product_variants
+        LEFT JOIN Variants_img ON Product_variants.id = Variants_img.variant_id
+        WHERE Product_variants.id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$id]);
+        $variant = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $variant;
+    }
+    
+    public function update_variant($variant_id, $color, $ram, $storage, $price, $quantity) {
+        $sql = "UPDATE variants SET color = ?, ram = ?, storage = ?, price = ?, quantity = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$color, $ram, $storage, $price, $quantity, $variant_id]);
+    }
+
+    public function updateDescription($id, $description) {
+        $sql = "UPDATE products SET description = :description WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
+
+    public function updateVariant($variantId, $color, $ram, $storage, $quantity, $price) {
+
+    $sql = "UPDATE Product_variants SET color = :color, ram = :ram, storage = :storage, quantity = :quantity, price = :price WHERE id = :id";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':color', $color);
+    $stmt->bindParam(':ram', $ram);
+    $stmt->bindParam(':storage', $storage);
+    $stmt->bindParam(':quantity', $quantity);
+    $stmt->bindParam(':price', $price);
+    $stmt->bindParam(':id', $variantId);
+    return $stmt->execute();
+    }
+
+    public function updateVariantImage($variantId, $imageFile) {
+        $imagePath = '../uploads/Products/' . uniqid() . '_' . basename($imageFile['name']);
+        
+        if (move_uploaded_file($imageFile['tmp_name'], $imagePath)) {
+            // Kiểm tra xem ảnh đã tồn tại cho biến thể này chưa
+            $sqlCheck = "SELECT COUNT(*) FROM Variants_img WHERE variant_id = :variant_id";
+            $stmtCheck = $this->conn->prepare($sqlCheck);
+            $stmtCheck->bindParam(':variant_id', $variantId);
+            $stmtCheck->execute();
+            $exists = $stmtCheck->fetchColumn();
+    
+            if ($exists) {
+                // Nếu đã có ảnh, cập nhật ảnh mới
+                $sql = "UPDATE Variants_img SET img = :imagePath WHERE variant_id = :variant_id";
+            } else {
+                // Nếu chưa có ảnh, chèn ảnh mới
+                $sql = "INSERT INTO Variants_img (variant_id, img) VALUES (:variant_id, :imagePath)";
+            }
+    
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':imagePath', $imagePath);
+            $stmt->bindParam(':variant_id', $variantId);
+            
             return $stmt->execute();
-        } catch (PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
         }
+    
+        return false;
     }
     
     

@@ -1,5 +1,7 @@
 <h3 class="mb-0 h4 font-weight-bolder mb-4">Edit Spect</h3>
 <form action="?act=post_update_spect" method="post" enctype="multipart/form-data" class="form-container">
+
+<input type="hidden" name="id" value="<?php echo $value['id']; ?>">
     <div class="spec-item">
         <?php foreach ($list_spect as $index => $spec) : ?>
             <div class="form-group row">

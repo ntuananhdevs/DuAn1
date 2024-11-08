@@ -69,24 +69,7 @@ class Comment {
         }
     }
     
-    public function getCommentById($id) {
-        $query = "SELECT * FROM Comments WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    // Cập nhật bình luận theo ID
-    public function updateCommentById($id, $newComment) {
-        $query = "UPDATE Comments 
-                  SET content = :comment, updated_at = CURRENT_TIMESTAMP 
-                  WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':comment', $newComment);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
-    }
+   
            
    
     public function deleteComment($commentId)
