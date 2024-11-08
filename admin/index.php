@@ -16,7 +16,7 @@
     require_once '../admin/models/user.php';
     require_once '../admin/models/Comment.php';
     require_once '../admin/models/category.php';
-
+    require_once '../admin/models/home.php'; 
 
 
 
