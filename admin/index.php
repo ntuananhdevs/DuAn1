@@ -49,13 +49,14 @@
             'post_update_des' => $products->updateProductDescription(),
             'update_spect'=> $products->views_update_spect($_GET['id']),
             'update_product' => $products->views_update_product($_GET['id']),
-
-
-
-
-
-
-
+            'update-product-post' => $products->update_products(),
+            'post_update_spect' => $products->update_spect(),
+            'add_variant' => $products->viewAdd_variant(),
+            'add_variants_post' => $products->add_variants(),
+            'delete_variant' => $products->delete_variant($_GET['id']),
+            'update_variant' => $products->viewUpdate_variant(),
+            'post_update_variants' => $products->update_variants(),
+            'update_variant_post' => $products->update_variants(),
 
         
             
