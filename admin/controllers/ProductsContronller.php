@@ -262,37 +262,51 @@ class ProductsController
     }
     
     public function viewUpdate_variant() {
-        $id = $_GET['variant_id'] ?? null;
-        if ($id) {
-            $variant = $this->products->get_variants($id); 
-            require_once './views/products/update_variant.php'; 
+        $variant_id = $_GET['variant_id'];
+        
+        $variant = $this->products->get_variant($variant_id);
+        if ($variant) {
+            $product_id = $variant['product_id'];
+            $product = $this->products->get_prdbyid($product_id);
+    
+            if ($product) {
+                require_once './views/products/update_variants.php';
+            } else {
+                echo 'Không tìm thấy sản phẩm';
+            }
+        } else {
+            echo 'Không tìm thấy biến thể';
         }
     }
-    public function update_variants(){
+    
+    public function update_variants() {
+    
+        
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $variant_id = $_POST['variant_id'];
-            $product_id = $_POST['product_id'];
             $color = $_POST['color'] ?? '';
             $ram = $_POST['ram'] ?? '';
             $storage = $_POST['storage'] ?? '';
             $quantity = $_POST['quantity'] ?? 0;
             $price = $_POST['price'] ?? 0;
-    
-            // Cập nhật thông tin biến thể trong database
-            $this->products->update_variant($variant_id, $color, $ram, $storage, $price, $quantity);
+            
+            $this->products->updateVariant($variant_id, $color, $ram, $storage, $quantity, $price);
     
             if (isset($_FILES['image']['name']) && is_uploaded_file($_FILES['image']['tmp_name'])) {
+                $old_image = $_POST['old_image'];
+                if (!empty($old_image) && file_exists($old_image)) {
+                    unlink($old_image);
+                }
+    
                 $imageFile = [
                     'name' => $_FILES['image']['name'],
                     'tmp_name' => $_FILES['image']['tmp_name']
                 ];
-                $this->products->saveVariantImage($variant_id, $imageFile); // Cập nhật ảnh
+                $this->products->updateVariantImage($variant_id, $imageFile);
             }
-    
-            header('Location: ?act=product_detail&id=' . $product_id . '&status=updated');
-        } else {
-            header('Location: ?act=product_list');
+            $product_id = $_GET['product_id'];
+                header('Location: ?act=products');
+            exit;
         }
     }
-    
 }

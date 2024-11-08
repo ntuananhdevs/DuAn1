@@ -54,9 +54,9 @@
             'add_variant' => $products->viewAdd_variant(),
             'add_variants_post' => $products->add_variants(),
             'delete_variant' => $products->delete_variant($_GET['id']),
-            'update_variant' => $products->viewUpdate_variant($_GET['id']),
+            'update_variant' => $products->viewUpdate_variant(),
             'post_update_variants' => $products->update_variants(),
-
+            'update_variant_post' => $products->update_variants(),
 
         
             

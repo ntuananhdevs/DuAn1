@@ -30,9 +30,9 @@
                     <td><?php echo number_format(floatval(str_replace('.', '', $value['price'])), 0, ',', '.'); ?> vnđ</p>
                     <td><?php echo $value['quantity'] ?></td>
                     <td>
-    <a href="?act=update_variant&id=<?php echo $value['variant_id']?>" class="btn btn-primary">Edit</a>
-    <a href="#"  class="btn btn-danger" onclick="openModal(event, '<?php echo $value['variant_id']; ?>', '<?php echo $value['product_id']; ?>')">Delete</a>
-</td>
+                      <a href="?act=update_variant&variant_id=<?php echo $value['variant_id']; ?>&product_id=<?php echo $value['product_id']; ?>" class="btn btn-primary">Edit</a>
+                      <a href="#"  class="btn btn-danger" onclick="openModal(event, '<?php echo $value['variant_id']; ?>', '<?php echo $value['product_id']; ?>')">Delete</a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

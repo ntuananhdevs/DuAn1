@@ -226,13 +226,17 @@ class Products
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$id]);
     }
-    public function get_variants($id) {
-        $sql = "SELECT * FROM Product_variants WHERE product_id = ?";
+    public function get_variant($id) {
+        $sql = "SELECT Product_variants.*, Variants_img.img, Variants_img.is_default
+        FROM Product_variants
+        LEFT JOIN Variants_img ON Product_variants.id = Variants_img.variant_id
+        WHERE Product_variants.id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$id]);
-        $variants = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $variants;
+        $variant = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $variant;
     }
+    
     public function update_variant($variant_id, $color, $ram, $storage, $price, $quantity) {
         $sql = "UPDATE variants SET color = ?, ram = ?, storage = ?, price = ?, quantity = ? WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
@@ -249,7 +253,7 @@ class Products
 
     public function updateVariant($variantId, $color, $ram, $storage, $quantity, $price) {
 
-    $sql = "UPDATE variants SET color = :color, ram = :ram, storage = :storage, quantity = :quantity, price = :price WHERE id = :id";
+    $sql = "UPDATE Product_variants SET color = :color, ram = :ram, storage = :storage, quantity = :quantity, price = :price WHERE id = :id";
     $stmt = $this->conn->prepare($sql);
     $stmt->bindParam(':color', $color);
     $stmt->bindParam(':ram', $ram);
@@ -261,15 +265,33 @@ class Products
     }
 
     public function updateVariantImage($variantId, $imageFile) {
-        $imagePath = 'uploads/Products/' . uniqid() . '_' . basename($imageFile['name']);
+        $imagePath = '../uploads/Products/' . uniqid() . '_' . basename($imageFile['name']);
+        
         if (move_uploaded_file($imageFile['tmp_name'], $imagePath)) {
-            $sql = "UPDATE variants SET image = :imagePath WHERE id = :id";
+            // Kiểm tra xem ảnh đã tồn tại cho biến thể này chưa
+            $sqlCheck = "SELECT COUNT(*) FROM Variants_img WHERE variant_id = :variant_id";
+            $stmtCheck = $this->conn->prepare($sqlCheck);
+            $stmtCheck->bindParam(':variant_id', $variantId);
+            $stmtCheck->execute();
+            $exists = $stmtCheck->fetchColumn();
+    
+            if ($exists) {
+                // Nếu đã có ảnh, cập nhật ảnh mới
+                $sql = "UPDATE Variants_img SET img = :imagePath WHERE variant_id = :variant_id";
+            } else {
+                // Nếu chưa có ảnh, chèn ảnh mới
+                $sql = "INSERT INTO Variants_img (variant_id, img) VALUES (:variant_id, :imagePath)";
+            }
+    
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':imagePath', $imagePath);
-            $stmt->bindParam(':id', $variantId);
+            $stmt->bindParam(':variant_id', $variantId);
+            
             return $stmt->execute();
         }
+    
         return false;
     }
+    
     
 }
