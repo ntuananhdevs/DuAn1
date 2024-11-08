@@ -8,7 +8,7 @@
     require_once '../admin/controllers/CommentContronller.php';
     require_once '../admin/controllers/UserController.php';
     require_once '../admin/controllers/CategoryController.php';
-    // require_once '../admin/controllers/OderController.php';
+    require_once '../admin/controllers/OderController.php';
 
 
     #require Model
@@ -16,7 +16,7 @@
     require_once '../admin/models/user.php';
     require_once '../admin/models/Comment.php';
     require_once '../admin/models/category.php';
-    // require_once '../admin/models/oder.php';
+    require_once '../admin/models/oder.php';
 
 
 
@@ -26,7 +26,7 @@
     $user = new UserController();
     $comment = new CommentController();
     $category = new CategoryController();
-    // $oder = new OderController();
+    $oder = new OderController();
 
 
     // Route
@@ -83,12 +83,12 @@
             'view_comments' => $comment->viewComments($_GET['product_id'] ),
            
             #CRUD oder
-            // 'oders' => $oder->views_oder(),
-            // 'add-oder' => $oder->views_add(),
-            // 'add-oder-post' => $oder->add(),
-            // 'edit-oder' => $oder->views_edit(),
-            // 'edit-oder-post' => $oder->edit(),
-            // 'delete-oder' => $oder->delete(),
+            'oders' => $oder->views_oder(),
+            'add_oder' => $oder->views_add(),
+            'add_oder_post' => $oder->add_oder(),
+            'edit_oder' => $oder->views_edit(),
+            'update_oder' => $oder->edit(),
+            'delete_oder' => $oder->delete(),
 
 
 
