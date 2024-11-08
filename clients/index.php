@@ -1,27 +1,26 @@
 <?php
-    require_once '../commons/env.php';
-    require_once '../commons/core.php';
+require_once '../commons/env.php';
+require_once '../commons/core.php';
 
-    #require Controller
-    require_once '../clients/controllers/HomeController.php';
+#require Controller
+require_once '../clients/controllers/HomeController.php';
+require_once '../clients/controllers/LoginController.php';
 
-    #require Model
+#require Model
+require_once '../clients/models/loginModel.php';
 
+$home = new HomeController();
+$auth = new LoginController();
 
-    $home = new HomeController();
+// Route
+$act = $_GET['act'] ?? '/';
 
-
-    // Route
-    $act = $_GET['act'] ?? '/';
-
-    if ($act == 'login') {
-        $auth->login();
-    } else {
-        // $auth->check_login();
-        include '../clients/views/layout/header.php';
-        match ($act) {
-            '/' => $home->view_home(),
-
-            default => $home->view_home(),
-        };
+if ($act == 'login') {
+    $auth->login();
+} else {
+    include '../clients/views/layout/header.php';
+    match ($act) {
+        '/' => $home->view_home(),
+        default => $home->view_home(),
+    };
 }

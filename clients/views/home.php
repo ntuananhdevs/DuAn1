@@ -1,5 +1,5 @@
 
-<h1>Hello</h1>
+<!-- <h1>Hello</h1>
 <?php
 session_start();
 ?>
@@ -19,4 +19,4 @@ session_start();
         <a href="../clients/auth/login.php">Đăng nhập bằng Google</a>
     <?php endif; ?>
 </body>
-</html>
+</html> -->
