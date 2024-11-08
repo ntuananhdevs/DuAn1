@@ -20,10 +20,14 @@ class ProductsController
     }
     public function viewPrd_Variant($id)
     {
-        $listProducts = $this->products->get_products();
+
         $listPrd_Variant = $this->products->getPrd_Variant($id);
         $list_spect = $this->products->get_spect($id);
+        $product = $this->products->get_prdbyid($id);
+        if ($product) {
+            $product = $product[0];
         require_once './views/products/product_variant.php';
+        }
     }
 
     public function add_product()
@@ -209,8 +213,12 @@ class ProductsController
     
     
     public function viewAdd_variant() {
-        $listProducts = $this->products->get_products();
-        require_once './views/products/add_variants.php';
+        $id = $_GET['id'];
+        $product = $this->products->get_prdbyid($id);
+        if ($product) {
+            $product = $product[0];
+                    require_once './views/products/add_variants.php';
+        }
     }
 
     public function add_variants(){

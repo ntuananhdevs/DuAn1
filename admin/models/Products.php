@@ -238,12 +238,38 @@ class Products
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$color, $ram, $storage, $price, $quantity, $variant_id]);
     }
+
     public function updateDescription($id, $description) {
         $sql = "UPDATE products SET description = :description WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':description', $description);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
+    }
+
+    public function updateVariant($variantId, $color, $ram, $storage, $quantity, $price) {
+
+    $sql = "UPDATE variants SET color = :color, ram = :ram, storage = :storage, quantity = :quantity, price = :price WHERE id = :id";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':color', $color);
+    $stmt->bindParam(':ram', $ram);
+    $stmt->bindParam(':storage', $storage);
+    $stmt->bindParam(':quantity', $quantity);
+    $stmt->bindParam(':price', $price);
+    $stmt->bindParam(':id', $variantId);
+    return $stmt->execute();
+    }
+
+    public function updateVariantImage($variantId, $imageFile) {
+        $imagePath = 'uploads/Products/' . uniqid() . '_' . basename($imageFile['name']);
+        if (move_uploaded_file($imageFile['tmp_name'], $imagePath)) {
+            $sql = "UPDATE variants SET image = :imagePath WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':imagePath', $imagePath);
+            $stmt->bindParam(':id', $variantId);
+            return $stmt->execute();
+        }
+        return false;
     }
     
 }
