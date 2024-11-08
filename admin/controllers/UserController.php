@@ -21,19 +21,22 @@ class UserController {
     }
 
     public function add() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {            
             $avatar = '../uploads/UserIMG/default.png';
             if(isset($_FILES['avatar']) && $_FILES['avatar']['error'] === 0) {
-                $uploadDir = '../uploads/UserIMG/';
+                $uploadDir = '../uploads/UserIMG/';    
                 $fileName = time() . '_' . $_FILES['avatar']['name'];
                 $uploadFile = $uploadDir . $fileName;
                 
                 if(move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadFile)) {
                     $avatar = $uploadFile;
+                } else {
+                    $_SESSION['error'] = "Không thể tải lên ảnh. Vui lòng thử lại!";
                 }
             }
             
             $_POST['avatar'] = $avatar;
+
             if($this->userModel->create($_POST)) {
                 $_SESSION['success'] = "Thêm người dùng thành công!";
             } else {

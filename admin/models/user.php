@@ -21,6 +21,7 @@ class User {
     }
 
     public function create($data) {
+        try {
         $avatar = !empty($data['avatar']) ? $data['avatar'] : '../uploads/UserIMG/default.png';
         
         $sql = "INSERT INTO users (user_name, password, email, phone_number, created_at, avatar) 
@@ -33,6 +34,14 @@ class User {
             $data['phone_number'],
             $avatar
         ]);
+        } catch (PDOException $e) {
+            if($e->getCode() == 23000) {
+                $_SESSION['error'] = "Tài khoản đã tồn tại!";
+            } else {
+                $_SESSION['error'] = "Có lỗi xảy ra khi tạo tài khoản!";
+            }
+            return false;
+        }
     }
 
     public function update($id, $data) {
