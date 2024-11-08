@@ -307,6 +307,8 @@
     }
   </script>
   <!-- Github buttons -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>

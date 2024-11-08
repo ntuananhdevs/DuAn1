@@ -253,15 +253,15 @@ class Products
 
     public function updateVariant($variantId, $color, $ram, $storage, $quantity, $price) {
 
-    $sql = "UPDATE Product_variants SET color = :color, ram = :ram, storage = :storage, quantity = :quantity, price = :price WHERE id = :id";
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bindParam(':color', $color);
-    $stmt->bindParam(':ram', $ram);
-    $stmt->bindParam(':storage', $storage);
-    $stmt->bindParam(':quantity', $quantity);
-    $stmt->bindParam(':price', $price);
-    $stmt->bindParam(':id', $variantId);
-    return $stmt->execute();
+        $sql = "UPDATE Product_variants SET color = :color, ram = :ram, storage = :storage, quantity = :quantity, price = :price WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':color', $color);
+        $stmt->bindParam(':ram', $ram);
+        $stmt->bindParam(':storage', $storage);
+        $stmt->bindParam(':quantity', $quantity);
+        $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':id', $variantId);
+        return $stmt->execute();
     }
 
     public function updateVariantImage($variantId, $imageFile) {
