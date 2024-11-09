@@ -3,6 +3,6 @@
     {
         public function view_home()
         {
-            include '../clients/views/home.php';
+            include './clients/views/home.php';
         }
     }
