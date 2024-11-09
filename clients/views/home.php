@@ -1,5 +1,5 @@
 
-<h1>Hello</h1>
+<!-- <h1>Hello</h1>
 <?php
 session_start();
 ?>
@@ -13,4 +13,4 @@ session_start();
 <body>
 
 </body>
-</html>
+</html> -->
