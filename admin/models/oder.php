@@ -19,7 +19,7 @@ class OrderModel {
     }
     public function getById($id) {
         try {
-            // Debug
+
             error_log("Getting order ID: " . $id);
 
             $query = "
@@ -40,7 +40,7 @@ class OrderModel {
                 return null;
             }
 
-            // Debug
+
             error_log("Order found: " . print_r($order, true));
 
             // Lấy chi tiết đơn hàng
@@ -58,7 +58,7 @@ class OrderModel {
 
             $order['details'] = $orderDetails;
 
-            // Debug
+
             error_log("Order details: " . print_r($orderDetails, true));
             
             return $order;
