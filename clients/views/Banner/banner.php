@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slideshow</title>
-    <link rel="stylesheet" href="../css/m.css">
+    <link rel="stylesheet" href="./m.css">
 </head>
 <body>
     <div class="slideshow-container">
