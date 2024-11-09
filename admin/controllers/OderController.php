@@ -98,7 +98,15 @@ class OderController {
 
         $order = $this->OrderModel->getById($_GET['id']);
         
-        if (!$order || $order['payment_status'] != 'completed' || $order['shipping_status'] != 'delivered') {
+        if (!$order) {
+            $_SESSION['error'] = "Không tìm thấy đơn hàng";
+            header('Location: ?act=orders');
+            exit;
+        }
+
+        // Kiểm tra trạng thái đơn hàng nếu cần
+        if ($order['payment_status'] != 'completed' || $order['shipping_status'] != 'delivered') {
+            $_SESSION['error'] = "Đơn hàng chưa hoàn thành";
             header('Location: ?act=orders');
             exit;
         }

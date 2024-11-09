@@ -17,9 +17,11 @@ class OrderModel {
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
     public function getById($id) {
         try {
+            // Debug
+            error_log("Getting order ID: " . $id);
+
             $query = "
                 SELECT o.*, u.user_name 
                 FROM Orders o
@@ -31,13 +33,35 @@ class OrderModel {
             $stmt->bindParam(':id', $id);
             $stmt->execute();
             
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $order = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            if (!$result) {
+            if (!$order) {
+                error_log("Order not found for ID: " . $id);
                 return null;
             }
+
+            // Debug
+            error_log("Order found: " . print_r($order, true));
+
+            // Lấy chi tiết đơn hàng
+            $detailQuery = "
+                SELECT od.*, pv.sku, pv.price, p.name as product_name, pv.color, pv.size
+                FROM order_details od
+                JOIN product_variants pv ON od.product_variant_id = pv.id
+                JOIN products p ON pv.product_id = p.id
+                WHERE od.order_id = :order_id
+            ";
+            $detailStmt = $this->conn->prepare($detailQuery);
+            $detailStmt->bindParam(':order_id', $id);
+            $detailStmt->execute();
+            $orderDetails = $detailStmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $order['details'] = $orderDetails;
+
+            // Debug
+            error_log("Order details: " . print_r($orderDetails, true));
             
-            return $result;
+            return $order;
         } catch (Exception $e) {
             error_log("Error in getById: " . $e->getMessage());
             return null;
@@ -47,32 +71,32 @@ class OrderModel {
     public function update($id, $data) {
         try {
             $sql = "UPDATE Orders SET 
-                user_id = :user_id,
-                guest_email = :guest_email,
-                guest_phone = :guest_phone,
-                payment_status = :payment_status,
-                shipping_status = :shipping_status,
-                total_amount = :total_amount,
-                payment_method = :payment_method,
-                shipping_address = :shipping_address,
+                user_id = ?,
+                guest_email = ?,
+                guest_phone = ?,
+                payment_status = ?,
+                shipping_status = ?,
+                total_amount = ?,
+                payment_method = ?,
+                shipping_address = ?,
                 updated_at = CURRENT_TIMESTAMP
-                WHERE id = :id";
+                WHERE id = ?";
 
             $stmt = $this->conn->prepare($sql);
             
-            $stmt->bindParam(':user_id', $data['user_id']);
-            $stmt->bindParam(':guest_email', $data['guest_email']);
-            $stmt->bindParam(':guest_phone', $data['guest_phone']);
-            $stmt->bindParam(':payment_status', $data['payment_status']);
-            $stmt->bindParam(':shipping_status', $data['shipping_status']);
-            $stmt->bindParam(':total_amount', $data['total_amount']);
-            $stmt->bindParam(':payment_method', $data['payment_method']);
-            $stmt->bindParam(':shipping_address', $data['shipping_address']);
-            $stmt->bindParam(':id', $id);
-
-            $result = $stmt->execute();
+            $stmt->execute([
+                $data['user_id'],
+                $data['guest_email'],
+                $data['guest_phone'],
+                $data['payment_status'],
+                $data['shipping_status'],
+                $data['total_amount'],
+                $data['payment_method'],
+                $data['shipping_address'],
+                $id
+            ]);
             
-            if (!$result) {
+            if (!$stmt->rowCount()) {
                 header('Location: ?act=orders');
                 return false;
             }

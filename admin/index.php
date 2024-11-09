@@ -88,6 +88,7 @@
             'edit_oder' => $oder->views_edit(),
             'update_oder' => $oder->edit(),
             'delete_oder' => $oder->delete(),
+            'print_bill' => $oder->print_bill(),
 
 
 
