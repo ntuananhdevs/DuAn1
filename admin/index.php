@@ -9,7 +9,7 @@
     require_once '../admin/controllers/UserController.php';
     require_once '../admin/controllers/CategoryController.php';
     require_once '../admin/controllers/OderController.php';
-
+    require_once '../admin/controllers/AuthController.php';
 
     #require Model
     require_once '../admin/models/Home.php';
@@ -18,7 +18,10 @@
     require_once '../admin/models/Comment.php';
     require_once '../admin/models/category.php';
     require_once '../admin/models/oder.php';
+    require_once '../admin/models/auth.php';
 
+
+    $auth = new AuthController();
     $home = new HomeController();
     $products = new ProductsController();
     $user = new UserController();
@@ -33,7 +36,7 @@
     if ($act == 'login') {
         $auth->login();
     } else {
-        // $auth->check_login();
+        $auth->check_login();
         include '../admin/views/layout/header.php';
         match ($act) {
             '/' => $home->views_home(),
