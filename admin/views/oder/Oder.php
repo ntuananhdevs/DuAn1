@@ -7,7 +7,6 @@
             <tr>
                 <th>ID</th>
                 <th>Khách hàng</th>
-                <th>Email</th>
                 <th>SĐT</th>
                 <th>Tổng tiền</th>
                 <th>Địa chỉ</th>
@@ -22,7 +21,6 @@
                 <tr>
                     <td><?= $order['id'] ?></td>
                     <td><?= $order['user_name'] ?? $order['guest_fullname'] ?></td>
-                    <td><?= $order['guest_email'] ?></td>
                     <td><?= $order['guest_phone'] ?></td>
                     <td><?= number_format($order['total_amount']) ?>đ</td>
                     <td><?= $order['shipping_address'] ?></td> 
@@ -68,13 +66,13 @@
                             case 'pending': 
                                 echo '<span class="badge bg-warning">Chờ xử lý</span>';
                                 break;
-                            case 'shipping':
+                            case 'shipped':
                                 echo '<span class="badge bg-primary">Đang giao hàng</span>';
                                 break;
                             case 'delivered':
                                 echo '<span class="badge bg-success">Đã giao hàng</span>';
                                 break;
-                            case 'cancelled':
+                            case 'canceled':
                                 echo '<span class="badge bg-danger">Đã hủy</span>';
                                 break;
                             default:

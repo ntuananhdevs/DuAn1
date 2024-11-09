@@ -7,7 +7,7 @@ class OrderModel {
     }
 
     public function getAll() {
-        try {
+        
             $stmt = $this->conn->prepare("
                 SELECT o.*, u.user_name 
                 FROM Orders o
@@ -16,34 +16,31 @@ class OrderModel {
             ");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (Exception $e) {
-            return ['error' => $e->getMessage()];
-        }
     }
 
     public function getById($id) {
-        $stmt = $this->conn->prepare("
-            SELECT o.*, u.user_name 
-            FROM Orders o
-            LEFT JOIN Users u ON o.user_id = u.id 
-            WHERE o.id = :id
-        ");
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function add_oder($data) {
         try {
-            $stmt = $this->conn->prepare("
-                INSERT INTO Orders (user_id, guest_fullname, guest_email, guest_phone, 
-                payment_status, shipping_status, total_amount, payment_method, shipping_address)
-                VALUES (:user_id, :guest_fullname, :guest_email, :guest_phone,
-                :payment_status, :shipping_status, :total_amount, :payment_method, :shipping_address)
-            ");
-            return $stmt->execute($data);
+            $query = "
+                SELECT o.*, u.user_name 
+                FROM Orders o
+                LEFT JOIN Users u ON o.user_id = u.id 
+                WHERE o.id = :id
+            ";
+
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if (!$result) {
+                return null;
+            }
+            
+            return $result;
         } catch (Exception $e) {
-            return false;
+            error_log("Error in getById: " . $e->getMessage());
+            return null;
         }
     }
 
@@ -51,41 +48,38 @@ class OrderModel {
         try {
             $sql = "UPDATE Orders SET 
                 user_id = :user_id,
-                guest_fullname = :guest_fullname,
                 guest_email = :guest_email,
                 guest_phone = :guest_phone,
-                order_date = :order_date,
                 payment_status = :payment_status,
                 shipping_status = :shipping_status,
                 total_amount = :total_amount,
                 payment_method = :payment_method,
-                payment_date = :payment_date,
                 shipping_address = :shipping_address,
                 updated_at = CURRENT_TIMESTAMP
                 WHERE id = :id";
 
             $stmt = $this->conn->prepare($sql);
-            $params = [
-                ':id' => $id,
-                ':user_id' => $data['user_id'],
-                ':guest_fullname' => $data['guest_fullname'],
-                ':guest_email' => $data['guest_email'],
-                ':guest_phone' => $data['guest_phone'],
-                ':order_date' => $data['order_date'],
-                ':payment_status' => $data['payment_status'],
-                ':shipping_status' => $data['shipping_status'],
-                ':total_amount' => $data['total_amount'],
-                ':payment_method' => $data['payment_method'],
-                ':payment_date' => $data['payment_date'],
-                ':shipping_address' => $data['shipping_address']
-            ];
+            
+            $stmt->bindParam(':user_id', $data['user_id']);
+            $stmt->bindParam(':guest_email', $data['guest_email']);
+            $stmt->bindParam(':guest_phone', $data['guest_phone']);
+            $stmt->bindParam(':payment_status', $data['payment_status']);
+            $stmt->bindParam(':shipping_status', $data['shipping_status']);
+            $stmt->bindParam(':total_amount', $data['total_amount']);
+            $stmt->bindParam(':payment_method', $data['payment_method']);
+            $stmt->bindParam(':shipping_address', $data['shipping_address']);
+            $stmt->bindParam(':id', $id);
 
-            foreach ($params as $key => $value) {
-                $stmt->bindValue($key, $value);
+            $result = $stmt->execute();
+            
+            if (!$result) {
+                header('Location: ?act=orders');
+                return false;
             }
-
-            return $stmt->execute();
+            
+            return true;
         } catch (Exception $e) {
+            error_log("Error in update: " . $e->getMessage());
             return false;
         }
     }
