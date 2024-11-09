@@ -70,7 +70,7 @@ ob_start();
           </a>
         </li>
         <li class="nav-item mt-1">
-          <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'Order' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=oders">
+          <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'orders' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=orders">
           <ion-icon name="cart-outline" size="small"></ion-icon>
             <span class="nav-link-text ms-1">Order management</span>
           </a>

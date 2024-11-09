@@ -81,7 +81,7 @@
             'view_comments' => $comment->viewComments($_GET['product_id'] ),
            
             #CRUD oder
-            'oders' => $oder->views_oder(),
+            'orders' => $oder->views_oder(),
             'edit_oder' => $oder->views_edit(),
             'update_oder' => $oder->edit(),
             'delete_oder' => $oder->delete(),
