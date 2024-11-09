@@ -1,5 +1,5 @@
 <?php 
-class Banner {
+class Home {
     public $conn;
     public function __construct() { 
         $this->conn = connectDB();
