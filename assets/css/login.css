@@ -42,9 +42,17 @@ body {
     background: #f8f8f8;
     height: 40px;
     padding: 5px;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
 }
+
 .user-box input::placeholder {
     color: #999;
+}
+
+.user-box input:hover,
+.user-box input:focus {
+    border-color: #000;
+    background-color: #fff;
 }
 
 button[type="submit"] {

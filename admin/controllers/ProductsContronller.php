@@ -20,10 +20,14 @@ class ProductsController
     }
     public function viewPrd_Variant($id)
     {
-        $listProducts = $this->products->get_products();
+
         $listPrd_Variant = $this->products->getPrd_Variant($id);
         $list_spect = $this->products->get_spect($id);
+        $product = $this->products->get_prdbyid($id);
+        if ($product) {
+            $product = $product[0];
         require_once './views/products/product_variant.php';
+        }
     }
 
     public function add_product()
@@ -81,16 +85,21 @@ class ProductsController
         header('Location: ?act=products' . '&status=success');
     }
 
-    public function views_update_des($id)
-    {
-        $value = $this->products->getPrd_Variant($id);
-        if($value){
-            $value = $value[0];
-            require_once './views/products/update_des.php';
-        }else{
-            echo 'Khong tim thay san pham';
-        }
+    public function updateProductDescription() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $id = $_POST['id'] ?? null;
+            $description = $_POST['description'] ?? '';
+    
+            if ($id && !empty($description)) {
+                $this->products->updateDescription($id, $description);
+            } else {
+                echo "Product ID or description is missing.";
+            }
+        } 
+
+        header('Location: ?act=product_detail&id=' .$id);
     }
+    
 
     public function views_update_product($id)
     {
@@ -107,18 +116,40 @@ class ProductsController
             echo 'Không tìm thấy sản phẩm hoặc thông số kỹ thuật';
         }
     }
+    
+    public function views_update_des($id)
+    {
+        $list_Category = $this->products->get_category();
+        $product_variant = $this->products->get_prdbyid($id);
+        $list_spect = $this->products->get_spect($id);
+        $list_value = $this->products->get_spect($id);
+
+        if ($product_variant && $list_value) {
+            $value = $product_variant[0];
+            $list_value = $list_value[0];
+            require_once './views/products/update_des.php';
+        }else{
+            echo 'Khong tim thay san pham';
+        }
+    
+    }
 
     public function views_update_spect($id)
     {
+        $list_Category = $this->products->get_category();
+        $product_variant = $this->products->get_prdbyid($id);
         $list_spect = $this->products->get_spect($id);
         $list_value = $this->products->get_spect($id);
-        if($list_value){
+
+        if ($product_variant && $list_value) {
+            $value = $product_variant[0];
             $list_value = $list_value[0];
             require_once './views/products/update_spect.php';
-        }else{
-
+        } else {
+            echo 'Không tìm thấy sản phẩm hoặc thông số kỹ thuật';
         }
     }
+    
     public function update_products() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $id = $_POST['id'];
@@ -154,9 +185,40 @@ class ProductsController
             echo "Request method is not POST.";
         }
     }
+    public function update_spect() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $productId = $_POST['id'] ?? null;
+        $specifications = $_POST['specifications'] ?? null;
+    
+        if ($productId && is_array($specifications)) {
+            foreach ($specifications as $spec) {
+                $specName = $spec['Specification_Name'] ?? '';
+                $specValue = $spec['Specification_Value'] ?? '';
+    
+                if (!empty($specName) && !empty($specValue)) {
+                    $existingSpec = $this->products->get_Products_spect($productId, $specName);
+                    
+                    if ($existingSpec) {
+                        $this->products->update_Products_spect($productId, $specName, $specValue);
+                    } else {
+                        $this->products->add_Products_spect($productId, $specName, $specValue);
+                    }
+                }
+            }
+        }
+    }
+    header('Location: ?act=product_detail&id=' . $productId);
+
+}
+    
+    
     public function viewAdd_variant() {
-        $listProducts = $this->products->get_products();
-        require_once './views/products/add_variants.php';
+        $id = $_GET['id'];
+        $product = $this->products->get_prdbyid($id);
+        if ($product) {
+            $product = $product[0];
+                    require_once './views/products/add_variants.php';
+        }
     }
 
     public function add_variants(){
@@ -200,37 +262,51 @@ class ProductsController
     }
     
     public function viewUpdate_variant() {
-        $id = $_GET['variant_id'] ?? null;
-        if ($id) {
-            $variant = $this->products->get_variants($id); 
-            require_once './views/products/update_variant.php'; 
+        $variant_id = $_GET['variant_id'];
+        
+        $variant = $this->products->get_variant($variant_id);
+        if ($variant) {
+            $product_id = $variant['product_id'];
+            $product = $this->products->get_prdbyid($product_id);
+    
+            if ($product) {
+                require_once './views/products/update_variants.php';
+            } else {
+                echo 'Không tìm thấy sản phẩm';
+            }
+        } else {
+            echo 'Không tìm thấy biến thể';
         }
     }
-    public function update_variants(){
+    
+    public function update_variants() {
+    
+        
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $variant_id = $_POST['variant_id'];
-            $product_id = $_POST['product_id'];
             $color = $_POST['color'] ?? '';
             $ram = $_POST['ram'] ?? '';
             $storage = $_POST['storage'] ?? '';
             $quantity = $_POST['quantity'] ?? 0;
             $price = $_POST['price'] ?? 0;
-    
-            // Cập nhật thông tin biến thể trong database
-            $this->products->update_variant($variant_id, $color, $ram, $storage, $price, $quantity);
+            
+            $this->products->updateVariant($variant_id, $color, $ram, $storage, $quantity, $price);
     
             if (isset($_FILES['image']['name']) && is_uploaded_file($_FILES['image']['tmp_name'])) {
+                $old_image = $_POST['old_image'];
+                if (!empty($old_image) && file_exists($old_image)) {
+                    unlink($old_image);
+                }
+    
                 $imageFile = [
                     'name' => $_FILES['image']['name'],
                     'tmp_name' => $_FILES['image']['tmp_name']
                 ];
-                $this->products->saveVariantImage($variant_id, $imageFile); // Cập nhật ảnh
+                $this->products->updateVariantImage($variant_id, $imageFile);
             }
-    
-            header('Location: ?act=product_detail&id=' . $product_id . '&status=updated');
-        } else {
-            header('Location: ?act=product_list');
+            $product_id = $_GET['product_id'];
+                header('Location: ?act=products');
+            exit;
         }
     }
-    
 }

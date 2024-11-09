@@ -1,7 +1,6 @@
 <h3 class="mb-0 h4 font-weight-bolder mb-4">Edit Products</h3>
 
 <?php
-// Hàm xử lý tách câu ra thành từng dòng
 
 function splitTextIntoLines($text)
 {
@@ -12,7 +11,9 @@ function splitTextIntoLines($text)
 
 <div class="container">
     <form action="?act=post_update_des" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($value['product_id']); ?>">
+    <input type="hidden" name="id" value="<?php echo $value['id']; ?>">
+
+        <input type="hidden" name="id" value="<?php echo htmlspecialchars($value['id']); ?>">
         <label class="form-label mb-0 font-weight-bolder">Description Sentences</label>
         <ul>
             <?php

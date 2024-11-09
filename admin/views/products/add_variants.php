@@ -1,9 +1,8 @@
 <div class="container">
     <h2 class="mb-0 h4 font-weight-bolder mb-4">Add Variants</h2>
     <form action="?act=add_variants_post" method="post" enctype="multipart/form-data">
-    <?php foreach ($listProducts as $key => $value) : ?>
-        <input type="hidden" value="<?php echo $value['ID'] ?>" name="product_id">
-    <?php endforeach;?> 
+        <input type="hidden" value="<?php echo $product['id'] ?>" name="product_id">
+ 
            <div id="variants-container">
             <div class="variant">
                 <div class="color" style="display: flex; gap: 10px; align-items: center;">

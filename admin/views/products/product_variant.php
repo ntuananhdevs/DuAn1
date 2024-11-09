@@ -1,8 +1,6 @@
 <div class="container">
     <h3 class="mb-0 h4 font-weight-bolder mb-4">Products Variant</h3>
-    <?php foreach ($listProducts as $key => $value) : ?>
-        <a href="?act=add_variant&id=<?php echo $value['ID'] ?>" class="btn btn-primary">Add Variant</a>
-    <?php endforeach; ?>
+        <a href="?act=add_variant&id=<?php echo $product['id'] ?>" class="btn btn-primary">Add Variant</a>
     <table class="table">
         <thead>
             <tr>
@@ -32,15 +30,13 @@
                     <td><?php echo number_format(floatval(str_replace('.', '', $value['price'])), 0, ',', '.'); ?> vnđ</p>
                     <td><?php echo $value['quantity'] ?></td>
                     <td>
-                        <a href="?act=update_variant&id=<?php echo $value['variant_id']?>" class="btn btn-primary">Edit</a>
-                        <a href="#"  class="btn btn-danger" onclick="openModal(event, '<?php echo $value['variant_id']; ?>&product_id=<?php echo $value['product_id']; ?>')">Delete</a>
-
+                      <a href="?act=update_variant&variant_id=<?php echo $value['variant_id']; ?>&product_id=<?php echo $value['product_id']; ?>" class="btn btn-primary">Edit</a>
+                      <a href="#"  class="btn btn-danger" onclick="openModal(event, '<?php echo $value['variant_id']; ?>', '<?php echo $value['product_id']; ?>')">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <hr class="mt-4">
 
 
     <div class="des border p-3 bg-light rounded table">
@@ -115,16 +111,18 @@
 
 
 <script>
-  function openModal(event, productId) {
+function openModal(event, variantId, productId) {
     event.preventDefault();
     const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'), { backdrop: false });
+    document.getElementById('confirmModal').dataset.variantId = variantId;
     document.getElementById('confirmModal').dataset.productId = productId;
     confirmModal.show();
-  }
+}
 
-  function confirmDelete() {
+function confirmDelete() {
+    const variantId = document.getElementById('confirmModal').dataset.variantId;
     const productId = document.getElementById('confirmModal').dataset.productId;
-    window.location.href = `?act=delete_variant&variant_id=<?php echo $value['variant_id']; ?>&product_id=<?php echo $value['product_id']; ?>`;
-  }
+    window.location.href = `?act=delete_variant&variant_id=${variantId}&product_id=${productId}`;
+}
 
 </script>

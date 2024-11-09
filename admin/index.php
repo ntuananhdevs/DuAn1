@@ -8,24 +8,23 @@
     require_once '../admin/controllers/CommentContronller.php';
     require_once '../admin/controllers/UserController.php';
     require_once '../admin/controllers/CategoryController.php';
-
+    require_once '../admin/controllers/OderController.php';
 
 
     #require Model
+    require_once '../admin/models/Home.php';
     require_once '../admin/models/products.php';
     require_once '../admin/models/user.php';
     require_once '../admin/models/Comment.php';
     require_once '../admin/models/category.php';
-
-
-
+    require_once '../admin/models/oder.php';
 
     $home = new HomeController();
     $products = new ProductsController();
     $user = new UserController();
     $comment = new CommentController();
     $category = new CategoryController();
-
+    $oder = new OderController();
 
 
     // Route
@@ -46,15 +45,17 @@
             'post-product' => $products->add_product(),
             'delete_product' => $products->deletePrd($_GET['id']),
             'update_des' => $products->views_update_des($_GET['id']),
+            'post_update_des' => $products->updateProductDescription(),
             'update_spect'=> $products->views_update_spect($_GET['id']),
             'update_product' => $products->views_update_product($_GET['id']),
             'update-product-post' => $products->update_products(),
+            'post_update_spect' => $products->update_spect(),
             'add_variant' => $products->viewAdd_variant(),
             'add_variants_post' => $products->add_variants(),
             'delete_variant' => $products->delete_variant($_GET['id']),
-            'update_variant' => $products->viewUpdate_variant($_GET['id']),
+            'update_variant' => $products->viewUpdate_variant(),
             'post_update_variants' => $products->update_variants(),
-
+            'update_variant_post' => $products->update_variants(),
 
         
             
@@ -77,10 +78,14 @@
             #CRUD comment
             'comments' => $comment->views_comment(),
             'delete' => $comment->deleteComment($_GET['id']),
-            'view_edit' => $comment->edit($_GET['id']),
             'view_comments' => $comment->viewComments($_GET['product_id'] ),
            
-            
+            #CRUD oder
+            'oders' => $oder->views_oder(),
+            'edit_oder' => $oder->views_edit(),
+            'update_oder' => $oder->edit(),
+            'delete_oder' => $oder->delete(),
+
 
 
 
