@@ -8,24 +8,23 @@
     require_once '../admin/controllers/CommentContronller.php';
     require_once '../admin/controllers/UserController.php';
     require_once '../admin/controllers/CategoryController.php';
-
+    require_once '../admin/controllers/OderController.php';
 
 
     #require Model
+    require_once '../admin/models/Home.php';
     require_once '../admin/models/products.php';
     require_once '../admin/models/user.php';
     require_once '../admin/models/Comment.php';
     require_once '../admin/models/category.php';
-    require_once '../admin/models/home.php'; 
-
-
+    require_once '../admin/models/oder.php';
 
     $home = new HomeController();
     $products = new ProductsController();
     $user = new UserController();
     $comment = new CommentController();
     $category = new CategoryController();
-
+    $oder = new OderController();
 
 
     // Route
@@ -81,7 +80,12 @@
             'delete' => $comment->deleteComment($_GET['id']),
             'view_comments' => $comment->viewComments($_GET['product_id'] ),
            
-            
+            #CRUD oder
+            'oders' => $oder->views_oder(),
+            'edit_oder' => $oder->views_edit(),
+            'update_oder' => $oder->edit(),
+            'delete_oder' => $oder->delete(),
+
 
 
 

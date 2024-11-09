@@ -57,6 +57,73 @@
   </div>
 </div>
 
+<?php if (isset($_GET['status'])): ?>
+    <?php if ($_GET['status'] == 'success'): ?>
+        <div id="alertMessage" class="alert alert-success alert-dismissible slide-in position-fixed top-0 end-0 m-3" role="alert" style="z-index: 1050; max-width: 400px;">
+            Xóa sản phẩm thành công!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php elseif ($_GET['status'] == 'error'): ?>
+        <div id="alertMessage" class="alert alert-danger alert-dismissible slide-in position-fixed top-0 end-0 m-3" role="alert" style="z-index: 1050; max-width: 400px;">
+            Không thể xóa sản phẩm lúc này
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>
+
+<style>
+  /* Hiệu ứng slide vào từ phải */
+  .slide-in {
+    transform: translateX(100%);
+    animation: slideIn 0.5s forwards;
+  }
+
+  /* Hiệu ứng slide ra từ trái sang phải */
+  .slide-out {
+    animation: slideOut 0.5s forwards;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+      var alertElement = document.getElementById('alertMessage');
+      if (alertElement) {
+        alertElement.classList.remove('slide-in');
+        alertElement.classList.add('slide-out');
+        setTimeout(function() {
+          alertElement.remove();
+        }, 500); // Đợi 0.5 giây để hiệu ứng slide-out hoàn thành
+      }
+
+      // Xóa các tham số `status` và `message` khỏi URL, giữ lại `act=products`
+      var url = new URL(window.location.href);
+      url.searchParams.delete('status');
+      url.searchParams.delete('message');
+      window.history.replaceState({}, '', url);
+    }, 3000); // Hiển thị thông báo trong 3 giây trước khi trượt ra
+  });
+</script>
+
+
 <script>
   function openModal(event, productId) {
     event.preventDefault();
@@ -70,20 +137,3 @@
     window.location.href = `?act=delete_product&id=${productId}`;
   }
 </script>
-
-<?php if (isset($_GET['status']) && $_GET['status'] == 'success'): ?>
-  <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
-    Xóa thành công!
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><ion-icon name="close-outline"></ion-icon></button>
-  </div>
-  
-  <script>
-    setTimeout(function() {
-      var alert = document.getElementById('success-alert');
-      if (alert) {
-        alert.classList.remove('show');
-        alert.classList.add('fade');
-      }
-    }, 3000);
-  </script>
-<?php endif; ?>
