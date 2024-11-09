@@ -32,10 +32,7 @@
                 <div>
                   <p class="text-sm mb-0 text-capitalize">Total Users</p>
                   <h4 class="mb-0">
-                    <?foreach($list_user as $key => $value){
-                      echo $value['total'];
-                    }
-                    ?>
+                    <?= isset($list_user[0]['total']) ? $list_user[0]['total'] : 0 ?>
                   </h4>
                 </div>
                 <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
@@ -53,10 +50,7 @@
                 <div>
                   <p class="text-sm mb-0 text-capitalize">Total Products</p>
                   <h4 class="mb-0">
-                  <?foreach($list_product as $key => $value){
-                      echo $value['total'];
-                    }
-                    ?>
+                    <?= isset($list_product[0]['total']) ? $list_product[0]['total'] : 0 ?>
                   </h4>
                 </div>
                 <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
