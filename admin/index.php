@@ -8,6 +8,7 @@
     require_once '../admin/controllers/CommentContronller.php';
     require_once '../admin/controllers/UserController.php';
     require_once '../admin/controllers/CategoryController.php';
+    require_once '../admin/controllers/BannerController.php';
 
 
 
@@ -16,6 +17,7 @@
     require_once '../admin/models/user.php';
     require_once '../admin/models/Comment.php';
     require_once '../admin/models/category.php';
+    require_once '../admin/models/Banner.php';
 
 
 
@@ -25,6 +27,7 @@
     $user = new UserController();
     $comment = new CommentController();
     $category = new CategoryController();
+    $banner = new BannerController();
 
 
 
@@ -83,7 +86,8 @@
            
             
 
-
+            #Banner
+            'banner' => $banner->getBanner(),
 
 
 
