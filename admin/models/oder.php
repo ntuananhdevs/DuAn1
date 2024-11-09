@@ -7,7 +7,7 @@ class OrderModel {
     }
 
     public function getAll() {
-        try {
+        
             $stmt = $this->conn->prepare("
                 SELECT o.*, u.user_name 
                 FROM Orders o
@@ -16,76 +16,94 @@ class OrderModel {
             ");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (Exception $e) {
-            return ['error' => $e->getMessage()];
-        }
     }
-
     public function getById($id) {
-        $stmt = $this->conn->prepare("
-            SELECT o.*, u.user_name 
-            FROM Orders o
-            LEFT JOIN Users u ON o.user_id = u.id 
-            WHERE o.id = :id
-        ");
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function add_oder($data) {
         try {
-            $stmt = $this->conn->prepare("
-                INSERT INTO Orders (user_id, guest_fullname, guest_email, guest_phone, 
-                payment_status, shipping_status, total_amount, payment_method, shipping_address)
-                VALUES (:user_id, :guest_fullname, :guest_email, :guest_phone,
-                :payment_status, :shipping_status, :total_amount, :payment_method, :shipping_address)
-            ");
-            return $stmt->execute($data);
+
+            error_log("Getting order ID: " . $id);
+
+            $query = "
+                SELECT o.*, u.user_name 
+                FROM Orders o
+                LEFT JOIN Users u ON o.user_id = u.id 
+                WHERE o.id = :id
+            ";
+
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            
+            $order = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if (!$order) {
+                error_log("Order not found for ID: " . $id);
+                return null;
+            }
+
+
+            error_log("Order found: " . print_r($order, true));
+
+            // Lấy chi tiết đơn hàng
+            $detailQuery = "
+                SELECT od.*, pv.sku, pv.price, p.name as product_name, pv.color, pv.size
+                FROM order_details od
+                JOIN product_variants pv ON od.product_variant_id = pv.id
+                JOIN products p ON pv.product_id = p.id
+                WHERE od.order_id = :order_id
+            ";
+            $detailStmt = $this->conn->prepare($detailQuery);
+            $detailStmt->bindParam(':order_id', $id);
+            $detailStmt->execute();
+            $orderDetails = $detailStmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $order['details'] = $orderDetails;
+
+
+            error_log("Order details: " . print_r($orderDetails, true));
+            
+            return $order;
         } catch (Exception $e) {
-            return false;
+            error_log("Error in getById: " . $e->getMessage());
+            return null;
         }
     }
 
     public function update($id, $data) {
         try {
             $sql = "UPDATE Orders SET 
-                user_id = :user_id,
-                guest_fullname = :guest_fullname,
-                guest_email = :guest_email,
-                guest_phone = :guest_phone,
-                order_date = :order_date,
-                payment_status = :payment_status,
-                shipping_status = :shipping_status,
-                total_amount = :total_amount,
-                payment_method = :payment_method,
-                payment_date = :payment_date,
-                shipping_address = :shipping_address,
+                user_id = ?,
+                guest_email = ?,
+                guest_phone = ?,
+                payment_status = ?,
+                shipping_status = ?,
+                total_amount = ?,
+                payment_method = ?,
+                shipping_address = ?,
                 updated_at = CURRENT_TIMESTAMP
-                WHERE id = :id";
+                WHERE id = ?";
 
             $stmt = $this->conn->prepare($sql);
-            $params = [
-                ':id' => $id,
-                ':user_id' => $data['user_id'],
-                ':guest_fullname' => $data['guest_fullname'],
-                ':guest_email' => $data['guest_email'],
-                ':guest_phone' => $data['guest_phone'],
-                ':order_date' => $data['order_date'],
-                ':payment_status' => $data['payment_status'],
-                ':shipping_status' => $data['shipping_status'],
-                ':total_amount' => $data['total_amount'],
-                ':payment_method' => $data['payment_method'],
-                ':payment_date' => $data['payment_date'],
-                ':shipping_address' => $data['shipping_address']
-            ];
-
-            foreach ($params as $key => $value) {
-                $stmt->bindValue($key, $value);
+            
+            $stmt->execute([
+                $data['user_id'],
+                $data['guest_email'],
+                $data['guest_phone'],
+                $data['payment_status'],
+                $data['shipping_status'],
+                $data['total_amount'],
+                $data['payment_method'],
+                $data['shipping_address'],
+                $id
+            ]);
+            
+            if (!$stmt->rowCount()) {
+                header('Location: ?act=orders');
+                return false;
             }
-
-            return $stmt->execute();
+            
+            return true;
         } catch (Exception $e) {
+            error_log("Error in update: " . $e->getMessage());
             return false;
         }
     }

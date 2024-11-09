@@ -53,20 +53,20 @@ ob_start();
         <li class="nav-item mt-1">
           <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'users' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=users">
             <ion-icon name="person-circle-outline" size="small"></ion-icon>
-            <span class="nav-link-text ms-1" style="position: relative; ">Users management</span>
+            <span class="nav-link-text ms-1" style="position: relative; ">Users</span>
           </a>
         </li>
         <li class="nav-item mt-1">
           <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'products' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=products">
             <i class="material-symbols-rounded opacity-5">table_view</i>
-            <span class="nav-link-text ms-1" style="position: relative; ">Products management</span>
+            <span class="nav-link-text ms-1" style="position: relative; ">Products</span>
           </a>
         </li>
         
         <li class="nav-item mt-1">
           <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'category' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=category">
               <ion-icon name="albums-outline" size="small"></ion-icon>
-              <span class="nav-link-text ms-1" style="position: relative; ">Categories management</span>
+              <span class="nav-link-text ms-1" style="position: relative; ">Categories</span>
           </a>
         </li>
         <li class="nav-item mt-1">
@@ -79,13 +79,13 @@ ob_start();
         <li class="nav-item mt-1">
           <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'Discount' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=Discount">
             <ion-icon name="receipt-outline" size="small"></ion-icon>
-            <span class="nav-link-text ms-1">Discount management</span>
+            <span class="nav-link-text ms-1">Discount</span>
           </a>
         </li>
         <li class="nav-item mt-1">
           <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'banner' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=banner">
             <ion-icon name="images-outline" size="small"></ion-icon>
-            <span class="nav-link-text ms-1">Banner management</span>
+            <span class="nav-link-text ms-1">Banner</span>
           </a>
         </li>
         <li class="nav-item mt-2">

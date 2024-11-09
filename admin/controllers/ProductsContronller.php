@@ -3,16 +3,15 @@ class ProductsController
 {
     public $products;
 
-    public function __construct()
-    {
+    public function __construct(){
         $this->products = new Products();
     }
 
-    public function views_products()
-    {
+    public function views_products(){
         $listProducts = $this->products->get_products();
         require_once './views/products/products.php';
     }
+    
     public function views_add()
     {
         $list_Category = $this->products->get_category();
@@ -262,8 +261,8 @@ class ProductsController
             }
             header('Location: ?act=product_detail&id='.$products_id);
         }catch (Exception $e) {
-            $errorMessage2 = $e->getMessage();
-            header('Location: ?act=product_detail&id=' . $products_id . '&status=error&message=' . urlencode($errorMessage2));
+            $errorMessage = $e->getMessage();
+            header('Location: ?act=add_variant&id=' . $products_id . '&status=error&message=' . urlencode($errorMessage));
         }
         
 
