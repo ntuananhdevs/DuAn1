@@ -13,11 +13,6 @@ class OderController {
         include '../admin/views/oder/Oder.php';
     }
 
-    public function views_add() {
-        $users = $this->UserModel->getAll();
-        include '../admin/views/oder/Odercreated.php';
-    }
-
     public function views_edit() {
         $users = $this->UserModel->getAll();
         $order = $this->OrderModel->getById($_GET['id']);
@@ -94,11 +89,6 @@ class OderController {
         exit;
     }
 
-    public function add_oder() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        }
-    }
-
     public function print_bill() {
         if (!isset($_GET['id'])) {
             header('Location: ?act=oders');
@@ -112,7 +102,6 @@ class OderController {
             exit;
         }
 
-        // Load view in hóa đơn
         include '../admin/views/oder/bill_template.php';
     }
 }

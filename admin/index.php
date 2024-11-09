@@ -12,18 +12,12 @@
 
 
     #require Model
+    require_once '../admin/models/Home.php';
     require_once '../admin/models/products.php';
     require_once '../admin/models/user.php';
     require_once '../admin/models/Comment.php';
     require_once '../admin/models/category.php';
-<<<<<<< HEAD
     require_once '../admin/models/oder.php';
-
-=======
-    require_once '../admin/models/home.php'; 
->>>>>>> dcb112fa2a8832b96ecd3eb82b621f3f5730c62b
-
-
 
     $home = new HomeController();
     $products = new ProductsController();
@@ -88,8 +82,6 @@
            
             #CRUD oder
             'oders' => $oder->views_oder(),
-            'add_oder' => $oder->views_add(),
-            'add_oder_post' => $oder->add_oder(),
             'edit_oder' => $oder->views_edit(),
             'update_oder' => $oder->edit(),
             'delete_oder' => $oder->delete(),

@@ -11,8 +11,9 @@
                 <th>SĐT</th>
                 <th>Tổng tiền</th>
                 <th>Địa chỉ</th>
-                <th>Phương Thức Thanh Toán</th>
+                <th>Hình Thức Thanh Toán</th>
                 <th>Trạng thái</th>
+                <th>Trạng thái giao hàng</th>
                 <th>Thao tác</th>
             </tr>
         </thead>
@@ -27,26 +28,58 @@
                     <td><?= $order['shipping_address'] ?></td> 
                     <td>
                         <?php
-                        $paymentMethod = '';
                         switch($order['payment_method']) {
-                            case 'cash': 
-                                echo '<span class="badge bg-primary">Tiền mặt</span>';
+                            case 'cod': 
+                                echo '<span class="badge bg-primary">Thanh toán khi nhận hàng</span>';
+                                break;
+                            case 'momo':
+                                echo '<span class="badge bg-danger">Thanh toán MoMo</span>';
                                 break;
                             case 'bank_transfer':
-                                echo '<span class="badge bg-info">Chuyển khoản</span>';
+                                echo '<span class="badge bg-info">Chuyển khoản ngân hàng</span>';
                                 break;
-                            case 'ship_cod':
-                                echo '<span class="badge bg-secondary">Ship COD</span>';
+                            default:
+                                echo '<span class="badge bg-secondary">Không xác định</span>';
                                 break;
                         }
                         ?>
                     </td>
                     <td>
                         <?php
-                        if($order['payment_status'] == 'completed' && $order['shipping_status'] == 'delivered') {
-                            echo '<span class="badge bg-success">Đã giao hàng</span>';
-                        } elseif($order['payment_status'] == 'pending') {
-                            echo '<span class="badge bg-warning">Chưa xử lý</span>';
+                        switch($order['payment_status']) {
+                            case 'completed':
+                                echo '<span class="badge bg-success">Đã thanh toán</span>';
+                                break;
+                            case 'pending':
+                                echo '<span class="badge bg-warning">Chờ thanh toán</span>';
+                                break;
+                            case 'failed':
+                                echo '<span class="badge bg-danger">Thanh toán thất bại</span>';
+                                break;
+                            default:
+                                echo '<span class="badge bg-secondary">Không xác định</span>';
+                                break;
+                        }
+                        ?>
+                    </td>
+                    <td>
+                        <?php
+                        switch($order['shipping_status']) {
+                            case 'pending': 
+                                echo '<span class="badge bg-warning">Chờ xử lý</span>';
+                                break;
+                            case 'shipping':
+                                echo '<span class="badge bg-primary">Đang giao hàng</span>';
+                                break;
+                            case 'delivered':
+                                echo '<span class="badge bg-success">Đã giao hàng</span>';
+                                break;
+                            case 'cancelled':
+                                echo '<span class="badge bg-danger">Đã hủy</span>';
+                                break;
+                            default:
+                                echo '<span class="badge bg-secondary">Không xác định</span>';
+                                break;
                         }
                         ?>
                     </td>
