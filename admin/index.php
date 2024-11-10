@@ -10,6 +10,7 @@
     require_once '../admin/controllers/CategoryController.php';
     require_once '../admin/controllers/OderController.php';
     require_once '../admin/controllers/AuthController.php';
+    require_once '../admin/controllers/BannerController.php';
 
     #require Model
     require_once '../admin/models/Home.php';
@@ -19,6 +20,7 @@
     require_once '../admin/models/category.php';
     require_once '../admin/models/oder.php';
     require_once '../admin/models/auth.php';
+    require_once '../admin/models/Banner.php';
 
 
     $auth = new AuthController();
@@ -28,6 +30,7 @@
     $comment = new CommentController();
     $category = new CategoryController();
     $oder = new OderController();
+    $banner = new BannerController();
 
 
     // Route
@@ -92,6 +95,11 @@
             'order_details' => $oder->view_order_details(),
             'update_order_item' => $oder->update_order_item(),
             'delete_order_item' => $oder->delete_order_item(),
+            #CRUD banner
+            'banner' => $banner->views_Banner(),
+            'view_add' => $banner->views_add(),
+            'add-banner-post' => $banner->addBanner(),
+            'delete_banner' => $banner->deleteBanner($_GET['id']),
 
             'logout' => $auth->logout(),
             default => $home->views_home(),
