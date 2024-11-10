@@ -117,5 +117,76 @@ class OderController {
             exit;
         }
     }
+
+    public function view_order_details() {
+        try {
+            error_log("Starting view_order_details");
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+            error_log("Order ID: " . $id);
+            
+            if (!$id) {
+                throw new Exception("ID không hợp lệ");
+            }
+            
+            $orderDetails = $this->OrderModel->getOrderDetails($id);
+            error_log("Order Details Count: " . count($orderDetails));
+            
+            include '../admin/views/oder/OrderDetails.php';
+        } catch (Exception $e) {
+            error_log("Error in view_order_details: " . $e->getMessage());
+            $_SESSION['error'] = "Lỗi: " . $e->getMessage();
+            header('Location: ?act=orders');
+            exit;
+        }
+    }
+
+    public function update_order_details() {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                header('Location: ?act=orders');
+                exit;
+            }
+
+            $order_id = $_POST['order_id'];
+            $quantities = $_POST['quantity'];
+
+            foreach ($quantities as $detail_id => $quantity) {
+                $this->OrderModel->updateOrderDetail($detail_id, $quantity);
+            }
+
+            // Cập nhật tổng tiền đơn hàng
+            $this->OrderModel->updateOrderTotal($order_id);
+
+            $_SESSION['success'] = "Cập nhật chi tiết đơn hàng thành công";
+            header("Location: ?act=order_details&id=" . $order_id);
+            exit;
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Lỗi: " . $e->getMessage();
+            header('Location: ?act=orders');
+            exit;
+        }
+    }
+
+    public function delete_order_detail() {
+        try {
+            $detail_id = $_GET['id'];
+            $order_id = $_GET['order_id'];
+
+            if ($this->OrderModel->deleteOrderDetail($detail_id)) {
+                // Cập nhật tổng tiền đơn hàng
+                $this->OrderModel->updateOrderTotal($order_id);
+                $_SESSION['success'] = "Xóa sản phẩm thành công";
+            } else {
+                $_SESSION['error'] = "Xóa sản phẩm thất bại";
+            }
+
+            header("Location: ?act=order_details&id=" . $order_id);
+            exit;
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Lỗi: " . $e->getMessage();
+            header('Location: ?act=orders');
+            exit;
+        }
+    }
 }
 ?>

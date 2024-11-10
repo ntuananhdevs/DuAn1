@@ -89,6 +89,9 @@
             'print_bill' => $oder->print_bill(),
             'edit_oder' => $oder->views_edit(),
             'update_oder' => $oder->update(),
+            'order_details' => $oder->view_order_details(),
+            'update_order_details' => $oder->update_order_details(),
+            'delete_order_detail' => $oder->delete_order_detail(),
 
 
 
