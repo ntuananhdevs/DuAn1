@@ -8,7 +8,6 @@ body {
     background-color: #fff;
     font-family: 'Roboto', Arial, Helvetica, sans-serif;
     margin: 0 auto;
-    
 }
 
 nav {
@@ -36,12 +35,26 @@ nav {
 .logo-header {
     border-right: 1px solid #ccc;
     padding: 0 10px;
+    align-items: center;
 }
 
 .logo-header a {
     display: block;
     position: relative;
     text-decoration: none;
+}
+
+.logo-header img {
+    width: 13px;
+}
+.samsung img{
+    width: 65px;
+}
+
+.rog img{
+    width: 30px;
+    margin-top: 1px;
+
 }
 
 .logo-header > a img:hover + img {
@@ -111,7 +124,7 @@ nav {
     text-decoration: none;
     padding: 0 10px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 400;
     position: relative;
 }
 
@@ -155,14 +168,15 @@ nav {
 }
 
 .logo-nav {
-    margin-left: 140px;
+    /* margin-left: 140px; */
+    margin: auto;
 }
 
 .logo-nav img {
-    width: 40px;
+    width: 30px;
 }
 .nav-right {
-    margin-right: 130px;
+    margin: auto;
 }
 .icon-nav a{
     padding: 0 10px;
