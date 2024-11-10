@@ -38,7 +38,7 @@
                 <!-- Hình ảnh -->
                 <div class="form-group">
                     <label>Hình ảnh</label>
-                    <input type="file" name="img_url" class="form-control" accept="image/*" required>
+                    <input type="file" name="img_url" class="form-control"  required>
                 </div>
                 
                 <!-- Vị trí -->
@@ -68,7 +68,8 @@
                     </select>
                 </div>
                 
-                <!-- Nút gửi -->
+                <br>
+                <br>
                 <button type="submit" class="btn btn-primary">Thêm mới</button>
                 <a href="index.php?act=banners" class="btn btn-secondary">Hủy</a>
             </form>

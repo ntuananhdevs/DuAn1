@@ -1,7 +1,7 @@
 <div class="slideshow-container">
     <?php foreach ($banners as $index => $banner) : ?>
         <div class="slide">
-        <img src="<?= $banner['img_url'] ?>"alt="">
+        <img src="./uploads/BannerIMG/<?= $banner['img_url'] ?>"alt="">
         </div>
     <?php endforeach; ?>
     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
