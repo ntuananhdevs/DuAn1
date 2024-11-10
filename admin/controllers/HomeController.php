@@ -7,6 +7,7 @@ class HomeController {
     }
 
     public function views_home() {
+        $total_money = $this->home->total_order();
         $list_product = $this->home->total_prd();
         $list_user = $this->home->total_users();
 

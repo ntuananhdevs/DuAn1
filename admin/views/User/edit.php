@@ -1,18 +1,3 @@
-<div class="container-fluid">
-    <!-- Hiển thị thông báo -->
-    <?php if(isset($_SESSION['error'])): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="fas fa-exclamation-circle"></i> <?= $_SESSION['error'] ?>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <?php unset($_SESSION['error']); ?>
-    <?php endif; ?>
-
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Sửa thông tin người dùng</h1>
-    </div>
 
     <div class="row">
         <div class="col-lg-8">
@@ -53,12 +38,12 @@
                                 <input type="hidden" name="old_avatar" value="<?= $user['avatar'] ?>">
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row ">
                             <div class="col-sm-9 offset-sm-3">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary mt-3">
                                     <i class="fas fa-save"></i> Cập nhật
                                 </button>
-                                <a href="index.php?act=users" class="btn btn-secondary">
+                                <a href="index.php?act=users" class="btn btn-secondary mt-3 ">
                                     <i class="fas fa-times"></i> Hủy
                                 </a>
                             </div>

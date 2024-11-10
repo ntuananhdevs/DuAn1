@@ -10,11 +10,9 @@
     require_once '../admin/controllers/CategoryController.php';
     require_once '../admin/controllers/OderController.php';
     require_once '../admin/controllers/AuthController.php';
-    require_once '../admin/controllers/BannerController.php';
 
     #require Model
     require_once '../admin/models/Home.php';
-    require_once '../admin/models/Banner.php';
     require_once '../admin/models/products.php';
     require_once '../admin/models/user.php';
     require_once '../admin/models/Comment.php';
@@ -30,7 +28,6 @@
     $comment = new CommentController();
     $category = new CategoryController();
     $oder = new OderController();
-    $banner = new BannerController();
 
 
     // Route
@@ -59,7 +56,7 @@
             'add_variant' => $products->viewAdd_variant(),
             'add_variants_post' => $products->add_variants(),
             'delete_variant' => $products->delete_variant($_GET['id']),
-            'update_variant' => $products->viewUpdate_variant(),
+            'update_variant' => $products->viewUpdate_variant($_GET['product_id']),
             'post_update_variants' => $products->update_variants(),
             'update_variant_post' => $products->update_variants(),
 
@@ -88,19 +85,15 @@
            
             #CRUD oder
             'orders' => $oder->views_oder(),
-            'edit_oder' => $oder->views_edit(),
-            'update_oder' => $oder->edit(),
             'delete_oder' => $oder->delete(),
             'print_bill' => $oder->print_bill(),
-            #CRUD banner
-            'banner' => $banner->views_Banner(),
-            'view_add' => $banner-> views_add(),
-            'add-banner-post' => $banner->addBanner(),
+            'edit_oder' => $oder->views_edit(),
+            'update_oder' => $oder->update(),
+            'order_details' => $oder->view_order_details(),
+            'update_order_item' => $oder->update_order_item(),
+            'delete_order_item' => $oder->delete_order_item(),
 
-
-
-
-
+            'logout' => $auth->logout(),
             default => $home->views_home(),
         };
         include '../admin/views/layout/footer.php';

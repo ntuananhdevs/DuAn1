@@ -1,4 +1,3 @@
-
 <div class="content-wrapper">
     <section class="content-header">
         <h1>Cập nhật đơn hàng</h1>
@@ -10,88 +9,66 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">Thông tin đơn hàng</h3>
                     </div>
-                    <form method="post" action="?act=update_oder&id=<?= $orderData['id'] ?? '' ?>">
-                        <input type="hidden" name="id" value="<?= $orderData['id'] ?? '' ?>">
+                    <form method="post" action="?act=update_oder">
+                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($orderData['id']); ?>">
                         <div class="box-body">
                             <div class="form-group">
                                 <label>User ID</label>
                                 <input type="text" class="form-control" name="user_id" 
-                                       value="<?= $orderData['user_id'] ?? '' ?>" readonly>
+                                       value="<?php echo htmlspecialchars($orderData['user_id']); ?>" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Tên khách hàng</label>
+                                <input type="text" class="form-control" name="guest_fullname" 
+                                       value="<?php echo htmlspecialchars($orderData['guest_fullname']); ?>">
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
                                 <input type="email" class="form-control" name="guest_email" 
-                                       value="<?= $orderData['guest_email'] ?? '' ?>">
+                                       value="<?php echo htmlspecialchars($orderData['guest_email']); ?>">
                             </div>
-
                             <div class="form-group">
                                 <label>Số điện thoại</label>
                                 <input type="text" class="form-control" name="guest_phone" 
-                                       value="<?= $orderData['guest_phone'] ?? '' ?>">
+                                       value="<?php echo htmlspecialchars($orderData['guest_phone']); ?>">
                             </div>
-
                             <div class="form-group">
                                 <label>Địa chỉ giao hàng</label>
-                                <input type="text" class="form-control" name="shipping_address" 
-                                       value="<?= $orderData['shipping_address'] ?? '' ?>">
+                                <textarea class="form-control" name="shipping_address"><?php echo htmlspecialchars($orderData['shipping_address']); ?></textarea>
                             </div>
-
                             <div class="form-group">
                                 <label>Tổng tiền</label>
                                 <input type="number" class="form-control" name="total_amount" 
-                                       value="<?= $orderData['total_amount'] ?? 0 ?>">
+                                       value="<?php echo htmlspecialchars($orderData['total_amount']); ?>">
                             </div>
-
                             <div class="form-group">
                                 <label>Phương thức thanh toán</label>
                                 <select class="form-control" name="payment_method">
-                                    <option value="cod" <?= ($orderData['payment_method'] ?? '') == 'cod' ? 'selected' : '' ?>>
-                                        Thanh toán khi nhận hàng
-                                    </option>
-                                    <option value="bank_transfer" <?= ($orderData['payment_method'] ?? '') == 'bank_transfer' ? 'selected' : '' ?>>
-                                        Chuyển khoản
-                                    </option>
-                                    <option value="momo" <?= ($orderData['payment_method'] ?? '') == 'momo' ? 'selected' : '' ?>>
-                                        Ví MoMo
-                                    </option>
+                                    <option value="cod" <?php echo $orderData['payment_method'] == 'cod' ? 'selected' : ''; ?>>COD</option>
+                                    <option value="bank_transfer" <?php echo $orderData['payment_method'] == 'bank_transfer' ? 'selected' : ''; ?>>Chuyển khoản</option>
+                                    <option value="momo" <?php echo $orderData['payment_method'] == 'momo' ? 'selected' : ''; ?>>Ví MoMo</option>
                                 </select>
                             </div>
-
                             <div class="form-group">
                                 <label>Trạng thái thanh toán</label>
-                                <select class="form-control" name="payment_status">
-                                    <option value="pending" <?= ($orderData['payment_status'] ?? '') == 'pending' ? 'selected' : '' ?>>
-                                        Chờ thanh toán
-                                    </option>
-                                    <option value="completed" <?= ($orderData['payment_status'] ?? '') == 'completed' ? 'selected' : '' ?>>
-                                        Đã thanh toán
-                                    </option>
-                                    <option value="failed" <?= ($orderData['payment_status'] ?? '') == 'failed' ? 'selected' : '' ?>>
-                                        Thanh toán thất bại
-                                    </option>
+                                <select class="form-control" name="payment_status" id="payment_status">
+                                    <option value="pending" <?php echo $orderData['payment_status'] == 'pending' ? 'selected' : ''; ?>>Chờ thanh toán</option>
+                                    <option value="completed" <?php echo $orderData['payment_status'] == 'completed' ? 'selected' : ''; ?>>Đã thanh toán</option>
+                                    <option value="failed" <?php echo $orderData['payment_status'] == 'failed' ? 'selected' : ''; ?>>Thanh toán thất bại</option>
                                 </select>
                             </div>
-
                             <div class="form-group">
                                 <label>Trạng thái vận chuyển</label>
-                                <select class="form-control" name="shipping_status">
-                                    <option value="pending" <?= ($orderData['shipping_status'] ?? '') == 'pending' ? 'selected' : '' ?>>
-                                        Đang xử lý
-                                    </option>
-                                    <option value="shipped" <?= ($orderData['shipping_status'] ?? '') == 'shipped' ? 'selected' : '' ?>>
-                                        Đang giao hàng
-                                    </option>
-                                    <option value="delivered" <?= ($orderData['shipping_status'] ?? '') == 'delivered' ? 'selected' : '' ?>>
-                                        Đã giao hàng
-                                    </option>
-                                    <option value="canceled" <?= ($orderData['shipping_status'] ?? '') == 'canceled' ? 'selected' : '' ?>>
-                                        Đã hủy
-                                    </option>
+                                <select class="form-control" name="shipping_status" id="shipping_status">
+                                    <option value="pending" <?php echo $orderData['shipping_status'] == 'pending' ? 'selected' : ''; ?>>Đang xử lý</option>
+                                    <option value="shipped" <?php echo $orderData['shipping_status'] == 'shipped' ? 'selected' : ''; ?>>Đang giao hàng</option>
+                                    <option value="delivered" <?php echo $orderData['shipping_status'] == 'delivered' ? 'selected' : ''; ?>>Đã giao hàng</option>
+                                    <option value="canceled" <?php echo $orderData['shipping_status'] == 'canceled' ? 'selected' : ''; ?>>Đã hủy</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="box-footer">
-                            <button type="submit" name="submit" class="btn btn-primary">Cập nhật</button>
+                        <div class="box-footer mt-4 mb-4">
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
                             <a href="?act=orders" class="btn btn-default">Quay lại</a>
                         </div>
                     </form>
@@ -100,3 +77,43 @@
         </div>
     </section>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentStatus = document.getElementById('payment_status');
+    const shippingStatus = document.getElementById('shipping_status');
+
+    function handleStatusChange() {
+        // Nếu thanh toán thất bại
+        if (paymentStatus.value === 'failed') {
+            shippingStatus.value = 'canceled';
+            return;
+        }
+
+        // Nếu thanh toán hoàn tất
+        if (paymentStatus.value === 'completed') {
+            if (shippingStatus.value === 'pending' || shippingStatus.value === 'undefined') {
+                shippingStatus.value = 'shipped';
+            }
+            return;
+        }
+
+        // Nếu thanh toán khi nhận hàng
+        if (paymentStatus.value === 'cod') {
+            if (shippingStatus.value === 'pending' || shippingStatus.value === 'undefined') {
+                shippingStatus.value = 'shipped';
+            }
+            return;
+        }
+
+        // Kiểm tra điều kiện giao hàng
+        if (shippingStatus.value === 'delivered' && paymentStatus.value !== 'completed') {
+            alert('Trạng thái vận chuyển không thể là "Đã giao hàng" khi đơn hàng chưa thanh toán!');
+            shippingStatus.value = 'shipped';
+        }
+    }
+
+    shippingStatus.addEventListener('change', handleStatusChange);
+    paymentStatus.addEventListener('change', handleStatusChange);
+});
+</script>

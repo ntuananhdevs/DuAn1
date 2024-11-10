@@ -44,7 +44,8 @@
             <p><strong>Tổng cộng:</strong> <?= number_format($order['total_amount']) ?> vnđ</p>
         </div>
 
-        <button class="no-print" onclick="window.print()">In hóa đơn</button>
+        <button class="btn btn-primary" onclick="window.print()">In hóa đơn</button>
+        <a href="?act=orders" class="btn btn-primary">Quay Lại</a>
     </div>
 </body>
 </html>

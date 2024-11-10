@@ -12,54 +12,30 @@ class OrderModel {
                 SELECT o.*, u.user_name 
                 FROM Orders o
                 LEFT JOIN Users u ON o.user_id = u.id
-                ORDER BY o.created_at DESC
+                ORDER BY o.created_at ASC
             ");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getById($id) {
         try {
-
+            // Debug
             error_log("Getting order ID: " . $id);
 
-            $query = "
-                SELECT o.*, u.user_name 
-                FROM Orders o
-                LEFT JOIN Users u ON o.user_id = u.id 
-                WHERE o.id = :id
-            ";
-
+            $query = "SELECT * FROM Orders WHERE id = :id";
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
             
             $order = $stmt->fetch(PDO::FETCH_ASSOC);
             
+            // Debug kết quả
+            error_log("Query result: " . print_r($order, true));
+            
             if (!$order) {
-                error_log("Order not found for ID: " . $id);
+                error_log("No order found with ID: " . $id);
                 return null;
             }
-
-
-            error_log("Order found: " . print_r($order, true));
-
-            // Lấy chi tiết đơn hàng
-            $detailQuery = "
-                SELECT od.*, pv.sku, pv.price, p.name as product_name, pv.color, pv.size
-                FROM order_details od
-                JOIN product_variants pv ON od.product_variant_id = pv.id
-                JOIN products p ON pv.product_id = p.id
-                WHERE od.order_id = :order_id
-            ";
-            $detailStmt = $this->conn->prepare($detailQuery);
-            $detailStmt->bindParam(':order_id', $id);
-            $detailStmt->execute();
-            $orderDetails = $detailStmt->fetchAll(PDO::FETCH_ASSOC);
-
-            $order['details'] = $orderDetails;
-
-
-            error_log("Order details: " . print_r($orderDetails, true));
             
             return $order;
         } catch (Exception $e) {
@@ -67,11 +43,22 @@ class OrderModel {
             return null;
         }
     }
+    
+    public function delete($id) {
+        try {
+            $stmt = $this->conn->prepare("DELETE FROM orders WHERE id = :id");
+            $stmt->bindParam(':id', $id);
+            return $stmt->execute();
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 
     public function update($id, $data) {
         try {
             $sql = "UPDATE Orders SET 
                 user_id = ?,
+                guest_fullname = ?,
                 guest_email = ?,
                 guest_phone = ?,
                 payment_status = ?,
@@ -84,8 +71,9 @@ class OrderModel {
 
             $stmt = $this->conn->prepare($sql);
             
-            $stmt->execute([
+            $values = [
                 $data['user_id'],
+                $data['guest_fullname'],
                 $data['guest_email'],
                 $data['guest_phone'],
                 $data['payment_status'],
@@ -94,27 +82,21 @@ class OrderModel {
                 $data['payment_method'],
                 $data['shipping_address'],
                 $id
-            ]);
+            ];
+
+            $result = $stmt->execute($values);
             
-            if (!$stmt->rowCount()) {
-                header('Location: ?act=orders');
+            if (!$result) {
+                error_log("Update failed. Error: " . print_r($stmt->errorInfo(), true));
                 return false;
             }
             
-            return true;
+            return $stmt->rowCount() > 0;
         } catch (Exception $e) {
             error_log("Error in update: " . $e->getMessage());
             return false;
         }
     }
 
-    public function delete($id) {
-        try {
-            $stmt = $this->conn->prepare("DELETE FROM Orders WHERE id = :id");
-            $stmt->bindParam(':id', $id);
-            return $stmt->execute();
-        } catch (Exception $e) {
-            return false;
-        }
-    }
+    
 }

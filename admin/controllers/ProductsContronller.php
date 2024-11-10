@@ -307,20 +307,26 @@ class ProductsController
     }
     
     public function update_variants() {
-    
-        
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $variant_id = $_POST['variant_id'];
+            $variant_id = $_POST['variant_id'] ?? null;
+            $product_id = $_POST['product_id'] ?? null;
+    
+            if (!$variant_id || !$product_id) {
+                echo 'Thiếu ID sản phẩm hoặc ID biến thể';
+                return;
+            }
+    
             $color = $_POST['color'] ?? '';
             $ram = $_POST['ram'] ?? '';
             $storage = $_POST['storage'] ?? '';
             $quantity = $_POST['quantity'] ?? 0;
             $price = $_POST['price'] ?? 0;
-            
+    
             $this->products->updateVariant($variant_id, $color, $ram, $storage, $quantity, $price);
     
             if (isset($_FILES['image']['name']) && is_uploaded_file($_FILES['image']['tmp_name'])) {
-                $old_image = $_POST['old_image'];
+                $old_image = $_POST['old_image'] ?? '';
+    
                 if (!empty($old_image) && file_exists($old_image)) {
                     unlink($old_image);
                 }
@@ -331,9 +337,11 @@ class ProductsController
                 ];
                 $this->products->updateVariantImage($variant_id, $imageFile);
             }
-            $product_id = $_GET['product_id'];
-                header('Location: ?act=products');
+    
+            // Chuyển hướng tới trang chi tiết sản phẩm
+            header('Location: ?act=product_detail&id=' . $product_id);
             exit;
         }
     }
+    
 }

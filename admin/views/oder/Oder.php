@@ -83,13 +83,14 @@
                     </td>
                     <td>
                         <?php if($order['payment_status'] == 'completed' && $order['shipping_status'] == 'delivered'): ?>
-                            <a href="?act=print_bill&id=<?= $order['id'] ?>" class="btn btn-success" target="_blank">In</a>
+                            <a href="?act=print_bill&id=<?= $order['id'] ?>" class="btn btn-success">In</a>
                         <?php else: ?>
                             <a href="?act=edit_oder&id=<?= $order['id'] ?>" class="btn btn-warning">Sửa</a>
                             <a href="?act=delete_oder&id=<?= $order['id'] ?>" 
                                class="btn btn-danger"
                                onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?')">Xóa</a>
                         <?php endif; ?>
+                        <a href="?act=order_details&id=<?= $order['id'] ?>" class="btn btn-primary">Detail</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
