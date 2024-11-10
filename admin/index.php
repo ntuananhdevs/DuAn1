@@ -56,7 +56,7 @@
             'add_variant' => $products->viewAdd_variant(),
             'add_variants_post' => $products->add_variants(),
             'delete_variant' => $products->delete_variant($_GET['id']),
-            'update_variant' => $products->viewUpdate_variant(),
+            'update_variant' => $products->viewUpdate_variant($_GET['product_id']),
             'post_update_variants' => $products->update_variants(),
             'update_variant_post' => $products->update_variants(),
 
@@ -97,7 +97,7 @@
 
 
 
-
+            'logout' => $auth->logout(),
             default => $home->views_home(),
         };
         include '../admin/views/layout/footer.php';
