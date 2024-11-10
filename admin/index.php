@@ -93,8 +93,9 @@
             'delete_oder' => $oder->delete(),
             'print_bill' => $oder->print_bill(),
             #CRUD banner
-            'banner' => $banner->getBanner(),
-
+            'banner' => $banner->views_Banner(),
+            'view_add' => $banner-> views_add(),
+            'add-banner-post' => $banner->addBanner(),
 
 
 

@@ -1,5 +1,6 @@
 <div class="container">
     <h3 class="mb-0 h4 font-weight-bolder mb-4">Quản Lý BANNER</h3>
+    <a href="index.php?act=view_add" class="btn btn-primary mb-3">Thêm BANNER</a>
     <table class="table table-hover">
         <thead class="text-left">
             <tr>
