@@ -9,7 +9,7 @@
     require_once '../admin/controllers/UserController.php';
     require_once '../admin/controllers/CategoryController.php';
     require_once '../admin/controllers/OderController.php';
-
+    require_once '../admin/controllers/AuthController.php';
 
     #require Model
     require_once '../admin/models/Home.php';
@@ -18,7 +18,10 @@
     require_once '../admin/models/Comment.php';
     require_once '../admin/models/category.php';
     require_once '../admin/models/oder.php';
+    require_once '../admin/models/auth.php';
 
+
+    $auth = new AuthController();
     $home = new HomeController();
     $products = new ProductsController();
     $user = new UserController();
@@ -33,7 +36,7 @@
     if ($act == 'login') {
         $auth->login();
     } else {
-        // $auth->check_login();
+        $auth->check_login();
         include '../admin/views/layout/header.php';
         match ($act) {
             '/' => $home->views_home(),
@@ -53,7 +56,7 @@
             'add_variant' => $products->viewAdd_variant(),
             'add_variants_post' => $products->add_variants(),
             'delete_variant' => $products->delete_variant($_GET['id']),
-            'update_variant' => $products->viewUpdate_variant(),
+            'update_variant' => $products->viewUpdate_variant($_GET['product_id']),
             'post_update_variants' => $products->update_variants(),
             'update_variant_post' => $products->update_variants(),
 
@@ -81,16 +84,17 @@
             'view_comments' => $comment->viewComments($_GET['product_id'] ),
            
             #CRUD oder
-            'oders' => $oder->views_oder(),
-            'edit_oder' => $oder->views_edit(),
-            'update_oder' => $oder->edit(),
+            'orders' => $oder->views_oder(),
             'delete_oder' => $oder->delete(),
+            'print_bill' => $oder->print_bill(),
+            'edit_oder' => $oder->views_edit(),
+            'update_oder' => $oder->update(),
 
 
 
 
 
-
+            'logout' => $auth->logout(),
             default => $home->views_home(),
         };
         include '../admin/views/layout/footer.php';

@@ -1,0 +1,85 @@
+/* General Slideshow Container */
+.slideshow-container {
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    margin: auto;
+}
+
+.slide {
+    display: none;
+    width: 100%;
+    transition: opacity 0.5s ease;
+}
+
+.slide img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Navigation Buttons */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 0 3px 3px 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    user-select: none;
+    transform: translateY(-50%);
+    transition: background-color 0.3s;
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Dot Indicators */
+.dot {
+    height: 12px;
+    width: 12px;
+    margin: 0 4px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #717171;
+}
+
+/* Center Dots Below Slideshow */
+.slideshow-container + div {
+    text-align: center;
+    padding-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .prev, .next {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .dot {
+        height: 10px;
+        width: 10px;
+    }
+}

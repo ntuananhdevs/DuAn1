@@ -1,18 +1,3 @@
-<div class="container-fluid">
-    <!-- Hiển thị thông báo -->
-    <?php if(isset($_SESSION['error'])): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="fas fa-exclamation-circle"></i> <?= $_SESSION['error'] ?>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <?php unset($_SESSION['error']); ?>
-    <?php endif; ?>
-
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Sửa thông tin người dùng</h1>
-    </div>
 
     <div class="row">
         <div class="col-lg-8">

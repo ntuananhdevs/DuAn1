@@ -1,8 +1,18 @@
 <?php
     class HomeController
+
+
     {
+        public $homeModel;
+        public function __construct() {
+            $this->homeModel = new Home();
+        }
+
         public function view_home()
         {
-            include '../clients/views/home.php';
+            $banners = $this->homeModel->getBanner();
+            include './clients/views/home.php';
         }
     }
+
+    

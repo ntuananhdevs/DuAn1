@@ -1,8 +1,10 @@
     <h2 class="mb-0 h4 font-weight-bolder mb-4">Edit Variant</h2>
     <form action="?act=update_variant_post" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="variant_id" value="<?php echo $variant['id']; ?>">
-    <input type="hidden" name="old_image" value="<?php echo $variant['img']; ?>">
-        
+
+        <input type="hidden" name="variant_id" value="<?php echo $variant['id']; ?>">
+        <input type="hidden" name="old_image" value="<?php echo $variant['img']; ?>">
+        <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
+
         <div class="variant">
             <div class="color" style="display: flex; gap: 10px; align-items: center;">
                 <label class="form-label mb-0 font-weight-bolder">Chọn màu sắc:</label>

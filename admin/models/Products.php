@@ -102,32 +102,24 @@ class Products
 
     public function addProduct($name, $category, $description)
     {
-        try {
             $sql = "INSERT INTO Products (product_name, category_id, description) VALUES (?, ?, ?)";
             $stmt = $this->conn->prepare($sql);
             if ($stmt->execute([$name, $category, $description])) {
                 return $this->conn->lastInsertId();
             }
             return false;
-        } catch (PDOException $e) {
-            echo "Error adding product: " . $e->getMessage();
-            return false;
-        }
+       
     }
 
     public function add_variants($products_id, $color, $ram, $storage, $price, $quantity)
     {
-        try {
             $sql = "INSERT INTO Product_variants (product_id, color, ram, storage, price, quantity) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($sql);
             if ($stmt->execute([$products_id, $color, $ram, $storage, $price, $quantity])) {
                 return $this->conn->lastInsertId();
             }
             return false;
-        } catch (PDOException $e) {
-            echo "Error adding variant: " . $e->getMessage();
-            return false;
-        }
+        
     }
 
     public function add_Products_spect($products_id, $name, $value)
@@ -191,9 +183,11 @@ class Products
     }
     
     public function deletePrd($id){
-        $sql = "DELETE FROM products WHERE id = ?";
-        $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([$id]);
+            $sql = "DELETE FROM products WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([$id]);
+        
+        
     }
     
     public function updatePrd($id, $name, $category, $description) {
@@ -222,9 +216,11 @@ class Products
     }
     
     public function delete_variant($id) {
-        $sql = "DELETE FROM Product_variants WHERE id = ?";
-        $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([$id]);
+            $sql = "DELETE FROM Product_variants WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([$id]);
+        
+        
     }
     public function get_variant($id) {
         $sql = "SELECT Product_variants.*, Variants_img.img, Variants_img.is_default
@@ -289,9 +285,8 @@ class Products
             
             return $stmt->execute();
         }
-    
         return false;
     }
-    
-    
 }
+?>
+
