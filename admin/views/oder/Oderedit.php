@@ -67,7 +67,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="box-footer">
+                        <div class="box-footer mt-4 mb-4">
                             <button type="submit" class="btn btn-primary">Cập nhật</button>
                             <a href="?act=orders" class="btn btn-default">Quay lại</a>
                         </div>
