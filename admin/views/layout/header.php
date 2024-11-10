@@ -94,11 +94,11 @@ ob_start();
             <span class="nav-link-text ms-1">Product reviews</span>
           </a>
         </li>
+        
       </ul>
     </div>
   </aside>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-    <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
       <div class="container-fluid py-1 px-3">
         <?php
@@ -221,7 +221,7 @@ ob_start();
               </ul>
             </li>
             <li class="nav-item d-flex align-items-center">
-              <a href="../pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
+              <a href="#" class="nav-link text-body font-weight-bold px-0">
                 <i class="material-symbols-rounded">account_circle</i>
               </a>
             </li>
