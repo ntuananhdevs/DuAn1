@@ -61,9 +61,9 @@
                                 <label>Trạng thái vận chuyển</label>
                                 <select class="form-control" name="shipping_status" id="shipping_status">
                                     <option value="pending" <?php echo $orderData['shipping_status'] == 'pending' ? 'selected' : ''; ?>>Đang xử lý</option>
-                                    <option value="shipping" <?php echo $orderData['shipping_status'] == 'shipping' ? 'selected' : ''; ?>>Đang giao hàng</option>
+                                    <option value="shipped" <?php echo $orderData['shipping_status'] == 'shipped' ? 'selected' : ''; ?>>Đang giao hàng</option>
                                     <option value="delivered" <?php echo $orderData['shipping_status'] == 'delivered' ? 'selected' : ''; ?>>Đã giao hàng</option>
-                                    <option value="cancelled" <?php echo $orderData['shipping_status'] == 'cancelled' ? 'selected' : ''; ?>>Đã hủy</option>
+                                    <option value="canceled" <?php echo $orderData['shipping_status'] == 'canceled' ? 'selected' : ''; ?>>Đã hủy</option>
                                 </select>
                             </div>
                         </div>
@@ -83,14 +83,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const paymentStatus = document.getElementById('payment_status');
     const shippingStatus = document.getElementById('shipping_status');
 
-    function validateShippingStatus() {
+    function handleStatusChange() {
+        // Nếu thanh toán thất bại
+        if (paymentStatus.value === 'failed') {
+            shippingStatus.value = 'canceled';
+            return;
+        }
+
+        // Nếu thanh toán hoàn tất
+        if (paymentStatus.value === 'completed') {
+            if (shippingStatus.value === 'pending' || shippingStatus.value === 'undefined') {
+                shippingStatus.value = 'shipped';
+            }
+            return;
+        }
+
+        // Nếu thanh toán khi nhận hàng
+        if (paymentStatus.value === 'cod') {
+            if (shippingStatus.value === 'pending' || shippingStatus.value === 'undefined') {
+                shippingStatus.value = 'shipped';
+            }
+            return;
+        }
+
+        // Kiểm tra điều kiện giao hàng
         if (shippingStatus.value === 'delivered' && paymentStatus.value !== 'completed') {
             alert('Trạng thái vận chuyển không thể là "Đã giao hàng" khi đơn hàng chưa thanh toán!');
-            shippingStatus.value = 'shipping';
+            shippingStatus.value = 'shipped';
         }
     }
 
-    shippingStatus.addEventListener('change', validateShippingStatus);
-    paymentStatus.addEventListener('change', validateShippingStatus);
+    shippingStatus.addEventListener('change', handleStatusChange);
+    paymentStatus.addEventListener('change', handleStatusChange);
 });
 </script>

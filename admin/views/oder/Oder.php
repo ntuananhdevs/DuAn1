@@ -66,13 +66,13 @@
                             case 'pending': 
                                 echo '<span class="badge bg-warning">Chờ xử lý</span>';
                                 break;
-                            case 'shipping':
+                            case 'shipped':
                                 echo '<span class="badge bg-primary">Đang giao hàng</span>';
                                 break;
                             case 'delivered':
                                 echo '<span class="badge bg-success">Đã giao hàng</span>';
                                 break;
-                            case 'cancelled':
+                            case 'canceled':
                                 echo '<span class="badge bg-danger">Đã hủy</span>';
                                 break;
                             default:
