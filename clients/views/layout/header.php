@@ -21,19 +21,18 @@
             <div class="header-logo">
                 <div class="logo-header">
                     <a href="#">
-                        <img src="../public/img/header-img/ROG_normal.svg" alt="">
+                        <img src="../assets/img/logos/Apple_logo_black.svg" alt="">
                         <img src="../public/img/header-img/rog_hover.svg" alt="">
                     </a>
                 </div>
-                <div class="logo-header">
+                <div class="logo-header samsung">
                     <a href="#">
-                        <img src="../public/img/header-img/ProArt.svg" alt="">
-                        <img src="../public/img/header-img/art_hover.svg" alt="">
+                    <img src="../assets/img/logos/samsung.svg" alt="">
                     </a>
                 </div>
-                <div class="logo-header">
+                <div class="logo-header rog">
                     <a href="#">
-                        <img src="../public/img/header-img/ioT.svg" alt="">
+                        <img src="../assets/img/logos/rog_hover.svg" alt="">
                         <img src="../public/img/header-img/ioT_hover.svg" alt="">
                     </a>
                 </div>

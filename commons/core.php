@@ -31,6 +31,27 @@ function uploadFile($file, $folder)
         return null;
     }
 }
+function uploadFile2($file, $targetDir) {
+    // Kiểm tra xem tệp có được tải lên mà không có lỗi không
+    if ($file['error'] === UPLOAD_ERR_OK) {
+        // Làm sạch tên tệp
+        $fileName = basename($file['name']);
+        $targetFile = $targetDir . DIRECTORY_SEPARATOR . $fileName;
+        
+        // Kiểm tra xem thư mục đích có tồn tại không, nếu không sẽ tạo mới
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0777, true);
+        }
+
+        // Di chuyển tệp tải lên vào thư mục đích
+        if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+            return $fileName; // Trả về tên tệp
+        } else {
+            return false; // Không thể di chuyển tệp
+        }
+    }
+    return false; // Có lỗi khi tải lên tệp
+}
 
 
 function deleteFile($file)
