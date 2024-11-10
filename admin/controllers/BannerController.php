@@ -7,8 +7,8 @@ class BannerController {
 }
 
 public function getBanner() {
-    $banner = $this->bannerModel->getBanner();
-    require_once './views/Banner/banner.php';
+    $banners = $this->bannerModel->getBanner();
+    include './views/Banner/banner.php';
 }
 }
 ?> 

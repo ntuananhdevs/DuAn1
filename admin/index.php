@@ -10,9 +10,11 @@
     require_once '../admin/controllers/CategoryController.php';
     require_once '../admin/controllers/OderController.php';
     require_once '../admin/controllers/AuthController.php';
+    require_once '../admin/controllers/BannerController.php';
 
     #require Model
     require_once '../admin/models/Home.php';
+    require_once '../admin/models/Banner.php';
     require_once '../admin/models/products.php';
     require_once '../admin/models/user.php';
     require_once '../admin/models/Comment.php';
@@ -28,6 +30,7 @@
     $comment = new CommentController();
     $category = new CategoryController();
     $oder = new OderController();
+    $banner = new BannerController();
 
 
     // Route
@@ -89,6 +92,8 @@
             'update_oder' => $oder->edit(),
             'delete_oder' => $oder->delete(),
             'print_bill' => $oder->print_bill(),
+            #CRUD banner
+            'banner' => $banner->getBanner(),
 
 
 
