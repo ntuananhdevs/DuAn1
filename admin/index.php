@@ -89,9 +89,7 @@
             'print_bill' => $oder->print_bill(),
             'edit_oder' => $oder->views_edit(),
             'update_oder' => $oder->update(),
-            'order_details' => $oder->view_order_details(),
-            'update_order_item' => $oder->update_order_item(),
-            'delete_order_item' => $oder->delete_order_item(),
+            
 
             'logout' => $auth->logout(),
             default => $home->views_home(),
