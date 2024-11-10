@@ -51,7 +51,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Trạng thái thanh toán</label>
-                                <select class="form-control" name="payment_status">
+                                <select class="form-control" name="payment_status" id="payment_status">
                                     <option value="pending" <?php echo $orderData['payment_status'] == 'pending' ? 'selected' : ''; ?>>Chờ thanh toán</option>
                                     <option value="completed" <?php echo $orderData['payment_status'] == 'completed' ? 'selected' : ''; ?>>Đã thanh toán</option>
                                     <option value="failed" <?php echo $orderData['payment_status'] == 'failed' ? 'selected' : ''; ?>>Thanh toán thất bại</option>
@@ -59,7 +59,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Trạng thái vận chuyển</label>
-                                <select class="form-control" name="shipping_status">
+                                <select class="form-control" name="shipping_status" id="shipping_status">
                                     <option value="pending" <?php echo $orderData['shipping_status'] == 'pending' ? 'selected' : ''; ?>>Đang xử lý</option>
                                     <option value="shipping" <?php echo $orderData['shipping_status'] == 'shipping' ? 'selected' : ''; ?>>Đang giao hàng</option>
                                     <option value="delivered" <?php echo $orderData['shipping_status'] == 'delivered' ? 'selected' : ''; ?>>Đã giao hàng</option>
@@ -77,3 +77,20 @@
         </div>
     </section>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentStatus = document.getElementById('payment_status');
+    const shippingStatus = document.getElementById('shipping_status');
+
+    function validateShippingStatus() {
+        if (shippingStatus.value === 'delivered' && paymentStatus.value !== 'completed') {
+            alert('Trạng thái vận chuyển không thể là "Đã giao hàng" khi đơn hàng chưa thanh toán!');
+            shippingStatus.value = 'shipping';
+        }
+    }
+
+    shippingStatus.addEventListener('change', validateShippingStatus);
+    paymentStatus.addEventListener('change', validateShippingStatus);
+});
+</script>

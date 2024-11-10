@@ -90,6 +90,7 @@
                                class="btn btn-danger"
                                onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?')">Xóa</a>
                         <?php endif; ?>
+                        <a href="?act=order_details&id=<?= $order['id'] ?>" class="btn btn-info">Detail</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

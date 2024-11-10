@@ -4,12 +4,6 @@ class OrderModel {
 
     public function __construct() {
         $this->conn = connectDB();
-        // Debug kết nối
-        if ($this->conn) {
-            error_log("Database connection successful");
-        } else {
-            error_log("Database connection failed");
-        }
     }
 
     public function getAll() {
@@ -100,6 +94,60 @@ class OrderModel {
             return $stmt->rowCount() > 0;
         } catch (Exception $e) {
             error_log("Error in update: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function getOrderDetails($order_id) {
+        try {
+            $sql = "SELECT od.*, p.name as product_name, v.name as variant_name 
+                   FROM order_details od
+                   LEFT JOIN products p ON od.product_id = p.id
+                   LEFT JOIN product_variants v ON od.variant_id = v.id
+                   WHERE od.order_id = ?";
+            
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$order_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            error_log("Error in getOrderDetails: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function updateOrderDetail($detail_id, $quantity) {
+        try {
+            $sql = "UPDATE order_details SET quantity = ? WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([$quantity, $detail_id]);
+        } catch (Exception $e) {
+            error_log("Error in updateOrderDetail: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function updateOrderTotal($order_id) {
+        try {
+            $sql = "UPDATE orders SET total_amount = (
+                    SELECT SUM(price * quantity) 
+                    FROM order_details 
+                    WHERE order_id = ?
+                ) WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([$order_id, $order_id]);
+        } catch (Exception $e) {
+            error_log("Error in updateOrderTotal: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function deleteOrderDetail($detail_id) {
+        try {
+            $sql = "DELETE FROM order_details WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([$detail_id]);
+        } catch (Exception $e) {
+            error_log("Error in deleteOrderDetail: " . $e->getMessage());
             return false;
         }
     }
