@@ -36,7 +36,7 @@ ob_start();
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2" id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-dark opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand d-flex align-items-center px-4 py-3 m-0"  target="_blank" style="gap: 8px;">
+      <a class="navbar-brand d-flex align-items-center px-4 py-3 m-0" target="_blank" style="gap: 8px;">
         <img src="../assets/img/logo.png" class="navbar-brand-img" width="35" height="35" alt="main_logo">
         <span class="h5 font-weight-bolder" style="position: relative; top: 5px;">WinTech</span>
       </a>
@@ -62,16 +62,16 @@ ob_start();
             <span class="nav-link-text ms-1" style="position: relative; ">Products</span>
           </a>
         </li>
-        
+
         <li class="nav-item mt-1">
           <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'category' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=category">
-              <ion-icon name="albums-outline" size="small"></ion-icon>
-              <span class="nav-link-text ms-1" style="position: relative; ">Categories</span>
+            <ion-icon name="albums-outline" size="small"></ion-icon>
+            <span class="nav-link-text ms-1" style="position: relative; ">Categories</span>
           </a>
         </li>
         <li class="nav-item mt-1">
           <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'orders' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=orders">
-          <ion-icon name="cart-outline" size="small"></ion-icon>
+            <ion-icon name="cart-outline" size="small"></ion-icon>
             <span class="nav-link-text ms-1">Order management</span>
           </a>
         </li>
@@ -94,7 +94,7 @@ ob_start();
             <span class="nav-link-text ms-1">Product reviews</span>
           </a>
         </li>
-        
+
       </ul>
     </div>
   </aside>
@@ -221,11 +221,79 @@ ob_start();
               </ul>
             </li>
             <li class="nav-item d-flex align-items-center">
-              <a href="#" class="nav-link text-body font-weight-bold px-0">
+              <a href="#" class="nav-link text-body font-weight-bold px-0" id="accountIcon">
                 <i class="material-symbols-rounded">account_circle</i>
               </a>
+
+              <!-- Dropdown Menu -->
+              <div id="dropdownMenu" class="dropdown-menu-custom">
+                <a class="dropdown-item" href="?act=logout"><ion-icon name="log-out-outline"></ion-icon>Logout</a>
+              </div>
             </li>
           </ul>
         </div>
       </div>
     </nav>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const accountIcon = document.getElementById("accountIcon");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+
+    // Toggle dropdown visibility when the icon is clicked
+    accountIcon.addEventListener("click", function(event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
+        dropdownMenu.style.display = dropdownMenu.style.display === "none" ? "block" : "none";
+    });
+
+    // Close the dropdown if clicking outside of it
+    document.addEventListener("click", function(event) {
+        if (!accountIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+            dropdownMenu.style.display = "none";
+        }
+    });
+});
+
+    </script>
+
+    <style>
+      /* CSS cho dropdown menu */
+/* CSS cho dropdown menu */
+.dropdown-menu-custom {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    width: 150px;
+    z-index: 1000;
+
+}
+
+.dropdown-menu-custom a.dropdown-item {
+    display: flex; 
+    align-items: center; 
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    text-align: center  ;
+}
+
+.dropdown-item ion-icon {
+    margin-right: 8px; 
+    font-size: 1.2em; 
+    margin-left: 25px; 
+
+}
+
+/* Hiệu ứng hover */
+.dropdown-menu-custom a.dropdown-item:hover {
+    background-color: #f1f1f1;
+    color: #007bff;
+    border-radius: 5px;
+}
+
+
+    </style>
