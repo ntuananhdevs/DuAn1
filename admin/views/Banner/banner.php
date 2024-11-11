@@ -18,9 +18,8 @@
             <?php foreach ($banners as $banner) : ?>
                 <tr>
                     <td>
-                        <?php if ($banner['status'] == 'active') : ?>
+                    
                             <img src="../uploads/BannerIMG/<?= htmlspecialchars($banner['img_url']) ?>" style="width: 200px; height: 100px; border-radius: 5px; object-fit: cover;" alt="Banner Image">
-                        <?php endif; ?>
                     </td>
                     <td style="vertical-align: middle;"><?= htmlspecialchars($banner['title']); ?></td>
                     <td style="vertical-align: middle;"><?= htmlspecialchars($banner['description']) ?></td>
@@ -30,7 +29,7 @@
                         <?php
                             echo match($banner['status']) {
                                 'active' => '<span class="badge bg-success">Active</span>',
-                                'inactive' => '<span class="badge bg-primary">Inactive</span>',
+                                'inactive' => '<span class="badge bg-secondary">Inactive</span>',
                             
                             };
                         ?>

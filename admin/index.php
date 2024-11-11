@@ -99,6 +99,8 @@
             'banner' => $banner->views_Banner(),
             'view_add' => $banner->views_add(),
             'add-banner-post' => $banner->addBanner(),
+            'view_edit' => $banner->views_edit($_GET['id']),
+            'edit_banner' => $banner->editBanner($_GET['id']),
             'delete_banner' => $banner->deleteBanner($_GET['id']),
 
             'logout' => $auth->logout(),

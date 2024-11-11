@@ -1,46 +1,54 @@
-<div class="container">
-    <h3 class="mb-0 h4 font-weight-bolder mb-4">Quản Lý BANNER</h3>
+<form action="index.php?act=edit_banner&id=<?= $banner['id'] ?>" method="POST" enctype="multipart/form-data" class="p-4 border rounded bg-light">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" value="<?= htmlspecialchars($banner['title']) ?>" required class="form-control">
+    </div>
 
-    <a href="index.php?act=view_add" class="btn btn-primary mb-3">Thêm BANNER</a>
-    <table class="table table-hover">
-        <thead class="text-left">
-            <tr>
-                <th scope="col">Ảnh</th>
-                <th scope="col">Tên Ảnh</th>
-                <th scope="col">Mô Tả</th>
-                <th scope="col">Ngày Bắt Đầu</th>
-                <th scope="col">Ngày Kết Thúc</th>
-                <th scope="col">Trạng Thái</th>
-                <th scope="col">Thao Tác</th>
-            </tr>
-        </thead>
-        <tbody class="text-left">
-            <?php foreach ($banners as $banner) : ?>
-                <tr>
-                    <td>
-                        <?php if ($banner['status'] == 'active') : ?>
-                            <img src="../uploads/BannerIMG/<?= htmlspecialchars($banner['img_url']) ?>" style="width: 200px; height: 100px; border-radius: 5px; object-fit: cover;" alt="Banner Image">
-                        <?php endif; ?>
-                    </td>
-                    <td style="vertical-align: middle;"><?= htmlspecialchars($banner['title']); ?></td>
-                    <td style="vertical-align: middle;"><?= htmlspecialchars($banner['description']) ?></td>
-                    <td style="vertical-align: middle;"><?= date('d-m-Y H:i:s', strtotime($banner['start_date'])); ?></td>
-                    <td style="vertical-align: middle;"><?= $banner['end_date'] ? date('d-m-Y H:i:s', strtotime($banner['end_date'])) : 'N/A'; ?></td>
-                    <td style="vertical-align: middle;">
-                        <?php
-                            echo match($banner['status']) {
-                                'active' => '<span class="badge bg-success">Active</span>',
-                                'inactive' => '<span class="badge bg-primary">Inactive</span>',
-                            
-                            };
-                        ?>
-                    </td>
-                    <td style="vertical-align: middle;">
-                        <a href="index.php?act=view_edit&id=<?= htmlspecialchars($banner['id']) ?>" class="btn btn-primary mt-3">Edit</a>
-                        <a href="index.php?act=delete_banner&id=<?= htmlspecialchars($banner['id']) ?>" class="btn btn-danger mt-3" onclick="return confirm('Are you sure you want to delete this banner?');">Delete</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" class="form-control"><?= htmlspecialchars($banner['description']) ?></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="position">Position</label>
+        <select id="position" name="position" class="form-control">
+            <option value="homepage" <?= $banner['position'] === 'homepage' ? 'selected' : '' ?>>Homepage</option>
+            <option value="sidebar" <?= $banner['position'] === 'sidebar' ? 'selected' : '' ?>>Sidebar</option>
+            <option value="footer" <?= $banner['position'] === 'footer' ? 'selected' : '' ?>>Footer</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="start_date">Start Date</label>
+        <input type="datetime-local" id="start_date" name="start_date" 
+               value="<?= date('Y-m-d\TH:i', strtotime($banner['start_date'])) ?>" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="end_date">End Date</label>
+        <input type="datetime-local" id="end_date" name="end_date" 
+               value="<?= $banner['end_date'] ? date('Y-m-d\TH:i', strtotime($banner['end_date'])) : '' ?>" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" name="status" class="form-control">
+            <option selected disabled>Status</option>
+            <option value="1" <?= $banner['status'] == 'active' ? 'selected' : ''; ?>>Active</option>
+            <option value="2" <?= $banner['status'] == 'inactive' ? 'selected' : ''; ?>>Inactive</option>
+        </select>
+    </div>
+<br>
+    <div class="form-group">
+        <label for="img_url">Image</label>
+        <input type="file" id="img_url" name="img_url" class="form-control-file">
+        <?php if ($banner['img_url']): ?>
+            <div class="mt-2">
+                <img src="../uploads/BannerIMG/<?= $banner['img_url'] ?>" alt="Current Image" width="200px" class="img-thumbnail">
+              
+        <?php endif; ?>
+    </div>
+
+    <br>
+    <button type="submit" class="btn btn-primary">Update Banner</button>
+</form>
