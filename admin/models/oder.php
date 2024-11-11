@@ -4,12 +4,6 @@ class OrderModel {
 
     public function __construct() {
         $this->conn = connectDB();
-        // Debug kết nối
-        if ($this->conn) {
-            error_log("Database connection successful");
-        } else {
-            error_log("Database connection failed");
-        }
     }
 
     public function getAll() {
@@ -18,7 +12,7 @@ class OrderModel {
                 SELECT o.*, u.user_name 
                 FROM Orders o
                 LEFT JOIN Users u ON o.user_id = u.id
-                ORDER BY o.created_at DESC
+                ORDER BY o.created_at ASC
             ");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -103,4 +97,6 @@ class OrderModel {
             return false;
         }
     }
+
+    
 }

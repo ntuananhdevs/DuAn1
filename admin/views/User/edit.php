@@ -38,12 +38,12 @@
                                 <input type="hidden" name="old_avatar" value="<?= $user['avatar'] ?>">
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row ">
                             <div class="col-sm-9 offset-sm-3">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary mt-3">
                                     <i class="fas fa-save"></i> Cập nhật
                                 </button>
-                                <a href="index.php?act=users" class="btn btn-secondary">
+                                <a href="index.php?act=users" class="btn btn-secondary mt-3 ">
                                     <i class="fas fa-times"></i> Hủy
                                 </a>
                             </div>

@@ -66,13 +66,13 @@
                             case 'pending': 
                                 echo '<span class="badge bg-warning">Chờ xử lý</span>';
                                 break;
-                            case 'shipping':
+                            case 'shipped':
                                 echo '<span class="badge bg-primary">Đang giao hàng</span>';
                                 break;
                             case 'delivered':
                                 echo '<span class="badge bg-success">Đã giao hàng</span>';
                                 break;
-                            case 'cancelled':
+                            case 'canceled':
                                 echo '<span class="badge bg-danger">Đã hủy</span>';
                                 break;
                             default:
@@ -90,6 +90,7 @@
                                class="btn btn-danger"
                                onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?')">Xóa</a>
                         <?php endif; ?>
+                        <a href="?act=order_details&id=<?= $order['id'] ?>" class="btn btn-primary">Detail</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

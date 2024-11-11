@@ -8,7 +8,7 @@ ob_start();
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/logo2.png">
+  <link rel="icon" type="image/png" href="../assets/img/logo.png">
   <title>
     Admin
   </title>
@@ -57,25 +57,17 @@ ob_start();
           </a>
         </li>
         <li class="nav-item mt-1">
+          <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'banner' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=banner">
+            <ion-icon name="images-outline" size="small"></ion-icon>
+            <span class="nav-link-text ms-1">Banner</span>
+          </a>
+        </li>
+        <li class="nav-item mt-1">
           <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'products' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=products">
             <i class="material-symbols-rounded opacity-5">table_view</i>
             <span class="nav-link-text ms-1" style="position: relative; ">Products</span>
           </a>
         </li>
-
-        <li class="nav-item mt-1">
-          <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'category' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=category">
-            <ion-icon name="albums-outline" size="small"></ion-icon>
-            <span class="nav-link-text ms-1" style="position: relative; ">Categories</span>
-          </a>
-        </li>
-        <li class="nav-item mt-1">
-          <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'orders' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=orders">
-            <ion-icon name="cart-outline" size="small"></ion-icon>
-            <span class="nav-link-text ms-1">Order management</span>
-          </a>
-        </li>
-
         <li class="nav-item mt-1">
           <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'Discount' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=Discount">
             <ion-icon name="receipt-outline" size="small"></ion-icon>
@@ -83,15 +75,22 @@ ob_start();
           </a>
         </li>
         <li class="nav-item mt-1">
-          <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'banner' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=banner">
-            <ion-icon name="images-outline" size="small"></ion-icon>
-            <span class="nav-link-text ms-1">Banner</span>
+          <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'category' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=category">
+            <ion-icon name="albums-outline" size="small"></ion-icon>
+            <span class="nav-link-text ms-1" style="position: relative; ">Categories</span>
           </a>
         </li>
         <li class="nav-item mt-2">
           <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'comments' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=comments">
             <ion-icon name="chatbox-ellipses-outline" size="small"></ion-icon>
             <span class="nav-link-text ms-1">Product reviews</span>
+          </a>
+        </li>
+
+        <li class="nav-item mt-1">
+          <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'orders' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=orders">
+            <ion-icon name="cart-outline" size="small"></ion-icon>
+            <span class="nav-link-text ms-1">Order management</span>
           </a>
         </li>
 
@@ -235,65 +234,62 @@ ob_start();
       </div>
     </nav>
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-    const accountIcon = document.getElementById("accountIcon");
-    const dropdownMenu = document.getElementById("dropdownMenu");
+      document.addEventListener("DOMContentLoaded", function() {
+        const accountIcon = document.getElementById("accountIcon");
+        const dropdownMenu = document.getElementById("dropdownMenu");
 
-    // Toggle dropdown visibility when the icon is clicked
-    accountIcon.addEventListener("click", function(event) {
-        event.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
-        dropdownMenu.style.display = dropdownMenu.style.display === "none" ? "block" : "none";
-    });
+        // Toggle dropdown visibility when the icon is clicked
+        accountIcon.addEventListener("click", function(event) {
+          event.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
+          dropdownMenu.style.display = dropdownMenu.style.display === "none" ? "block" : "none";
+        });
 
-    // Close the dropdown if clicking outside of it
-    document.addEventListener("click", function(event) {
-        if (!accountIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+        // Close the dropdown if clicking outside of it
+        document.addEventListener("click", function(event) {
+          if (!accountIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
             dropdownMenu.style.display = "none";
-        }
-    });
-});
-
+          }
+        });
+      });
     </script>
 
     <style>
       /* CSS cho dropdown menu */
-/* CSS cho dropdown menu */
-.dropdown-menu-custom {
-    display: none;
-    position: absolute;
-    top: 40px;
-    right: 0;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    width: 150px;
-    z-index: 1000;
+      /* CSS cho dropdown menu */
+      .dropdown-menu-custom {
+        display: none;
+        position: absolute;
+        top: 40px;
+        right: 0;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        width: 150px;
+        z-index: 1000;
 
-}
+      }
 
-.dropdown-menu-custom a.dropdown-item {
-    display: flex; 
-    align-items: center; 
-    padding: 10px;
-    color: #333;
-    text-decoration: none;
-    text-align: center  ;
-}
+      .dropdown-menu-custom a.dropdown-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        color: #333;
+        text-decoration: none;
+        text-align: center;
+      }
 
-.dropdown-item ion-icon {
-    margin-right: 8px; 
-    font-size: 1.2em; 
-    margin-left: 25px; 
+      .dropdown-item ion-icon {
+        margin-right: 8px;
+        font-size: 1.2em;
+        margin-left: 25px;
 
-}
+      }
 
-/* Hiệu ứng hover */
-.dropdown-menu-custom a.dropdown-item:hover {
-    background-color: #f1f1f1;
-    color: #007bff;
-    border-radius: 5px;
-}
-
-
+      /* Hiệu ứng hover */
+      .dropdown-menu-custom a.dropdown-item:hover {
+        background-color: #f1f1f1;
+        color: #007bff;
+        border-radius: 5px;
+      }
     </style>

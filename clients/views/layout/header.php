@@ -13,6 +13,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    
 </head>
 
 <body>
@@ -20,19 +21,18 @@
             <div class="header-logo">
                 <div class="logo-header">
                     <a href="#">
-                        <img src="../public/img/header-img/ROG_normal.svg" alt="">
+                        <img src="../assets/img/logos/Apple_logo_black.svg" alt="">
                         <img src="../public/img/header-img/rog_hover.svg" alt="">
                     </a>
                 </div>
-                <div class="logo-header">
+                <div class="logo-header samsung">
                     <a href="#">
-                        <img src="../public/img/header-img/ProArt.svg" alt="">
-                        <img src="../public/img/header-img/art_hover.svg" alt="">
+                    <img src="../assets/img/logos/samsung.svg" alt="">
                     </a>
                 </div>
-                <div class="logo-header">
+                <div class="logo-header rog">
                     <a href="#">
-                        <img src="../public/img/header-img/ioT.svg" alt="">
+                        <img src="../assets/img/logos/rog_hover.svg" alt="">
                         <img src="../public/img/header-img/ioT_hover.svg" alt="">
                     </a>
                 </div>
@@ -48,7 +48,7 @@
         <div class="nav-menu ">
             <div class="logo-nav">
                 <a href="?act=/">
-                    <img src="../public/img/header-img/AsusTek.png" alt="">
+                    <img src="../assets/img/logo.png" alt="">
                 </a>
             </div>
             <div class="nav-center">
@@ -71,7 +71,7 @@
                     <div class="search-overlay" id="searchOverlay">
                         <div class="search-nav">
                             <div class="inputsearch">
-                                <ion-icon name="search-outline"></ion-icon>
+                            <ion-icon name="search-outline" size="large"></ion-icon>
                                 <form method="GET" action="?act=search">
                                     <input type="text" name="search" placeholder="Tìm kiếm" value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
                                     <input type="hidden" name="act" value="search">

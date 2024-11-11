@@ -45,8 +45,6 @@ class AuthController {
                     }
                 }
             }
-    
-            // Hiển thị form đăng nhập
             require '../admin/auth/login.php';
         } catch (Exception $e) {
             echo $e->getMessage();
