@@ -66,6 +66,8 @@
                 </div>
                 <div class="icon-nav">
                     <ion-icon name="search-outline" id="searchIcon"></ion-icon>
+                    <ion-icon name="cart-outline"></ion-icon>
+
                     <div class="search-overlay" id="searchOverlay">
                         <div class="search-nav">
                             <div class="inputsearch">
@@ -87,6 +89,7 @@
                         </div>
                     </div>
                     <div class="dropdown">
+                        
                         <a href="#" id="userIcon"><ion-icon name="person-outline"></ion-icon></a>
                         <div class="dropdown-menu">
 
