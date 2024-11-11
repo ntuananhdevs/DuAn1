@@ -41,7 +41,7 @@
 <br>
     <div class="form-group">
         <label for="img_url">Image</label>
-        <input type="file" id="img_url" name="img_url" class="form-control-file">
+        <input type="file" id="img_url" name="img_url"  class="form-control" >
         <?php if ($banner['img_url']): ?>
             <div class="mt-2">
                 <img src="../uploads/BannerIMG/<?= $banner['img_url'] ?>" alt="Current Image" width="200px" class="img-thumbnail">

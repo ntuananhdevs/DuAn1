@@ -26,7 +26,7 @@
                 <!-- Hình ảnh -->
                 <div class="form-group">
                     <label>Hình ảnh</label>
-                    <input type="file" name="img_url" class="form-control"  required>
+                    <input class="form-control" type="file" name="img_url"  required>
                 </div>
                 
                 <!-- Vị trí -->
