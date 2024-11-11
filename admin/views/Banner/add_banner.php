@@ -2,19 +2,7 @@
 
 <div class="container-fluid">
     <!-- Hiển thị thông báo thành công hoặc lỗi -->
-    <?php if (isset($_SESSION['error'])): ?>
-        <div class="alert alert-danger">
-            <?= $_SESSION['error'] ?>
-        </div>
-        <?php unset($_SESSION['error']); ?>
-    <?php endif; ?>
-
-    <?php if (isset($_SESSION['success'])): ?>
-        <div class="alert alert-success">
-            <?= $_SESSION['success'] ?>
-        </div>
-        <?php unset($_SESSION['success']); ?>
-    <?php endif; ?>
+   
 
     <div class="card">
         <div class="card-header">
@@ -26,7 +14,7 @@
                 <!-- Tiêu đề -->
                 <div class="form-group">
                     <label>Tiêu đề</label>
-                    <input type="text" name="title" class="form-control" required>
+                    <input type="text" name="title" class="form-control" >
                 </div>
                 
                 <!-- Mô tả -->
@@ -70,7 +58,7 @@
                 
                 <br>
                 <br>
-                <button type="submit" class="btn btn-primary">Thêm mới</button>
+                <button type="submit" class="btn btn-primary">Add Banner</button>
                 <a href="index.php?act=banners" class="btn btn-secondary">Hủy</a>
             </form>
         </div>
