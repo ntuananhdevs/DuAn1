@@ -4,6 +4,7 @@
     max-width: 100%;
     overflow: hidden;
     margin: auto;
+    margin-top: 10px;
 }
 
 .slide {
@@ -15,7 +16,6 @@
 .slide img {
     width: 100%;
     height: auto;
-    border-radius: 8px;
 }
 
 .active {
