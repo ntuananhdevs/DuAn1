@@ -92,6 +92,8 @@
             'print_bill' => $oder->print_bill(),
             'edit_oder' => $oder->views_edit(),
             'update_oder' => $oder->update(),
+            'order_details' => $oder->view_details(),
+            
             
             #CRUD banner
             'banner' => $banner->views_Banner(),

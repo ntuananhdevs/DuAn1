@@ -116,6 +116,26 @@ class OderController {
         }
     }
 
-    
+    public function view_details() {
+        try {
+            if (!isset($_GET['id'])) {
+                throw new Exception("Không tìm thấy ID đơn hàng");
+            }
+
+            $orderId = (int)$_GET['id'];
+            $order = $this->OrderModel->getOrderWithDetails($orderId);
+            
+            if (!$order) {
+                throw new Exception("Không tìm thấy thông tin đơn hàng");
+            }
+
+            include '../admin/views/oder/OrderDetails.php';
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Lỗi: " . $e->getMessage();
+            header('Location: ?act=orders');
+            exit;
+        }
+    }
+
 }
 ?>
