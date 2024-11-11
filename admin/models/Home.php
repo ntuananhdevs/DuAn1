@@ -51,4 +51,26 @@ class Home
             echo $e->getMessage();
         }
     }
+    public function getCategoryProductCounts() {
+        $query = "SELECT 
+                    Category.category_name,
+                    COUNT(Products.id) AS product_count
+                FROM 
+                    Category
+                LEFT JOIN 
+                    Products ON Category.id = Products.category_id
+                GROUP BY 
+                    Category.category_name;
+        ";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        $results = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $results[] = $row;
+        }
+
+        return $results;
+    }
 }

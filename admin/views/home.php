@@ -84,24 +84,27 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-4 col-md-6 mt-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h6 class="mb-0 ">Website Views</h6>
-              <p class="text-sm ">Last Campaign Performance</p>
-              <div class="pe-2">
-                <div class="chart">
-                  <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
-                </div>
-              </div>
-              <hr class="dark horizontal">
-              <div class="d-flex ">
-                <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
-                <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
-              </div>
-            </div>
-          </div>
+
+      <div class="col-lg-4 col-md-6 mt-4 mb-4">
+  <div class="card">
+    <div class="card-body">
+      <h6 class="mb-0">Product Count by Category</h6>
+      <p class="text-sm">Displays the count of products in each category</p>
+      <div class="pe-2">
+        <div class="chart">
+          <!-- Thêm phần tử canvas với id="categoryChart" -->
+          <canvas id="categoryChart" height="170"></canvas>
         </div>
+      </div>
+      <hr class="dark horizontal">
+      <div class="d-flex">
+        <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+        <p class="mb-0 text-sm">Updated just now</p>
+      </div>
+    </div>
+  </div>
+</div>
+
         <div class="col-lg-4 col-md-6 mt-4 mb-4">
           <div class="card ">
             <div class="card-body">
@@ -259,3 +262,55 @@
         </div>
       </footer>
     </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Kiểm tra dữ liệu JSON từ PHP sang JavaScript
+    const chartData = <?php echo $chartData; ?>;
+
+    if (Array.isArray(chartData)) {
+        const labels = chartData.map(item => item.category_name); // Tên danh mục
+        const data = chartData.map(item => item.product_count); // Số lượng sản phẩm
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const chartContext = document.getElementById('categoryChart')?.getContext('2d');
+
+            if (!chartContext) {
+                console.error("Không tìm thấy phần tử canvas với id 'categoryChart'");
+                return;
+            }
+
+            new Chart(chartContext, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'So luong san pham',
+                        tension: 0.4,
+                        data: data,
+                        pointBackgroundColor: "#43A047",
+                        pointBorderColor: "transparent",
+                        backgroundColor: "#43A047",
+                        borderColor: '#43A047',
+                        borderWidth: 0,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                        pointRadius: 3,
+                        pointBackgroundColor: "#43A047",
+                        fill: true,
+
+                      }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    } else {
+        console.error("chartData không phải là mảng:", chartData);
+    }
+</script>

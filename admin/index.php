@@ -43,6 +43,7 @@
         include '../admin/views/layout/header.php';
         match ($act) {
             '/' => $home->views_home(),
+
             #CRUD product
             'products' => $products->views_products(),
             'add-product' => $products->views_add(),
