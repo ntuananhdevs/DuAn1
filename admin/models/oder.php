@@ -109,20 +109,23 @@ class OrderModel {
     
     public function getOrderWithDetails($orderId) {
         try {
-            // Lấy thông tin đơn hàng và chi tiết sản phẩm
             $sql = "SELECT o.*, 
                            od.quantity as order_quantity, 
                            od.subtotal,
                            p.product_name,
-                           p.img,
+                           CONCAT('../uploads/Products/', p.img) as product_img,
                            pv.color,
                            pv.ram,
                            pv.storage,
-                           pv.price as variant_price
+                           pv.price as variant_price,
+                           vi.id as variant_img_id,
+                           CONCAT('../uploads/Products/', vi.img) as variant_img,
+                           vi.is_default
                     FROM Orders o
                     JOIN order_details od ON o.id = od.order_id
                     JOIN product_variants pv ON od.product_variant_id = pv.id
                     JOIN products p ON pv.product_id = p.id
+                    LEFT JOIN variants_img vi ON pv.id = vi.variant_id
                     WHERE o.id = :order_id";
                     
             $stmt = $this->conn->prepare($sql);
@@ -136,7 +139,7 @@ class OrderModel {
                 return null;
             }
 
-            // Định dạng lại dữ liệu
+            // Sửa phần định dạng dữ liệu trong mảng products
             $order = [
                 'order_info' => [
                     'id' => $result[0]['id'],
@@ -160,7 +163,12 @@ class OrderModel {
             foreach ($result as $row) {
                 $order['products'][] = [
                     'product_name' => $row['product_name'],
-                    'img' => $row['img'],
+                    'product_img' => $row['product_img'],
+                    'variant_img' => [
+                        'id' => $row['variant_img_id'],
+                        'img' => $row['variant_img'],
+                        'is_default' => $row['is_default']
+                    ],
                     'color' => $row['color'],
                     'ram' => $row['ram'],
                     'storage' => $row['storage'],

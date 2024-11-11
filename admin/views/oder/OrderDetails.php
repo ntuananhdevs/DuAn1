@@ -37,7 +37,13 @@
                         <?php foreach ($order['products'] as $product): ?>
                         <tr>
                             <td><?= $product['product_name'] ?></td>
-                            <td><img src="<?= $product['img'] ?>" width="50" height="50" alt=""></td>
+                            <td>
+                                <?php if ($product['variant_img']['img']): ?>
+                                    <img src="<?= $product['variant_img']['img'] ?>" width="50" height="50" alt="Ảnh variant">
+                                <?php else: ?>
+                                    <img src="<?= $product['product_img'] ?>" width="50" height="50" alt="Ảnh sản phẩm">
+                                <?php endif; ?>
+                            </td>
                             <td>
                                 <?php if($product['color']): ?>Màu: <?= $product['color'] ?><br><?php endif; ?>
                                 <?php if($product['ram']): ?>RAM: <?= $product['ram'] ?><br><?php endif; ?>
