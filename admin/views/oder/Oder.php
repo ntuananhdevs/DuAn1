@@ -2,13 +2,6 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h3 class="mb-0 h4 font-weight-bolder">Đơn hàng</h3>
     </div>
-    <?php if (isset($_SESSION['success'])): ?>
-        <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
-    <?php endif; ?>
-
-    <?php if (isset($_SESSION['error'])): ?>
-        <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
-    <?php endif; ?>
     <table class="table table-hover" id="dataTable">
         <thead class="thead-light">
             <tr>
