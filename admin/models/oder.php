@@ -119,7 +119,7 @@ class OrderModel {
                            pv.storage,
                            pv.price as variant_price,
                            vi.id as variant_img_id,
-                           CONCAT('../uploads/Products/', vi.img) as variant_img,
+                           vi.img as variant_img,
                            vi.is_default
                     FROM Orders o
                     JOIN order_details od ON o.id = od.order_id
