@@ -34,7 +34,7 @@ class CommentController
      public function deleteComment($commentId)
     {
         $this->commentModel->deleteComment($commentId);
-        header("Location: index.php?act=comments");
+        header("Location: ?act=comments");
         exit();
     }
 }

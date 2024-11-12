@@ -1,6 +1,15 @@
 <div class="container">
   <h3 class="mb-0 h4 font-weight-bolder mb-4">Products</h3>
-  <a href="?act=add-product" class="btn btn-primary">Add Product</a>
+  <div class="search d-flex gap-3 align-items-center p-2">
+    <a href="?act=add-product" class="btn btn-primary w-10 mt-2">Add Product</a>
+    <form action="?act=search-product" method="GET" class="position-relative">
+        <input type="text" class="form-control mb-2 pr-5" id="search" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+        <button type="submit" class="btn btn-primary search-btn">
+            <ion-icon name="search"></ion-icon>
+        </button>
+    </form>
+</div>
+
   <table class="table">
     <thead>
       <tr>
@@ -17,6 +26,7 @@
       </tr>
     </thead>
     <tbody>
+      
       <?php foreach ($listProducts as $key => $value) : ?>
         <tr>
           <td><?php echo $value['ID'] ?></td>
@@ -72,7 +82,6 @@
 <?php endif; ?>
 
 <style>
-  /* Hiệu ứng slide vào từ phải */
   .slide-in {
     transform: translateX(100%);
     animation: slideIn 0.5s forwards;
@@ -137,3 +146,31 @@
     window.location.href = `?act=delete_product&id=${productId}`;
   }
 </script>
+<style>
+/* Đặt button bên trong input */
+.position-relative {
+    position: relative;
+}
+
+/* Định dạng nút search */
+.search-btn {
+    position: absolute;
+    right: 0px;
+    top: 41%;
+    transform: translateY(-50%);
+    padding: 10.5px 18px;
+    border-radius: 2px 4px 4px 2px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Khoảng cách padding cho input để không chồng lên button */
+#search {
+    padding-right: 40px;
+}
+
+</style>

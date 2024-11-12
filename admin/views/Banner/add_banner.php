@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <!-- Form để thêm mới banner -->
-            <form action="index.php?act=add-banner-post" method="POST" enctype="multipart/form-data">
+            <form action="?act=add-banner-post" method="POST" enctype="multipart/form-data">
                 <!-- Tiêu đề -->
                 <div class="form-group">
                     <label>Tiêu đề</label>
@@ -59,7 +59,7 @@
                 <br>
                 <br>
                 <button type="submit" class="btn btn-primary">Add Banner</button>
-                <a href="index.php?act=banners" class="btn btn-secondary">Hủy</a>
+                <a href="?act=banners" class="btn btn-secondary">Hủy</a>
             </form>
         </div>
     </div>

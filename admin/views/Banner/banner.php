@@ -1,7 +1,7 @@
 <div class="container">
     <h3 class="mb-0 h4 font-weight-bolder mb-4">Quản Lý BANNER</h3>
 
-    <a href="index.php?act=view_add" class="btn btn-primary mb-3">Thêm BANNER</a>
+    <a href="?act=view_add" class="btn btn-primary mb-3">Thêm BANNER</a>
     <table class="table table-hover">
         <thead class="text-left">
             <tr>
@@ -35,8 +35,8 @@
                         ?>
                     </td>
                     <td style="vertical-align: middle;">
-                        <a href="index.php?act=view_edit&id=<?= htmlspecialchars($banner['id']) ?>" class="btn btn-primary mt-3">Edit</a>
-                        <a href="index.php?act=delete_banner&id=<?= htmlspecialchars($banner['id']) ?>" class="btn btn-danger mt-3" onclick="return confirm('Are you sure you want to delete this banner?');">Delete</a>
+                        <a href="?act=view_edit&id=<?= htmlspecialchars($banner['id']) ?>" class="btn btn-primary mt-3">Edit</a>
+                        <a href="?act=delete_banner&id=<?= htmlspecialchars($banner['id']) ?>" class="btn btn-danger mt-3" onclick="return confirm('Are you sure you want to delete this banner?');">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
