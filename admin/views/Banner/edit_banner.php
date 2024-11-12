@@ -1,4 +1,4 @@
-<form action="index.php?act=edit_banner&id=<?= $banner['id'] ?>" method="POST" enctype="multipart/form-data" class="p-4 border rounded bg-light">
+<form action="?act=edit_banner&id=<?= $banner['id'] ?>" method="POST" enctype="multipart/form-data" class="p-4 border rounded bg-light">
     <div class="form-group">
         <label for="title">Title</label>
         <input type="text" id="title" name="title" value="<?= htmlspecialchars($banner['title']) ?>" required class="form-control">

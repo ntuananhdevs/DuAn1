@@ -18,7 +18,7 @@ class CategoryController {
             $category_name = $_POST['category_name'];
             $description = $_POST['description'];
             $this->categoryModel->add($category_name, $description);
-            header("Location: index.php?act=category");
+            header("Location: ?act=category");
         } else {
             require_once './views/Category/add_category.php';
         }
@@ -29,7 +29,7 @@ class CategoryController {
             $category_name = $_POST['category_name'];
             $description = $_POST['description'];
             $this->categoryModel->update($id, $category_name, $description);
-            header("Location: index.php?act=category");
+            header("Location: ?act=category");
         } else {
             $category = $this->categoryModel->categorybyid($id);
             require_once './views/Category/edit_category.php';
@@ -38,6 +38,6 @@ class CategoryController {
 
     public function deleteCategory($id) {
         $this->categoryModel->delete($id);
-        header("Location: index.php?act=category");
+        header("Location: ?act=category");
     }
 }

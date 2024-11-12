@@ -58,7 +58,7 @@ class BannerController
     
           
             if ($this->bannerModel->create($title, $description, $uploadedFile, $position, $start_date, $end_date, $status)) {
-                header('Location: index.php?act=banner');
+                header('Location: ?act=banner');
                 exit; 
                 echo "Không thể tạo banner mới.";
             }
@@ -71,7 +71,7 @@ class BannerController
             $existingBanner = $this->bannerModel->getBannerById($id);
             if (!$existingBanner) {
                 $_SESSION['error'] = "Banner không tồn tại.";
-                header('Location: index.php?act=banner');
+                header('Location: ?act=banner');
                 exit;
             }
     
@@ -104,7 +104,7 @@ class BannerController
     
             if ($this->bannerModel-> update($id, $title, $description, $img_url, $position, $start_date, $end_date, $status)) {
                 $_SESSION['success'] = "Cập nhật banner thành công!";
-                header('Location: index.php?act=banner');
+                header('Location: ?act=banner');
                 exit;
             } else {
                 $_SESSION['error'] = "Cập nhật banner thất bại.";
@@ -114,7 +114,7 @@ class BannerController
             $banner = $this->bannerModel->getBannerById($id);
             if (!$banner) {
                 $_SESSION['error'] = "Banner không tồn tại.";
-                header('Location: index.php?act=banner');
+                header('Location: ?act=banner');
                 exit;
             }
             return $banner;
@@ -130,7 +130,7 @@ class BannerController
             $id = $_GET['id'];
             $this->bannerModel->delete($id);
             header('Location: index.php?act=banner');
-            exit;
+            exit; // Sau khi chuyển hướng, dừng script lại
         }
     }
 }
