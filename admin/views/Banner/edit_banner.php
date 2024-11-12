@@ -34,8 +34,8 @@
         <label for="status">Status</label>
         <select id="status" name="status" class="form-control">
             <option selected disabled>Status</option>
-            <option value="1" <?= $banner['status'] == 'active' ? 'selected' : ''; ?>>Active</option>
-            <option value="2" <?= $banner['status'] == 'inactive' ? 'selected' : ''; ?>>Inactive</option>
+            <option value="active" <?= $banner['status'] == 'active' ? 'selected' : ''; ?>>Active</option>
+            <option value="inactive" <?= $banner['status'] == 'inactive' ? 'selected' : ''; ?>>Inactive</option>
         </select>
     </div>
 <br>
@@ -52,3 +52,22 @@
     <br>
     <button type="submit" class="btn btn-primary">Update Banner</button>
 </form>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const startDateInput = document.getElementById("start_date");
+    const endDateInput = document.getElementById("end_date");
+
+    function validateDates() {
+        const startDate = new Date(startDateInput.value);
+        const endDate = new Date(endDateInput.value);
+
+        if (endDate && startDate && endDate <= startDate) {
+            alert("Ngày kết thúc phải sau ngày bắt đầu");
+            endDateInput.value = "";  // Clear invalid date
+        }
+    }
+
+    startDateInput.addEventListener("change", validateDates);
+    endDateInput.addEventListener("change", validateDates);
+});
+</script>
