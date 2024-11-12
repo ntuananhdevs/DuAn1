@@ -137,5 +137,70 @@ class OderController {
         }
     }
 
+    public function views_edit_details() {
+        try {
+            if (!isset($_GET['id'])) {
+                throw new Exception("Không tìm thấy ID đơn hàng");
+            }
+
+            $orderId = (int)$_GET['id'];
+            $order = $this->OrderModel->getOrderWithDetails($orderId);
+            
+            if (!$order) {
+                throw new Exception("Không tìm thấy thông tin đơn hàng");
+            }
+
+            include '../admin/views/oder/Orderdetailsedit.php';
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Lỗi: " . $e->getMessage();
+            header('Location: ?act=orders');
+            exit;
+        }
+    }
+
+    public function update_details() {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                throw new Exception("Phương thức không hợp lệ");
+            }
+
+            $orderId = (int)$_POST['order_id'];
+            $details = [
+                'total_amount' => 0,
+                'products' => []
+            ];
+
+            foreach ($_POST['products'] as $product) {
+                $quantity = (int)$product['quantity'];
+                $price = (float)$product['price'];
+                $subtotal = $quantity * $price;
+                
+                $details['products'][] = [
+                    'product_id' => $product['product_id'],
+                    'quantity' => $quantity,
+                    'price' => $price,
+                    'color' => $product['color'],
+                    'ram' => $product['ram'],
+                    'storage' => $product['storage']
+                ];
+                
+                $details['total_amount'] += $subtotal;
+            }
+
+            if ($this->OrderModel->updateOrderDetails($orderId, $details)) {
+                $_SESSION['success'] = "Cập nhật chi tiết đơn hàng thành công";
+            } else {
+                $_SESSION['error'] = "Cập nhật chi tiết đơn hàng thất bại";
+            }
+
+            header('Location: ?act=order_details&id=' . $orderId);
+            exit;
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Lỗi: " . $e->getMessage();
+            header('Location: ?act=orders');
+            exit;
+        }
+    }
+
 }
 ?>
