@@ -129,7 +129,7 @@ class BannerController
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $this->bannerModel->delete($id);
-            header('Location: ?act=banner');
+            header('Location: index.php?act=banner');
             exit; // Sau khi chuyển hướng, dừng script lại
         }
     }
