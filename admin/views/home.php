@@ -287,8 +287,6 @@
                         label: 'So luong san pham',
                         tension: 0.4,
                         data: data,
-                        pointBackgroundColor: "#43A047",
-                        pointBorderColor: "transparent",
                         backgroundColor: "#43A047",
                         borderColor: '#43A047',
                         borderWidth: 0,

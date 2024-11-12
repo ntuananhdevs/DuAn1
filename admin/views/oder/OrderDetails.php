@@ -39,7 +39,7 @@
                             <td><?= $product['product_name'] ?></td>
                             <td>
                                 <?php if (!empty($product['variant_img']['img'])): ?>
-                                    <img src="<?= htmlspecialchars($product['variant_img']['img']) ?>" width="250px" height="150px" alt="Ảnh variant">
+                                    <img src="<?= htmlspecialchars($product['variant_img']['img']) ?>" width="80px" height="80px; object-fit: cover;"alt="Ảnh variant">
                                 <?php else: ?>
                                     <img src="<?= htmlspecialchars($product['product_img']) ?>" width="150px" height="150px" alt="Ảnh sản phẩm">
                                 <?php endif; ?>
