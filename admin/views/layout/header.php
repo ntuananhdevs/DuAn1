@@ -71,7 +71,7 @@ ob_start();
           </a>
         </li>
         <li class="nav-item mt-1">
-          <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'Discount' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=Discount">
+          <a class="nav-link <?php echo (isset($_GET['act']) && $_GET['act'] == 'discount' ? 'active bg-gradient-dark text-white' : 'text-dark'); ?>" href="?act=discount">
             <ion-icon name="receipt-outline" size="small"></ion-icon>
             <span class="nav-link-text ms-1">Discount</span>
           </a>

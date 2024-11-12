@@ -6,7 +6,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Thông tin người dùng</h6>
                 </div>
                 <div class="card-body">
-                    <form action="index.php?act=edit-user-post&id=<?= $user['id'] ?>" method="POST" enctype="multipart/form-data">
+                    <form action="?act=edit-user-post&id=<?= $user['id'] ?>" method="POST" enctype="multipart/form-data">
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Tên đăng nhập</label>
                             <div class="col-sm-9">
@@ -43,7 +43,7 @@
                                 <button type="submit" class="btn btn-primary mt-3">
                                     <i class="fas fa-save"></i> Cập nhật
                                 </button>
-                                <a href="index.php?act=users" class="btn btn-secondary mt-3 ">
+                                <a href="?act=users" class="btn btn-secondary mt-3 ">
                                     <i class="fas fa-times"></i> Hủy
                                 </a>
                             </div>

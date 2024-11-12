@@ -21,7 +21,7 @@ class User {
     }
 
     public function create($data) {
-        $avatar = !empty($data['avatar']) ? $data['avatar'] : '../uploads/UserIMG/default.png';
+        $avatar = !empty($data['avatar']) ? $data['avatar'] : '../assets/img/login.png';
         
         $sql = "INSERT INTO users (user_name, password, email, phone_number, created_at, avatar) 
                 VALUES (?, ?, ?, ?, NOW(), ?)";

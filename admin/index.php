@@ -11,6 +11,7 @@
     require_once '../admin/controllers/OderController.php';
     require_once '../admin/controllers/AuthController.php';
     require_once '../admin/controllers/BannerController.php';
+    require_once '../admin/controllers/DiscountController.php';
 
     #require Model
     require_once '../admin/models/Home.php';
@@ -21,6 +22,7 @@
     require_once '../admin/models/oder.php';
     require_once '../admin/models/auth.php';
     require_once '../admin/models/Banner.php';
+    require_once '../admin/models/Discount.php';
 
 
     $auth = new AuthController();
@@ -31,6 +33,7 @@
     $category = new CategoryController();
     $oder = new OderController();
     $banner = new BannerController();
+    $discount = new DiscountController();
 
 
     // Route
@@ -95,7 +98,12 @@
             'update_oder' => $oder->update(),
             'order_details' => $oder->view_details(),
             
-            
+             // CRUD for Discounts
+            'discounts' => $discount->index(),
+            'add-discount' => $discount->add(),
+            'edit-discount' => $discount->edit(),
+            'delete-discount' => $discount->delete(),
+
             #CRUD banner
             'banner' => $banner->views_Banner(),
             'view_add' => $banner->views_add(),

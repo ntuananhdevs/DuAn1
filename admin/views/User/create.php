@@ -21,7 +21,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Thông tin người dùng</h6>
                 </div>
                 <div class="card-body">
-                    <form action="index.php?act=add-user-post" method="POST" enctype="multipart/form-data">
+                    <form action="?act=add-user-post" method="POST" enctype="multipart/form-data">
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Tên đăng nhập</label>
                             <div class="col-sm-9">
@@ -57,7 +57,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save"></i> Thêm mới
                                 </button>
-                                <a href="index.php?act=users" class="btn btn-secondary">
+                                <a href="?act=users" class="btn btn-secondary">
                                     <i class="fas fa-times"></i> Hủy
                                 </a>
                             </div>
