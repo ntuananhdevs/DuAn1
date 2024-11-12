@@ -1,0 +1,54 @@
+<form action="index.php?act=edit_banner&id=<?= $banner['id'] ?>" method="POST" enctype="multipart/form-data" class="p-4 border rounded bg-light">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" value="<?= htmlspecialchars($banner['title']) ?>" required class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" class="form-control"><?= htmlspecialchars($banner['description']) ?></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="position">Position</label>
+        <select id="position" name="position" class="form-control">
+            <option value="homepage" <?= $banner['position'] === 'homepage' ? 'selected' : '' ?>>Homepage</option>
+            <option value="sidebar" <?= $banner['position'] === 'sidebar' ? 'selected' : '' ?>>Sidebar</option>
+            <option value="footer" <?= $banner['position'] === 'footer' ? 'selected' : '' ?>>Footer</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="start_date">Start Date</label>
+        <input type="datetime-local" id="start_date" name="start_date" 
+               value="<?= date('Y-m-d\TH:i', strtotime($banner['start_date'])) ?>" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="end_date">End Date</label>
+        <input type="datetime-local" id="end_date" name="end_date" 
+               value="<?= $banner['end_date'] ? date('Y-m-d\TH:i', strtotime($banner['end_date'])) : '' ?>" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" name="status" class="form-control">
+            <option selected disabled>Status</option>
+            <option value="1" <?= $banner['status'] == 'active' ? 'selected' : ''; ?>>Active</option>
+            <option value="2" <?= $banner['status'] == 'inactive' ? 'selected' : ''; ?>>Inactive</option>
+        </select>
+    </div>
+<br>
+    <div class="form-group">
+        <label for="img_url">Image</label>
+        <input type="file" id="img_url" name="img_url"  class="form-control" >
+        <?php if ($banner['img_url']): ?>
+            <div class="mt-2">
+                <img src="../uploads/BannerIMG/<?= $banner['img_url'] ?>" alt="Current Image" width="200px" class="img-thumbnail">
+              
+        <?php endif; ?>
+    </div>
+
+    <br>
+    <button type="submit" class="btn btn-primary">Update Banner</button>
+</form>

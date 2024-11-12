@@ -60,9 +60,7 @@
         background-color: #cccc;
     }
 
-    .dot.active {
-    }
-
+ 
 
     @keyframes next1 {
         from {

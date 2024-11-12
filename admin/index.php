@@ -22,7 +22,7 @@
     require_once '../admin/models/oder.php';
     require_once '../admin/models/auth.php';
     require_once '../admin/models/Banner.php';
-    require_once '../admin/models/Discounts.php';
+    require_once '../admin/models/Discount.php';
 
 
     $auth = new AuthController();
@@ -46,6 +46,7 @@
         include '../admin/views/layout/header.php';
         match ($act) {
             '/' => $home->views_home(),
+
             #CRUD product
             'products' => $products->views_products(),
             'add-product' => $products->views_add(),
@@ -98,17 +99,17 @@
             'order_details' => $oder->view_details(),
             
              // CRUD for Discounts
-        'discount' => $discount->viewDiscounts(),                    // View all discounts
-        'add_discount' => $discount->addDiscount(),               // Show add discount form
-                    // Add new discount
-        'edit_discount' => $discount->updateDiscount($id),  // Show edit discount form
-        // Edit discount
-        'delete_discount' => $discount->deleteDiscount($id), // Delete discount
+'discounts' => $discount->index(),
+'add-discount' => $discount->add(),
+'edit-discount' => $discount->edit(),
+'delete-discount' => $discount->delete(),
 
             #CRUD banner
             'banner' => $banner->views_Banner(),
             'view_add' => $banner->views_add(),
             'add-banner-post' => $banner->addBanner(),
+            'view_edit' => $banner->views_edit($_GET['id']),
+            'edit_banner' => $banner->editBanner($_GET['id']),
             'delete_banner' => $banner->deleteBanner($_GET['id']),
 
             'logout' => $auth->logout(),
