@@ -90,7 +90,10 @@
                                class="btn btn-danger"
                                onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?')">Xóa</a>
                         <?php endif; ?>
-                        <a href="?act=order_details&id=<?= $order['id'] ?>" class="btn btn-primary">Detail</a>
+                        <?php error_log("Order ID in view: " . $order['id']); ?>
+                        <a href="?act=order_details&id=<?= $order['id'] ?>"  class="btn btn-primary">
+                            Details
+                        </a>
                     </td>
                 </tr>
             <?php endforeach; ?>

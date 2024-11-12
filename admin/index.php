@@ -43,6 +43,7 @@
         include '../admin/views/layout/header.php';
         match ($act) {
             '/' => $home->views_home(),
+
             #CRUD product
             'products' => $products->views_products(),
             'add-product' => $products->views_add(),
@@ -92,13 +93,15 @@
             'print_bill' => $oder->print_bill(),
             'edit_oder' => $oder->views_edit(),
             'update_oder' => $oder->update(),
-            'order_details' => $oder->view_order_details(),
-            'update_order_item' => $oder->update_order_item(),
-            'delete_order_item' => $oder->delete_order_item(),
+            'order_details' => $oder->view_details(),
+            
+            
             #CRUD banner
             'banner' => $banner->views_Banner(),
             'view_add' => $banner->views_add(),
             'add-banner-post' => $banner->addBanner(),
+            'view_edit' => $banner->views_edit($_GET['id']),
+            'edit_banner' => $banner->editBanner($_GET['id']),
             'delete_banner' => $banner->deleteBanner($_GET['id']),
 
             'logout' => $auth->logout(),

@@ -83,7 +83,7 @@ class ProductsController
             header('Location: ?act=products&status=error&message=' . urlencode($errorMessage));
              
         }
-        
+    
     }
     public function deletePrd($id){
         try {
@@ -223,7 +223,6 @@ class ProductsController
         }
     }
     header('Location: ?act=product_detail&id=' . $productId);
-
 }
     
     
@@ -343,5 +342,4 @@ class ProductsController
             exit;
         }
     }
-    
 }

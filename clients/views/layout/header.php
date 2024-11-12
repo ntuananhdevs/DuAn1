@@ -45,7 +45,7 @@
         </div>
     <nav class="no-blur">
         
-        <div class="nav-menu ">
+        <div class="nav-menu">
             <div class="logo-nav">
                 <a href="?act=/">
                     <img src="../assets/img/logo.png" alt="">
@@ -66,7 +66,7 @@
                 </div>
                 <div class="icon-nav">
                     <ion-icon name="search-outline" id="searchIcon"></ion-icon>
-                    <a href="#"><ion-icon name="cart-outline"></ion-icon></a>
+                    <ion-icon name="cart-outline"></ion-icon>
 
                     <div class="search-overlay" id="searchOverlay">
                         <div class="search-nav">
@@ -89,6 +89,7 @@
                         </div>
                     </div>
                     <div class="dropdown">
+                        
                         <a href="#" id="userIcon"><ion-icon name="person-outline"></ion-icon></a>
                         <div class="dropdown-menu">
 

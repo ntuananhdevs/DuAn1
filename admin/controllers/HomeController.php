@@ -6,15 +6,19 @@ class HomeController {
         $this->home = new Home();
     }
 
-    public function views_home() {
-        $total_money = $this->home->total_order();
-        $list_product = $this->home->total_prd();
-        $list_user = $this->home->total_users();
+// Controller: HomeController.php
+public function views_home() {
+    $data = $this->home->getCategoryProductCounts();
 
-        require_once './views/home.php';
-    }
+    // Chuyển đổi dữ liệu thành JSON để truyền vào biểu đồ
+    $chartData = json_encode($data, JSON_HEX_TAG); 
+    $total_money = $this->home->total_order();
+    $list_product = $this->home->total_prd();
+    $list_user = $this->home->total_users();
 
-    public function total_users() {
-        require_once './views/home.php';
-    }
+    require_once './views/home.php';
+    require_once './views/layout/footer.php';
+}
+
+
 }
