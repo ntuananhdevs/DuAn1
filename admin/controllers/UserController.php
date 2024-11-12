@@ -22,7 +22,7 @@ class UserController {
 
     public function add() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {            
-            $avatar = '../uploads/UserIMG/default.png';
+            $avatar = '../assets/img/login.png';
             if(isset($_FILES['avatar']) && $_FILES['avatar']['error'] === 0) {
                 $uploadDir = '../uploads/UserIMG/';    
                 $fileName = time() . '_' . $_FILES['avatar']['name'];

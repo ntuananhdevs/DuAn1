@@ -99,10 +99,10 @@
             'order_details' => $oder->view_details(),
             
              // CRUD for Discounts
-'discounts' => $discount->index(),
-'add-discount' => $discount->add(),
-'edit-discount' => $discount->edit(),
-'delete-discount' => $discount->delete(),
+            'discounts' => $discount->index(),
+            'add-discount' => $discount->add(),
+            'edit-discount' => $discount->edit(),
+            'delete-discount' => $discount->delete(),
 
             #CRUD banner
             'banner' => $banner->views_Banner(),
