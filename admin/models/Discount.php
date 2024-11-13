@@ -58,11 +58,18 @@ public function add_discount($data)
 }
 public function update_discount($id, $data)
 {
+    $valid_types = ['percentage', 'fixed'];
+    if (!in_array($data['discount_type'], $valid_types)) {
+        throw new Exception("Giá trị discount_type không hợp lệ: " . htmlspecialchars($data['discount_type']));
+    }
+
     // Đảm bảo start_date và end_date lưu cả ngày và giờ
     $start_date = $data['start_date']; // Giữ nguyên cả ngày và giờ
     $end_date = $data['end_date'];     // Giữ nguyên cả ngày và giờ
 
+    // Cập nhật thông tin giảm giá vào database
     $sql = "UPDATE discounts SET 
+                product_id = ?, 
                 discount_type = ?, 
                 discount_value = ?, 
                 start_date = ?, 
@@ -70,8 +77,8 @@ public function update_discount($id, $data)
                 status = ? 
             WHERE id = ?";
     $stmt = $this->conn->prepare($sql);
-
     return $stmt->execute([
+        $data['product_id'],
         $data['discount_type'],
         $data['discount_value'],
         $start_date,  // Lưu cả ngày và giờ
@@ -81,7 +88,6 @@ public function update_discount($id, $data)
     ]);
 }
 
-    
 
 
  public function delete_discount($id)

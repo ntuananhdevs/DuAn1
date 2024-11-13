@@ -17,9 +17,11 @@
         <?php
         $currentDateTime = date('Y-m-d H:i:s'); // Lấy thời gian hiện tại
         foreach ($discounts as $discount):
-            // So sánh thời gian hiện tại với ngày kết thúc
-            if ($currentDateTime > $discount['EndDate']) {
-                $discount['Status'] = 0; // Chuyển trạng thái sang expired
+            $status = 'pending'; // Mặc định trạng thái là pending
+            if ($currentDateTime >= $discount['StartDate'] && $currentDateTime <= $discount['EndDate']) {
+                $status = 'active'; // Nếu đang trong thời gian giảm giá
+            } elseif ($currentDateTime > $discount['EndDate']) {
+                $status = 'inactive'; // Nếu đã hết thời gian giảm giá
             }
         ?>
         <tr>
@@ -38,14 +40,17 @@
             </td>
             <td><?= date('Y-m-d H:i:s', strtotime($discount['StartDate'])) ?></td>
             <td><?= date('Y-m-d H:i:s', strtotime($discount['EndDate'])) ?></td>
-            <td>
-                <span
-                    class="<?= (int)$discount['Status'] == 1 ? 'bg-success text-white border border-success rounded-pill px-5 py-1' : 'bg-danger text-white border border-danger rounded-pill px-3 py-1' ?>">
-                    <?= (int)$discount['Status'] == 1 ? 'active' : 'expired' ?>
-                </span>
+            <td style="vertical-align: middle;">
+                <?php
+                echo match ($status) {
+                    'active' => '<span class="badge bg-success">Active</span>',
+                    'inactive' => '<span class="badge bg-secondary">Inactive</span>',
+                    'pending' => '<span class="badge bg-warning">Pending</span>',
+                };
+                ?>
             </td>
             <td>
-                <a href="?act=edit-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-warning btn-sm">Sửa</a>
+            <a href="?act=edit-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-warning btn-sm">Sửa</a>
                 <a href="?act=delete-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-danger btn-sm"
                     onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
             </td>

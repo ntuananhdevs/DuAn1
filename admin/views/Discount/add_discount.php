@@ -1,6 +1,6 @@
 <div class="container mt-5">
     <h1>Thêm giảm giá mới</h1>
-    <form action="?act=add-discount" method="POST">
+    <form id="discount_form" action="?act=add-discount" method="POST">
         <div class="form-group">
             <label for="product_id">Sản phẩm</label>
             <select name="product_id" id="product_id" class="form-control">
@@ -33,21 +33,13 @@
             <input type="datetime-local" name="end_date" id="end_date" class="form-control" required>
         </div>
 
-        <div class="form-group">
-            <label for="status">Trạng thái</label>
-            <select name="status" id="status" class="form-control">
-                <option value="1">Active</option>
-                <option value="0">Expired</option>
-            </select>
-        </div>
-
         <button type="submit" class="btn btn-primary">Thêm</button>
         <a href="?act=discount" class="btn btn-secondary">Hủy</a>
     </form>
 </div>
 
 <script>
-document.getElementById('discount_type').addEventListener('change', function() {
+document.getElementById('discount_type').addEventListener('change', function () {
     let discountType = this.value;
     let discountValueInput = document.getElementById('discount_value');
 
@@ -60,14 +52,23 @@ document.getElementById('discount_type').addEventListener('change', function() {
     }
 });
 
-// Kiểm tra và đảm bảo giá trị giảm giá không vượt quá 100% khi nhập
-document.getElementById('discount_value').addEventListener('input', function() {
+document.getElementById('discount_value').addEventListener('input', function () {
     let discountType = document.getElementById('discount_type').value;
     let discountValue = parseFloat(this.value);
 
     if (discountType === 'percentage' && discountValue > 100) {
         this.value = 100; // Giới hạn giá trị không quá 100%
         alert("Giảm giá phần trăm không được vượt quá 100%!"); // Hiển thị thông báo
+    }
+});
+
+document.getElementById('discount_form').addEventListener('submit', function (e) {
+    const startDate = new Date(document.getElementById('start_date').value);
+    const endDate = new Date(document.getElementById('end_date').value);
+
+    if (endDate < startDate) {
+        e.preventDefault(); // Ngăn gửi biểu mẫu
+        alert("Ngày kết thúc không được nhỏ hơn ngày bắt đầu! Vui lòng chọn lại.");
     }
 });
 </script>
