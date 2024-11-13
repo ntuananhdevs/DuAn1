@@ -98,11 +98,13 @@
             'update_oder' => $oder->update(),
             'order_details' => $oder->view_details(),
             
-             // CRUD for Discounts
-'discounts' => $discount->index(),
-'add-discount' => $discount->add(),
-'edit-discount' => $discount->edit(),
-'delete-discount' => $discount->delete(),
+            
+// CRUD for Discounts
+                'discount' => $discount->index(),
+                'add-discount' => $discount->add(),
+                'edit-discount' => $discount->edit(),
+                'delete-discount' => $discount->delete(),
+
 
             #CRUD banner
             'banner' => $banner->views_Banner(),
