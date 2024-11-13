@@ -315,7 +315,6 @@ class Products
                     (SELECT MAX(pv.price) 
                     FROM Product_variants pv 
                     WHERE pv.product_id = p.id) AS Highest_Price,
-                    
                     -- img
                     COALESCE(
                         (SELECT MIN(vi.img) 
@@ -324,7 +323,6 @@ class Products
                         WHERE pv.product_id = p.id), 
                         ''
                     ) AS img
-
                 FROM 
                     Products p
                 JOIN 
