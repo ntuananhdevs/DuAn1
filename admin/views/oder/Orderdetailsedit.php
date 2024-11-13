@@ -33,19 +33,17 @@
                             </div>
                             <div class="form-group">
                                 <label>RAM (GB):</label>
-                                <input type="number"
+                                <input type="text"
                                        class="form-control"
                                        name="products[<?= $value ?>][ram]" 
-                                       value="<?= htmlspecialchars($product['ram'] ?? '') ?>"
-                                       >
+                                       value="<?= htmlspecialchars($product['ram'] ?? '') ?>">
                             </div>
                             <div class="form-group">
                                 <label>Bộ nhớ (GB):</label>
-                                <input type="number" 
+                                <input type="text" 
                                        class="form-control" 
                                        name="products[<?= $value ?>][storage]" 
-                                       value="<?= htmlspecialchars($product['storage'] ?? '') ?>" 
-                                       >
+                                       value="<?= htmlspecialchars($product['storage'] ?? '') ?>">
                             </div>
                             <input type="hidden" name="products[<?= $value ?>][variant_id]" value="<?= htmlspecialchars($product['variant_id'] ?? '') ?>">
                             <input type="hidden" name="products[<?= $value ?>][price]" value="<?= htmlspecialchars($product['price'] ?? 0) ?>">

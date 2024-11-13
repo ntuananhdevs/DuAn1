@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+         * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: #f6f6f8;
+        font-family: Poppins;
+      }
+    .container{
+      
+    }
+      /* success */
+      .wrapper-success {
+        margin: 120px;
+      }
+      .wrapper-success .card {
+        width: 720px;
+        height: 120px;
+        background-color: #fff;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        border-left: 5px solid #49d761;
+        border-radius: 3px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      }
+      .wrapper-success .card .subject {
+        margin-right: 180px;
+      }
+      .wrapper-success .card .subject p {
+        color: #909092;
+      }
+      .wrapper-success .card .icon {
+        font-size: 28px;
+        color: #49d761;
+      }
+      .wrapper-success .card .icon-times {
+        font-size: 28px;
+        color: #c3c2c7;
+        cursor: pointer;
+      }
+      /* success */
+
+
+      /* info */
+      .wrapper-info {
+        margin: 120px;
+      }
+      .wrapper-info .card {
+        width: 720px;
+        height: 120px;
+        background-color: #fff;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        border-left: 5px solid #3286e9;
+        border-radius: 3px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      }
+      .wrapper-info .card .subject {
+        margin-right: 180px;
+      }
+      .wrapper-info .card .subject p {
+        color: #909092;
+      }
+      .wrapper-info .card .icon {
+        font-size: 28px;
+        color: #3286e9;
+      }
+      .wrapper-info .card .icon-times {
+        font-size: 28px;
+        color: #c3c2c7;
+        cursor: pointer;
+      }
+      /* info */
+
+      
+      /* warning */
+      .wrapper-warning {
+        margin: 120px;
+      }
+      .wrapper-warning .card {
+        width: 720px;
+        height: 120px;
+        background-color: #fff;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        border-left: 5px solid #ff0000;
+        border-radius: 3px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      }
+      .wrapper-warning .card .subject {
+        margin-right: 180px;
+      }
+      .wrapper-warning .card .subject p {
+        color: #909092;
+      }
+      .wrapper-warning .card .icon {
+        font-size: 28px;
+        color: #ff0000;
+      }
+      .wrapper-warning .card .icon-times {
+        font-size: 28px;
+        color: #c3c2c7;
+        cursor: pointer;
+      }
+    </style>
+    </head>
+  <body>
+    <div class="container">
+      <div class="wrapper-success">
+        <div class="card">
+          <div class="icon"><i class="fas fa-check-circle"></i></div>
+          <div class="subject">
+            <h3>Success</h3>
+            <p>Anyone with access can view your invited visitors</p>
+          </div>
+          <div class="icon-times"><i class="fas fa-times"></i></div>
+        </div>
+      </div>
+      <!-- section-success -->
+
+      <!-- section-info -->
+      <div class="wrapper-info">
+        <div class="card">
+          <div class="icon"><i class="fas fa-info-circle"></i></div>
+          <div class="subject">
+            <h3>Info</h3>
+            <p>Anyone with access can view your invited visitors</p>
+          </div>
+          <div class="icon-times"><i class="fas fa-times"></i></div>
+        </div>
+      </div>
+      <!-- section-info -->
+
+      <!-- section-warning -->
+      <div class="wrapper-warning">
+        <div class="card">
+          <div class="icon"><i class="fas fa-exclamation-circle"></i></div>
+          <div class="subject">
+            <h3>Error</h3>
+            <p>Anyone with access can view your invited visitors</p>
+          </div>
+          <div class="icon-times"><i class="fas fa-times"></i></div>
+        </div>
+      </div>
+      <!-- section-warning -->
+    </div>
+  </body>
+</html>

@@ -213,13 +213,10 @@ class OrderModel {
                     
                 $detailStmt = $this->conn->prepare($detailSql);
                 $detailStmt->execute([
+                    ':order_id' => $orderId,
                     ':quantity' => $product['quantity'],
                     ':subtotal' => $product['quantity'] * $product['price'],
-                    ':order_id' => $orderId,
-                    ':product_id' => $product['product_id'],
-                    ':color' => $product['color'],
-                    ':ram' => $product['ram'],
-                    ':storage' => $product['storage']
+                    ':variant_id' => $product['variant_id'],
                 ]);
             }
 

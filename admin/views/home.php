@@ -264,7 +264,6 @@
     </div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // Kiểm tra dữ liệu JSON từ PHP sang JavaScript
     const chartData = <?php echo $chartData; ?>;
 
     if (Array.isArray(chartData)) {
