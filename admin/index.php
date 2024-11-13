@@ -99,7 +99,7 @@
             'order_details' => $oder->view_details(),
             'edit_order_details' => $oder->views_edit_details(),
             'update_order_details' => $oder->update_details(),
-            
+
              // CRUD for Discounts
                 'discount' => $discount->index(),
                 'add-discount' => $discount->add(),
