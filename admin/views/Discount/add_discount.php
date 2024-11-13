@@ -9,7 +9,6 @@
                 <?php endforeach; ?>
             </select>
         </div>
-
         <div class="form-group">
             <label for="discount_type">Loại giảm giá</label>
             <select name="discount_type" id="discount_type" class="form-control">
