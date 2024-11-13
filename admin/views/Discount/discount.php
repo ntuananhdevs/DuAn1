@@ -15,11 +15,11 @@
     </thead>
     <tbody>
         <?php foreach ($discounts as $discount): ?>
-            <tr>
-                <td><?= $discount['DiscountID'] ?></td>
-                <td><?= $discount['ProductName'] ?></td>
-                <td><?= $discount['DiscountType'] == 'percentage' ? 'Phần trăm' : 'Tiền mặt' ?></td>
-                <td>
+        <tr>
+            <td><?= $discount['DiscountID'] ?></td>
+            <td><?= $discount['ProductName'] ?></td>
+            <td><?= $discount['DiscountType'] == 'percentage' ? 'Phần trăm' : 'Tiền mặt' ?></td>
+            <td>
                 <?php 
         // Kiểm tra loại giảm giá và thêm ký tự VNĐ hoặc %
         if ($discount['DiscountType'] == 'percentage') {
@@ -30,16 +30,18 @@
             echo number_format($discountValue, 0, ',', '.') . ' VNĐ';
         }
     ?>
-                </td>
-                <td><?= date('Y-m-d', strtotime($discount['StartDate'])) ?></td>
-                <td><?= date('Y-m-d', strtotime($discount['EndDate'])) ?></td>
-                <td><?= $discount['Status'] == 1 ? 'Hoạt động' : 'Không Hoạt Động' ?></td>
+            </td>
+            <td><?= date('Y-m-d', strtotime($discount['StartDate'])) ?></td>
+            <td><?= date('Y-m-d', strtotime($discount['EndDate'])) ?></td>
+            <td><?= (int)$discount['Status'] == 1 ? 'Hoạt động' : 'Không Hoạt Động' ?></td>
 
-                <td>
-                    <a href="?act=edit-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-warning btn-sm">Sửa</a>
-                    <a href="?act=delete-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
-                </td>
-            </tr>
+
+            <td>
+                <a href="?act=edit-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-warning btn-sm">Sửa</a>
+                <a href="?act=delete-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-danger btn-sm"
+                    onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
+            </td>
+        </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
