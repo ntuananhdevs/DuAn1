@@ -1,7 +1,7 @@
 <div class="container">
     <h3 class="mb-0 h4 font-weight-bolder mb-4">Quản Lý BANNER</h3>
 
-    <a href="index.php?act=view_add" class="btn btn-primary mb-3">Thêm BANNER</a>
+    <a href="?act=view_add" class="btn btn-primary mb-3">Thêm BANNER</a>
     <table class="table table-hover">
         <thead class="text-left">
             <tr>
@@ -18,8 +18,7 @@
             <?php foreach ($banners as $banner) : ?>
                 <tr>
                     <td>
-                    
-                            <img src="../uploads/BannerIMG/<?= htmlspecialchars($banner['img_url']) ?>" style="width: 200px; height: 100px; border-radius: 5px; object-fit: cover;" alt="Banner Image">
+                        <img src="../uploads/BannerIMG/<?= htmlspecialchars($banner['img_url']) ?>" style="width: 200px; height: 100px; border-radius: 5px; object-fit: cover;" alt="Banner Image">
                     </td>
                     <td style="vertical-align: middle;"><?= htmlspecialchars($banner['title']); ?></td>
                     <td style="vertical-align: middle;"><?= htmlspecialchars($banner['description']) ?></td>
@@ -27,16 +26,19 @@
                     <td style="vertical-align: middle;"><?= $banner['end_date'] ? date('d-m-Y H:i:s', strtotime($banner['end_date'])) : 'N/A'; ?></td>
                     <td style="vertical-align: middle;">
                         <?php
-                            echo match($banner['status']) {
-                                'active' => '<span class="badge bg-success">Active</span>',
-                                'inactive' => '<span class="badge bg-secondary">Inactive</span>',
-                            
-                            };
+                            $today = new DateTime();
+                            $endDate = $banner['end_date'] ? new DateTime($banner['end_date']) : null;
+
+                            if ($endDate && $today > $endDate) {
+                                echo '<span class="badge bg-secondary">Inactive</span>';
+                            } else {
+                                echo '<span class="badge bg-success">Active</span>';
+                            }
                         ?>
                     </td>
                     <td style="vertical-align: middle;">
                         <a href="index.php?act=view_edit&id=<?= htmlspecialchars($banner['id']) ?>" class="btn btn-primary mt-3">Edit</a>
-                        <a href="index.php?act=delete_banner&id=<?= htmlspecialchars($banner['id']) ?>" class="btn btn-danger mt-3" onclick="return confirm('Are you sure you want to delete this banner?');">Delete</a>
+                        <a href="index.php?act=delete_banner&id=<?= htmlspecialchars($banner['id']) ?>" class="btn btn-danger mt-3" onclick="return confirm('Bạn có chắc muốn xóa Banner này?');">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
