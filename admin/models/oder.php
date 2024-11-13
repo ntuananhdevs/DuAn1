@@ -139,7 +139,6 @@ class OrderModel {
                 return null;
             }
 
-            // Sửa phần định dạng dữ liệu trong mảng products
             $order = [
                 'order_info' => [
                     'id' => $result[0]['id'],
@@ -188,6 +187,48 @@ class OrderModel {
         } catch (Exception $e) {
             error_log("General Error in getOrderWithDetails: " . $e->getMessage());
             return null;
+        }
+    }
+
+    public function updateOrderDetails($orderId, $details) {
+        try {
+            $this->conn->beginTransaction();
+            $orderSql = "UPDATE orders SET 
+                total_amount = :total_amount,
+                updated_at = CURRENT_TIMESTAMP
+                WHERE id = :order_id";
+                
+            $orderStmt = $this->conn->prepare($orderSql);
+            $orderStmt->execute([
+                ':total_amount' => $details['total_amount'],
+                ':order_id' => $orderId
+            ]);
+
+            foreach ($details['products'] as $product) {
+                $detailSql = "UPDATE order_details SET 
+                    quantity = :quantity,
+                    subtotal = :subtotal
+                    WHERE order_id = :order_id 
+                    AND product_variant_id = :variant_id";
+                    
+                $detailStmt = $this->conn->prepare($detailSql);
+                $detailStmt->execute([
+                    ':quantity' => $product['quantity'],
+                    ':subtotal' => $product['quantity'] * $product['price'],
+                    ':order_id' => $orderId,
+                    ':product_id' => $product['product_id'],
+                    ':color' => $product['color'],
+                    ':ram' => $product['ram'],
+                    ':storage' => $product['storage']
+                ]);
+            }
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollBack();
+            error_log("Error in updateOrderDetails: " . $e->getMessage());
+            return false;
         }
     }
 }   

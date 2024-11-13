@@ -97,6 +97,8 @@
             'edit_oder' => $oder->views_edit(),
             'update_oder' => $oder->update(),
             'order_details' => $oder->view_details(),
+            'edit_order_details' => $oder->views_edit_details(),
+            'update_order_details' => $oder->update_details(),
             
              // CRUD for Discounts
             'discounts' => $discount->index(),
