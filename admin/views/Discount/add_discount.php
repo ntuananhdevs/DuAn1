@@ -7,7 +7,7 @@
                 <label for="product_id">Sản phẩm</label>
                 <select name="product_id" id="product_id" class="form-control">
                     <?php foreach ($products as $product): ?>
-                        <option value="<?= $product['ID'] ?>"><?= $product['Name'] ?></option>
+                        <option value="<?= $product['id'] ?>"><?= $product['product_name'] ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
