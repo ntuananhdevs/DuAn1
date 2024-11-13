@@ -38,20 +38,16 @@
           <td><?php echo $value['category_name'] ?></td>
           <td class="text-danger">
     <?php
-        // Kiểm tra nếu discount_value tồn tại và có giá trị
-        if (isset($value['discount_value']) && $value['discount_value'] > 0) {
+        if (isset($value['discount_value']) && $value['discount_value'] > 0 && $value['discount_status'] === 'active') {
             $discount_value = $value['discount_value'];
         } else {
-            $discount_value = 0;  // Nếu không có giá trị discount_value, gán là 0
+            $discount_value = 0;  
         }
-
-        // Hiển thị giá trị discount_value, hoặc 0 nếu không có giá trị giảm giá
         if ($discount_value == 0) {
-            echo '0';  // Không có giảm giá, hiển thị 0
+            echo '0';  
         } else {
-            // Nếu có giảm giá, hiển thị theo loại giảm giá (phần trăm hoặc tiền mặt)
             if ($value['discount_type'] == 'percentage') {
-                echo $discount_value . '%';  // Nếu giảm giá theo phần trăm
+                echo $discount_value . '%';  
             } else {
                 echo number_format($discount_value, 0, ',', '.') . ' VND';  // Nếu giảm giá theo giá trị tiền mặt
             }

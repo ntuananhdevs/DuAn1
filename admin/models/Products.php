@@ -20,10 +20,11 @@ class Products
                         COUNT(DISTINCT pv.color) AS Total_color,      
                         p.quantity AS quantity,
                         p.views AS views,
-                        MIN(pv.price) AS Lowest_Price,               
+                        MIN(pv.price) AS Lowest_Price,                
                         MAX(pv.price) AS Highest_Price,
-                        d.discount_type AS discount_type,          
-                        d.discount_value AS discount_value         
+                        d.discount_type AS discount_type,          -- Thêm cột discount_type
+                        d.discount_value AS discount_value,        -- Thêm cột discount_value
+                        d.status AS discount_status                -- Thêm cột status của bảng Discounts
                     FROM 
                         Products p
                     JOIN 
@@ -33,12 +34,11 @@ class Products
                     LEFT JOIN 
                         Variants_img vi ON pv.id = vi.variant_id AND vi.is_default = 0 
                     LEFT JOIN 
-                        Discounts d ON p.id = d.product_id
-                    WHERE 
-                        d.status = 'active' 
+                        Discounts d ON p.id = d.product_id           -- Thêm JOIN với bảng Discounts
                     GROUP BY 
-                        p.id, p.product_name, p.description, c.category_name, p.quantity, p.views, d.discount_type, d.discount_value;
-";
+                        p.id, p.product_name, p.description, c.category_name, p.quantity, p.views, 
+                        d.discount_type, d.discount_value, d.status;  -- Thêm d.status vào GROUP BY
+                        ";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
             $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -53,17 +53,18 @@ class Products
             $sql = "SELECT 
                         p.id AS product_id,                  
                         p.product_name AS product_name,      
-                        pv.id AS variant_id,                  
-                        pv.color AS color,                    
-                        pv.ram AS ram,                        
-                        pv.storage AS storage,                
-                        pv.price AS price,                    
-                        pv.quantity AS quantity,              
-                        vi.img AS img,                        
-                        p.description AS description,         
-                        c.category_name AS category_name,     
-                        d.discount_type AS discount_type,      -- Thêm cột discount_type
-                        d.discount_value AS discount_value     -- Thêm cột discount_value
+                        pv.id AS variant_id,                 
+                        pv.color AS color,                   
+                        pv.ram AS ram,                       
+                        pv.storage AS storage,               
+                        pv.price AS price,                   
+                        pv.quantity AS quantity,             
+                        vi.img AS img,                       
+                        p.description AS description,        
+                        c.category_name AS category_name,    
+                        d.discount_type AS discount_type,    -- Thêm cột discount_type
+                        d.discount_value AS discount_value,  -- Thêm cột discount_value
+                        d.status AS discount_status          -- Thêm cột status của bảng Discounts
                     FROM 
                         Products p
                     JOIN 
@@ -73,10 +74,10 @@ class Products
                     LEFT JOIN 
                         Category c ON p.category_id = c.id  
                     LEFT JOIN 
-                        Discounts d ON p.id = d.product_id
-                    -- Thêm JOIN với bảng Discounts qua variant_id
+                        Discounts d ON p.id = d.product_id  -- Thêm JOIN với bảng Discounts qua product_id
                     WHERE   
                         p.id = ?;
+
 
       
                 ";

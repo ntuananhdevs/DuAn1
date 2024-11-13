@@ -105,5 +105,22 @@ public function update_discount($id, $data)
      $stmt = $this->conn->prepare($sql);
      return $stmt->execute([$id]);
  }
+
+ public function get_products(){
+     $sql = "SELECT 
+                p.id, 
+                p.product_name
+            FROM 
+                Products p
+            LEFT JOIN 
+                Discounts d ON p.id = d.product_id
+            WHERE 
+                d.product_id IS NULL;  
+            ";
+     $stmt = $this->conn->prepare($sql);
+     $stmt->execute();
+     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+ }
  
 }

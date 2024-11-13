@@ -24,8 +24,8 @@ class DiscountController
 
     public function add()
     {
-        $productModel = new Products();
-        $products = $productModel->get_products();
+        $discountModel1 = new Discount();
+        $products = $discountModel1->get_products();
     
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Kiểm tra sự tồn tại của discount_value

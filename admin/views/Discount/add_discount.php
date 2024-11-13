@@ -32,8 +32,8 @@
             <input type="datetime-local" name="end_date" id="end_date" class="form-control" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Thêm</button>
-        <a href="?act=discount" class="btn btn-secondary">Hủy</a>
+        <button type="submit" class="btn btn-primary mt-3">Thêm</button>
+        <a href="?act=discount" class="btn btn-secondary mt-3">Hủy</a>
     </form>
 </div>
 

@@ -26,42 +26,44 @@
           <td><?php echo $value['ram'] ?></td>
           <td><?php echo $value['storage'] ?></td>
           <td>
-            <?php
-            $original_price = floatval(str_replace('.', '', $value['price']));
-            $discount_value = floatval($value['discount_value']);
+    <?php
+    $original_price = floatval(str_replace('.', '', $value['price']));
+    $discount_value = floatval($value['discount_value']);
+    $discount_status = $value['discount_status']; // Lấy trạng thái của giảm giá
 
-            // Kiểm tra nếu có giảm giá
-            if ($discount_value > 0) {
-              if ($value['discount_type'] == 'percentage') {
-                // Tính giá giảm nếu discount_type là phần trăm
-                $discounted_price = $original_price * (1 - $discount_value / 100);
-              } else {
-                // Tính giá giảm nếu discount_type là giá trị cụ thể
-                $discounted_price = $original_price - $discount_value;
-              }
+    // Kiểm tra nếu có giảm giá và status là active
+    if ($discount_value > 0 && $discount_status === 'active') {
+        if ($value['discount_type'] == 'percentage') {
+            // Tính giá giảm nếu discount_type là phần trăm
+            $discounted_price = $original_price * (1 - $discount_value / 100);
+        } else {
+            // Tính giá giảm nếu discount_type là giá trị cụ thể
+            $discounted_price = $original_price - $discount_value;
+        }
 
-              // Hiển thị giá giảm màu đỏ
-              echo '<span class="text-danger">' . number_format($discounted_price, 0, ',', '.') . ' VND</span>';
-            } else {
-              // Nếu không có giảm giá, hiển thị giá gốc màu bình thường
-              echo '<span>' . '0' . ' VND</span>';
-            }
-            ?>
-          </td>
+        // Hiển thị giá giảm màu đỏ
+        echo '<span class="text-danger">' . number_format($discounted_price, 0, ',', '.') . ' VND</span>';
+    } else {
+        // Nếu không có giảm giá hoặc giảm giá không active, hiển thị giá gốc màu bình thường
+        echo '<span>' . '0' . ' VND</span>';
+    }
+    ?>
+</td>
 
-          <!-- Cột 2: Giá gốc -->
-          <td>
-            <?php
-            // Kiểm tra nếu có giảm giá để hiển thị giá gốc gạch ngang, nếu không thì hiển thị bình thường
-            if ($discount_value > 0) {
-              // Hiển thị giá gốc gạch ngang màu xám khi có giảm giá
-              echo '<span class="text-secondary text-decoration-line-through">' . number_format($original_price, 0, ',', '.') . ' VND</span>';
-            } else {
-              // Nếu không có giảm giá, hiển thị giá gốc màu bình thường
-              echo '<span>' . number_format($original_price, 0, ',', '.') . ' VND</span>';
-            }
-            ?>
-          </td>
+<!-- Cột 2: Giá gốc -->
+<td>
+    <?php
+    // Kiểm tra nếu có giảm giá và status là active để hiển thị giá gốc gạch ngang, nếu không thì hiển thị bình thường
+    if ($discount_value > 0 && $discount_status === 'active') {
+        // Hiển thị giá gốc gạch ngang màu xám khi có giảm giá active
+        echo '<span class="text-secondary text-decoration-line-through">' . number_format($original_price, 0, ',', '.') . ' VND</span>';
+    } else {
+        // Nếu không có giảm giá hoặc giảm giá không active, hiển thị giá gốc màu bình thường
+        echo '<span>' . number_format($original_price, 0, ',', '.') . ' VND</span>';
+    }
+    ?>
+</td>
+
           <td><?php echo $value['quantity'] ?></td>
           <td>
             <a href="?act=update_variant&variant_id=<?php echo $value['variant_id']; ?>&product_id=<?php echo $value['product_id']; ?>" class="btn btn-primary">Edit</a>
