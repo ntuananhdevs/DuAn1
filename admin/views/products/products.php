@@ -1,15 +1,16 @@
 <div class="container">
   <h3 class="mb-0 h4 font-weight-bolder mb-4">Products</h3>
   <div class="search d-flex gap-3 align-items-center p-2">
-    <a href="?act=add-product" class="btn btn-primary w-10 mt-2">Add Product</a>
-    <form action="?act=search-product" method="GET" class="position-relative">
-        <input type="text" class="form-control mb-2 pr-5" id="search" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
-        <button type="submit" class="btn btn-primary search-btn">
-            <ion-icon name="search"></ion-icon>
-        </button>
+    <a href="" class="btn btn-primary w-10 ">Add Product</a>
+    <form action="" method="GET" class="d-flex">
+        <input type="hidden" name="act" value="products">
+        <input type="text" class="form-control mb-1" style="border-radius: 4px 0 0 4px  ; height: 36px;" id="search" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+        <button type="submit" class="btn btn-primary " style="border-radius: 0 4px 4px 0; "><ion-icon name="search"></ion-icon></button>
     </form>
-</div>
-
+  </div>
+  <?php if (empty($listProducts)): ?>
+    <p class="">Không tìm thấy sản phẩm nào.</p>
+  <?php else: ?>
   <table class="table">
     <thead>
       <tr>
@@ -26,28 +27,32 @@
       </tr>
     </thead>
     <tbody>
+      <?php 
       
-      <?php foreach ($listProducts as $key => $value) : ?>
+        foreach ($listProducts as $key => $value) : ?>
         <tr>
-          <td><?php echo $value['ID'] ?></td>
-          <td><?php echo $value['Name'] ?></td>
-          <td><img src="<?php echo $value['Image']; ?>" alt="img" style="width:50px;height:auto;"></td>
-          <td><?php echo $value['Category_name'] ?></td>
+          <td><?php echo $value['id'] ?></td>
+          <td><?php echo $value['product_name'] ?></td>
+          <td><img src="<?php echo $value['img']; ?>" alt="img" style="width:50px;height:auto;"></td>
+          <td><?php echo $value['category_name'] ?></td>
           <td><?php echo $value['Total_color'] ?></td>
-          <td><?php echo $value['Quantity'] ?></td>
-          <td><?php echo $value['Views'] ?></td>
-          <td><?php echo number_format(floatval(str_replace('.', '', $value['Lowest_Price'])), 0, ',', '.'); ?> vnđ</td>
-          <td><?php echo number_format(floatval(str_replace('.', '', $value['Highest_Price'])), 0, ',', '.'); ?> vnđ</td>
+          <td><?php echo $value['quantity'] ?></td>
+          <td><?php echo $value['views'] ?></td>
+          <td><?php echo number_format(floatval(str_replace('.', '', $value['Lowest_Price'])), 0, ',', '.'); ?> VND</td>
+          <td><?php echo number_format(floatval(str_replace('.', '', $value['Highest_Price'])), 0, ',', '.'); ?> VND</td>
           <td>
-            <a href="?act=product_detail&id=<?php echo $value['ID'] ?>" class="btn btn-primary">Details</a>
-            <a href="?act=update_product&id=<?php echo $value['ID'] ?>" class="btn btn-warning">Edit</a>
-            <a href="#" class="btn btn-danger" onclick="openModal(event, '<?php echo $value['ID'] ?>')">Delete</a>
+            <a href="?act=product_detail&id=<?php echo $value['id'] ?>" class="btn btn-primary">Details</a>
+            <a href="?act=update_product&id=<?php echo $value['id'] ?>" class="btn btn-warning">Edit</a>
+            <a href="#" class="btn btn-danger" onclick="openModal(event, '<?php echo $value['id'] ?>')">Delete</a>
           </td>
         </tr>
       <?php endforeach; ?>
     </tbody>
   </table>
+  <?php endif; ?>
 </div>
+
+
 
 <!-- Delete Confirmation Modal -->
 <div id="confirmModal" class="modal fade" tabindex="-1" role="dialog">
@@ -146,31 +151,3 @@
     window.location.href = `?act=delete_product&id=${productId}`;
   }
 </script>
-<style>
-/* Đặt button bên trong input */
-.position-relative {
-    position: relative;
-}
-
-/* Định dạng nút search */
-.search-btn {
-    position: absolute;
-    right: 0px;
-    top: 41%;
-    transform: translateY(-50%);
-    padding: 10.5px 18px;
-    border-radius: 2px 4px 4px 2px;
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Khoảng cách padding cho input để không chồng lên button */
-#search {
-    padding-right: 40px;
-}
-
-</style>
