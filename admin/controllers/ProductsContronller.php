@@ -7,8 +7,16 @@ class ProductsController
         $this->products = new Products();
     }
 
-    public function views_products(){
-        $listProducts = $this->products->get_products();
+    public function views_products() {
+        // Kiểm tra nếu có từ khóa tìm kiếm
+        if (isset($_GET['search'])) {
+            $searchTerm = $_GET['search'];
+            $listProducts = $this->products->search_prd($searchTerm); // Gọi hàm tìm kiếm
+        } else {
+            $listProducts = $this->products->get_products(); // Lấy tất cả sản phẩm nếu không có từ khóa tìm kiếm
+        }
+        
+        // Hiển thị trang sản phẩm và truyền biến $listProducts
         require_once './views/products/products.php';
     }
     
@@ -341,5 +349,5 @@ class ProductsController
             header('Location: ?act=product_detail&id=' . $product_id);
             exit;
         }
-    }
+    }   
 }
