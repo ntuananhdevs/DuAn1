@@ -5,7 +5,7 @@
         <select name="product_id" id="product_id" class="form-control">
             <?php foreach ($products as $product): ?>
                 <option value="<?= $product['ID'] ?>" <?= $product['ID'] == $discount['product_id'] ? 'selected' : '' ?>>
-                    <?= $product['Name'] ?> <!-- Sử dụng 'Name' thay vì 'product_name' -->
+                    <?= $product['Name'] ?>
                 </option>
             <?php endforeach; ?>
         </select>
@@ -21,24 +21,24 @@
 
     <div class="form-group" id="discount_value_group">
         <label for="discount_value">Giá trị giảm</label>
-        <input type="text" name="discount_value" id="discount_value" class="form-control" value="<?= $discount['discount_value'] ?>" placeholder="Nhập giá trị giảm" required>
+        <input type="number" name="discount_value" id="discount_value" class="form-control" value="<?= $discount['discount_value'] ?>" placeholder="Nhập giá trị giảm" required>
     </div>
 
     <div class="form-group">
-        <label for="start_date">Ngày bắt đầu</label>
-        <input type="date" name="start_date" id="start_date" class="form-control" value="<?= $discount['start_date'] ?>" required>
+        <label for="start_date">Ngày và giờ bắt đầu</label>
+        <input type="datetime-local" name="start_date" id="start_date" class="form-control" value="<?= date('Y-m-d\TH:i', strtotime($discount['start_date'])) ?>" required>
     </div>
 
     <div class="form-group">
-        <label for="end_date">Ngày kết thúc</label>
-        <input type="date" name="end_date" id="end_date" class="form-control" value="<?= $discount['end_date'] ?>" required>
+        <label for="end_date">Ngày và giờ kết thúc</label>
+        <input type="datetime-local" name="end_date" id="end_date" class="form-control" value="<?= date('Y-m-d\TH:i', strtotime($discount['end_date'])) ?>" required>
     </div>
 
     <div class="form-group">
         <label for="status">Trạng thái</label>
         <select name="status" id="status" class="form-control">
-            <option value="1" <?= $discount['status'] == 1 ? 'selected' : '' ?>>Hoạt động</option>
-            <option value="0" <?= $discount['status'] == 0 ? 'selected' : '' ?>>Không hoạt động</option>
+            <option value="1" <?= $discount['status'] == 1 ? 'selected' : '' ?>>Active</option>
+            <option value="0" <?= $discount['status'] == 0 ? 'selected' : '' ?>>Expired</option>
         </select>
     </div>
 
@@ -47,28 +47,27 @@
 </form>
 
 <script>
-    // Lắng nghe sự kiện thay đổi giá trị chọn loại giảm giá
-    document.getElementById('discount_type').addEventListener('change', function() {
-        let discountValueInput = document.getElementById('discount_value');
-        let discountType = this.value;
+document.getElementById('discount_type').addEventListener('change', function() {
+    let discountType = this.value;
+    let discountValueInput = document.getElementById('discount_value');
 
-        // Nếu chọn 'percentage', chỉ cho phép nhập giá trị <= 100
-        if (discountType === 'percentage') {
-            discountValueInput.removeAttribute('disabled');  // Cho phép nhập giá trị
-        } else {
-            discountValueInput.removeAttribute('disabled');  // Nếu là 'fixed', cho phép nhập
-        }
-    });
+    if (discountType === 'percentage') {
+        discountValueInput.setAttribute('max', 100); // Giới hạn tối đa là 100% cho phần trăm
+        discountValueInput.setAttribute('placeholder', 'Nhập giá trị từ 1 đến 100');
+    } else {
+        discountValueInput.removeAttribute('max'); // Không có giới hạn cho tiền mặt
+        discountValueInput.setAttribute('placeholder', 'Nhập giá trị giảm');
+    }
+});
 
-    // Kiểm tra khi người dùng nhập giá trị giảm
-    document.getElementById('discount_value').addEventListener('input', function() {
-        let discountValue = parseFloat(this.value);
-        let discountType = document.getElementById('discount_type').value;
+// Kiểm tra và đảm bảo giá trị giảm giá không vượt quá 100% khi nhập
+document.getElementById('discount_value').addEventListener('input', function() {
+    let discountType = document.getElementById('discount_type').value;
+    let discountValue = parseFloat(this.value);
 
-        // Kiểm tra nếu chọn 'percentage' và giá trị lớn hơn 100
-        if (discountType === 'percentage' && discountValue > 100) {
-            alert('Giảm giá phần trăm không thể lớn hơn 100%.');
-            this.value = '';  // Xóa giá trị nhập vào
-        }
-    });
+    if (discountType === 'percentage' && discountValue > 100) {
+        this.value = 100; // Giới hạn giá trị không quá 100%
+        alert("Giảm giá phần trăm không được vượt quá 100%!"); // Hiển thị thông báo
+    }
+});
 </script>
