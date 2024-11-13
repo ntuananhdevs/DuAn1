@@ -35,7 +35,7 @@
                     </td>
                     <td style="vertical-align: middle;">
                         <a href="index.php?act=view_edit&id=<?= htmlspecialchars($banner['id']) ?>" class="btn btn-primary mt-3">Edit</a>
-                        <a href="index.php?act=delete_banner&id=<?= htmlspecialchars($banner['id']) ?>" class="btn btn-danger mt-3" onclick="return confirm('Are you sure you want to delete this banner?');">Delete</a>
+                        <a href="index.php?act=delete_banner&id=<?= htmlspecialchars($banner['id']) ?>" class="btn btn-danger mt-3" onclick="return confirm('Bạn có chắc muốn xóa banner này???');">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
