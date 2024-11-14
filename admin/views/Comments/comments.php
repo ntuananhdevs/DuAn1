@@ -1,4 +1,5 @@
 <div class="container">
+
     <h3 class="mb-0 h4 font-weight-bolder mb-4">Comment Counts by Product</h3>
     <table class="table table-hover">
         <thead class="text-left">

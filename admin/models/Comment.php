@@ -70,7 +70,8 @@ class Comment {
     }
     
    
-           
+
+    
    
     public function deleteComment($commentId)
     {

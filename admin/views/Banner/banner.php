@@ -15,10 +15,22 @@
             </tr>
         </thead>
         <tbody class="text-left">
-            <?php foreach ($banners as $banner) : ?>
+
+
+            <?php
+            $currentDateTime = date('Y-m-d H:i:s');
+            foreach ($banners as $banner) :
+                $status = 'pending'; // Mặc định trạng thái là pending
+                if ($currentDateTime >= $banner['start_date'] && $currentDateTime <= $banner['end_date']) {
+                    $status = 'active'; // Nếu đang trong thời gian giảm giá
+                } elseif ($currentDateTime > $banner['end_date']) {
+                    $status = 'inactive'; // Nếu đã hết thời gian giảm giá
+                }
+
+            ?>
                 <tr>
                     <td>
-                            <img src="../uploads/BannerIMG/<?= htmlspecialchars($banner['img_url']) ?>" style="width: 200px; height: 100px; border-radius: 5px; object-fit: cover;" alt="Banner Image">
+                        <img src="../uploads/BannerIMG/<?= htmlspecialchars($banner['img_url']) ?>" style="width: 200px; height: 100px; border-radius: 5px; object-fit: cover;" alt="Banner Image">
                     </td>
                     <td style="vertical-align: middle;"><?= htmlspecialchars($banner['title']); ?></td>
                     <td style="vertical-align: middle;"><?= htmlspecialchars($banner['description']) ?></td>
@@ -26,16 +38,16 @@
                     <td style="vertical-align: middle;"><?= $banner['end_date'] ? date('d-m-Y H:i:s', strtotime($banner['end_date'])) : 'N/A'; ?></td>
                     <td style="vertical-align: middle;">
                         <?php
-                            echo match($banner['status']) {
-                                'active' => '<span class="badge bg-success">Active</span>',
-                                'inactive' => '<span class="badge bg-secondary">Inactive</span>',
-                            
-                            };
+                        echo match ($banner['status']) {
+                            'active' => '<span class="badge bg-success">Active</span>',
+                            'inactive' => '<span class="badge bg-secondary">Inactive</span>',
+                            'pending' => '<span class="badge bg-warning">Pending</span>',
+                        };
                         ?>
                     </td>
                     <td style="vertical-align: middle;">
                         <a href="index.php?act=view_edit&id=<?= htmlspecialchars($banner['id']) ?>" class="btn btn-primary mt-3">Edit</a>
-                        <a href="index.php?act=delete_banner&id=<?= htmlspecialchars($banner['id']) ?>" class="btn btn-danger mt-3" onclick="return confirm('Are you sure you want to delete this banner?');">Delete</a>
+                        <a href="index.php?act=delete_banner&id=<?= htmlspecialchars($banner['id']) ?>" class="btn btn-danger mt-3" onclick="return confirm('Bạn có chắc muốn xóa banner này???');">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

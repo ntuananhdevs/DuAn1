@@ -1,3 +1,4 @@
+
 <?php
     require_once '../commons/env.php';
     require_once '../commons/core.php';
@@ -89,6 +90,7 @@
             'comments' => $comment->views_comment(),
             'delete' => $comment->deleteComment($_GET['id']),
             'view_comments' => $comment->viewComments($_GET['product_id'] ),
+            'view_add_comments' => $comment->view_add(),
            
             #CRUD oder
             'orders' => $oder->views_oder(),

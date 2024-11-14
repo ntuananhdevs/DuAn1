@@ -88,7 +88,7 @@ class ProductsController
             header('Location: ?act=products');
         }catch (Exception $e) {
             $errorMessage = $e->getMessage();
-            header('Location: ?act=products&status=error&message=' . urlencode($errorMessage));
+            header('Location: ?act=add-product&status=error&message=' . urlencode($errorMessage));
              
         }
     
