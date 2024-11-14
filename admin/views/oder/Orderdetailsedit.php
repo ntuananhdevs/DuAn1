@@ -50,11 +50,7 @@
                             
                             <div class="form-group">
                                 <label>Số lượng:</label>
-                                <input type="number" 
-                                       class="form-control" 
-                                       name="products[<?= $value ?>][quantity]" 
-                                       value="<?= htmlspecialchars($product['quantity'] ?? 1) ?>" 
-                                       min="1">
+                                <input type="number" class="form-control" name="products[<?= $value ?>][quantity]" value="<?= htmlspecialchars($product['quantity']) ?>" min="1">
                             </div>
                             <p>Giá: <?= number_format($product['price'] ?? 0) ?> VNĐ</p>
                         </div>

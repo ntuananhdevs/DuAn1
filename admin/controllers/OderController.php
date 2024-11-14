@@ -171,21 +171,28 @@ class OderController {
             ];
 
             foreach ($_POST['products'] as $product) {
-                $quantity = (int)$product['quantity'];
-                $price = (float)$product['price'];
-                $subtotal = $quantity * $price;
-                
-                $details['products'][] = [
-                    'product_id' => $product['variant_id'],
-                    'quantity' => $quantity,
-                    'price' => $price,
-                    'color' => $product['color'],
-                    'ram' => $product['ram'],
-                    'storage' => $product['storage']
-                ];
-                
-                $details['total_amount'] += $subtotal;
+                if (!empty($product['variant_id']) && !empty($product['quantity'])) {
+                    $quantity = (int)$product['quantity'];
+                    $price = (float)$product['price'];
+                    $subtotal = $quantity * $price;
+
+                    $details['products'][] = [
+                        'variant_id' => $product['variant_id'],
+                        'quantity' => $quantity,
+                        'price' => $price,
+                        'color' => $product['color'],
+                        'ram' => $product['ram'],
+                        'storage' => $product['storage']
+                    ];
+
+                    $details['total_amount'] += $subtotal;
+                } else {
+                    error_log("Missing variant_id or quantity for product: " . print_r($product, true));
+                }
             }
+
+            var_dump($details);
+            exit;
 
             if ($this->OrderModel->updateOrderDetails($orderId, $details)) {
                 $_SESSION['success'] = "Cập nhật chi tiết đơn hàng thành công";

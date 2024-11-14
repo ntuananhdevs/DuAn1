@@ -56,9 +56,10 @@ class OrderModel {
     public function delete($id) {
         try {
             $stmt = $this->conn->prepare("DELETE FROM orders WHERE id = :id");
-            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             return $stmt->execute();
         } catch (Exception $e) {
+            error_log("Error in delete: " . $e->getMessage());
             return false;
         }
     }
@@ -193,6 +194,8 @@ class OrderModel {
     public function updateOrderDetails($orderId, $details) {
         try {
             $this->conn->beginTransaction();
+            
+            // Cập nhật tổng tiền trong bảng orders
             $orderSql = "UPDATE orders SET 
                 total_amount = :total_amount,
                 updated_at = CURRENT_TIMESTAMP
@@ -204,6 +207,7 @@ class OrderModel {
                 ':order_id' => $orderId
             ]);
 
+            // Cập nhật chi tiết đơn hàng trong bảng order_details
             foreach ($details['products'] as $product) {
                 $detailSql = "UPDATE order_details SET 
                     quantity = :quantity,
@@ -212,11 +216,16 @@ class OrderModel {
                     AND product_variant_id = :variant_id";
                     
                 $detailStmt = $this->conn->prepare($detailSql);
+                
+                // Thêm var_dump để kiểm tra dữ liệu
+                var_dump($product); // Kiểm tra từng sản phẩm
+                exit; // Dừng thực thi để xem kết quả
+                
                 $detailStmt->execute([
                     ':order_id' => $orderId,
                     ':quantity' => $product['quantity'],
                     ':subtotal' => $product['quantity'] * $product['price'],
-                    ':variant_id' => $product['variant_id'],
+                    ':variant_id' => $product['variant_id']
                 ]);
             }
 
