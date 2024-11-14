@@ -1,5 +1,5 @@
 <?php 
-define('BASE_URL'       , 'http://localhost:8008');
+define('BASE_URL'       , 'locahost');
 
 define('DB_HOST'    , 'localhost');
 define('DB_PORT'    , 3306);

@@ -1,26 +1,33 @@
 <?php
-class OrderModel {
+class OderModel {
     private $conn;
 
     public function __construct() {
-        $this->conn = connectDB();
+        $this->conn = connectDB(); // Kết nối đến cơ sở dữ liệu
     }
 
     public function getAll() {
         try {
             $stmt = $this->conn->prepare("
-                SELECT o.*, u.user_name 
-                FROM Orders o
-                LEFT JOIN Users u ON o.user_id = u.id
-                ORDER BY o.created_at ASC
+                SELECT 
+                    id, 
+                    user_id, 
+                    guest_fullname, 
+                    guest_email, 
+                    guest_phone, 
+                    order_date, 
+                    payment_status, 
+                    shipping_status, 
+                    total_amount, 
+                    payment_method, 
+                    payment_date, 
+                    shipping_address, 
+                    updated_at 
+                FROM orders
+                ORDER BY order_date DESC
             ");
             $stmt->execute();
-            $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-            // Debug để kiểm tra dữ liệu
-            error_log("Orders data: " . print_r($orders, true));
-            
-            return $orders;
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             error_log("Error in getAll: " . $e->getMessage());
             return [];
@@ -28,7 +35,6 @@ class OrderModel {
     }
     public function getById($id) {
         try {
-            // Debug
             error_log("Getting order ID: " . $id);
 
             $query = "SELECT * FROM Orders WHERE id = :id";
@@ -52,18 +58,6 @@ class OrderModel {
             return null;
         }
     }
-    
-    public function delete($id) {
-        try {
-            $stmt = $this->conn->prepare("DELETE FROM orders WHERE id = :id");
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            return $stmt->execute();
-        } catch (Exception $e) {
-            error_log("Error in delete: " . $e->getMessage());
-            return false;
-        }
-    }
-
     public function update($id, $data) {
         try {
             $sql = "UPDATE Orders SET 
@@ -190,4 +184,4 @@ class OrderModel {
             return null;
         }
     }
-}   
+}

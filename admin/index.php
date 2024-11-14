@@ -1,4 +1,3 @@
-
 <?php
     require_once '../commons/env.php';
     require_once '../commons/core.php';
@@ -32,7 +31,7 @@
     $user = new UserController();
     $comment = new CommentController();
     $category = new CategoryController();
-    $oder = new OderController();
+    $order = new OderController();
     $banner = new BannerController();
     $discount = new DiscountController();
 
@@ -90,16 +89,13 @@
             'comments' => $comment->views_comment(),
             'delete' => $comment->deleteComment($_GET['id']),
             'view_comments' => $comment->viewComments($_GET['product_id'] ),
-            'view_add_comments' => $comment->view_add(),
            
             #CRUD oder
-            'orders' => $oder->views_oder(),
-            'delete_oder' => $oder->delete(),
-            'print_bill' => $oder->print_bill(),
-            'edit_oder' => $oder->views_edit(),
-            'update_oder' => $oder->update(),
-            'order_details' => $oder->view_details(),
-            'edit_order_details' => $oder->views_edit_details(),
+            'orders' => $order->views_order(),
+            'print_bill' => $order->print_bill(),
+            'edit_oder' => $order->views_edit(),
+            'update_oder' => $order->update(),
+            'details' => $order->details(),
 
              // CRUD for Discounts
                 'discount' => $discount->index(),
