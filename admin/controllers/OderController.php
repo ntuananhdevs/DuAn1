@@ -110,7 +110,7 @@ class OderController {
                 throw new Exception("Không tìm thấy ID đơn hàng");
             }
 
-            $orderId = (int)$_GET['id'];
+            $orderId = $_GET['id'];
             error_log("Order ID: " . $orderId);
             $order = $this->OrderModel->getOrderWithDetails($orderId);
             
