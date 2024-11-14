@@ -15,10 +15,22 @@
             </tr>
         </thead>
         <tbody class="text-left">
-            <?php foreach ($banners as $banner) : ?>
+
+
+            <?php
+            $currentDateTime = date('Y-m-d H:i:s');
+            foreach ($banners as $banner) :
+                $status = 'pending'; // Mặc định trạng thái là pending
+                if ($currentDateTime >= $banner['start_date'] && $currentDateTime <= $banner['end_date']) {
+                    $status = 'active'; // Nếu đang trong thời gian giảm giá
+                } elseif ($currentDateTime > $banner['end_date']) {
+                    $status = 'inactive'; // Nếu đã hết thời gian giảm giá
+                }
+
+            ?>
                 <tr>
                     <td>
-                            <img src="../uploads/BannerIMG/<?= htmlspecialchars($banner['img_url']) ?>" style="width: 200px; height: 100px; border-radius: 5px; object-fit: cover;" alt="Banner Image">
+                        <img src="../uploads/BannerIMG/<?= htmlspecialchars($banner['img_url']) ?>" style="width: 200px; height: 100px; border-radius: 5px; object-fit: cover;" alt="Banner Image">
                     </td>
                     <td style="vertical-align: middle;"><?= htmlspecialchars($banner['title']); ?></td>
                     <td style="vertical-align: middle;"><?= htmlspecialchars($banner['description']) ?></td>
@@ -26,12 +38,11 @@
                     <td style="vertical-align: middle;"><?= $banner['end_date'] ? date('d-m-Y H:i:s', strtotime($banner['end_date'])) : 'N/A'; ?></td>
                     <td style="vertical-align: middle;">
                         <?php
-                            echo match($banner['status']) {
-                                'active' => '<span class="badge bg-success">Active</span>',
-                                'inactive' => '<span class="badge bg-secondary">Inactive</span>',
-                                'expired' => '<span class="badge bg-warning">Expired</span>',
-                            
-                            };
+                        echo match ($banner['status']) {
+                            'active' => '<span class="badge bg-success">Active</span>',
+                            'inactive' => '<span class="badge bg-secondary">Inactive</span>',
+                            'pending' => '<span class="badge bg-warning">Pending</span>',
+                        };
                         ?>
                     </td>
                     <td style="vertical-align: middle;">

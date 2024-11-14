@@ -1,6 +1,7 @@
+
 <h1 class="text-center my-4">Danh sách giảm giá</h1>
 <a href="?act=add-discount" class="btn btn-primary mb-3">Thêm giảm giá mới</a>
-<table class="table table-bordered">
+<table class="table">
     <thead>
         <tr>
             <th>ID</th>
@@ -17,9 +18,11 @@
         <?php
         $currentDateTime = date('Y-m-d H:i:s'); 
         foreach ($discounts as $discount):
-           
-            if ($currentDateTime > $discount['EndDate']) {
-                $discount['Status'] = 0; 
+            $status = 'pending'; // Mặc định trạng thái là pending
+            if ($currentDateTime >= $discount['StartDate'] && $currentDateTime <= $discount['EndDate']) {
+                $status = 'active'; // Nếu đang trong thời gian giảm giá
+            } elseif ($currentDateTime > $discount['EndDate']) {
+                $status = 'expired'; // Nếu đã hết thời gian giảm giá
             }
         ?>
         <tr>
@@ -39,14 +42,18 @@
             <td><?= date('Y-m-d H:i:s', strtotime($discount['StartDate'])) ?></td>
             <td><?= date('Y-m-d H:i:s', strtotime($discount['EndDate'])) ?></td>
             <td>
-                <span
-                    class="<?= (int)$discount['Status'] == 1 ? 'bg-success text-white border border-success rounded-pill px-5 py-1' : 'bg-danger text-white border border-danger rounded-pill px-3 py-1' ?>">
-                    <?= (int)$discount['Status'] == 1 ? 'active' : 'expired' ?>
-                </span>
+                <?php
+              echo match ($discount['Status']) {
+                'active' => '<span class="badge bg-success">Active</span>',
+                'pending' => '<span class="badge bg-warning">Pending</span>',        
+             'expired' => '<span class="badge bg-danger">Expired</span>',
+            };
+            
+                ?>
             </td>
             <td>
-                <a href="?act=edit-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-warning btn-sm">Sửa</a>
-                <a href="?act=delete-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-danger btn-sm"
+                <a href="?act=edit-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-warning">Sửa</a>
+                <a href="?act=delete-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-danger"
                     onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
             </td>
         </tr>

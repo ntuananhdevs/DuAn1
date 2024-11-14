@@ -18,6 +18,7 @@
         <th scope="col">Name</th>
         <th scope="col">Image</th>
         <th scope="col">Brand</th>
+        <th scope="col">Sale</th>
         <th scope="col">Total color</th>
         <th scope="col">Quantity</th>
         <th scope="col">Views</th>
@@ -35,6 +36,25 @@
           <td><?php echo $value['product_name'] ?></td>
           <td><img src="<?php echo $value['img']; ?>" alt="img" style="width:50px;height:auto;"></td>
           <td><?php echo $value['category_name'] ?></td>
+          <td class="text-danger">
+    <?php
+        if (isset($value['discount_value']) && $value['discount_value'] > 0 && $value['discount_status'] === 'active') {
+            $discount_value = $value['discount_value'];
+        } else {
+            $discount_value = 0;  
+        }
+        if ($discount_value == 0) {
+            echo '0';  
+        } else {
+            if ($value['discount_type'] == 'percentage') {
+                echo $discount_value . '%';  
+            } else {
+                echo number_format($discount_value, 0, ',', '.') . ' VND';  // Nếu giảm giá theo giá trị tiền mặt
+            }
+        }
+    ?>
+</td>
+
           <td><?php echo $value['Total_color'] ?></td>
           <td><?php echo $value['quantity'] ?></td>
           <td><?php echo $value['views'] ?></td>
