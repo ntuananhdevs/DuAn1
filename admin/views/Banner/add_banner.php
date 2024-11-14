@@ -53,6 +53,7 @@
                     <select name="status" class="form-control">
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
+                        <option value="expired">Expired</option>
                     </select>
                 </div>
                 

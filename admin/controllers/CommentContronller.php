@@ -24,6 +24,8 @@ class CommentController
         include '../admin/views/Comments/view_comments.php';
     }
 
+
+
   
 
    

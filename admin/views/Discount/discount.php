@@ -14,31 +14,42 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($discounts as $discount): ?>
-            <tr>
-                <td><?= $discount['DiscountID'] ?></td>
-                <td><?= $discount['ProductName'] ?></td>
-                <td><?= $discount['DiscountType'] == 'percentage' ? 'Phần trăm' : 'Tiền mặt' ?></td>
-                <td>
+        <?php
+        $currentDateTime = date('Y-m-d H:i:s'); 
+        foreach ($discounts as $discount):
+           
+            if ($currentDateTime > $discount['EndDate']) {
+                $discount['Status'] = 0; 
+            }
+        ?>
+        <tr>
+            <td><?= $discount['DiscountID'] ?></td>
+            <td><?= $discount['ProductName'] ?></td>
+            <td><?= $discount['DiscountType'] == 'percentage' ? 'Phần trăm' : 'Tiền mặt' ?></td>
+            <td>
                 <?php 
-        // Kiểm tra loại giảm giá và thêm ký tự VNĐ hoặc %
-        if ($discount['DiscountType'] == 'percentage') {
-            echo $discount['DiscountValue'] . '%';
-        } else {
-            // Ép kiểu DiscountValue thành float trước khi định dạng
-            $discountValue = floatval(str_replace(',', '', $discount['DiscountValue'])); // Loại bỏ dấu phẩy nếu có
-            echo number_format($discountValue, 0, ',', '.') . ' VNĐ';
-        }
-    ?>
-                </td>
-                <td><?= date('Y-m-d', strtotime($discount['StartDate'])) ?></td>
-                <td><?= date('Y-m-d', strtotime($discount['EndDate'])) ?></td>
-                <td><?= $discount['Status'] == 1 ? 'Hoạt động' : 'Không Hoạt Động' ?></td>
-                <td>
-                    <a href="?act=edit-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-warning btn-sm">Sửa</a>
-                    <a href="?act=delete-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
-                </td>
-            </tr>
+                if ($discount['DiscountType'] == 'percentage') {
+                    echo $discount['DiscountValue'] . '%';
+                } else {
+                    $discountValue = floatval(str_replace(',', '', $discount['DiscountValue']));
+                    echo number_format($discountValue, 0, ',', '.') . ' VNĐ';
+                }
+                ?>
+            </td>
+            <td><?= date('Y-m-d H:i:s', strtotime($discount['StartDate'])) ?></td>
+            <td><?= date('Y-m-d H:i:s', strtotime($discount['EndDate'])) ?></td>
+            <td>
+                <span
+                    class="<?= (int)$discount['Status'] == 1 ? 'bg-success text-white border border-success rounded-pill px-5 py-1' : 'bg-danger text-white border border-danger rounded-pill px-3 py-1' ?>">
+                    <?= (int)$discount['Status'] == 1 ? 'active' : 'expired' ?>
+                </span>
+            </td>
+            <td>
+                <a href="?act=edit-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-warning btn-sm">Sửa</a>
+                <a href="?act=delete-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-danger btn-sm"
+                    onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
+            </td>
+        </tr>
         <?php endforeach; ?>
     </tbody>
 </table>

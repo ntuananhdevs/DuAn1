@@ -36,6 +36,7 @@
             <option selected disabled>Status</option>
             <option value="active" <?= $banner['status'] == 'active' ? 'selected' : ''; ?>>Active</option>
             <option value="inactive" <?= $banner['status'] == 'inactive' ? 'selected' : ''; ?>>Inactive</option>
+            <option value="expired" <?= $banner['status'] == 'expired' ? 'selected' : ''; ?>>Expired</option>
         </select>
     </div>
 <br>

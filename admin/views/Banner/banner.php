@@ -29,6 +29,7 @@
                             echo match($banner['status']) {
                                 'active' => '<span class="badge bg-success">Active</span>',
                                 'inactive' => '<span class="badge bg-secondary">Inactive</span>',
+                                'expired' => '<span class="badge bg-warning">Expired</span>',
                             
                             };
                         ?>

@@ -176,7 +176,7 @@ class OderController {
                 $subtotal = $quantity * $price;
                 
                 $details['products'][] = [
-                    'product_id' => $product['product_id'],
+                    'product_id' => $product['variant_id'],
                     'quantity' => $quantity,
                     'price' => $price,
                     'color' => $product['color'],

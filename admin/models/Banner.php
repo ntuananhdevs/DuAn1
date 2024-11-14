@@ -16,7 +16,9 @@ class Banner {
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    
+
+
+
     public function create($title, $description, $img_url, $position, $start_date, $end_date, $status) {
         if (empty($start_date)) {
             $start_date = date('Y-m-d H:i:s');
