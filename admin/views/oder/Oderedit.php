@@ -84,22 +84,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const shippingStatus = document.getElementById('shipping_status');
 
     function handleStatusChange() {
-        // Nếu thanh toán thất bại
+        if (paymentStatus.value === 'cod') {
+            shippingStatus.value = 'pending';
+            return;
+        }
+
         if (paymentStatus.value === 'failed') {
             shippingStatus.value = 'canceled';
             return;
         }
 
-        // Nếu thanh toán hoàn tất
         if (paymentStatus.value === 'completed') {
-            if (shippingStatus.value === 'pending' || shippingStatus.value === 'undefined') {
-                shippingStatus.value = 'shipped';
-            }
-            return;
-        }
-
-        // Nếu thanh toán khi nhận hàng
-        if (paymentStatus.value === 'cod') {
             if (shippingStatus.value === 'pending' || shippingStatus.value === 'undefined') {
                 shippingStatus.value = 'shipped';
             }

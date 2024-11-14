@@ -67,7 +67,7 @@
                 <a href="?act=print_bill&id=<?= $order['order_info']['id'] ?>" class="btn btn-primary" target="_blank">
                     In hóa đơn
                 </a>
-                <a href="?act=edit_order_details&id=<?= $order['order_info']['id'] ?>" class="btn btn-secondary">EDIT</a>
+                <!-- <a href="?act=edit_order_details&id=<?= $order['order_info']['id'] ?>" class="btn btn-secondary">EDIT</a> -->
             </div>
         </div>
     </div>
