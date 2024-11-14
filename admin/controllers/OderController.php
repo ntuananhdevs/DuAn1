@@ -114,11 +114,7 @@ class OderController {
             error_log("Order ID: " . $orderId);
             $order = $this->OrderModel->getOrderWithDetails($orderId);
             
-            if (!$order) {
-                throw new Exception("Không tìm thấy thông tin đơn hàng");
-            }
-
-            include '../admin/views/oder/OrderDetails.php';
+            require_once '../admin/views/oder/OrderDetails.php';
         } catch (Exception $e) {
             $_SESSION['error'] = "Lỗi: " . $e->getMessage();
             header('Location: ?act=orders');

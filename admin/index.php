@@ -95,7 +95,7 @@
             'print_bill' => $order->print_bill(),
             'edit_oder' => $order->views_edit(),
             'update_oder' => $order->update(),
-            'details' => $order->details(),
+            'view_details' => $order->details(),
 
              // CRUD for Discounts
                 'discount' => $discount->index(),
