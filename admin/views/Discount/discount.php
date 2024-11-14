@@ -1,7 +1,7 @@
 
 <h1 class="text-center my-4">Danh sách giảm giá</h1>
 <a href="?act=add-discount" class="btn btn-primary mb-3">Thêm giảm giá mới</a>
-<table class="table table-bordered">
+<table class="table">
     <thead>
         <tr>
             <th>ID</th>
@@ -22,7 +22,7 @@
             if ($currentDateTime >= $discount['StartDate'] && $currentDateTime <= $discount['EndDate']) {
                 $status = 'active'; // Nếu đang trong thời gian giảm giá
             } elseif ($currentDateTime > $discount['EndDate']) {
-                $status = 'inactive'; // Nếu đã hết thời gian giảm giá
+                $status = 'expired'; // Nếu đã hết thời gian giảm giá
             }
         ?>
         <tr>
@@ -41,7 +41,7 @@
             </td>
             <td><?= date('Y-m-d H:i:s', strtotime($discount['StartDate'])) ?></td>
             <td><?= date('Y-m-d H:i:s', strtotime($discount['EndDate'])) ?></td>
-            <td style="vertical-align: middle;">
+            <td>
                 <?php
               echo match ($discount['Status']) {
                 'active' => '<span class="badge bg-success">Active</span>',
@@ -52,8 +52,8 @@
                 ?>
             </td>
             <td>
-                <a href="?act=edit-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-warning btn-sm">Sửa</a>
-                <a href="?act=delete-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-danger btn-sm"
+                <a href="?act=edit-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-warning">Sửa</a>
+                <a href="?act=delete-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-danger"
                     onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
             </td>
         </tr>
