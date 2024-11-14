@@ -1,3 +1,4 @@
+
 <h1 class="text-center my-4">Danh sách giảm giá</h1>
 <a href="?act=add-discount" class="btn btn-primary mb-3">Thêm giảm giá mới</a>
 <table class="table table-bordered">
@@ -42,15 +43,16 @@
             <td><?= date('Y-m-d H:i:s', strtotime($discount['EndDate'])) ?></td>
             <td style="vertical-align: middle;">
                 <?php
-                echo match ($status) {
-                    'active' => '<span class="badge bg-success">Active</span>',
-                    'inactive' => '<span class="badge bg-secondary">Inactive</span>',
-                    'pending' => '<span class="badge bg-warning">Pending</span>',
-                };
+              echo match ($discount['Status']) {
+                'active' => '<span class="badge bg-success">Active</span>',
+                'pending' => '<span class="badge bg-warning">Pending</span>',        
+             'expired' => '<span class="badge bg-danger">Expired</span>',
+            };
+            
                 ?>
             </td>
             <td>
-            <a href="?act=edit-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-warning btn-sm">Sửa</a>
+                <a href="?act=edit-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-warning btn-sm">Sửa</a>
                 <a href="?act=delete-discount&id=<?= $discount['DiscountID'] ?>" class="btn btn-danger btn-sm"
                     onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
             </td>
