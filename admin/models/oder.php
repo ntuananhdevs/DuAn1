@@ -314,5 +314,29 @@ class OderModel
             return [];
         }
     }
-    
+    public function delete($id)
+    {
+        try {
+            $stmt = $this->conn->prepare("SELECT payment_status, shipping_status FROM orders WHERE id = ?");
+            $stmt->execute([$id]);
+            $order = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$order) {
+                return false;
+            }
+
+            if ($order['shipping_status'] === 'cancelled' || ($order['shipping_status'] === 'delivered' && $order['payment_status'] === 'paid')) {
+
+                $stmt = $this->conn->prepare("DELETE FROM order_details WHERE order_id = ?");
+                $stmt->execute([$id]);
+                $stmt = $this->conn->prepare("DELETE FROM orders WHERE id = ?");
+                return $stmt->execute([$id]);
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            error_log("Error in delete: " . $e->getMessage());
+            return false;
+        }
+    }
 }

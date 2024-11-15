@@ -96,6 +96,7 @@
             'edit_oder' => $order->views_edit(),
             'update_oder' => $order->update(),
             'view_details' => $order->details($_GET['id']),
+            'delete_order' => $order->delete($_GET['id']),
 
              // CRUD for Discounts
                 'discount' => $discount->index(),

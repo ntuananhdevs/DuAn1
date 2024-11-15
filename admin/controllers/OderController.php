@@ -168,6 +168,28 @@ class OderController {
         }
     }
     
-    
+    public function delete() {
+        try {
+            if (!isset($_GET['id'])) {
+                $_SESSION['error'] = "Không tìm thấy ID đơn hàng";
+                header('Location: ?act=orders');
+                exit;
+            }
+
+            $id = $_GET['id'];
+            if ($this->OrderModel->delete($id)) {
+                $_SESSION['success'] = "Xóa đơn hàng thành công";
+            } else {
+                $_SESSION['error'] = "Xóa đơn hàng thất bại";
+            }
+
+            header('Location: ?act=orders');
+            exit;
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Lỗi: " . $e->getMessage();
+            header('Location: ?act=orders');
+            exit;
+        }
+    }
     
 }
