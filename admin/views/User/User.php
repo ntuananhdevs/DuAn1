@@ -2,14 +2,17 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h3 class="mb-0 h4 font-weight-bolder ">Users</h3>
     </div>
-    <a href="?act=add-user" class=" btn  btn-primary ">
- Thêm mới
-</a>
-<form action="" method="GET" class="d-flex">
-        <input type="hidden" name="act" value="users">
-        <input type="text" class="form-control mb-1" style="border-radius: 4px 0 0 4px  ; height: 36px;" id="search" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
-        <button type="submit" class="btn btn-primary " style="border-radius: 0 4px 4px 0; "><ion-icon name="search"></ion-icon></button>
-    </form>
+    <div class="search-form d-flex gap-3 align-items-center">
+        <a href="?act=add-user" class=" btn  btn-primary ">
+            Thêm mới
+        </a>
+        <form action="" method="GET" class="d-flex">
+            <input type="hidden" name="act" value="users">
+            <input type="text" class="form-control mb-1" style="border-radius: 4px 0 0 4px  ; height: 36px;" id="search" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+            <button type="submit" class="btn btn-primary " style="border-radius: 0 4px 4px 0; "><ion-icon name="search"></ion-icon></button>
+        </form>
+    </div>
+
     <table class="table  table-hover" id="dataTable" cellspacing="0">
         <thead class="thead-light">
             <tr>
@@ -50,17 +53,17 @@
                         <td><?= date('d/m/Y H:i', strtotime($user['updated_at'])) ?></td>
                         <td>
                             <a href="?act=edit-user&id=<?= $user['id'] ?>"
-                            class="btn btn-warning ">
-                            Sửa
-                        </a>
-                        <a href="?act=delete-user&id=<?= $user['id'] ?>"
-                        class="btn btn-danger "
-                        onclick="return confirm('Bạn có chắc muốn xóa người dùng này?')">
-                        Xóa
-                    </a>
-                </td>
-            </tr>
-            <?php endforeach; ?>
+                                class="btn btn-warning ">
+                                Sửa
+                            </a>
+                            <a href="?act=delete-user&id=<?= $user['id'] ?>"
+                                class="btn btn-danger "
+                                onclick="return confirm('Bạn có chắc muốn xóa người dùng này?')">
+                                Xóa
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             <?php endif; ?>
         </tbody>
     </table>

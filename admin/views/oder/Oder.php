@@ -1,9 +1,10 @@
 <?php ob_start() ?>
 <div class="container">
+
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h3 class="mb-0 h4 font-weight-bolder">Đơn hàng</h3>
     </div>
-    <form action="" method="GET" class="d-flex">
+    <form action="" method="GET" class="d-flex w-20">
         <input type="hidden" name="act" value="orders">
         <input type="text" class="form-control mb-1" style="border-radius: 4px 0 0 4px  ; height: 36px;" id="search" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
         <button type="submit" class="btn btn-primary " style="border-radius: 0 4px 4px 0; "><ion-icon name="search"></ion-icon></button>
