@@ -1,26 +1,30 @@
-
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Chi tiết đơn hàng #<?= $order['order_info']['id'] ?? 'Không xác định' ?></h6>
+            <h6 class="m-0 font-weight-bold text-primary">Chi tiết đơn hàng #<?= htmlspecialchars($order['order_info']['id'] ?? 'Không xác định') ?></h6>
         </div>
         <div class="card-body">
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <h5>Thông tin khách hàng</h5>
-                    <p><strong>Họ tên:</strong> <?= $order['order_info']['guest_fullname'] ?? 'Chưa có thông tin' ?></p>
-                    <p><strong>Email:</strong> <?= $order['order_info']['guest_email'] ?? 'Chưa có thông tin' ?></p>
-                    <p><strong>Số điện thoại:</strong> <?= $order['order_info']['guest_phone'] ?? 'Chưa có thông tin' ?></p>
-                    <p><strong>Địa chỉ:</strong> <?= $order['order_info']['shipping_address'] ?? 'Chưa có thông tin' ?></p>
+            <?php if (empty($order)): ?>
+                <div class="alert alert-danger">Không có dữ liệu đơn hàng.</div>
+                <?php var_dump($order); ?>
+            <?php else: ?>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h5>Thông tin khách hàng</h5>
+                        <p><strong>Họ tên:</strong> <?= htmlspecialchars($order['order_info']['guest_fullname'] ?? 'Chưa có thông tin') ?></p>
+                        <p><strong>Email:</strong> <?= htmlspecialchars($order['order_info']['guest_email'] ?? 'Chưa có thông tin') ?></p>
+                        <p><strong>Số điện thoại:</strong> <?= htmlspecialchars($order['order_info']['guest_phone'] ?? 'Chưa có thông tin') ?></p>
+                        <p><strong>Địa chỉ:</strong> <?= htmlspecialchars($order['order_info']['shipping_address'] ?? 'Chưa có thông tin') ?></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Thông tin đơn hàng</h5>
+                        <p><strong>Ngày đặt:</strong> <?= isset($order['order_info']['order_date']) ? date('d/m/Y H:i', strtotime($order['order_info']['order_date'])) : 'Chưa có thông tin' ?></p>
+                        <p><strong>Trạng thái thanh toán:</strong> <?= htmlspecialchars($order['order_info']['payment_status'] ?? 'Chưa có thông tin') ?></p>
+                        <p><strong>Trạng thái vận chuyển:</strong> <?= htmlspecialchars($order['order_info']['shipping_status'] ?? 'Chưa có thông tin') ?></p>
+                        <p><strong>Phương thức thanh toán:</strong> <?= htmlspecialchars($order['order_info']['payment_method'] ?? 'Chưa có thông tin') ?></p>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <h5>Thông tin đơn hàng</h5>
-                    <p><strong>Ngày đặt:</strong> <?= isset($order['order_info']['order_date']) ? date('d/m/Y H:i', strtotime($order['order_info']['order_date'])) : 'Chưa có thông tin' ?></p>
-                    <p><strong>Trạng thái thanh toán:</strong> <?= $order['payment_status'] ?? 'Chưa có thông tin' ?></p>
-                    <p><strong>Trạng thái vận chuyển:</strong> <?= $order['shipping_status'] ?? 'Chưa có thông tin' ?></p>
-                    <p><strong>Phương thức thanh toán:</strong> <?= $order['payment_method'] ?? 'Chưa có thông tin' ?></p>
-                </div>
-            </div>
+            <?php endif; ?>
 
             <div class="table-responsive">
                 <table class="table table-bordered">
@@ -38,7 +42,7 @@
                         <?php if (!empty($order['products'])): ?>
                             <?php foreach ($order['products'] as $product): ?>
                             <tr>
-                                <td><?= $product['product_name'] ?? 'Không có tên sản phẩm' ?></td>
+                                <td><?= htmlspecialchars($product['product_name'] ?? 'Không có tên sản phẩm') ?></td>
                                 <td>
                                     <?php if (!empty($product['variant_img']['img'])): ?>
                                         <img src="<?= htmlspecialchars($product['variant_img']['img']) ?>" width="80px" height="80px" alt="Ảnh variant">
@@ -47,11 +51,11 @@
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <?php if($product['color']): ?>Màu: <?= $product['color'] ?><br><?php endif; ?>
-                                    <?php if($product['ram']): ?>RAM: <?= $product['ram'] ?><br><?php endif; ?>
-                                    <?php if($product['storage']): ?>Bộ nhớ: <?= $product['storage'] ?><?php endif; ?>
+                                    <?php if(!empty($product['color'])): ?>Màu: <?= htmlspecialchars($product['color']) ?><br><?php endif; ?>
+                                    <?php if(!empty($product['ram'])): ?>RAM: <?= htmlspecialchars($product['ram']) ?><br><?php endif; ?>
+                                    <?php if(!empty($product['storage'])): ?>Bộ nhớ: <?= htmlspecialchars($product['storage']) ?><?php endif; ?>
                                 </td>
-                                <td><?= $product['quantity'] ?? 0 ?></td>
+                                <td><?= htmlspecialchars($product['quantity'] ?? 0) ?></td>
                                 <td><?= number_format($product['price'] ?? 0) ?>đ</td>
                                 <td><?= number_format($product['subtotal'] ?? 0) ?>đ</td>
                             </tr>
@@ -71,7 +75,7 @@
 
             <div class="text-right mt-3">
                 <a href="?act=orders" class="btn btn-secondary">Quay lại</a>
-                <a href="?act=print_bill&id=<?= $order['order_info']['id'] ?? '0' ?>" class="btn btn-primary" target="_blank">
+                <a href="?act=print_bill&id=<?= htmlspecialchars($order['order_info']['id'] ?? '0') ?>" class="btn btn-primary" target="_blank">
                     In hóa đơn
                 </a>
             </div>
