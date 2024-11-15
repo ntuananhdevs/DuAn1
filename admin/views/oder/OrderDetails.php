@@ -1,4 +1,3 @@
-
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -65,7 +64,7 @@
 
             <div class="text-right mt-3">
                 <a href="?act=orders" class="btn btn-secondary">Quay lại</a>
-                <a href="?act=print_bill&id=<?= $order['order_info']['id'] ?? '0' ?>" class="btn btn-primary" target="_blank">
+                <a href="?act=print_bill&id=<?= htmlspecialchars($order['order_info']['id'] ?? '0') ?>" class="btn btn-primary" target="_blank">
                     In hóa đơn
                 </a>
             </div>

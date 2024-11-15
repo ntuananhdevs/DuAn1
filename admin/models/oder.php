@@ -169,7 +169,7 @@ class OderModel
                            od.quantity as order_quantity, 
                            od.subtotal,
                            p.product_name,
-                           CONCAT('../uploads/Products/', p.img) as product_img,
+                           CONCAT('../uploads/Products/', vi.img) as product_img,
                            pv.color,
                            pv.ram,
                            pv.storage,
@@ -183,57 +183,68 @@ class OderModel
                     JOIN products p ON pv.product_id = p.id
                     LEFT JOIN variants_img vi ON pv.id = vi.variant_id
                     WHERE o.id = :order_id";
-
+    
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':order_id', $orderId, PDO::PARAM_INT);
-            $stmt->execute();
-
+    
+            if (!$stmt->execute()) {
+                error_log("Failed to execute query for order ID: $orderId");
+                return null;
+            }
+            
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             if (empty($result)) {
-                error_log("Không tìm thấy đơn hàng ID: " . $orderId);
+                error_log("No order found with ID: " . $orderId);
                 return null;
             }
-
+    
+            // Get order information
+            $orderInfo = $result[0];
+            if (empty($orderInfo)) {
+                error_log("No order information found for ID: " . $orderId);
+                return null;
+            }
+    
             $order = [
                 'order_info' => [
-                    'id' => $result[0]['id'],
-                    'user_id' => $result[0]['user_id'],
-                    'guest_fullname' => $result[0]['guest_fullname'],
-                    'guest_email' => $result[0]['guest_email'],
-                    'guest_phone' => $result[0]['guest_phone'],
-                    'order_date' => $result[0]['order_date'],
-                    'payment_status' => $result[0]['payment_status'],
-                    'shipping_status' => $result[0]['shipping_status'],
-                    'total_amount' => $result[0]['total_amount'],
-                    'payment_method' => $result[0]['payment_method'],
-                    'payment_date' => $result[0]['payment_date'],
-                    'shipping_address' => $result[0]['shipping_address'],
-                    'created_at' => $result[0]['created_at'],
-                    'updated_at' => $result[0]['updated_at']
+                    'id' => $orderInfo['id'] ?? null,
+                    'user_id' => $orderInfo['user_id'] ?? null,
+                    'guest_fullname' => $orderInfo['guest_fullname'] ?? null,
+                    'guest_email' => $orderInfo['guest_email'] ?? null,
+                    'guest_phone' => $orderInfo['guest_phone'] ?? null,
+                    'order_date' => $orderInfo['order_date'] ?? null,
+                    'payment_status' => $orderInfo['payment_status'] ?? null,
+                    'shipping_status' => $orderInfo['shipping_status'] ?? null,
+                    'total_amount' => $orderInfo['total_amount'] ?? null,
+                    'payment_method' => $orderInfo['payment_method'] ?? null,
+                    'payment_date' => $orderInfo['payment_date'] ?? null,
+                    'shipping_address' => $orderInfo['shipping_address'] ?? null,
+                    'created_at' => $orderInfo['created_at'] ?? null,
+                    'updated_at' => $orderInfo['updated_at'] ?? null
                 ],
                 'products' => []
             ];
-
+    
             foreach ($result as $row) {
                 $order['products'][] = [
-                    'product_name' => $row['product_name'],
-                    'product_img' => $row['product_img'],
+                    'product_name' => $row['product_name'] ?? 'Không có tên sản phẩm',
+                    'product_img' => $row['product_img'] ?? 'Không có hình ảnh',
                     'variant_img' => [
-                        'id' => $row['variant_img_id'],
-                        'img' => $row['variant_img'],
-                        'is_default' => $row['is_default']
+                        'id' => $row['variant_img_id'] ?? null,
+                        'img' => $row['variant_img'] ?? null,
+                        'is_default' => $row['is_default'] ?? false
                     ],
-                    'color' => $row['color'],
-                    'ram' => $row['ram'],
-                    'storage' => $row['storage'],
-                    'quantity' => $row['order_quantity'],
-                    'price' => $row['variant_price'],
-                    'subtotal' => $row['subtotal']
+                    'color' => $row['color'] ?? 'Không có màu',
+                    'ram' => $row['ram'] ?? 'Không có RAM',
+                    'storage' => $row['storage'] ?? 'Không có dung lượng',
+                    'quantity' => $row['order_quantity'] ?? 0,
+                    'price' => $row['variant_price'] ?? 0,
+                    'subtotal' => $row['subtotal'] ?? 0
                 ];
             }
-
-            // Debug log
+    
+            // Log successful retrieval
             error_log("Order details retrieved successfully for ID: " . $orderId);
 
             return $order;
@@ -244,5 +255,8 @@ class OderModel
             error_log("General Error in getOrderWithDetails: " . $e->getMessage());
             return null;
         }
+        error_log(print_r($order, true));
+
     }
+    
 }
