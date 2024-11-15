@@ -53,7 +53,7 @@ class OderController {
             }
 
             $orderData = $this->OrderModel->getById($id);
-            if (!$orderData) {
+            if (!$orderData || !isset($orderData[0])) {
                 $_SESSION['error'] = "Không tìm thấy đơn hàng";
                 header('Location: ?act=orders');
                 exit;

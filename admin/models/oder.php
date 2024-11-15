@@ -38,7 +38,6 @@ class OderModel
     }
     public function getById($id)
     {
-
         $query = "SELECT 
                     o.*, 
                     u.user_name, 
@@ -63,13 +62,18 @@ class OderModel
                 JOIN 
                     Products p ON pv.product_id = p.id
                 WHERE 
-                    o.id = ?
-";
+                    o.id = ?";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$id]);
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $products;
+        
+        // Kiểm tra nếu không có sản phẩm nào được tìm thấy
+        if (empty($products)) {
+            return null; // Trả về null nếu không tìm thấy
+        }
+
+        return $products; // Trả về danh sách sản phẩm
     }
     public function get_order_details($id)
 {
