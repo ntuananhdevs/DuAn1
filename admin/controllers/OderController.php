@@ -2,9 +2,11 @@
 
 class OderController {
     private $OrderModel;
+    private $products;
 
     public function __construct() {
         $this->OrderModel = new OderModel();
+        $this-> products = new Products();
     }
 
     public function views_order() {
@@ -104,22 +106,35 @@ class OderController {
         }
     }
 
-    public function details() {
+    public function details($id) {
         try {
-            if (!isset($_GET['id'])) {
-                throw new Exception("Không tìm thấy ID đơn hàng");
-            }
-
-            $orderId = $_GET['id'];
-            error_log("Order ID: " . $orderId);
-            $order = $this->OrderModel->getOrderWithDetails($orderId);
+            // Lấy chi tiết đơn hàng từ phương thức `get_order_details`
+            $order_details = $this->OrderModel->get_order_details($id);
             
+            // Lấy thông tin đơn hàng từ phương thức `getById`
+            $order = $this->OrderModel->getById($id);
+            
+            if ($order) {
+                $order = $order[0]; // Lấy dòng đầu tiên từ kết quả trả về nếu có
+                
+                // // Lấy hình ảnh từ phương thức `get_img_by_id`
+                // $img_data = $this->OrderModel->get_img_by_id($id);
+                
+                // // Nếu có hình ảnh, lấy ảnh đầu tiên
+                // if ($img_data && count($img_data) > 0) {
+                //     $img = $img_data[0]['img'];
+                // } else {
+                //     $img = null; // Không có ảnh nào, gán `img` là `null`
+                // }
+            }
+    
             require_once '../admin/views/oder/OrderDetails.php';
         } catch (Exception $e) {
-            $_SESSION['error'] = "Lỗi: " . $e->getMessage();
             header('Location: ?act=orders');
             exit;
         }
     }
+    
+    
     
 }
