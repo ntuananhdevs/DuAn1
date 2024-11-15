@@ -44,7 +44,7 @@
             $discount_value = 0;  
         }
         if ($discount_value == 0) {
-            echo '0';  
+         echo '<span style="color: #000;">0</span>';
         } else {
             if ($value['discount_type'] == 'percentage') {
                 echo $discount_value . '%';  
@@ -134,7 +134,7 @@
       transform: translateX(100%);
     }
   }
-</style>
+</style.color>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
