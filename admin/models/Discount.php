@@ -1,4 +1,3 @@
-
 <?php
 class Discount
 {
@@ -37,7 +36,7 @@ END AS Status
     $sql = "SELECT * FROM discounts WHERE id = ?";
     $stmt = $this->conn->prepare($sql);
     $stmt->execute([$id]);
-    return $stmt->fetch(PDO::FETCH_ASSOC); // Trả về kết quả của câu lệnh truy vấn
+    return $stmt->fetch(PDO::FETCH_ASSOC); 
 }
 
 public function add_discount($data)
@@ -47,16 +46,13 @@ public function add_discount($data)
         throw new Exception("Giá trị discount_type không hợp lệ: " . htmlspecialchars($data['discount_type']));
     }
 
-    // Đảm bảo start_date và end_date lưu cả ngày và giờ
-    $start_date = $data['start_date']; // Giữ nguyên cả ngày và giờ
-    $end_date = $data['end_date'];     // Giữ nguyên cả ngày và giờ
-
-    // Câu lệnh INSERT không cần sử dụng $id, chỉ cần truyền thông tin giảm giá
+    
+    $start_date = $data['start_date']; 
+    $end_date = $data['end_date'];     
     $sql = "INSERT INTO discounts (product_id, discount_type, discount_value, start_date, end_date, status) 
         VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $this->conn->prepare($sql);
-    
-    // Thực thi câu lệnh với các tham số cần thiết
+
     $stmt->execute([
         $data['product_id'],
         $data['discount_type'],
@@ -73,12 +69,9 @@ public function update_discount($id, $data)
     if (!in_array($data['discount_type'], $valid_types)) {
         throw new Exception("Giá trị discount_type không hợp lệ: " . htmlspecialchars($data['discount_type']));
     }
+    $start_date = $data['start_date']; 
+    $end_date = $data['end_date'];     
 
-    // Đảm bảo start_date và end_date lưu cả ngày và giờ
-    $start_date = $data['start_date']; // Giữ nguyên cả ngày và giờ
-    $end_date = $data['end_date'];     // Giữ nguyên cả ngày và giờ
-
-    // Câu lệnh UPDATE thay vì INSERT
     $sql = "UPDATE discounts SET 
                 product_id = ?, 
                 discount_type = ?, 
@@ -86,10 +79,9 @@ public function update_discount($id, $data)
                 start_date = ?, 
                 end_date = ?, 
                 status = ? 
-            WHERE id = ?";  // Chỉ cập nhật bản ghi có ID tương ứng
+            WHERE id = ?";  
     $stmt = $this->conn->prepare($sql);
 
-    // Thực thi câu lệnh với các tham số truyền vào
     $stmt->execute([
         $data['product_id'],
         $data['discount_type'],
@@ -97,7 +89,7 @@ public function update_discount($id, $data)
         $start_date,  
         $end_date,    
         $data['status'],
-        $id  // Sửa bản ghi với ID cụ thể
+        $id  
     ]);
 }
 

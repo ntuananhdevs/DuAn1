@@ -11,10 +11,9 @@ class OderController {
 
     public function views_order() {
         $orders = $this->OrderModel->getAll();
-        include '../admin/views/oder/Oder.php'; // Đảm bảo đường dẫn đúng
+        require_once '../admin/views/oder/Oder.php'; // Đảm bảo đường dẫn đúng
     }
     public function print_bill() {
-        try {
             if (!isset($_GET['id'])) {
                 $_SESSION['error'] = "Không tìm thấy ID đơn hàng";
                 header('Location: ?act=orders');
@@ -24,24 +23,26 @@ class OderController {
             $id = $_GET['id'];
             $order = $this->OrderModel->getById($id);
             
-            if (!$order) {
-                $_SESSION['error'] = "Không tìm thấy thông tin ơn hàng";
+            if (!$order || !isset($order[0])) {
+                $_SESSION['error'] = "Không tìm thấy thông tin đơn hàng";
                 header('Location: ?act=orders');
                 exit;
             }
 
-            if (!isset($order['payment_date'])) {
-                $order['payment_date'] = date('Y-m-d H:i:s');
-            }
+            $order = $order[0];
+            $order['guest_fullname'] = $order['guest_fullname'] ?? $order['fullname'] ?? 'Chưa có tên';
+            $order['guest_email'] = $order['guest_email'] ?? $order['email'] ?? 'Chưa có email';
+            $order['guest_phone'] = $order['guest_phone'] ?? $order['phone_number'] ?? 'Chưa có số điện thoại';
+            $order['shipping_address'] = $order['shipping_address'] ?? 'Chưa có địa chỉ';
+            $order['payment_method'] = $order['payment_method'] ?? 'Chưa xác định';
+            $order['total_amount'] = $order['total_amount'] ?? 0;
 
-            include '../admin/views/oder/bill_template.php';
+            // $productDetails = $this->OrderModel->getProductDetails($id);
+            // $order['products'] = $productDetails;
+
+            require_once '../admin/views/oder/bill_template.php';
             
-        } catch (Exception $e) {
-            error_log("Print Bill Error: " . $e->getMessage());
-            $_SESSION['error'] = "Có lỗi xảy ra: " . $e->getMessage();
-            header('Location: ?act=orders');
-            exit;
-        }
+        
     }
     public function views_edit() {
         try {
@@ -53,7 +54,7 @@ class OderController {
             }
 
             $orderData = $this->OrderModel->getById($id);
-            if (!$orderData) {
+            if (!$orderData || !isset($orderData[0])) {
                 $_SESSION['error'] = "Không tìm thấy đơn hàng";
                 header('Location: ?act=orders');
                 exit;
@@ -130,6 +131,33 @@ class OderController {
     
             require_once '../admin/views/oder/OrderDetails.php';
         } catch (Exception $e) {
+            header('Location: ?act=orders');
+            exit;
+        }
+    }
+    
+    public function view_details() {
+        try {
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+            if (!$id) {
+                $_SESSION['error'] = "ID không hợp lệ";
+                header('Location: ?act=orders');
+                exit;
+            }
+
+            $orderData = $this->OrderModel->getById($id);
+            if (!$orderData || !isset($orderData[0])) {
+                $_SESSION['error'] = "Không tìm thấy đơn hàng";
+                header('Location: ?act=orders');
+                exit;
+            }
+
+            // Ghi log ID đơn hàng
+            error_log("Order ID in view: " . $orderData[0]['id']);
+
+            include '../admin/views/oder/OrderDetails.php';
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Lỗi: " . $e->getMessage();
             header('Location: ?act=orders');
             exit;
         }
