@@ -3,6 +3,11 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h3 class="mb-0 h4 font-weight-bolder">Đơn hàng</h3>
     </div>
+    <form action="" method="GET" class="d-flex">
+        <input type="hidden" name="act" value="orders">
+        <input type="text" class="form-control mb-1" style="border-radius: 4px 0 0 4px  ; height: 36px;" id="search" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+        <button type="submit" class="btn btn-primary " style="border-radius: 0 4px 4px 0; "><ion-icon name="search"></ion-icon></button>
+    </form>
     <table class="table table-hover" id="dataTable">
         <thead class="thead-light">
             <tr>
@@ -91,7 +96,7 @@
                             <a href="?act=print_bill&id=<?= $order['id'] ?>" class="btn btn-success">In</a>
                         <?php else: ?>
                             <a href="?act=edit_oder&id=<?= $order['id'] ?>" class="btn btn-warning">Sửa</a>
-                            <a href="?act=delete_oder&id=<?= $order['id'] ?>" 
+                            <a href="?act=delete_order&id=<?= $order['id'] ?>" 
                                class="btn btn-danger"
                                onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?')">Xóa</a>
                         <?php endif; ?>

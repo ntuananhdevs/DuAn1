@@ -10,7 +10,12 @@ class OderController {
     }
 
     public function views_order() {
-        $orders = $this->OrderModel->getAll();
+        $search = $_GET['search'] ?? ''; // Lấy giá trị tìm kiếm từ URL
+        if ($search) {
+            $orders = $this->OrderModel->getBySearch($search); // Gọi phương thức tìm kiếm
+        } else {
+            $orders = $this->OrderModel->getAll(); // Lấy tất cả đơn hàng nếu không có tìm kiếm
+        }
         require_once '../admin/views/oder/Oder.php'; // Đảm bảo đường dẫn đúng
     }
     public function print_bill() {
@@ -163,6 +168,28 @@ class OderController {
         }
     }
     
-    
+    public function delete() {
+        try {
+            if (!isset($_GET['id'])) {
+                $_SESSION['error'] = "Không tìm thấy ID đơn hàng";
+                header('Location: ?act=orders');
+                exit;
+            }
+
+            $id = $_GET['id'];
+            if ($this->OrderModel->delete($id)) {
+                $_SESSION['success'] = "Xóa đơn hàng thành công";
+            } else {
+                $_SESSION['error'] = "Xóa đơn hàng thất bại";
+            }
+
+            header('Location: ?act=orders');
+            exit;
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Lỗi: " . $e->getMessage();
+            header('Location: ?act=orders');
+            exit;
+        }
+    }
     
 }

@@ -7,7 +7,12 @@ class UserController {
     }
 
     public function views_users() {
-        $users = $this->userModel->getAll();
+        $search = $_GET['search'] ?? '';
+        if ($search) {
+            $users = $this->userModel->getBySearch($search);
+        } else {
+            $users = $this->userModel->getAll();
+        }
         include '../admin/views/User/User.php';
     }
 
