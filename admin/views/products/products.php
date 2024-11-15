@@ -2,13 +2,11 @@
   <h3 class="mb-0 h4 font-weight-bolder mb-4">Products</h3>
   <div class="search d-flex gap-3 align-items-center p-2">
     <a href="?act=add-product" class="btn btn-primary w-10 ">Add Product</a>
-    
     <form action="" method="GET" class="d-flex">
         <input type="hidden" name="act" value="products">
         <input type="text" class="form-control mb-1" style="border-radius: 4px 0 0 4px  ; height: 36px;" id="search" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
         <button type="submit" class="btn btn-primary " style="border-radius: 0 4px 4px 0; "><ion-icon name="search"></ion-icon></button>
     </form>
-    
   </div>
   <?php if (empty($listProducts)): ?>
     <p class="">Không tìm thấy sản phẩm nào.</p>
