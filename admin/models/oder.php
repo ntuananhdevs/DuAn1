@@ -68,12 +68,11 @@ class OderModel
         $stmt->execute([$id]);
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        // Kiểm tra nếu không có sản phẩm nào được tìm thấy
         if (empty($products)) {
-            return null; // Trả về null nếu không tìm thấy
+            return null;
         }
 
-        return $products; // Trả về danh sách sản phẩm
+        return $products;
     }
     public function get_order_details($id)
 {
@@ -165,6 +164,32 @@ class OderModel
             return false;
         }
     }
+//     public function getProductDetails($orderId)
+// {
+//     try {
+//         $sql = "SELECT pv.*, p.product_name, MIN(vi.img) as img
+//                 FROM order_details od
+//                 JOIN product_variants pv ON od.product_variant_id = pv.id
+//                 LEFT JOIN products p ON pv.product_id = p.id
+//                 LEFT JOIN variants_img vi ON pv.id = vi.variant_id 
+//                 WHERE od.order_id = ?
+//                 GROUP BY pv.id";
+        
+//         $stmt = $this->conn->prepare($sql);
+//         $stmt->execute([$orderId]);
+        
+//         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+//         // Ghi log để kiểm tra
+//         error_log("Products for order ID $orderId: " . print_r($products, true));
+        
+//         return $products ?: []; // Trả về mảng trống nếu không có sản phẩm nào
+//     } catch (PDOException $e) {
+//         error_log("Database Error: " . $e->getMessage());
+//         return []; // Trả về mảng trống khi gặp lỗi
+//     }
+// }
+
 
     public function getOrderWithDetails($orderId)
     {
