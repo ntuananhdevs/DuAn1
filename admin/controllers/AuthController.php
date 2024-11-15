@@ -16,7 +16,6 @@ class AuthController {
                 $email = $_POST['email'] ?? '';
                 $password = $_POST['password'] ?? '';
     
-                // Kiểm tra lỗi đầu vào phía backend (email, password)
                 if (empty($email)) {
                     $emailError = "Email không được để trống";
                 } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -26,7 +25,6 @@ class AuthController {
                     $passwordError = "Mật khẩu không được để trống";
                 }
     
-                // Tiếp tục xử lý đăng nhập nếu không có lỗi phía backend
                 if (empty($emailError) && empty($passwordError)) {
                     $data = $this->auth->login($email, $password);
                     if ($data) {
