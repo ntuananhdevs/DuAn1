@@ -41,14 +41,6 @@
             <input type="datetime-local" name="end_date" id="end_date" class="form-control" required
                 value="<?= date('Y-m-d\TH:i', strtotime($discount['end_date'])) ?>">
         </div>
-        <div class="form-group">
-            <label for="status">Trạng thái</label>
-            <select name="status" id="status" class="form-control">
-                <option value="pending">Pending</option>
-                <option value="active">Active</option>
-                <option value="expired">Expired</option>
-            </select>
-        </div>
         <button type="submit" class="btn btn-primary">Cập nhật</button>
         <a href="?act=discount" class="btn btn-secondary">Hủy</a>
     </form>

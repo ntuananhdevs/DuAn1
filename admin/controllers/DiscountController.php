@@ -1,52 +1,55 @@
-
 <?php
 class DiscountController
 {
 
 
     public function index()
-{
-    $discountModel = new Discount();
+    {
+        $discountModel = new Discount();
     
-    // Lấy tham số sắp xếp từ URL
-    $sortOrder = isset($_GET['sort']) ? $_GET['sort'] : '';
+        // Lấy từ khóa tìm kiếm từ thanh search
+        $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
+        
+        if (!empty($searchTerm)) {
+            // Gọi hàm tìm kiếm
+            $discounts = $discountModel->search_discounts($searchTerm);
+        } else {
+            // Nếu không tìm kiếm, hiển thị danh sách giảm giá mặc định
+            $sortOrder = isset($_GET['sort']) ? $_GET['sort'] : '';
+            if ($sortOrder == 'id_asc') {
+                $discounts = $discountModel->get_all_discounts('ASC');
+            } elseif ($sortOrder == 'id_desc') {
+                $discounts = $discountModel->get_all_discounts('DESC');
+            } else {
+                $discounts = $discountModel->get_all_discounts(); 
+            }
+        }
     
-    // Xử lý sắp xếp theo ID
-    if ($sortOrder == 'id_asc') {
-        $discounts = $discountModel->get_all_discounts('ASC');
-    } elseif ($sortOrder == 'id_desc') {
-        $discounts = $discountModel->get_all_discounts('DESC');
-    } else {
-        $discounts = $discountModel->get_all_discounts(); // Nếu không có tham số sắp xếp, lấy tất cả
+        include '../admin/views/Discount/discount.php';
     }
-
-    include '../admin/views/Discount/discount.php'; // Gọi view hiển thị danh sách giảm giá
-}
-
+       
     public function add()
     {
         $discountModel1 = new Discount();
         $products = $discountModel1->get_products();
     
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Kiểm tra sự tồn tại của discount_value
+
             $discount_value = isset($_POST['discount_value']) && !empty($_POST['discount_value']) ? $_POST['discount_value'] : 0; // Nếu không có, gán giá trị mặc định 0
-    
-            // Xử lý discount_type
+
             $discount_type = $_POST['discount_type'] == 'percentage' ? 'percentage' : 'fixed';
     
-            // Chuẩn bị dữ liệu gửi đi
             $data = [
                 'product_id' => $_POST['product_id'],
-                'discount_type' => $discount_type, // Chỉ nhận 'percentage' hoặc 'fixed'
-                'discount_value' => $discount_value, // Nếu không có giá trị, gán mặc định là 0
+                'discount_type' => $discount_type, 
+                'discount_value' => $discount_value,
                 'start_date' => $_POST['start_date'],
                 'end_date' => $_POST['end_date'],
                 'status' => $_POST['status'],
             ];
     
             try {
-                // Sửa lại dòng này: sử dụng $discountModel1 thay vì $discountModel
+              
                 $discountModel1->add_discount($data); 
                 header('Location:?act=discount');
             } catch (Exception $e) {
