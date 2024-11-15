@@ -64,6 +64,7 @@ class BannerController
             }
         }
     }
+
     public function editBanner($id) {
        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

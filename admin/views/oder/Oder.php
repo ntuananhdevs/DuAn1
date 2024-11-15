@@ -1,3 +1,4 @@
+<?php ob_start() ?>
 <div class="container">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h3 class="mb-0 h4 font-weight-bolder">Đơn hàng</h3>
@@ -9,9 +10,8 @@
                 <th>Khách hàng</th>
                 <th>SĐT</th>
                 <th>Tổng tiền</th>
-                <th>Địa chỉ</th>
                 <th>Hình Thức Thanh Toán</th>
-                <th>Trạng thái</th>
+                <th>Trạng thái thanh toán</th>
                 <th>Trạng thái giao hàng</th>
                 <th>Thao tác</th>
             </tr>
@@ -23,7 +23,6 @@
                     <td><?= $order['user_name'] ?? $order['guest_fullname'] ?></td>
                     <td><?= $order['guest_phone'] ?></td>
                     <td><?= number_format($order['total_amount']) ?>đ</td>
-                    <td><?= $order['shipping_address'] ?></td> 
                     <td>
                         <?php
                         switch($order['payment_method']) {
@@ -45,11 +44,14 @@
                     <td>
                         <?php
                         switch($order['payment_status']) {
-                            case 'completed':
+                            case 'unpaid':
+                                echo '<span class="badge bg-warning">Chưa thanh toán</span>';
+                                break;
+                            case 'paid':
                                 echo '<span class="badge bg-success">Đã thanh toán</span>';
                                 break;
-                            case 'pending':
-                                echo '<span class="badge bg-warning">Chờ thanh toán</span>';
+                            case 'refunded':
+                                echo '<span class="badge bg-info">Đã hoàn tiền</span>';
                                 break;
                             case 'failed':
                                 echo '<span class="badge bg-danger">Thanh toán thất bại</span>';
@@ -63,16 +65,19 @@
                     <td>
                         <?php
                         switch($order['shipping_status']) {
-                            case 'pending': 
+                            case 'pending':
                                 echo '<span class="badge bg-warning">Chờ xử lý</span>';
                                 break;
-                            case 'shipped':
+                            case 'in_transit':
                                 echo '<span class="badge bg-primary">Đang giao hàng</span>';
                                 break;
                             case 'delivered':
                                 echo '<span class="badge bg-success">Đã giao hàng</span>';
                                 break;
-                            case 'canceled':
+                            case 'returned':
+                                echo '<span class="badge bg-info">Đã trả hàng</span>';
+                                break;
+                            case 'cancelled':
                                 echo '<span class="badge bg-danger">Đã hủy</span>';
                                 break;
                             default:
@@ -82,7 +87,7 @@
                         ?>
                     </td>
                     <td>
-                        <?php if($order['payment_status'] == 'completed' && $order['shipping_status'] == 'delivered'): ?>
+                        <?php if($order['payment_status'] == 'paid' && $order['shipping_status'] == 'delivered'): ?>
                             <a href="?act=print_bill&id=<?= $order['id'] ?>" class="btn btn-success">In</a>
                         <?php else: ?>
                             <a href="?act=edit_oder&id=<?= $order['id'] ?>" class="btn btn-warning">Sửa</a>
@@ -91,7 +96,7 @@
                                onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?')">Xóa</a>
                         <?php endif; ?>
                         <?php error_log("Order ID in view: " . $order['id']); ?>
-                        <a href="?act=order_details&id=<?= $order['id'] ?>"  class="btn btn-primary">
+                        <a href="?act=view_details&id=<?= $order['id'] ?>"  class="btn btn-primary">
                             Details
                         </a>
                     </td>

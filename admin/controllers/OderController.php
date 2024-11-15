@@ -1,27 +1,18 @@
 <?php
+
 class OderController {
     private $OrderModel;
+    private $products;
 
     public function __construct() {
-        $this->OrderModel = new OrderModel();
+        $this->OrderModel = new OderModel();
+        $this-> products = new Products();
     }
 
-    public function views_oder() {
+    public function views_order() {
         $orders = $this->OrderModel->getAll();
-        include '../admin/views/oder/Oder.php';
+        include '../admin/views/oder/Oder.php'; // Đảm bảo đường dẫn đúng
     }
-
-
-    public function delete() {
-        if ($this->OrderModel->delete($_GET['id'])) {
-            $_SESSION['success'] = "Xóa đơn hàng thành công";
-        } else {
-            $_SESSION['error'] = "Xóa đơn hàng thất bại";
-        }
-        header('Location: ?act=orders');
-        exit;
-    }
-
     public function print_bill() {
         try {
             if (!isset($_GET['id'])) {
@@ -52,7 +43,6 @@ class OderController {
             exit;
         }
     }
-
     public function views_edit() {
         try {
             $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -76,7 +66,6 @@ class OderController {
             exit;
         }
     }
-
     public function update() {
         try {
             if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -98,7 +87,8 @@ class OderController {
                 'shipping_status' => $_POST['shipping_status'],
                 'total_amount' => $_POST['total_amount'],
                 'payment_method' => $_POST['payment_method'],
-                'shipping_address' => $_POST['shipping_address']
+                'shipping_address' => $_POST['shipping_address'],
+                'order_date' => date('Y-m-d H:i:s')
             ];
 
             if ($this->OrderModel->update($id, $data)) {
@@ -116,91 +106,35 @@ class OderController {
         }
     }
 
-    public function view_details() {
+    public function details($id) {
         try {
-            if (!isset($_GET['id'])) {
-                throw new Exception("Không tìm thấy ID đơn hàng");
-            }
-
-            $orderId = (int)$_GET['id'];
-            $order = $this->OrderModel->getOrderWithDetails($orderId);
+            // Lấy chi tiết đơn hàng từ phương thức `get_order_details`
+            $order_details = $this->OrderModel->get_order_details($id);
             
-            if (!$order) {
-                throw new Exception("Không tìm thấy thông tin đơn hàng");
-            }
-
-            include '../admin/views/oder/OrderDetails.php';
-        } catch (Exception $e) {
-            $_SESSION['error'] = "Lỗi: " . $e->getMessage();
-            header('Location: ?act=orders');
-            exit;
-        }
-    }
-
-    public function views_edit_details() {
-        try {
-            if (!isset($_GET['id'])) {
-                throw new Exception("Không tìm thấy ID đơn hàng");
-            }
-
-            $orderId = (int)$_GET['id'];
-            $order = $this->OrderModel->getOrderWithDetails($orderId);
+            // Lấy thông tin đơn hàng từ phương thức `getById`
+            $order = $this->OrderModel->getById($id);
             
-            if (!$order) {
-                throw new Exception("Không tìm thấy thông tin đơn hàng");
+            if ($order) {
+                $order = $order[0]; // Lấy dòng đầu tiên từ kết quả trả về nếu có
+                
+                // // Lấy hình ảnh từ phương thức `get_img_by_id`
+                // $img_data = $this->OrderModel->get_img_by_id($id);
+                
+                // // Nếu có hình ảnh, lấy ảnh đầu tiên
+                // if ($img_data && count($img_data) > 0) {
+                //     $img = $img_data[0]['img'];
+                // } else {
+                //     $img = null; // Không có ảnh nào, gán `img` là `null`
+                // }
             }
-
-            include '../admin/views/oder/Orderdetailsedit.php';
+    
+            require_once '../admin/views/oder/OrderDetails.php';
         } catch (Exception $e) {
-            $_SESSION['error'] = "Lỗi: " . $e->getMessage();
             header('Location: ?act=orders');
             exit;
         }
     }
-
-    public function update_details() {
-        try {
-            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-                throw new Exception("Phương thức không hợp lệ");
-            }
-
-            $orderId = (int)$_POST['order_id'];
-            $details = [
-                'total_amount' => 0,
-                'products' => []
-            ];
-
-            foreach ($_POST['products'] as $product) {
-                $quantity = (int)$product['quantity'];
-                $price = (float)$product['price'];
-                $subtotal = $quantity * $price;
-                
-                $details['products'][] = [
-                    'product_id' => $product['variant_id'],
-                    'quantity' => $quantity,
-                    'price' => $price,
-                    'color' => $product['color'],
-                    'ram' => $product['ram'],
-                    'storage' => $product['storage']
-                ];
-                
-                $details['total_amount'] += $subtotal;
-            }
-
-            if ($this->OrderModel->updateOrderDetails($orderId, $details)) {
-                $_SESSION['success'] = "Cập nhật chi tiết đơn hàng thành công";
-            } else {
-                $_SESSION['error'] = "Cập nhật chi tiết đơn hàng thất bại";
-            }
-
-            header('Location: ?act=order_details&id=' . $orderId);
-            exit;
-        } catch (Exception $e) {
-            $_SESSION['error'] = "Lỗi: " . $e->getMessage();
-            header('Location: ?act=orders');
-            exit;
-        }
-    }
-
+    
+    
+    
 }
-?>

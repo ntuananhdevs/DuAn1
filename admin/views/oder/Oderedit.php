@@ -52,18 +52,20 @@
                             <div class="form-group">
                                 <label>Trạng thái thanh toán</label>
                                 <select class="form-control" name="payment_status" id="payment_status">
-                                    <option value="pending" <?php echo $orderData['payment_status'] == 'pending' ? 'selected' : ''; ?>>Chờ thanh toán</option>
-                                    <option value="completed" <?php echo $orderData['payment_status'] == 'completed' ? 'selected' : ''; ?>>Đã thanh toán</option>
+                                    <option value="unpaid" <?php echo $orderData['payment_status'] == 'unpaid' ? 'selected' : ''; ?>>Chưa thanh toán</option>
+                                    <option value="paid" <?php echo $orderData['payment_status'] == 'paid' ? 'selected' : ''; ?>>Đã thanh toán</option>
+                                    <option value="refunded" <?php echo $orderData['payment_status'] == 'refunded' ? 'selected' : ''; ?>>Đã hoàn tiền</option>
                                     <option value="failed" <?php echo $orderData['payment_status'] == 'failed' ? 'selected' : ''; ?>>Thanh toán thất bại</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Trạng thái vận chuyển</label>
                                 <select class="form-control" name="shipping_status" id="shipping_status">
-                                    <option value="pending" <?php echo $orderData['shipping_status'] == 'pending' ? 'selected' : ''; ?>>Đang xử lý</option>
-                                    <option value="shipped" <?php echo $orderData['shipping_status'] == 'shipped' ? 'selected' : ''; ?>>Đang giao hàng</option>
+                                    <option value="pending" <?php echo $orderData['shipping_status'] == 'pending' ? 'selected' : ''; ?>>Chờ xử lý</option>
+                                    <option value="in_transit" <?php echo $orderData['shipping_status'] == 'in_transit' ? 'selected' : ''; ?>>Đang giao hàng</option>
                                     <option value="delivered" <?php echo $orderData['shipping_status'] == 'delivered' ? 'selected' : ''; ?>>Đã giao hàng</option>
-                                    <option value="canceled" <?php echo $orderData['shipping_status'] == 'canceled' ? 'selected' : ''; ?>>Đã hủy</option>
+                                    <option value="returned" <?php echo $orderData['shipping_status'] == 'returned' ? 'selected' : ''; ?>>Đã trả hàng</option>
+                                    <option value="cancelled" <?php echo $orderData['shipping_status'] == 'cancelled' ? 'selected' : ''; ?>>Đã hủy</option>
                                 </select>
                             </div>
                         </div>
@@ -84,32 +86,46 @@ document.addEventListener('DOMContentLoaded', function() {
     const shippingStatus = document.getElementById('shipping_status');
 
     function handleStatusChange() {
-        // Nếu thanh toán thất bại
-        if (paymentStatus.value === 'failed') {
-            shippingStatus.value = 'canceled';
-            return;
-        }
-
-        // Nếu thanh toán hoàn tất
-        if (paymentStatus.value === 'completed') {
-            if (shippingStatus.value === 'pending' || shippingStatus.value === 'undefined') {
-                shippingStatus.value = 'shipped';
+        // Nếu phương thức thanh toán là COD
+        if (paymentStatus.value === 'cod') {
+            // Chỉ cho phép chọn "Đã giao hàng" hoặc "Đang giao hàng" nếu thanh toán đ�� được thực hiện
+            if (paymentStatus.value === 'paid') {
+                shippingStatus.value = shippingStatus.value === 'pending' ? 'in_transit' : shippingStatus.value; // Đặt trạng thái giao hàng là "Đang giao hàng" nếu đang chờ xử lý
+            } else {
+                alert('Để sử dụng phương thức COD, đơn hàng phải được thanh toán trước.');
+                shippingStatus.value = 'pending'; // Đặt lại trạng thái giao hàng
             }
             return;
         }
 
-        // Nếu thanh toán khi nhận hàng
-        if (paymentStatus.value === 'cod') {
+        // Nếu trạng thái thanh toán là hoàn trả
+        if (paymentStatus.value === 'refunded') {
+            if (confirm('Bạn có muốn hoàn tiền cho đơn hàng này không?')) {
+                shippingStatus.value = 'returned'; // Đặt trạng thái giao hàng là "Đã trả hàng"
+            } else {
+                paymentStatus.value = 'unpaid'; // Đặt lại trạng thái thanh toán nếu không xác nhận
+            }
+            return;
+        }
+
+        // Nếu trạng thái thanh toán là thất bại
+        if (paymentStatus.value === 'failed') {
+            shippingStatus.value = 'cancelled'; // Đặt trạng thái giao hàng là "Đã hủy"
+            return;
+        }
+
+        // Nếu trạng thái thanh toán là đã hoàn thành
+        if (paymentStatus.value === 'paid') {
             if (shippingStatus.value === 'pending' || shippingStatus.value === 'undefined') {
-                shippingStatus.value = 'shipped';
+                shippingStatus.value = 'in_transit'; // Đặt trạng thái giao hàng là "Đang giao hàng"
             }
             return;
         }
 
         // Kiểm tra điều kiện giao hàng
-        if (shippingStatus.value === 'delivered' && paymentStatus.value !== 'completed') {
+        if (shippingStatus.value === 'delivered' && paymentStatus.value !== 'paid') {
             alert('Trạng thái vận chuyển không thể là "Đã giao hàng" khi đơn hàng chưa thanh toán!');
-            shippingStatus.value = 'shipped';
+            shippingStatus.value = 'in_transit'; // Đặt lại trạng thái giao hàng
         }
     }
 
