@@ -107,9 +107,6 @@ class OderModel
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$id]);
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-
         return $products;
     } catch (PDOException $e) {
         return $e->getMessage();
