@@ -66,7 +66,7 @@
                 </div>
                 <div class="icon-nav">
                     <ion-icon name="search-outline" id="searchIcon"></ion-icon>
-                    <ion-icon name="cart-outline"></ion-icon>
+                   <a href="#"><ion-icon name="cart-outline"></ion-icon></a>
 
                     <div class="search-overlay" id="searchOverlay">
                         <div class="search-nav">
