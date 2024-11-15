@@ -10,7 +10,12 @@ class OderController {
     }
 
     public function views_order() {
-        $orders = $this->OrderModel->getAll();
+        $search = $_GET['search'] ?? ''; // Lấy giá trị tìm kiếm từ URL
+        if ($search) {
+            $orders = $this->OrderModel->getBySearch($search); // Gọi phương thức tìm kiếm
+        } else {
+            $orders = $this->OrderModel->getAll(); // Lấy tất cả đơn hàng nếu không có tìm kiếm
+        }
         require_once '../admin/views/oder/Oder.php'; // Đảm bảo đường dẫn đúng
     }
     public function print_bill() {

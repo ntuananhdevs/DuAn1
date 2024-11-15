@@ -58,5 +58,13 @@ class User {
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$id]);
     }
+
+    public function getBySearch($search) {
+        $sql = "SELECT * FROM users WHERE (user_name LIKE ? OR email LIKE ? OR id LIKE ?) AND role = 'user' ORDER BY id ASC";
+        $stmt = $this->conn->prepare($sql);
+        $searchTerm = "%$search%";
+        $stmt->execute([$searchTerm, $searchTerm, $searchTerm]);
+        return $stmt->fetchAll();
+    }
 }
 ?>

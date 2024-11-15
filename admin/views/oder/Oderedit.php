@@ -122,10 +122,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Kiểm tra điều kiện giao hàng
         if (shippingStatus.value === 'delivered' && paymentStatus.value !== 'paid') {
             alert('Trạng thái vận chuyển không thể là "Đã giao hàng" khi đơn hàng chưa thanh toán!');
-            shippingStatus.value = 'in_transit'; // Đặt lại trạng thái giao hàng
+            shippingStatus.value = 'in_transit';
         }
     }
 

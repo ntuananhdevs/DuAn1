@@ -284,5 +284,35 @@ class OderModel
         error_log(print_r($order, true));
 
     }
+    public function getBySearch($search)
+    {
+        try {
+            $stmt = $this->conn->prepare("
+                SELECT 
+                    id, 
+                    user_id, 
+                    guest_fullname, 
+                    guest_email, 
+                    guest_phone, 
+                    order_date, 
+                    payment_status, 
+                    shipping_status, 
+                    total_amount, 
+                    payment_method, 
+                    payment_date, 
+                    shipping_address, 
+                    updated_at 
+                FROM orders
+                WHERE id LIKE ? OR guest_fullname LIKE ? OR guest_email LIKE ?
+                ORDER BY order_date DESC
+            ");
+            $searchTerm = "%$search%"; // Thêm ký tự % để tìm kiếm
+            $stmt->execute([$searchTerm, $searchTerm, $searchTerm]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            error_log("Error in getBySearch: " . $e->getMessage());
+            return [];
+        }
+    }
     
 }
