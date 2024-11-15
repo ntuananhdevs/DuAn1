@@ -10,7 +10,6 @@
                 <th>Khách hàng</th>
                 <th>SĐT</th>
                 <th>Tổng tiền</th>
-                <th>Địa chỉ</th>
                 <th>Hình Thức Thanh Toán</th>
                 <th>Trạng thái thanh toán</th>
                 <th>Trạng thái giao hàng</th>
@@ -24,7 +23,6 @@
                     <td><?= $order['user_name'] ?? $order['guest_fullname'] ?></td>
                     <td><?= $order['guest_phone'] ?></td>
                     <td><?= number_format($order['total_amount']) ?>đ</td>
-                    <td><?= $order['shipping_address'] ?></td> 
                     <td>
                         <?php
                         switch($order['payment_method']) {
