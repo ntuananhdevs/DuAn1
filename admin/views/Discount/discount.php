@@ -16,7 +16,7 @@
     </thead>
     <tbody>
         <?php
-        $currentDateTime = date('Y-m-d H:i:s'); 
+        $currentDateTime = date('Y-m-d H:i:s'); // Lấy thời gian hiện tại
         foreach ($discounts as $discount):
             $status = 'pending'; // Mặc định trạng thái là pending
             if ($currentDateTime >= $discount['StartDate'] && $currentDateTime <= $discount['EndDate']) {
