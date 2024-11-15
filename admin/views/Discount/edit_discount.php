@@ -1,4 +1,3 @@
-
 <div class="container mt-5">
     <h1>Sửa giảm giá</h1>
     <form id="discount_form" action="?act=edit-discount&id=<?= $discount['id'] ?>" method="POST">
@@ -6,10 +5,12 @@
             <label for="product_id">Sản phẩm</label>
             <select name="product_id" id="product_id" class="form-control">
                 <?php foreach ($products as $product): ?>
+                    
                 <option value="<?= $product['id'] ?>"
                     <?= $product['id'] == $discount['product_id'] ? 'selected' : '' ?>>
                     <?= $product['product_name'] ?>
                 </option>
+
                 <?php endforeach; ?>
             </select>
         </div>
