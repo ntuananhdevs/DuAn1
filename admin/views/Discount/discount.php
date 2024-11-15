@@ -1,4 +1,3 @@
-
 <h1 class="text-center my-4">Danh sách giảm giá</h1>
 <a href="?act=add-discount" class="btn btn-primary mb-3">Thêm giảm giá mới</a>
 <table class="table">
@@ -16,13 +15,13 @@
     </thead>
     <tbody>
         <?php
-        $currentDateTime = date('Y-m-d H:i:s'); // Lấy thời gian hiện tại
+        $currentDateTime = date('Y-m-d H:i:s'); 
         foreach ($discounts as $discount):
-            $status = 'pending'; // Mặc định trạng thái là pending
+            $status = 'pending'; 
             if ($currentDateTime >= $discount['StartDate'] && $currentDateTime <= $discount['EndDate']) {
-                $status = 'active'; // Nếu đang trong thời gian giảm giá
+                $status = 'active'; 
             } elseif ($currentDateTime > $discount['EndDate']) {
-                $status = 'expired'; // Nếu đã hết thời gian giảm giá
+                $status = 'expired'; 
             }
         ?>
         <tr>

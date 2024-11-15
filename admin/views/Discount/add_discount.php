@@ -1,4 +1,3 @@
-
 <div class="container mt-5">
     <h1>Thêm giảm giá mới</h1>
     <form id="discount_form" action="?act=add-discount" method="POST">

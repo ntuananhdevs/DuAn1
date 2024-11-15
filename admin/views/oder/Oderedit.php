@@ -84,45 +84,52 @@
 document.addEventListener('DOMContentLoaded', function() {
     const paymentStatus = document.getElementById('payment_status');
     const shippingStatus = document.getElementById('shipping_status');
-    const paymentMethod = document.getElementById('payment_method');
 
     function handleStatusChange() {
         // Nếu phương thức thanh toán là COD
-        if (paymentMethod.value === 'cod') {
+        if (paymentStatus.value === 'cod') {
+            // Chỉ cho phép chọn "Đã giao hàng" hoặc "Đang giao hàng" nếu thanh toán đã được thực hiện
             if (paymentStatus.value === 'paid') {
-                // Khi thanh toán hoàn tất, trạng thái giao hàng chuyển sang "Đang giao hàng"
-                shippingStatus.value = shippingStatus.value === 'pending' ? 'in_transit' : shippingStatus.value;
+                shippingStatus.value = shippingStatus.value === 'pending' ? 'in_transit' : shippingStatus.value; // Đặt trạng thái giao hàng là "Đang giao hàng" nếu đang chờ xử lý
+            } else {
+                alert('Để sử dụng phương thức COD, đơn hàng phải được thanh toán trước.');
+                shippingStatus.value = 'pending'; // Đặt lại trạng thái giao hàng
             }
-        } else {
-            // Các trường hợp khác với COD
-            if (paymentStatus.value === 'refunded') {
-                if (confirm('Bạn có muốn hoàn tiền cho đơn hàng này không?')) {
-                    shippingStatus.value = 'returned';
-                } else {
-                    paymentStatus.value = 'unpaid';
-                }
-                return;
-            }
-
-            if (paymentStatus.value === 'failed') {
-                shippingStatus.value = 'cancelled';
-                return;
-            }
-
-            if (paymentStatus.value === 'paid') {
-                shippingStatus.value = shippingStatus.value === 'pending' ? 'in_transit' : shippingStatus.value;
-            }
+            return;
         }
 
+        // Nếu trạng thái thanh toán là hoàn trả
+        if (paymentStatus.value === 'refunded') {
+            if (confirm('Bạn có muốn hoàn tiền cho đơn hàng này không?')) {
+                shippingStatus.value = 'returned'; // Đặt trạng thái giao hàng là "Đã trả hàng"
+            } else {
+                paymentStatus.value = 'unpaid'; // Đặt lại trạng thái thanh toán nếu không xác nhận
+            }
+            return;
+        }
+
+        // Nếu trạng thái thanh toán là thất bại
+        if (paymentStatus.value === 'failed') {
+            shippingStatus.value = 'cancelled'; // Đặt trạng thái giao hàng là "Đã hủy"
+            return;
+        }
+
+        // Nếu trạng thái thanh toán là đã hoàn thành
+        if (paymentStatus.value === 'paid') {
+            if (shippingStatus.value === 'pending' || shippingStatus.value === 'undefined') {
+                shippingStatus.value = 'in_transit'; // Đặt trạng thái giao hàng là "Đang giao hàng"
+            }
+            return;
+        }
+
+        // Kiểm tra điều kiện giao hàng
         if (shippingStatus.value === 'delivered' && paymentStatus.value !== 'paid') {
             alert('Trạng thái vận chuyển không thể là "Đã giao hàng" khi đơn hàng chưa thanh toán!');
-            shippingStatus.value = 'in_transit';
+            shippingStatus.value = 'in_transit'; // Đặt lại trạng thái giao hàng
         }
     }
 
     shippingStatus.addEventListener('change', handleStatusChange);
     paymentStatus.addEventListener('change', handleStatusChange);
-    paymentMethod.addEventListener('change', handleStatusChange);
 });
-
 </script>
