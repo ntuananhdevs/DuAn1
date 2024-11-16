@@ -1,4 +1,4 @@
-<h1 class="text-center my-4">Danh sách giảm giá</h1>
+<h3 class="mb-0 h4 font-weight-bolder mb-4">Quản Lý Giảm Giá</h3>
 <div class="search d-flex gap-3 align-items-center p-2">
     <a href="?act=add-discount" class="btn btn-primary">Thêm giảm giá </a>
 
