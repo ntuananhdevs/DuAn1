@@ -52,17 +52,17 @@
                         <td><?= date('d/m/Y H:i', strtotime($user['updated_at'])) ?></td>
                         <td>
                             <a href="?act=edit-user&id=<?= $user['id'] ?>"
-                            class="btn btn-warning ">
-                            Sửa
-                        </a>
-                        <a href="?act=delete-user&id=<?= $user['id'] ?>"
-                        class="btn btn-danger "
-                        onclick="return confirm('Bạn có chắc muốn xóa người dùng này?')">
-                        Xóa
-                    </a>
-                </td>
-            </tr>
-            <?php endforeach; ?>
+                                class="btn btn-warning ">
+                                Sửa
+                            </a>
+                            <a href="?act=delete-user&id=<?= $user['id'] ?>"
+                                class="btn btn-danger "
+                                onclick="return confirm('Bạn có chắc muốn xóa người dùng này?')">
+                                Xóa
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             <?php endif; ?>
         </tbody>
     </table>
