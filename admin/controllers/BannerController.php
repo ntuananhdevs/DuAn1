@@ -10,10 +10,20 @@ class BannerController
 
     public function views_Banner()
     {
-        $banners = $this->bannerModel->getBanner();
-        include './views/Banner/banner.php';
+        // Lấy giá trị tìm kiếm từ URL (nếu có)
+        $search = $_GET['search'] ?? ''; 
+    
+       
+        if ($search) {
+            $banners = $this->bannerModel->getBannerBySearch($search); 
+        } else {
+            $banners = $this->bannerModel->getBanner(); 
+        }
+    
+        // Bao gồm file view để hiển thị danh sách banner
+        require_once '../admin/views/Banner/banner.php'; // Đảm bảo đường dẫn đến view đúng
     }
-    public function views_add()
+        public function views_add()
     {
         include './views/Banner/add_banner.php';
     }

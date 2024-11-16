@@ -1,5 +1,15 @@
-<h1 class="text-center my-4">Danh sách giảm giá</h1>
-<a href="?act=add-discount" class="btn btn-primary mb-3">Thêm giảm giá mới</a>
+<h3 class="mb-0 h4 font-weight-bolder mb-4">Quản Lý Giảm Giá</h3>
+<div class="search d-flex gap-3 align-items-center p-2">
+    <a href="?act=add-discount" class="btn btn-primary">Thêm giảm giá </a>
+
+    <!-- Thanh tìm kiếm -->
+    <form method="GET" action="" class="d-flex">
+        <input type="hidden" name="act" value="discount"> 
+        <input type="text" name="search" class="form-control mb-1" style="border-radius: 4px 0 0 4px  ; height: 36px;" placeholder="Nhập tên sản phẩm" 
+               value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
+        <button type="submit" class="btn btn-primary" style="border-radius: 0 4px 4px 0; "><ion-icon name="search"></ion-icon></button>
+    </form>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -14,6 +24,7 @@
         </tr>
     </thead>
     <tbody>
+    <?php if (!empty($discounts)): ?>
         <?php
         $currentDateTime = date('Y-m-d H:i:s'); 
         foreach ($discounts as $discount):
@@ -57,5 +68,10 @@
             </td>
         </tr>
         <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="8" class="text-center">Không tìm thấy sản phẩm nào.</td>
+            </tr>
+        <?php endif; ?>
     </tbody>
 </table>
