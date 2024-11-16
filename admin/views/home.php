@@ -23,6 +23,7 @@
                 } else {
                   echo '0 VND';
                 }
+                
               ?>
               </h4>
             </div>
