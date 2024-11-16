@@ -9,7 +9,7 @@
             <label for="description">Mô Tả</label>
             <textarea class="form-control" name="description"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Thêm</button>
-        <a href="index.php?act=category" class="btn btn-secondary">Hủy</a>
+        <button type="submit" class="btn btn-primary mt-3">Thêm</button>
+        <a href="index.php?act=category" class="btn btn-secondary mt-3">Hủy</a>
     </form>
 </div>

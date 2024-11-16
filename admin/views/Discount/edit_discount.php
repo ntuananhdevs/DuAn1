@@ -41,8 +41,8 @@
             <input type="datetime-local" name="end_date" id="end_date" class="form-control" required
                 value="<?= date('Y-m-d\TH:i', strtotime($discount['end_date'])) ?>">
         </div>
-        <button type="submit" class="btn btn-primary">Cập nhật</button>
-        <a href="?act=discount" class="btn btn-secondary">Hủy</a>
+        <button type="submit" class="btn btn-primary mt-3">Cập nhật</button>
+        <a href="?act=discount" class="btn btn-secondary mt-3">Hủy</a>
     </form>
 
 </div>
