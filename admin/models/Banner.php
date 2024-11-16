@@ -17,7 +17,48 @@ class Banner {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getBannerBySearch($search)
+    {
+        try {
 
+            if (empty($search)) {
+                return []; 
+            }
+            $searchTerm = "%" . trim($search) . "%";
+    
+            // Chuẩn bị câu truy vấn SQL
+            $stmt = $this->conn->prepare("
+                SELECT 
+                    id, 
+                    title, 
+                    description, 
+                    img_url, 
+                    position, 
+                    start_date, 
+                    end_date, 
+                    status
+                FROM banners
+                WHERE id LIKE ? 
+                   OR title LIKE ? 
+                   OR description LIKE ? 
+                   OR status LIKE ?
+                ORDER BY start_date DESC
+            ");
+    
+            // Thực thi câu truy vấn với các tham số tìm kiếm
+            $stmt->execute([$searchTerm, $searchTerm, $searchTerm, $searchTerm]);
+    
+            // Lấy tất cả kết quả và trả về dưới dạng mảng kết hợp
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        } catch (Exception $e) {
+            // Nếu có lỗi xảy ra, ghi lỗi vào log và trả về mảng trống
+            error_log("Error in getBannerBySearch: " . $e->getMessage());
+            return [];
+        }
+    }
+    
+    
 
     public function create($title, $description, $img_url, $position, $start_date, $end_date, $status) {
         if (empty($start_date)) {

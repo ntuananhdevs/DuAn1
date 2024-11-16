@@ -9,14 +9,23 @@ class CommentController
         $this->commentModel = new Comment();
     }
 
-    public function views_comment()
-    {
-        // Fetch the count of comments per product from the model
-        $commentCounts = $this->commentModel->getAllCommentsCountByProduct();
 
-        // Display the comment count view
-        include '../admin/views/Comments/comments.php';
+    public function views_Comment()
+{
+    // Lấy giá trị tìm kiếm từ URL
+    $search = $_GET['search'] ?? ''; 
+
+    // Nếu có từ khóa tìm kiếm, gọi phương thức tìm kiếm bình luận
+    if ($search !== '') {
+        $commentCounts = $this->commentModel->getCommentBySearch($search); 
+    } else {
+        // Nếu không có từ khóa tìm kiếm, lấy tất cả bình luận
+        $commentCounts = $this->commentModel->getAllCommentsCountByProduct(); 
     }
+
+    // Bao gồm view để hiển thị danh sách bình luận
+    require_once '../admin/views/Comments/comments.php'; // Đảm bảo đường dẫn đúng
+}
     public function viewComments($productId)
     {
         // Fetch comments for the product

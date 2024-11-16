@@ -52,7 +52,7 @@
                                 <input type="file" name="avatar" class="form-control" accept="image/*">
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row mt-3 " style="margin-right: auto;">
                             <div class="col-sm-9 offset-sm-3">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save"></i> Thêm mới
