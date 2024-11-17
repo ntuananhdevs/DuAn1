@@ -1,14 +1,18 @@
 <div class="container">
     <h3 class="mb-0 h4 font-weight-bolder mb-4">Quản Lý BANNER</h3>
 
+
+    <form action="" method="GET" class="d-flex mb-3z     ">
     <a href="index.php?act=view_add" class="btn btn-primary mb-3">Thêm BANNER</a>
-    <form action="" method="GET" class="d-flex">
     <input type="hidden" name="act" value="banner">
-    <input type="text" class="form-control mb-1" style="border-radius: 4px 0 0 4px; height: 36px ; width: 250px" id="search" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
-    <button type="submit" class="btn btn-primary" style="border-radius: 0 4px 4px 0;">
+    <input type="text" class="form-control mb-1  ms-3" style="border-radius: 4px 0 0 4px; height: 36px ; width: 180px" id="search" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+    <button type="submit" class="btn btn-primary" style="border-radius: 0 4px 4px 0; ">
         <ion-icon name="search"></ion-icon>
     </button>
 </form>
+<?php if (empty($banners)): ?>    
+    <p class="">Không có kết quả phù hợp.</p>
+<?php else: ?>
     <table class="table table-hover">
         <thead class="text-left">
             <tr>
@@ -58,6 +62,7 @@
                     </td>
                 </tr>
             <?php endforeach; ?>
+            <?php endif; ?>
         </tbody>
     </table>
 </div>

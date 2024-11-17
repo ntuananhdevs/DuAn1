@@ -17,7 +17,7 @@ class CommentController
 
     // Nếu có từ khóa tìm kiếm, gọi phương thức tìm kiếm bình luận
     if ($search !== '') {
-        $commentCounts = $this->commentModel->getCommentBySearch($search); 
+        $commentCounts = $this->commentModel->getCommentsBySearch($search); 
     } else {
         // Nếu không có từ khóa tìm kiếm, lấy tất cả bình luận
         $commentCounts = $this->commentModel->getAllCommentsCountByProduct(); 
@@ -26,12 +26,23 @@ class CommentController
     // Bao gồm view để hiển thị danh sách bình luận
     require_once '../admin/views/Comments/comments.php'; // Đảm bảo đường dẫn đúng
 }
-    public function viewComments($productId)
-    {
-        // Fetch comments for the product
+ public function viewComments($productId)
+{
+    // Lấy giá trị tìm kiếm từ URL
+    $search = $_GET['search'] ?? '';
+     $productId = $_GET['product_id'] ?? '';
+
+    // Nếu có từ khóa tìm kiếm, gọi phương thức tìm kiếm bình luận theo nội dung hoặc người bình luận
+    if ($search !== '') {
+        $comments = $this->commentModel->getCommentByUserOrContent($search);
+    } else {
+        // Nếu không có từ khóa tìm kiếm, lấy tất cả bình luận cho sản phẩm
         $comments = $this->commentModel->getCommentsByProductId($productId);
-        include '../admin/views/Comments/view_comments.php';
     }
+
+    // Kết hợp với giao diện hiển thị
+    include '../admin/views/Comments/view_comments.php';
+}
 
 
 
