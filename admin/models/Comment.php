@@ -168,46 +168,6 @@ class Comment
     }
     
 
-public function getCommentsBySearch($search)
-{
-    try {
-        // Kiểm tra giá trị $search trước khi tiếp tục (nếu không có từ khóa tìm kiếm, trả về mảng trống)
-        if (empty($search)) {
-            return []; // Trả về mảng trống nếu không có tìm kiếm
-        }
-
-        // Thêm ký tự % vào trước và sau từ khóa tìm kiếm để tìm kiếm theo mọi vị trí trong các trường
-        $searchTerm = "%" . trim($search) . "%";
-
-        // Chuẩn bị câu truy vấn SQL để tìm kiếm
-        $stmt = $this->conn->prepare("
-            SELECT 
-                Comments.id AS ID,
-                Users.user_name AS User,  
-                Comments.content AS Content,
-                Comments.`like` AS Likes,  
-                Comments.dislike AS DisLikes,  
-                Comments.created_at AS Ngay_Tao
-            FROM Comments
-            JOIN Users ON Comments.user_id = Users.id 
-            WHERE 
-                Comments.content LIKE :search OR
-                Users.user_name LIKE :search
-            ORDER BY Comments.created_at DESC
-        ");
-
-        // Thực thi câu truy vấn với tham số tìm kiếm
-        $stmt->execute([':search' => $searchTerm]);
-
-        // Lấy tất cả kết quả và trả về dưới dạng mảng kết hợp
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        // Xử lý lỗi nếu có
-        error_log("Error in getCommentsBySearch: " . $e->getMessage());
-        return []; // Trả về mảng rỗng trong trường hợp có lỗi
-    }
-}
-
 
     public function deleteComment($commentId)
     {
