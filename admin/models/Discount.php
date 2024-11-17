@@ -63,6 +63,7 @@ public function add_discount($data)
     ]);    
 }
 
+
 public function update_discount($id, $data)
 {
     $valid_types = ['percentage', 'fixed'];
@@ -93,6 +94,38 @@ public function update_discount($id, $data)
     ]);
 }
 
+public function search_discounts($searchTerm)
+{
+    // Xử lý tìm kiếm ID hoặc tên sản phẩm
+    $sql = "SELECT 
+                d.id AS DiscountID,
+                p.product_name AS ProductName,
+                d.discount_type AS DiscountType,
+                d.discount_value AS DiscountValue,
+                d.start_date AS StartDate,
+                d.end_date AS EndDate,
+                CASE
+                    WHEN NOW() < d.start_date THEN 'pending'
+                    WHEN NOW() BETWEEN d.start_date AND d.end_date THEN 'active'
+                    WHEN NOW() > d.end_date THEN 'expired'
+                    ELSE d.status
+                END AS Status
+            FROM discounts d
+            JOIN products p ON d.product_id = p.id
+            WHERE p.id = :id OR p.product_name LIKE :name";
+
+    $stmt = $this->conn->prepare($sql);
+
+    // Nếu là số, gán vào :id, nếu không để NULL
+    $id = is_numeric($searchTerm) ? (int) $searchTerm : null;
+    $name = "%{$searchTerm}%"; // Tìm theo tên sản phẩm
+
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 
 
