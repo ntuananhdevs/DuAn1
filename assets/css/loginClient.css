@@ -97,10 +97,13 @@ button {
   text-transform: capitalize;
   transition: 0.3s ease-in-out;
   cursor: pointer;
+  box-shadow: 0 0 15px rgba(104, 108, 120, 0.3);
+  transition: all 0.3s ease-in-out;
 }
 
 button:hover {
   letter-spacing: 3px;
+  box-shadow: 0 0 20px rgba(104, 108, 120, 0.5);
 }
 
 button:active {
@@ -115,6 +118,11 @@ button.ghost {
   background-color: rgba(255, 255, 255, 0.2);
   border: 2px solid #fff;
   color: #fff;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+button.ghost:hover {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
 }
 
 #login i {
@@ -171,6 +179,10 @@ input {
   width: 768px;
   max-width: 100%;
   min-height: 500px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
 }
 
 .form-container {
@@ -297,11 +309,11 @@ input {
 }
 
 .container.right-panel-active .overlay-container {
-  transform: translate(-100%);
+  transform: translateX(-100%);
 }
 
 .overlay {
-  background-image: url("https://images.unsplash.com/photo-1621360841013-c7683c659ec6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80");
+  background-image: url("../../assets/img/illustrations/backgroundlogin.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
@@ -345,6 +357,7 @@ input {
   width: 50%;
   transform: translateX(0);
   transition: transform 0.6s ease-in-out;
+  z-index: 2;
 }
 
 .overlay-left {
@@ -382,6 +395,115 @@ input {
 
 .social-container a:hover {
   border: 1px solid #4bb6b7;
+}
+
+.gravity-bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background: linear-gradient(45deg, #e970ed, #39549d);
+  overflow: hidden;
+}
+
+.gravity-item {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  animation: float 15s infinite;
+  opacity: 0.6;
+  filter: blur(5px);
+  box-shadow: 0 0 30px currentColor;
+}
+
+.gravity-item.pink {
+  background: #ff61d8;
+  color: #ff61d8;
+  left: 15%;
+  top: -5%;
+  filter: blur(3px);
+  animation: float 12s infinite;
+}
+
+.gravity-item.purple {
+  background: #a37cff;
+  color: #a37cff;
+  left: 75%;
+  top: 10%;
+  width: 45px;
+  height: 45px;
+  filter: blur(4px);
+  animation: float 15s infinite;
+}
+
+.gravity-item.yellow {
+  background: #ffd93d;
+  color: #ffd93d;
+  left: 45%;
+  top: 85%;
+  width: 50px;
+  height: 50px;
+  filter: blur(5px);
+  animation: float 18s infinite;
+}
+
+.gravity-item.blue {
+  background: #6c9fff;
+  color: #6c9fff;
+  left: 85%;
+  top: 75%;
+  width: 40px;
+  height: 40px;
+  filter: blur(4px);
+  animation: float 5s infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0) scale(1);
+    filter: blur(3px);
+  }
+  25% {
+    transform: translateY(-20px) rotate(90deg) scale(1.1);
+    filter: blur(4px);
+  }
+  50% {
+    transform: translateY(-40px) rotate(180deg) scale(1);
+    filter: blur(5px);
+  }
+  75% {
+    transform: translateY(-20px) rotate(270deg) scale(1.1);
+    filter: blur(4px);
+  }
+  100% {
+    transform: translateY(0) rotate(360deg) scale(1);
+    filter: blur(3px);
+  }
+}
+
+/* Chỉnh sửa container để phù hợp với background mới */
+.container {
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: 10px 1px 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(73, 71, 71, 0.2);
+  box-shadow: 0 0 40px rgba(81, 80, 80, 0.1);
+}
+
+/* Chỉnh sửa form background */
+form {
+  background: rgba(0, 0, 0, 0.95);
+}
+
+.overlay-panel p {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  margin: 20px 0 30px;
+  text-shadow: 0 0 10px rgba(16, 64, 74, 0.5);
 }
                                           
                                          

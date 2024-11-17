@@ -11,6 +11,14 @@ loginButton.addEventListener("click", () => {
   container.classList.remove("right-panel-active");
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+  const gravityItems = document.querySelectorAll('.gravity-item');
+  
+  gravityItems.forEach(item => {
+    const randomDelay = Math.random() * 20;
+    item.style.animationDelay = `${randomDelay}s`;
+  });
+});
 
 // Check Register Error
 const form = document.querySelector('form')
