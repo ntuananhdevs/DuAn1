@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-
+require_once __DIR__ . '/../models/LoginModel.php';
 class LoginController {
     private $loginModel;
 
@@ -18,13 +18,13 @@ class LoginController {
 
             if ($user) {
                 $_SESSION['user'] = $user;
-                header('Location: /');
+                header('Location: /DuAn1/index.php');
                 exit();
             } else {
                 echo "Email hoặc mật khẩu không đúng.";
             }
         } else {
-            include './views/login/login.php';
+            require_once __DIR__ . '/../auth/login.php';
         }
     }
 }
