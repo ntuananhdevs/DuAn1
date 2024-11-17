@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LOGIN WINTECH</title>
-    <link rel="stylesheet" href="../../assets/css/loginClient.css" />
+    <link rel="stylesheet" href="./assets/css/loginClient.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -14,7 +14,7 @@
       referrerpolicy="no-referrer"
     />
   </head>
-  <body>
+  <body cal>
     <div class="gravity-bg">
       <div class="gravity-item pink"></div>
       <div class="gravity-item purple"></div>
@@ -54,29 +54,29 @@
       </div>
 
       <div class="form-container login-container">
-        <form class="form-lg">
+        <form class="form-lg" action="../controllers/LoginController.php" method="POST">
           <h2>Wellcome to WINTECH</h2>
           <div class="form-control2">
-            <input type="email" class="email-2" placeholder="Email" />
+            <input type="email" name="email" class="email-2" placeholder="Email" required />
             <small class="email-error-2"></small>
             <span></span>
           </div>
           <div class="form-control2">
-            <input type="password" class="password-2" placeholder="Password" />
+            <input type="password" name="password" class="password-2" placeholder="Password" required />
             <small class="password-error-2"></small>
             <span></span>
           </div>
 
           <div class="content">
             <div class="checkbox">
-              <input type="checkbox" name="checkbox" id="checkbox" />
+              <input type="checkbox" name="remember" id="checkbox" />
               <label for="">Remember me</label>
             </div>
             <div class="pass-link">
               <a href="#">Forgot password?</a>
             </div>
           </div>
-          <button type="submit" value="submit">Login</button>
+          <button type="submit" name="login">Login</button>
           <span>Or use your account</span>
           <div class="social-container">
             <a href="#" class="social"
@@ -119,5 +119,5 @@
       </div>
     </div>
   </body>
-  <script src="../../assets/js/loginclient.js"></script>
+  <script src="./assets/js/loginclient.js"></script>
 </html>

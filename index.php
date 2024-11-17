@@ -5,24 +5,27 @@
 
     #require Controller
     require_once './clients/controllers/HomeController.php';
+    require_once './clients/controllers/LoginController.php';
  
 
     #require Model
 
     require_once './clients/models/Home.php';
+    require_once './clients/models/LoginModel.php';
 
 
     $home = new HomeController();
-
+    $login = new LoginController();
 
   
 
     $act = $_GET['act'] ?? '/';
-
-   include './clients/views/layout/header.php';
+    if($act != 'login'){
+        include './clients/views/layout/header.php';
+    }
         match ($act) {
             '/' => $home->view_home(),
-
+            'login' => $login->login(),
 
 
             default => $home->view_home(),
