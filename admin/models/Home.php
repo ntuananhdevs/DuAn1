@@ -73,4 +73,39 @@ class Home
 
         return $results;
     }
+    public function totalMonth()
+    {
+        try {
+            $sql = "SELECT DATE_FORMAT(order_date, '%Y-%m') AS month, SUM(total_amount) AS revenue
+                    FROM orders
+                    WHERE shipping_status = 'delivered'
+                    GROUP BY month
+                    ORDER BY month";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+    
+    public function totalDailyRevenueCurrentMonth()
+    {
+        try {
+            $sql = "SELECT DATE(order_date) AS day, SUM(total_amount) AS daily_revenue
+                    FROM orders
+                    WHERE shipping_status = 'delivered'
+                    AND MONTH(order_date) = MONTH(CURRENT_DATE())
+                    AND YEAR(order_date) = YEAR(CURRENT_DATE())
+                    GROUP BY day
+                    ORDER BY day";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
 }

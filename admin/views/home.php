@@ -24,6 +24,7 @@
                   echo '0 VND';
                 }
               ?>
+              
               </h4>
             </div>
             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
@@ -112,19 +113,19 @@
     </div>
 
     <div class="col-lg-4 col-md-6 mt-4 mb-4">
-      <div class="card ">
+      <div class="card">
         <div class="card-body">
-          <h6 class="mb-0 "> Daily Sales </h6>
-          <p class="text-sm "> (<span class="font-weight-bolder">+15%</span>) increase in today sales. </p>
+          <h6 class="mb-0">Monthly Sales</h6>
+          <p class="text-sm">Displays the monthly sales revenue</p>
           <div class="pe-2">
             <div class="chart">
-              <canvas id="chart-line" class="chart-canvas" height="170"></canvas>
+              <canvas id="myLineChart" width="400" height="225"></canvas>
             </div>
           </div>
           <hr class="dark horizontal">
-          <div class="d-flex ">
+          <div class="d-flex">
             <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
-            <p class="mb-0 text-sm"> updated 4 min ago </p>
+            <p class="mb-0 text-sm">Updated just now</p>
           </div>
         </div>
       </div>
@@ -132,11 +133,11 @@
     <div class="col-lg-4 mt-4 mb-3">
       <div class="card">
         <div class="card-body">
-          <h6 class="mb-0 ">Completed Tasks</h6>
-          <p class="text-sm ">Last Campaign Performance</p>
+          <h6 class="mb-0 ">Daily Revenue</h6>
+          <p class="text-sm ">Displays the daily revenue</p>
           <div class="pe-2">
             <div class="chart">
-              <canvas id="chart-line-tasks" class="chart-canvas" height="170"></canvas>
+            <canvas id="dailyRevenueChart" height="170"></canvas>
             </div>
           </div>
           <hr class="dark horizontal">
@@ -289,22 +290,27 @@
         data: {
           labels: labels,
           datasets: [{
-            label: 'So luong san pham',
+            label: 'So luong san pham', // This label will be hidden
             tension: 0.4,
             data: data,
             backgroundColor: "#43A047",
             borderColor: '#43A047',
             borderWidth: 0,
-            borderRadius: 4,
+            borderRadius: 2,
             borderSkipped: false,
             pointRadius: 3,
             pointBackgroundColor: "#43A047",
             fill: true,
-
+            barThickness: 35
           }]
         },
         options: {
           responsive: true,
+          plugins: {
+            legend: {
+              display: false, // Hide the legend
+            }
+          },
           scales: {
             y: {
               beginAtZero: true
@@ -316,4 +322,149 @@
   } else {
     console.error("chartData không phải là mảng:", chartData);
   }
+</script>
+
+<script>
+    // Use the totalMonthData passed from PHP
+    const totalMonthData = <?php echo $totalMonthData; ?>;
+
+    // Extract labels and data for the chart
+    const labels = totalMonthData.map(item => item.month);
+    const salesData = totalMonthData.map(item => item.revenue);
+
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Monthly Sales', // This label will be hidden
+            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Light background for fill
+            borderColor: 'rgb(75, 192, 192)', // Line color
+            pointBackgroundColor: 'rgb(75, 192, 192)', // Point color
+            pointBorderColor: '#fff', // Point border color
+            pointHoverBackgroundColor: '#fff', // Point hover background
+            pointHoverBorderColor: 'rgb(75, 192, 192)', // Point hover border
+            data: salesData,
+            fill: true, // Fill the area under the line
+            tension: 0.4 // Smooth the line
+        }]
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false, // Hide the legend
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)', // Tooltip background
+                    titleColor: '#fff', // Tooltip title color
+                    bodyColor: '#fff', // Tooltip body color
+                    borderColor: 'rgb(75, 192, 192)', // Tooltip border color
+                    borderWidth: 1
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false // Hide x-axis grid lines
+                    },
+                    ticks: {
+                        color: '#333' // X-axis label color
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(200, 200, 200, 0.3)' // Y-axis grid line color
+                    },
+                    ticks: {
+                        color: '#333' // Y-axis label color
+                    }
+                }
+            }
+        }
+    };
+
+    // Render the chart
+    const myLineChart = new Chart(
+        document.getElementById('myLineChart'),
+        config
+    );
+</script>
+
+<script>
+  // Use the totalDailyRevenueData passed from PHP
+  const totalDailyRevenueData = <?php echo $totalDailyRevenueData; ?>;
+
+  // Extract labels and data for the chart
+  const dailyLabels = totalDailyRevenueData.map(item => item.day);
+  const dailyRevenueData = totalDailyRevenueData.map(item => item.daily_revenue);
+
+  const dailyData = {
+      labels: dailyLabels,
+      datasets: [{
+          label: 'Daily Revenue',
+          backgroundColor: 'rgba(54, 162, 235, 0.2)', // Light background for fill
+          borderColor: 'rgb(54, 162, 235)', // Line color
+          pointBackgroundColor: 'rgb(54, 162, 235)', // Point color
+          pointBorderColor: '#fff', // Point border color
+          pointHoverBackgroundColor: '#fff', // Point hover background
+          pointHoverBorderColor: 'rgb(54, 162, 235)', // Point hover border
+          data: dailyRevenueData,
+          fill: true, // Fill the area under the line
+          tension: 0.4, // Smooth the line
+          borderWidth: 2, // Line width
+          pointRadius: 5, // Point size
+          pointHoverRadius: 7 // Point hover size
+      }]
+  };
+
+  const dailyConfig = {
+      type: 'line',
+      data: dailyData,
+      options: {
+          responsive: true,
+          plugins: {
+              legend: {
+                  display: false, // Hide the legend
+              },
+              tooltip: {
+                  enabled: true,
+                  backgroundColor: 'rgba(0, 0, 0, 0.7)', // Tooltip background
+                  titleColor: '#fff', // Tooltip title color
+                  bodyColor: '#fff', // Tooltip body color
+                  borderColor: 'rgb(54, 162, 235)', // Tooltip border color
+                  borderWidth: 1
+              }
+          },
+          scales: {
+              x: {
+                  grid: {
+                      display: false // Hide x-axis grid lines
+                  },
+                  ticks: {
+                      color: '#333' // X-axis label color
+                  }
+              },
+              y: {
+                  beginAtZero: true,
+                  grid: {
+                      color: 'rgba(200, 200, 200, 0.3)' // Y-axis grid line color
+                  },
+                  ticks: {
+                      color: '#333' // Y-axis label color
+                  }
+              }
+          }
+      }
+  };
+
+  // Render the chart
+  const dailyRevenueChart = new Chart(
+      document.getElementById('dailyRevenueChart'),
+      dailyConfig
+  );
 </script>

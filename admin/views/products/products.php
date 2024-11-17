@@ -134,7 +134,7 @@
       transform: translateX(100%);
     }
   }
-</style.color>
+</style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
