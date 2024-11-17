@@ -12,7 +12,6 @@
             <button type="submit" class="btn btn-primary " style="border-radius: 0 4px 4px 0; "><ion-icon name="search"></ion-icon></button>
         </form>
     </div>
-
     <table class="table  table-hover" id="dataTable" cellspacing="0">
         <thead class="thead-light">
             <tr>

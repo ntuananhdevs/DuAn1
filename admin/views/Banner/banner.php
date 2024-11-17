@@ -10,6 +10,9 @@
         <ion-icon name="search"></ion-icon>
     </button>
 </form>
+<?php if (empty($banners)): ?>    
+    <p class="">Không có kết quả phù hợp.</p>
+<?php else: ?>
     <table class="table table-hover">
         <thead class="text-left">
             <tr>
@@ -59,6 +62,7 @@
                     </td>
                 </tr>
             <?php endforeach; ?>
+            <?php endif; ?>
         </tbody>
     </table>
 </div>

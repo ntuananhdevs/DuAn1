@@ -1,7 +1,4 @@
 <?php
-
-require_once '../commons/env.php';
-
 class LoginModel {
     private $pdo;
 
@@ -19,11 +16,19 @@ class LoginModel {
     }
 
     public function checkLogin($email, $password) {
-        $query = "SELECT * FROM users WHERE email = ? AND password = ?";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        try {
+            $query = "SELECT * FROM users WHERE email = :email LIMIT 1";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute(['email' => $email]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($user && password_verify($password, $user['password'])) {
+                return $user;
+            }
+            return false;
+        } catch (PDOException $e) {
+            error_log("Login error: " . $e->getMessage());
+            return false;
+        }
     }
 }
