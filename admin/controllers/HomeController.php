@@ -6,19 +6,21 @@ class HomeController {
         $this->home = new Home();
     }
 
-// Controller: HomeController.php
-public function views_home() {
-    $data = $this->home->getCategoryProductCounts();
+    public function views_home() {
+        $data = $this->home->getCategoryProductCounts();
+        
+        $totalMonth = $this->home->totalMonth();
+        $totalMonthData = json_encode($totalMonth, JSON_HEX_TAG);
 
-    // Chuyển đổi dữ liệu thành JSON để truyền vào biểu đồ
-    $chartData = json_encode($data, JSON_HEX_TAG); 
-    $total_money = $this->home->total_order();
-    $list_product = $this->home->total_prd();
-    $list_user = $this->home->total_users();
+        $totalDailyRevenue = $this->home->totalDailyRevenueCurrentMonth();
+        $totalDailyRevenueData = json_encode($totalDailyRevenue, JSON_HEX_TAG);
 
-    require_once './views/home.php';
-    require_once './views/layout/footer.php';
-}
+        $chartData = json_encode($data, JSON_HEX_TAG); 
+        $total_money = $this->home->total_order();
+        $list_product = $this->home->total_prd();
+        $list_user = $this->home->total_users();
 
-
+        require_once './views/home.php';
+        require_once './views/layout/footer.php';
+    }
 }
