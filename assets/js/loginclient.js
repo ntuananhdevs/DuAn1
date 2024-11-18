@@ -179,10 +179,18 @@ function getFieldNameLg(input) {
 }
 
 lgForm.addEventListener('submit', function (e){
-    e.preventDefault()
-
-    if (!checkRequiredLg([lgEmail, lgPassword])) {
-        checkEmail2(lgEmail)
+    if (!checkEmail2(lgEmail.value) || lgPassword.value.length < 8 || lgPassword.value.length > 20) {
+        e.preventDefault();
+        
+        if (!checkEmail2(lgEmail.value)) {
+            lgEmailError.textContent = "*Email is not valid";
+        }
+        
+        if (lgPassword.value.length < 8 || lgPassword.value.length > 20) {
+            lgPasswordError.textContent = "*Password must be between 8 and 20 characters.";
+        }
     }
+    
+    // Form will submit if validation passes
 })
             

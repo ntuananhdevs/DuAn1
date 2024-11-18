@@ -1,4 +1,3 @@
-
 <?php
     require_once './commons/env.php';
     require_once './commons/core.php';
@@ -16,6 +15,7 @@
 
     $home = new HomeController();
     $login = new LoginController();
+    
 
   
 
@@ -26,7 +26,5 @@
         match ($act) {
             '/' => $home->view_home(),
             'login' => $login->login(),
-
-
             default => $home->view_home(),
         };

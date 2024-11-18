@@ -13,8 +13,9 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+   
   </head>
-  <body cal>
+  <body>
     <div class="gravity-bg">
       <div class="gravity-item pink"></div>
       <div class="gravity-item purple"></div>
@@ -54,8 +55,14 @@
       </div>
 
       <div class="form-container login-container">
-        <form class="form-lg" action="../controllers/LoginController.php" method="POST">
-          <h2>Wellcome to WINTECH</h2>
+        <form class="form-lg" action="?act=login" method="POST">
+          <h2>Welcome to WINTECH</h2>
+          <?php if(isset($_SESSION['success'])): ?>
+            <div class="flash-message"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
+          <?php endif; ?>
+          <?php if(isset($_SESSION['error'])): ?>
+            <div class="error-message"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
+          <?php endif; ?>
           <div class="form-control2">
             <input type="email" name="email" class="email-2" placeholder="Email" required />
             <small class="email-error-2"></small>
@@ -118,6 +125,15 @@
         </div>
       </div>
     </div>
+    <script>
+      // Tự động ẩn thông báo sau 3 giây
+      setTimeout(() => {
+        const flashMessage = document.querySelector('.flash-message');
+        if (flashMessage) {
+          flashMessage.style.display = 'none';
+        }
+      }, 3000);
+    </script>
   </body>
   <script src="./assets/js/loginclient.js"></script>
 </html>
