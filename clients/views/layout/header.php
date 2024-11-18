@@ -18,31 +18,11 @@
 
 <body>
 <div class="header-nav">
-            <div class="header-logo">
-                <div class="logo-header">
-                    <a href="#">
-                        <img src="../assets/img/logos/Apple_logo_black.svg" alt="">
-                        <img src="../public/img/header-img/rog_hover.svg" alt="">
-                    </a>
-                </div>
-                <div class="logo-header samsung">
-                    <a href="#">
-                    <img src="../assets/img/logos/samsung.svg" alt="">
-                    </a>
-                </div>
-                <div class="logo-header rog">
-                    <a href="#">
-                        <img src="../assets/img/logos/rog_hover.svg" alt="">
-                        <img src="../public/img/header-img/ioT_hover.svg" alt="">
-                    </a>
-                </div>
-            </div>
+           
             <div class="header-right">
-                <a href="#">Sự kiện</a>
-                <a href="#">Gaming</a>
-                <a href="#">Doanh Nghiệp</a>
+         
             </div>
-        </div>
+</div>
     <nav class="no-blur">
         
         <div class="nav-menu">
