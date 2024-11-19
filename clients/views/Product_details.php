@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi Tiết Sản Phẩm iPhone</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         .product-header { margin-bottom: 20px; }
         .product-title { font-size: 1.8rem; font-weight: bold; }
@@ -47,14 +41,18 @@
 }
 
     </style>
-</head>
+
 <body>
     <div class="container mt-4">
         <!-- Header sản phẩm -->
         <div class="product-header d-flex justify-content-between align-items-center">
     <div>
-        <p class="product-title mb-1">iPhone 16 Pro Max 512GB | Chính hãng VN/A</p>
         <div class="d-flex align-items-center">
+            <div class="name_prd ms-3">
+            <p class="product-title mb-1">iPhone 16 Pro Max 512GB | Chính hãng VN/A</p>
+
+            </div>
+
             <div class="star-rating mr-2">
                 <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span>
             </div>
@@ -193,5 +191,4 @@
     <!-- JavaScript Bootstrap -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+
