@@ -845,7 +845,6 @@ input:focus, input:hover {
     top: -15px;
     border-radius:  5px 0px 5px;
 }
-<<<<<<< HEAD
 .rating-container{
     margin-left: -110px;
     font-size: 12px;
@@ -961,7 +960,6 @@ input:focus, input:hover {
     margin: 0 10px;
     cursor: pointer;
 }
-=======
       
 /* products details */
 .product-header {
@@ -1064,4 +1062,3 @@ input:focus, input:hover {
     padding: 10px;
     border: 1px solid #ccc;
 }
->>>>>>> d55147fbecf7b530520e58223065b107d05a724b
