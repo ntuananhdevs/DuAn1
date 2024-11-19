@@ -146,7 +146,7 @@ function removeLeadingDots($filePath) {
             <p> <i class="fa-solid fa-eye"></i> <?= htmlspecialchars($product['views']) ?></p>
             <p>Giá: <?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</p>
             <a href="#" class="learn-more">Mua ngay</a>
-            <a href="#" class="learn-more">Xem chi tiết</a>
+            <a href="?act=product_detail&id=<?= $product['id'] ?>" class="learn-more">Xem chi tiết</a>
         </div>
     <?php endforeach; ?>
 </div>

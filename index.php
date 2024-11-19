@@ -33,7 +33,7 @@
             'login' => $login->login(),
 
             //PRODUCT
-            'product_details' => $products->view_products(),
+            'product_detail' => $products->view_products($_GET['id']),
 
 
 
