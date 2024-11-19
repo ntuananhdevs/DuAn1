@@ -789,7 +789,7 @@ input:focus, input:hover {
 }
 
 .product-item:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 .product-item h5{
     font-size: 19px;
