@@ -68,7 +68,7 @@ class Comment
             echo "Lỗi khi lấy bình luận: " . $e->getMessage();
             return []; // Trả về mảng rỗng trong trường hợp có lỗi
         }
-    }
+    }   
 
     public function getCommentBySearch($search)
     {
