@@ -134,7 +134,7 @@ function removeLeadingDots($filePath) {
     return preg_replace('/^\.\.\//', '', $filePath);
 }
 ?>
-
+<div class="container">
 <div class="product-container">
     <?php foreach ($products as $product) : ?>
         <div class="product-item">
@@ -151,6 +151,8 @@ function removeLeadingDots($filePath) {
     <?php endforeach; ?>
 </div>
 
+
+</div>
 
 
 
