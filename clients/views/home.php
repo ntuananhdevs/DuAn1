@@ -1,3 +1,6 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="./assets/css/product.css">
+</head>
 <style type="text/css">
     .slide-container {
         position: relative;
@@ -5,6 +8,7 @@
         height: 660px;
         margin: 0 auto;
     }
+
     .slides {
         width: 100%;
         height: calc(100% - 40px);
@@ -24,7 +28,8 @@
         left: -100%;
     }
 
-    .next, .prev {
+    .next,
+    .prev {
         width: 50px;
         height: 50px;
         background-color: #fff5;
@@ -35,7 +40,8 @@
         border-radius: 50%;
     }
 
-    .next:hover, .prev:hover {
+    .next:hover,
+    .prev:hover {
         background-color: white;
         color: black;
         opacity: 0.8;
@@ -43,7 +49,8 @@
 
     .dotsContainer {
         position: absolute;
-        bottom: 60px; /* Đặt cách đáy một chút để hiển thị rõ hơn */
+        bottom: 60px;
+        /* Đặt cách đáy một chút để hiển thị rõ hơn */
         z-index: 3;
         left: 50%;
         transform: translateX(-50%);
@@ -60,7 +67,7 @@
         background-color: #cccc;
     }
 
- 
+
 
     @keyframes next1 {
         from {
@@ -120,6 +127,20 @@
             <span class="dot <?= $index === 0 ? 'active' : '' ?>" attr="<?= $index ?>" onclick="switchImage(this)"></span>
         <?php endforeach; ?>
     </div>
+</div>
+
+<div class="product-container">
+    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/329149/iphone-16-pro-max-titan-den-2-638638962024629957-750x500.jpg" alt="Product Image">
+    <h2>14” ExpertBook P5 (P5405)</h2>
+    <ul>
+        <li>Windows 11 Pro - ASUS recommends Windows 11 Pro for business</li>
+        <li>Powered by Intel® Core™ Ultra processors (Series 2) with up to 47 NPU TOPS</li>
+        <li>14" 2.5K 144 Hz anti-glare display</li>
+        <li>1.27kg lightweight all metal design</li>
+        <li>ASUS AI ExpertMeet to supercharge productivity</li>
+        <li>ASUS ExpertGuardian with business-grade NIST Cybersecurity Framework</li>
+    </ul>
+    <a href="#" class="learn-more">Learn more</a>
 </div>
 
 <script>

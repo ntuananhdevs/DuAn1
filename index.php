@@ -25,6 +25,16 @@
     }
         match ($act) {
             '/' => $home->view_home(),
+            ##LOGIN
+            'register' => $login->register(),
             'login' => $login->login(),
+
+
+
+
+
+
+
             default => $home->view_home(),
         };
+        // include './clients/views/layout/footer.php';
