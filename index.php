@@ -1,4 +1,3 @@
-
 <?php
     require_once './commons/env.php';
     require_once './commons/core.php';
@@ -19,6 +18,7 @@
     $home = new HomeController();
     $login = new LoginController();
     $products = new ProductsContronller();
+    
 
   
 
