@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" type="text/css" href="./assets/css/footer.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/client.css">
 </head>
 
 <footer>
@@ -53,6 +53,6 @@
         <button>Sign up</button>
     </div>
     <div class="footer-social">
-        <!-- Thêm các biểu tượng mạng xã hội -->
+        <img src="./assets/img/logo.png" alt="">
     </div>
 </footer>
