@@ -28,7 +28,7 @@ class User {
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([
             $data['username'],
-            password_hash($data['password'], PASSWORD_DEFAULT),
+            $data['password'],
             $data['email'],
             $data['phone_number'],
             $avatar

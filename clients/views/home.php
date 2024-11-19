@@ -1,3 +1,6 @@
+<head>
+    <link rel="stylesheet" href="./assets/css/client.css">
+</head>
 <style type="text/css">
     .slide-container {
         position: relative;
@@ -5,6 +8,7 @@
         height: 660px;
         margin: 0 auto;
     }
+
     .slides {
         width: 100%;
         height: calc(100% - 40px);
@@ -24,7 +28,8 @@
         left: -100%;
     }
 
-    .next, .prev {
+    .next,
+    .prev {
         width: 50px;
         height: 50px;
         background-color: #fff5;
@@ -35,7 +40,8 @@
         border-radius: 50%;
     }
 
-    .next:hover, .prev:hover {
+    .next:hover,
+    .prev:hover {
         background-color: white;
         color: black;
         opacity: 0.8;
@@ -43,7 +49,8 @@
 
     .dotsContainer {
         position: absolute;
-        bottom: 60px; /* Đặt cách đáy một chút để hiển thị rõ hơn */
+        bottom: 60px;
+        /* Đặt cách đáy một chút để hiển thị rõ hơn */
         z-index: 3;
         left: 50%;
         transform: translateX(-50%);
@@ -60,7 +67,7 @@
         background-color: #cccc;
     }
 
- 
+
 
     @keyframes next1 {
         from {
@@ -121,6 +128,31 @@
         <?php endforeach; ?>
     </div>
 </div>
+
+<?php
+function removeLeadingDots($filePath) {
+    return preg_replace('/^\.\.\//', '', $filePath);
+}
+?>
+
+<div class="product-container">
+    <?php foreach ($products as $product) : ?>
+        <div class="product-item">
+            <div class="discount-container">
+                <p>Giảm <?= htmlspecialchars($product['discount_value']) ?>%</p>
+            </div>
+            <img src="<?= htmlspecialchars(removeLeadingDots($product['img'])) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>">
+            <h2><?= htmlspecialchars($product['product_name']) ?></h2>
+            <p> <i class="fa-solid fa-eye"></i> <?= htmlspecialchars($product['views']) ?></p>
+            <p>Giá: <?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</p>
+            <a href="#" class="learn-more">Mua ngay</a>
+            <a href="#" class="learn-more">Xem chi tiết</a>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+
+
 
 <script>
     let slideImages = document.querySelectorAll('.slides img');
