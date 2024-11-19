@@ -17,7 +17,7 @@ class CommentController
 
     // Nếu có từ khóa tìm kiếm, gọi phương thức tìm kiếm bình luận
     if ($search !== '') {
-        $commentCounts = $this->commentModel->getCommentsBySearch($search); 
+        $commentCounts = $this->commentModel->getCommentBySearch($search); 
     } else {
         // Nếu không có từ khóa tìm kiếm, lấy tất cả bình luận
         $commentCounts = $this->commentModel->getAllCommentsCountByProduct(); 

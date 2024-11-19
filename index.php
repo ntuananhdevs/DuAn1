@@ -11,7 +11,7 @@
     #require Model
 
     require_once './clients/models/Home.php';
-    require_once './clients/models/Products.php';
+    require_once './clients/models/Products_details.php';
     require_once './clients/models/LoginModel.php';
 
 
@@ -31,6 +31,9 @@
             ##LOGIN
             'register' => $login->register(),
             'login' => $login->login(),
+
+            //PRODUCT
+            'product_detail' => $products->view_products($_GET['id']),
 
 
 
