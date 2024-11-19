@@ -13,36 +13,18 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
 <div class="header-nav">
-            <div class="header-logo">
-                <div class="logo-header">
-                    <a href="#">
-                        <img src="../assets/img/logos/Apple_logo_black.svg" alt="">
-                        <img src="../public/img/header-img/rog_hover.svg" alt="">
-                    </a>
-                </div>
-                <div class="logo-header samsung">
-                    <a href="#">
-                    <img src="../assets/img/logos/samsung.svg" alt="">
-                    </a>
-                </div>
-                <div class="logo-header rog">
-                    <a href="#">
-                        <img src="../assets/img/logos/rog_hover.svg" alt="">
-                        <img src="../public/img/header-img/ioT_hover.svg" alt="">
-                    </a>
-                </div>
-            </div>
+           
             <div class="header-right">
-                <a href="#">Sự kiện</a>
-                <a href="#">Gaming</a>
-                <a href="#">Doanh Nghiệp</a>
+         
             </div>
-        </div>
+</div>
     <nav class="no-blur">
         
         <div class="nav-menu">

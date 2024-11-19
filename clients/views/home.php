@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" type="text/css" href="./assets/css/product.css">
+    <link rel="stylesheet" href="./assets/css/client.css">
 </head>
 <style type="text/css">
     .slide-container {
@@ -129,19 +129,30 @@
     </div>
 </div>
 
+<?php
+function removeLeadingDots($filePath) {
+    return preg_replace('/^\.\.\//', '', $filePath);
+}
+?>
+
 <div class="product-container">
-    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/329149/iphone-16-pro-max-titan-den-2-638638962024629957-750x500.jpg" alt="Product Image">
-    <h2>14” ExpertBook P5 (P5405)</h2>
-    <ul>
-        <li>Windows 11 Pro - ASUS recommends Windows 11 Pro for business</li>
-        <li>Powered by Intel® Core™ Ultra processors (Series 2) with up to 47 NPU TOPS</li>
-        <li>14" 2.5K 144 Hz anti-glare display</li>
-        <li>1.27kg lightweight all metal design</li>
-        <li>ASUS AI ExpertMeet to supercharge productivity</li>
-        <li>ASUS ExpertGuardian with business-grade NIST Cybersecurity Framework</li>
-    </ul>
-    <a href="#" class="learn-more">Learn more</a>
+    <?php foreach ($products as $product) : ?>
+        <div class="product-item">
+            <div class="discount-container">
+                <p>Giảm <?= htmlspecialchars($product['discount_value']) ?>%</p>
+            </div>
+            <img src="<?= htmlspecialchars(removeLeadingDots($product['img'])) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>">
+            <h2><?= htmlspecialchars($product['product_name']) ?></h2>
+            <p> <i class="fa-solid fa-eye"></i> <?= htmlspecialchars($product['views']) ?></p>
+            <p>Giá: <?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</p>
+            <a href="#" class="learn-more">Mua ngay</a>
+            <a href="#" class="learn-more">Xem chi tiết</a>
+        </div>
+    <?php endforeach; ?>
 </div>
+
+
+
 
 <script>
     let slideImages = document.querySelectorAll('.slides img');
