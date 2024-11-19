@@ -28,9 +28,15 @@
     }
         match ($act) {
             '/' => $home->view_home(),
+            ##LOGIN
+            'register' => $login->register(),
             'login' => $login->login(),
 
-            'products' => $products->view_products(),
+
+
+
+
+
 
             default => $home->view_home(),
         };

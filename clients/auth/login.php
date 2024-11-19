@@ -25,29 +25,27 @@
     
     <div class="container" id="container">
       <div class="form-container register-container">
-        <form>
+        <form action="?act=register" method="POST">
           <h3>Sign Up To Wintech</h3>
           <div class="form-control">
-            <input type="text" id="username" placeholder="Name" />
+            <input type="text" name="name" id="username" placeholder="Name" required />
             <small id="username-error"></small>
             <span></span>
           </div>
           <div class="form-control">
-            <input type="email" id="email" placeholder="Email" />
+            <input type="email" name="email" id="email" placeholder="Email" required />
             <small id="email-error"></small>
             <span></span>
           </div>
           <div class="form-control">
-            <input type="password" id="password" placeholder="Password" />
+            <input type="password" name="password" id="password" placeholder="Password" required />
             <small id="password-error"></small>
             <span></span>
           </div>
-          <button type="submit" value="submit">sign up</button>
+          <button type="submit" value="submit">Sign Up</button>
           <span>Sign in</span>
           <div class="social-container">
-            <a href="#" class="social"
-              ><i class="fa-brands fa-facebook-f"></i
-            ></a>
+            <a href="#" class="social"><i class="fa-brands fa-facebook-f"></i></a>
             <a href="#" class="social"><i class="fa-brands fa-google"></i></a>
             <a href="#" class="social"><i class="fa-brands fa-tiktok"></i></a>
           </div>

@@ -36,4 +36,22 @@ class LoginController {
         
         require_once './clients/auth/login.php';
     }
+
+    public function register() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $user_name = $_POST['user_name'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+
+            if ($this->loginModel->createUser($user_name, $email, $password)) {
+                $_SESSION['success'] = "Tạo tài khoản thành công!";
+                header('Location: ?act=login');
+                exit();
+            } else {
+                $_SESSION['error'] = "Đã xảy ra lỗi khi tạo tài khoản!";
+            }
+        }
+
+        require_once './clients/auth/register.php';
+    }
 }

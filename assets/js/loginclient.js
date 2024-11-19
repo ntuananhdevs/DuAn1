@@ -190,7 +190,27 @@ lgForm.addEventListener('submit', function (e){
             lgPasswordError.textContent = "*Password must be between 8 and 20 characters.";
         }
     }
-    
-    // Form will submit if validation passes
+   
 })
+
+// Check Register Error
+const registerForm = document.querySelector('.register-container form');
+const regName = document.getElementById('username');
+const regEmail = document.getElementById('email');
+const regPassword = document.getElementById('password');
+
+// Event listeners for register form
+registerForm.addEventListener('submit', function (e) {
+    if (!checkEmail(regEmail.value) || regPassword.value.length < 8 || regPassword.value.length > 20) {
+        e.preventDefault();
+        
+        if (!checkEmail(regEmail.value)) {
+            emailError.textContent = "*Email is not valid";
+        }
+        
+        if (regPassword.value.length < 8 || regPassword.value.length > 20) {
+            passwordError.textContent = "*Password must be between 8 and 20 characters.";
+        }
+    }
+});
             
