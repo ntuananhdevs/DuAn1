@@ -44,15 +44,6 @@ class CommentController
     include '../admin/views/Comments/view_comments.php';
 }
 
-
-
-  
-
-   
-    // Phương thức để xử lý việc cập nhật bình luận
-    
-
-
      public function deleteComment($commentId)
     {
         $this->commentModel->deleteComment($commentId);
