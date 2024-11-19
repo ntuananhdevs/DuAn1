@@ -18,4 +18,5 @@ class ProductsContronller {
         require_once './clients/views/Product_details.php';
         }
     }
+    
 }

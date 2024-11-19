@@ -43,3 +43,4 @@
 
             default => $home->view_home(),
         };
+    include './clients/views/layout/footer.php';
