@@ -31,11 +31,11 @@
             <?php
             $currentDateTime = date('Y-m-d H:i:s');
             foreach ($banners as $banner) :
-                $status = 'pending'; // Mặc định trạng thái là pending
+                $status = 'pending'; 
                 if ($currentDateTime >= $banner['start_date'] && $currentDateTime <= $banner['end_date']) {
-                    $status = 'active'; // Nếu đang trong thời gian giảm giá
+                    $status = 'active'; 
                 } elseif ($currentDateTime > $banner['end_date']) {
-                    $status = 'inactive'; // Nếu đã hết thời gian giảm giá
+                    $status = 'inactive';
                 }
 
             ?>

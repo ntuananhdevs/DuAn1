@@ -1035,7 +1035,6 @@ input:focus, input:hover {
     gap: 20px;
 }
 .option{
-    border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
     text-align: center;
@@ -1050,8 +1049,7 @@ input:focus, input:hover {
 }
 .option-color{
     gap: 5px;
-    width: 190px;
+    width: 130px;
     border-radius: 5px;
     padding: 10px;
-    border: 1px solid #ccc;
 }
