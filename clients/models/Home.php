@@ -22,11 +22,12 @@ class Home {
                         COUNT(DISTINCT pv.color) AS Total_color,      
                         p.quantity AS quantity,
                         p.views AS views,
+                        p.rating AS rating,
                         MIN(pv.price) AS Lowest_Price,                
                         MAX(pv.price) AS Highest_Price,
-                        d.discount_type AS discount_type,
-                        d.discount_value AS discount_value,
-                        d.status AS discount_status
+                        d.discount_type AS discount_type,          -- Thêm cột discount_type
+                        d.discount_value AS discount_value,        -- Thêm cột discount_value
+                        d.status AS discount_status                -- Thêm cột status của bảng Discounts
                     FROM 
                         Products p
                     JOIN 
