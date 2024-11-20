@@ -1,3 +1,10 @@
+<head>
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+</head>
 <div class="container mt-4">
     <!-- Header sản phẩm -->
     <div class="product-header">
@@ -7,9 +14,31 @@
             </div>
 
             <div class="star-rating mb-2">
-                <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                <?php
+                $rating = isset($product['rating']) ? floatval($product['rating']) : 0; // Giá trị rating từ database
+                $maxStars = 5; // Tổng số sao tối đa
+
+                for ($i = 1; $i <= $maxStars; $i++) {
+                    if ($i <= $rating) {
+                        // Sao đầy
+                        echo '<span style="color: gold; font-size: 24px;">&#9733;</span>';
+                    } elseif ($i - 1 < $rating && $rating < $i) {
+                        // Sao nửa đầy
+                        echo '<span style="color: gold; font-size: 24px; position: relative; display: inline-block;">';
+                        echo '<span style="color: gold; z-index: 1; position: absolute; width: 50%; overflow: hidden;">&#9733;</span>'; // Phần sao nửa đầy
+                        echo '<span style="color: lightgray; z-index: 0;">&#9733;</span>'; // Phần còn lại màu xám
+                        echo '</span>';
+                    } else {
+                        // Sao rỗng
+                        echo '<span style="color: lightgray; font-size: 24px;">&#9733;</span>';
+                    }
+                }
+                ?>
             </div>
-            <span class="text-muted mb-1">(8 đánh giá)</span>
+
+
+
+            <span class="text-muted mb-1">(<?= $product['total_comments'] ?> đánh giá)</span>
         </div>
     </div>
 
@@ -17,18 +46,29 @@
     <!-- Hình ảnh sản phẩm -->
     <div class="row">
         <div class="box_products_details col-md-6">
-            <div class="product-image d-flex justify-content-center align-items-center">
-                <img src="uploads/Products/673a293d4ef22_iphone-16-1.webp" alt="iPhone 16 Pro Max" class="img-fluid mb-3 d-flex justify-content-center align-items-center   " style="width: 200px; height: 200px; ">
-            </div>
-            <!-- Hình ảnh thu nhỏ -->
-            <div class=" d-flex mt-3 gap-2">
-                <img src="uploads/Products/673a293d4ef22_iphone-16-1.webp" alt="Thumbnail 1" class="thumbnail img-thumbnail " style="width: 100px; height: 100px;">
-                <img src="uploads/Products/673a293d4ef22_iphone-16-1.webp" alt="Thumbnail 1" class="thumbnail img-thumbnail " style="width: 100px; height: 100px;">
-                <img src="uploads/Products/673a293d4ef22_iphone-16-1.webp" alt="Thumbnail 1" class="thumbnail img-thumbnail " style="width: 100px; height: 100px;">
-                <img src="uploads/Products/673a293d4ef22_iphone-16-1.webp" alt="Thumbnail 1" class="thumbnail img-thumbnail " style="width: 100px; height: 100px;">
-                <img src="uploads/Products/673a293d4ef22_iphone-16-1.webp" alt="Thumbnail 1" class="thumbnail img-thumbnail " style="width: 100px; height: 100px;">
-                <img src="uploads/Products/673a293d4ef22_iphone-16-1.webp" alt="Thumbnail 1" class="thumbnail img-thumbnail " style="width: 100px; height: 100px;">
+            <!-- Slider chính (chỉ nằm trong .product-image) -->
+            <div class="product-image swiper-container" style="   height: 300px; overflow: hidden; position: relative;">
+                <div class="swiper-wrapper">
+                    <?php foreach ($listPrd_Variant as $image): ?>
+                        <div class="swiper-slide">
+                            <img src="<?= $image['images'] ?>" alt="Product Image" class="img-fluid align-content-center justify-content-center" style="width: 100px; height: 100px; object-fit: cover;">
+                        </div>
+                    <?php endforeach; ?>
+                </div>
 
+                <!-- Navigation nằm trong product-image -->
+                <div class="swiper-button-next" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); z-index: 10;"></div>
+                <div class="swiper-button-prev" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); z-index: 10;"></div>
+            </div>
+
+            <div class="thumbnails swiper-container mt-3" style="max-width: 500px;">
+                <div class="swiper-wrapper">
+                    <?php foreach ($listPrd_Variant as $image): ?>
+                        <div class="swiper-slide">
+                            <img src="<?= $image['images'] ?>" alt="Thumbnail" class="thumbnail" style="width: 80px;  padding: 5px; border-radius: 5px;">
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
 
@@ -38,21 +78,21 @@
                 <div class="box-option">
                     <div class="option">
                         <span class="fw-bold">1TB</span>
-                        <p>46.490.000 đ</p>                        
+                        <p>46.490.000 đ</p>
                     </div>
                     <div class="option">
                         <span class="fw-bold">1TB</span>
-                        <p>46.490.000 đ</p>                        
+                        <p>46.490.000 đ</p>
                     </div>
                 </div>
             </div>
 
-       <div class="option-group-color mt-4">
+            <div class="option-group-color mt-4">
                 <h5>Chọn màu để xem giá và chi nhánh có hàng</h5>
                 <div class="box-option-color">
                     <div class="option-color d-flex justify-content-center align-items-center">
                         <img src="uploads/Products/673a293d4ef22_iphone-16-1.webp" alt="Titan Tự Nhiên" style="width: 40px; height: 40px;">
-                        <p clas                                                                                     s="fw-bold justify-content-center align-items-center">Titan Tự Nhiên</p>
+                        <p clas s="fw-bold justify-content-center align-items-center">Titan Tự Nhiên</p>
                     </div>
                     <div class="option-color d-flex justify-content-center align-items-center">
                         <img src="uploads/Products/673a293d4ef22_iphone-16-1.webp" alt="Titan Tự Nhiên" style="width: 40px; height: 40px;">
@@ -66,39 +106,39 @@
                         <img src="uploads/Products/673a293d4ef22_iphone-16-1.webp" alt="Titan Tự Nhiên" style="width: 40px; height: 40px;">
                         <p class="fw-bold justify-content-center align-items-center">Titan Tự Nhiên</p>
                     </div>
-                    
+
                 </div>
-            </div> 
+            </div>
 
             <div class="btn-details mt-5 d-flex justify-content-center align-items-center gap-3">
                 <button type="button" class="btn btn-danger w-25">Mua ngay</button>
                 <button type="button" class="btn btn-danger ">Them vao gio hang</button>
             </div>
-        </div> 
-
-            <!-- Giá sản phẩm -->
-
+        </div>
     </div>
-    <div class="row mt-4 d-flex gap-3">
-        <!-- Đặc điểm nổi bật -->
+    <!-- Giá sản phẩm -->
 
-        <div class="description d-flex gap-4">
-            <div class="col-md-8 p-3 border rounded">
-                <h4 class="text-danger">Đặc Điểm Nổi Bật Của iPhone 16 Pro Max 512GB | Chính Hãng VN/A</h4>
-                <ul>
-                    <li>Màn hình Super Retina XDR 6.9 inches, đem đến cảm giác tuyệt vời khi cầm trên tay.</li>
-                    <li>Điều khiển Camera - Chỉ cần trượt ngón tay để điều chỉnh camera.</li>
-                    <li>Thiết kế titan 5 lớp mới nhất, nhẹ và bền.</li>
-                    <li>Cài sẵn hệ điều hành iOS 18 với nhiều tính năng hữu ích.</li>
-                </ul>
-                <p>
-                    iPhone 16 Pro Max phiên bản bộ nhớ trong 512GB có màn hình lớn Super Retina XDR OLED.
-                    Máy có thiết kế mới với nút điều khiển camera, nút action cùng với màu titan sa mạc ấn tượng.
-                </p>
-            </div>
-            <div class="col-md-4 p-3 border rounded">
+</div>
+<div class="row mt-4 d-flex gap-3">
+    <!-- Đặc điểm nổi bật -->
+
+    <div class="description d-flex gap-4">
+        <div class="col-md-8 p-3 border rounded">
+            <h4 class="text-danger">Đặc Điểm Nổi Bật Của iPhone 16 Pro Max 512GB | Chính Hãng VN/A</h4>
+            <ul>
+                <li>Màn hình Super Retina XDR 6.9 inches, đem đến cảm giác tuyệt vời khi cầm trên tay.</li>
+                <li>Điều khiển Camera - Chỉ cần trượt ngón tay để điều chỉnh camera.</li>
+                <li>Thiết kế titan 5 lớp mới nhất, nhẹ và bền.</li>
+                <li>Cài sẵn hệ điều hành iOS 18 với nhiều tính năng hữu ích.</li>
+            </ul>
+            <p>
+                iPhone 16 Pro Max phiên bản bộ nhớ trong 512GB có màn hình lớn Super Retina XDR OLED.
+                Máy có thiết kế mới với nút điều khiển camera, nút action cùng với màu titan sa mạc ấn tượng.
+            </p>
+        </div>
+        <div class="col-md-4 p-3 border rounded">
             <h4 class="text-dark">Thông số kỹ thuật</h4>
-            <table class="table table-bordered spec-table" >
+            <table class="table table-bordered spec-table">
                 <tr>
                     <th>Kích thước màn hình</th>
                     <td>6.9 inches</td>
@@ -127,42 +167,53 @@
                     <th>Hệ điều hành</th>
                     <td>iOS 18</td>
                 </tr>
-                
+
             </table>
         </div>
-        </div>
-        
-        <!-- Thông số kỹ thuật -->
-        
     </div>
 
+    <!-- Thông số kỹ thuật -->
 
-    <!-- Đánh giá sản phẩm -->
-    <div class="review-section mt-4">
-        <h4 class="review-title">Đánh giá & nhận xét iPhone 16 Pro Max 512GB | Chính hãng VN/A</h4>
-        <div class="d-flex align-items-center">
-            <div class="star-rating mr-3" style="font-size: 2rem;">
-                &#9733;&#9733;&#9733;&#9733;&#9733;
-            </div>
-            <div>
-                <span>5.0/5</span> (8 đánh giá)
-            </div>
+</div>
+
+
+<!-- Đánh giá sản phẩm -->
+<div class="review-section mt-4">
+    <h4 class="review-title">Đánh giá & nhận xét iPhone 16 Pro Max 512GB | Chính hãng VN/A</h4>
+    <div class="d-flex align-items-center">
+        <div class="star-rating mr-3" style="font-size: 2rem;">
+            &#9733;&#9733;&#9733;&#9733;&#9733;
         </div>
-        <div class="mt-3">
-            <h5>Đánh giá theo trải nghiệm</h5>
-            <div class="d-flex justify-content-between align-items-center">
-                <span>5 sao</span>
-                <div class="rating-bar">
-                    <div class="rating-bar-fill" style="width: 100%;"></div>
-                </div>
-                <span>8 đánh giá</span>
-            </div>
-            <!-- Thêm phần cho các đánh giá từ 1 đến 4 sao tương tự -->
+        <div>
+            <span>5.0/5</span> (8 đánh giá)
         </div>
     </div>
+    <div class="mt-3">
+        <h5>Đánh giá theo trải nghiệm</h5>
+        <div class="d-flex justify-content-between align-items-center">
+            <span>5 sao</span>
+            <div class="rating-bar">
+                <div class="rating-bar-fill" style="width: 100%;"></div>
+            </div>
+            <span>8 đánh giá</span>
+        </div>
+        <!-- Thêm phần cho các đánh giá từ 1 đến 4 sao tương tự -->
+    </div>
+</div>
 </div>
 
 <script>
+    // Khởi tạo slider chính chỉ nằm trong .product-image
+    var mainSlider = new Swiper('.product-image', {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        loop: true, // Cho phép lặp lại ảnh
+    });
+
     // const options = document.querySelectorAll('.option');
 
     // options.forEach(option => {
@@ -173,4 +224,37 @@
     //         option.classList.add('active');
     //     });
     // });
+    // Khởi tạo slider chính
+    var mainSlider = new Swiper('.product-image', {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        thumbs: {
+            swiper: thumbnailSlider
+        }
+    });
+
+    // Khởi tạo slider ảnh nhỏ
+    var thumbnailSlider = new Swiper('.thumbnails', {
+        slidesPerView: 4, // Số lượng ảnh nhỏ hiển thị
+        spaceBetween: 10,
+        freeMode: true,
+        watchSlidesVisibility: true,
+        watchSlidesProgress: true,
+        breakpoints: {
+            768: {
+                slidesPerView: 3,
+            },
+            1024: {
+                slidesPerView: 4,
+            }
+        }
+    });
+
+    // Kết nối với slider chính
+    mainSlider.controller.control = thumbnailSlider;
+    thumbnailSlider.controller.control = mainSlider;
 </script>
