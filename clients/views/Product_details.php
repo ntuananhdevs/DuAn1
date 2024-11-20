@@ -114,8 +114,8 @@
             </div>
             <div class="btn-details mt-5 d-flex justify-content-center align-items-center gap-3">
                 <a id="buy-now-link" href="http://duan1/?act=pay&id=" class="btn btn-danger w-25"> Mua ngay </a>
-                <a id="buy-now-link" href="http://duan1/?act=cart&id=" class="btn btn-outline-danger">Thêm vào giỏ
-                    hàng</a>
+                <a id="add-to-cart-link" href="http://duan1/?act=cart&id=" class="btn btn-outline-danger">Thêm vào giỏ
+                    hàng</a>    
             </div>
 
 
@@ -243,10 +243,14 @@ function selectVariant(element) {
 
     // Cập nhật href của thẻ <a>
     const buyNowLink = document.getElementById('buy-now-link');
+    const addtocartLink = document.getElementById('add-to-cart-link');
     if (buyNowLink) {
         const newHref = `http://duan1/?act=pay&id=${selectedVariantId}`;
         buyNowLink.setAttribute('href', newHref);
-        console.log("Updated href:", newHref); // Kiểm tra giá trị href trong console
+    }
+    if (addtocartLink) {
+        const newHref = `http://duan1/?act=cart&id=${selectedVariantId}`;
+        addtocartLink.setAttribute('href', newHref);
     }
 }
 
