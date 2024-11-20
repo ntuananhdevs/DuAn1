@@ -51,10 +51,10 @@
             <div class="product-image swiper-container" style="   height: 300px; overflow: hidden; position: relative;">
                 <div class="swiper-wrapper">
                     <?php foreach ($listPrd_Variant as $image): ?>
-                    <div class="swiper-slide">
+                    <div class="swiper-slide d-flex align-content-center justify-content-center align-items-center">
                         <img src="<?= removeLeadingDots($image['images'])  ?>" alt="Product Image"
                             class="img-fluid align-content-center justify-content-center"
-                            style="width: 100px; height: 100px; object-fit: cover;">
+                            style="width: 250px; height: 250px; object-fit: cover; align-items: center">
                     </div>
                     <?php endforeach; ?>
                 </div>
@@ -102,11 +102,11 @@
                 foreach ($listPrd_Variant as $color):
                     if (!in_array($color['color'], $colors)) {
                         $colors[] = $color['color']; ?>
-                <div class="option-color d-flex justify-content-center align-items-center" style="cursor: pointer;"
+                <div class="option-color d-flex align-content-center justify-content-center align-items-center" style="cursor: pointer; width: 120px;  height: 60px;"
                     data-color="<?= htmlspecialchars($color['color']) ?>" onclick="filterVariants(this)">
                     <img src="<?= removeLeadingDots($color['images']) ?>"
-                        style="width: 50px; height: 50px; cursor: pointer;" class="color-option">
-                    <p class="fw-bold text-center align-items-center "><?= htmlspecialchars($color['color']) ?></p>
+                        style="width: 45px; height: 45px; cursor: pointer;" class="color-option">
+                    <p class="fw-bold d-flex align-content-center justify-content-center align-items-center mt-3"><?= htmlspecialchars($color['color']) ?></p>
                 </div>
                 <?php
                     }
