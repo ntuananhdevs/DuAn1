@@ -114,12 +114,8 @@
             </div>
             <div class="btn-details mt-5 d-flex justify-content-center align-items-center gap-3">
                 <a id="buy-now-link" href="http://duan1/?act=pay&id=" class="btn btn-danger w-25"> Mua ngay </a>
-                <a id="add-to-cart-link" href="http://duan1/?act=cart&id=" class="btn btn-outline-danger">Thêm vào giỏ
-                    hàng</a>    
+                <a id="add-to-cart-link" href="http://duan1/?act=cart&id=" class="btn btn-outline-danger">Thêm vào giỏ hàng</a>    
             </div>
-
-
-
         </div>
     </div>
 
