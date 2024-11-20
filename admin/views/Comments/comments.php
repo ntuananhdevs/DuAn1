@@ -3,7 +3,7 @@
     <h3 class="mb-0 h4 font-weight-bolder mb-4">Comment Counts by Product</h3>
     <form action="" method="GET" class="d-flex">
         <input type="hidden" name="act" value="comments">
-        <input type="text" class="form-control mb-1" style="border-radius: 4px 0 0 4px; height: 36px; width: 180px" id="search" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+          <input type="text" class="form-control mb-1" style="border-radius: 4px 0 0 4px; height: 36px; width: 180px" id="search" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
         <button type="submit" class="btn btn-primary" style="border-radius: 0 4px 4px 0;">
             <ion-icon name="search"></ion-icon>
         </button>
@@ -18,7 +18,7 @@
             <tr>
                 <th scope="col">Product ID</th>
                 <th scope="col">Tên Sản phẩm</th>
-                <th scope="col">Số Lượng Bình Luận</th>
+                <th scope="col">Số Lượng Bình Luận</th>     
                 <th scope="col">Nội Dung Bình Luận Gần Nhất</th>
                 <th scope="col">Ngày Bình Luận Gần Nhất</th>
                 <th scope="col">Actions</th>
