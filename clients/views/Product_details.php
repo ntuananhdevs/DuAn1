@@ -1,7 +1,7 @@
-<!-- <head>
+<head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-</head> -->
+</head>
 <div class="container mt-4">
     <!-- Header sản phẩm -->
     <div class="product-header">
@@ -39,8 +39,13 @@
             <span class="text-muted mb-1">(<?= $product['total_comments'] ?> đánh giá)</span>
         </div>
     </div>
+<?php
+    function removeLeadingDots($filePath)
+{
+    return preg_replace('/^\.\.\//', '', $filePath);
+}
 
-
+?>
     <!-- Hình ảnh sản phẩm -->
     <div class="row">
         <div class="box_products_details col-md-6">
@@ -49,7 +54,7 @@
                 <div class="swiper-wrapper">
                     <?php foreach ($listPrd_Variant as $image): ?>
                         <div class="swiper-slide">
-                            <img src="<?= $image['images'] ?>" alt="Product Image" class="img-fluid align-content-center justify-content-center" style="width: 100px; height: 100px; object-fit: cover;">
+                            <img src="<?= removeLeadingDots($image['images'])  ?>" alt="Product Image" class="img-fluid align-content-center justify-content-center" style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -62,8 +67,8 @@
             <div class="thumbnails swiper-container mt-3" style="max-width: 500px;">
                 <div class="swiper-wrapper">
                     <?php foreach ($listPrd_Variant as $image): ?>
-                        <div class="swiper-slide">
-                            <img src="<?= $image['images'] ?>" alt="Thumbnail" class="thumbnail" style="width: 80px;  padding: 5px; border-radius: 5px;">
+                        <div class="swiper-slide ">
+                            <img src="<?= removeLeadingDots($image['images'])  ?>" alt="Thumbnail" class="thumbnail" style="width: 80px;  padding: 5px; border-radius: 5px;">
                         </div>
                     <?php endforeach; ?>
                 </div>
