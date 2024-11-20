@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -149,12 +149,12 @@
 
                     <div class="search-overlay" id="searchOverlay">
                         <div class="search-nav">
-                            <div class="inputsearch">X
-                                <ion-icon name="search-outline" size="large"></ion-icon>
-                                <form method="GET" action="?act=search">
-                                    <input type="text" name="search" placeholder="Tìm kiếm"
-                                        value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
-                                    <input type="hidden" name="act" value="search">
+                            <div class="inputsearch">
+                            <ion-icon name="search-outline" size="large"></ion-icon>
+                                <form method="GET" action="?act=result">
+                                    <input type="hidden" name="act" value="result">
+                                    <input type="text" name="search" placeholder="Tìm kiếm" value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+                                   
                                 </form>
                             </div>
                             <ul class="list-search">
