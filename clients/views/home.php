@@ -130,29 +130,177 @@
 </div>
 
 <?php
-function removeLeadingDots($filePath) {
+function removeLeadingDots($filePath)
+{
     return preg_replace('/^\.\.\//', '', $filePath);
 }
-?>
 
+function renderRatingStars($rating)
+{
+    $stars = '';
+    for ($i = 1; $i <= 5; $i++) {
+        if ($rating >= $i) {
+            $stars .= '<i class="fa-solid fa-star" style="color: blue;"></i>';
+        } elseif ($rating > $i - 1 && $rating < $i) {
+            $stars .= '<i class="fa-solid fa-star-half-stroke" style="color: blue;"></i>';
+        } else {
+            $stars .= '<i class="fa-regular fa-star" style="color: lightgray;"></i>';
+        }
+    }
+    return $stars;
+}
+
+?>
+<div class="container">
+<h1 class="product-title">Sản phẩm bán chạy</h1>
 <div class="product-container">
+    <?php
+    usort($products, function($a, $b) {
+        return $b['views'] - $a['views'];
+    });
+    ?>
     <?php foreach ($products as $product) : ?>
         <div class="product-item">
             <div class="discount-container">
                 <p>Giảm <?= htmlspecialchars($product['discount_value']) ?>%</p>
             </div>
             <img src="<?= htmlspecialchars(removeLeadingDots($product['img'])) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>">
-            <h2><?= htmlspecialchars($product['product_name']) ?></h2>
-            <p> <i class="fa-solid fa-eye"></i> <?= htmlspecialchars($product['views']) ?></p>
-            <p>Giá: <?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</p>
-            <a href="#" class="learn-more">Mua ngay</a>
-            <a href="#" class="learn-more">Xem chi tiết</a>
+            <hr>
+            <h5><?= htmlspecialchars($product['product_name']) ?></h5>
+            <div class="rating-container">
+                <div class="rating">
+                    <?= renderRatingStars((int)$product['rating']) ?>
+                </div>
+                <h7><?= htmlspecialchars($product['rating']) ?></h7>
+                <p class="views"> <ion-icon name="eye-outline"></ion-icon> <?= htmlspecialchars($product['views']) ?></p>
+            </div>
+            <span class="sale">Sale:
+                <?php
+                $original_price = floatval(str_replace('.', '', $product['Lowest_Price']));
+                $discount_value = floatval($product['discount_value']);
+                $discount_status = $product['discount_status'];
+                if ($discount_value > 0 && $discount_status === 'active') {
+                    if ($product['discount_type'] == 'percentage') {
+                        $discounted_price = $original_price * (1 - $discount_value / 100);
+                    } else {
+                        $discounted_price = $original_price - $discount_value;
+                    }
+                    
+                    echo '<span class="text-danger">' . number_format($discounted_price, 0, ',', '.') . ' VND</span>';
+                } else {
+                    echo '<span>' . '0' . ' VND</span>';
+                }
+                ?>
+                <span class="discound"><?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</span>
+            </span>
+            <hr>
+            <a href="#" class="buy-now">Mua ngay</a>
+            <a href="?act=product_detail&id=<?= $product['id'] ?>" class="learn-more">Xem chi tiết</a>
         </div>
     <?php endforeach; ?>
 </div>
+</div>
 
 
+<div class="container">
+<h1 class="product-title">Sản phẩm được đánh giá cao</h1>
+<div class="product-container">
+    <?php
+    usort($products, function($a, $b) {
+        return $b['rating'] - $a['rating'];
+    });
+    ?>
+    <?php foreach ($products as $product) : ?>
+        <div class="product-item">
+            <div class="discount-container">
+                <p>Giảm <?= htmlspecialchars($product['discount_value']) ?>%</p>
+            </div>
+            <img src="<?= htmlspecialchars(removeLeadingDots($product['img'])) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>">
+            <hr>
+            <h5><?= htmlspecialchars($product['product_name']) ?></h5>
+            <div class="rating-container">
+                <div class="rating">
+                    <?= renderRatingStars((int)$product['rating']) ?>
+                </div>
+                <h7><?= htmlspecialchars($product['rating']) ?></h7>
+                <p class="views"> <ion-icon name="eye-outline"></ion-icon> <?= htmlspecialchars($product['views']) ?></p>
+            </div>
+            <span class="sale">Sale:
+                <?php
+                $original_price = floatval(str_replace('.', '', $product['Lowest_Price']));
+                $discount_value = floatval($product['discount_value']);
+                $discount_status = $product['discount_status'];
+                if ($discount_value > 0 && $discount_status === 'active') {
+                    if ($product['discount_type'] == 'percentage') {
+                        $discounted_price = $original_price * (1 - $discount_value / 100);
+                    } else {
+                        $discounted_price = $original_price - $discount_value;
+                    }
+                    
+                    echo '<span class="text-danger">' . number_format($discounted_price, 0, ',', '.') . ' VND</span>';
+                } else {
+                    echo '<span>' . '0' . ' VND</span>';
+                }
+                ?>
+                <span class="discound"><?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</span>
+            </span>
+            <hr>
+            <a href="#" class="buy-now">Mua ngay</a>
+            <a href="?act=product_detail&id=<?= $product['id'] ?>" class="learn-more">Xem chi tiết</a>
+        </div>
+    <?php endforeach; ?>
+</div>
+</div>
 
+<div class="container">
+<h1 class="product-title">Sản phẩm giảm giá sâu</h1>
+<div class="product-container">
+    <?php
+    usort($products, function($a, $b) {
+        return $b['discount_value'] - $a['discount_value'];
+    });
+    ?>
+    <?php foreach ($products as $product) : ?>
+        <div class="product-item">
+            <div class="discount-container">
+                <p>Giảm <?= htmlspecialchars($product['discount_value']) ?>%</p>
+            </div>
+            <img src="<?= htmlspecialchars(removeLeadingDots($product['img'])) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>">
+            <hr>
+            <h5><?= htmlspecialchars($product['product_name']) ?></h5>
+            <div class="rating-container">
+                <div class="rating">
+                    <?= renderRatingStars((int)$product['rating']) ?>
+                </div>
+                <h7><?= htmlspecialchars($product['rating']) ?></h7>
+                <p class="views"> <ion-icon name="eye-outline"></ion-icon> <?= htmlspecialchars($product['views']) ?></p>
+            </div>
+            <span class="sale">Sale:
+                <?php
+                $original_price = floatval(str_replace('.', '', $product['Lowest_Price']));
+                $discount_value = floatval($product['discount_value']);
+                $discount_status = $product['discount_status'];
+                if ($discount_value > 0 && $discount_status === 'active') {
+                    if ($product['discount_type'] == 'percentage') {
+                        $discounted_price = $original_price * (1 - $discount_value / 100);
+                    } else {
+                        $discounted_price = $original_price - $discount_value;
+                    }
+                    
+                    echo '<span class="text-danger">' . number_format($discounted_price, 0, ',', '.') . ' VND</span>';
+                } else {
+                    echo '<span>' . '0' . ' VND</span>';
+                }
+                ?>
+                <span class="discound"><?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</span>
+            </span>
+            <hr>
+            <a href="#" class="buy-now">Mua ngay</a>
+            <a href="?act=product_detail&id=<?= $product['id'] ?>" class="learn-more">Xem chi tiết</a>
+        </div>
+    <?php endforeach; ?>
+</div>
+</div>
 
 <script>
     let slideImages = document.querySelectorAll('.slides img');
@@ -198,4 +346,14 @@ function removeLeadingDots($filePath) {
             indicators();
         }
     }
+    function scrollProducts(direction) {
+    const container = document.querySelector('.product-container');
+    const scrollAmount = 300; // Số lượng pixel di chuyển mỗi lần nhấn nút
+
+    if (direction === 'left') {
+        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else if (direction === 'right') {
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+}
 </script>

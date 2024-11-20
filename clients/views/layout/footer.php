@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" type="text/css" href="./assets/css/footer.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/client.css">
 </head>
 
 <footer>
@@ -51,8 +51,8 @@
         <p>Nhận các ưu đãi mới nhất và nhiều hơn nữa</p>
         <input type="email" placeholder="Nhập địa chỉ email">
         <button>Sign up</button>
-    </div>
-    <div class="footer-social">
-        <!-- Thêm các biểu tượng mạng xã hội -->
+        <div class="footer-social">
+            <img src="./assets/img/logo.png" alt="">
+        </div>
     </div>
 </footer>

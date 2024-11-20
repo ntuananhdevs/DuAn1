@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -55,9 +55,10 @@
                         <div class="search-nav">
                             <div class="inputsearch">
                             <ion-icon name="search-outline" size="large"></ion-icon>
-                                <form method="GET" action="?act=search">
+                                <form method="GET" action="?act=result">
+                                    <input type="hidden" name="act" value="result">
                                     <input type="text" name="search" placeholder="Tìm kiếm" value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
-                                    <input type="hidden" name="act" value="search">
+                                   
                                 </form>
                             </div>
                             <ul class="list-search">
