@@ -6,6 +6,7 @@
     require_once './clients/controllers/HomeController.php';
     require_once './clients/controllers/LoginController.php';
     require_once './clients/controllers/ProductsContronller.php';
+    require_once './clients/controllers/ResultController.php';
  
 
     #require Model
@@ -13,11 +14,13 @@
     require_once './clients/models/Home.php';
     require_once './clients/models/Products_details.php';
     require_once './clients/models/LoginModel.php';
+    require_once './clients/models/Result.php';
 
 
     $home = new HomeController();
     $login = new LoginController();
     $products = new ProductsContronller();
+    $result = new ResultController();
     
 
   
@@ -35,7 +38,8 @@
             //PRODUCT
             'product_details' => $products->view_products(),
 
-
+            ##Result
+            'result' => $result->view_result(),
 
 
 
