@@ -266,14 +266,23 @@
                     </div>
                     <hr>
                     <div class="comments text-center">
-                        <p>Bạn đánh giá sao về sản phầm này?</p>
-                        <button class="btn btn-outline-danger">Viết đánh giá</button>
+                        <?php if (!isset($_SESSION['user'])): ?>
+                            <!-- Hiển thị thông báo yêu cầu đăng nhập -->
+                            <div class="comments text-center">
+                                <p>Bạn cần <a href="login.php">đăng nhập</a> để đánh giá sản phẩm này.</p>
+                                <button class="btn btn-outline-danger" onclick="showLoginModal()">Viết đánh giá </button>
+                            </div>
+                        <?php else: ?>
+                            <!-- Hiển thị form viết đánh giá -->
+                            <div class="comments text-center">
+                                <p>Bạn đánh giá sao về sản phẩm này?</p>
+                                <button class="btn btn-outline-danger" onclick="showReviewForm()">Viết đánh giá</button>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <hr>
                 </div>
-
-
-            </div>
+ </div>
 
             <!-- Phần thông số kỹ thuật nằm bên phải -->
             <div class="col-md-4">
@@ -295,196 +304,37 @@
 
     </div>
 
+    <div id="login-modal" class="modal">
+                        <div class="modal-content">
+                            <span class="close-btn" onclick="closeModal()">&times;</span>
+                            <h2>Thông báo</h2>
+                            <p>Bạn cần đăng nhập để đánh giá sản phẩm.</p>
+                            <div class="modal-buttons">
+                                <a href="?act=login" class="btn btn-primary">Đăng nhập</a>
+                                <a href="register.php" class="btn btn-register">Đăng ký</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="review-form" class="review-form" style="display: none;">
+                        <form action="submit_review.php" method="POST">
+                            <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
 
-    <style>
-        .price_products_variants {
-            background-color: #f7f7f7;
-            border-radius: 8px;
-            padding: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            /* Khoảng cách giữa các phần tử */
-        }
+                            <label for="rating">Chọn đánh giá:</label>
+                            <select name="rating" id="rating" required>
+                                <option value="5">5 sao</option>
+                                <option value="4">4 sao</option>
+                                <option value="3">3 sao</option>
+                                <option value="2">2 sao</option>
+                                <option value="1">1 sao</option>
+                            </select>
 
-        .discount {
-            position: relative;
-            background-color: #ff5e5e;
-            /* Màu đỏ nổi bật cho phần giảm giá */
-            color: white;
-            padding: 20px 25px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
-            font-weight: bold;
-            text-transform: uppercase;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+                            <label for="comment">Nhận xét của bạn:</label>
+                            <textarea name="comment" id="comment" rows="4" required></textarea>
 
-        .discount::after {
-            content: "Sale";
-            /* Chữ của mác sale */
-            position: absolute;
-            top: -10px;
-            left: -20px;
-            background-color: #ff3b3b;
-            /* Màu đỏ cho mác sale */
-            color: white;
-            font-weight: bold;
-            padding: 5px 10px;
-            border-radius: 3px;
-            transform: rotate(-45deg);
-            /* Quay mác để giống như treo */
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        .price-vi {
-            text-align: center;
-        }
-
-        #variant-price {
-            font-size: 22px;
-            font-weight: bold;
-            color: #d50000;
-            /* Màu đỏ đậm cho giá cuối cùng */
-            margin: 10px 0;
-        }
-
-        #variant-original-price {
-            font-size: 14px;
-            color: #888;
-            text-decoration: line-through;
-            /* Gạch ngang giá gốc */
-            margin-top: 5px;
-        }
-
-        @media (max-width: 767px) {
-            .price_products_variants {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .discount {
-                width: 100%;
-                margin-bottom: 10px;
-            }
-
-            .price-vi {
-                width: 100%;
-            }
-
-            #variant-price {
-                font-size: 20px;
-            }
-
-            #variant-original-price {
-                font-size: 13px;
-            }
-        }
-
-
-        .thumbnails {
-            overflow: hidden;
-            position: relative;
-        }
-
-        .option {
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .option:hover {
-            transform: scale(1.001);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .option.selected {
-            border-color: red;
-            transform: scale(1.001);
-        }
-
-        .option-color {
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-        }
-
-        .option-color:hover {
-            transform: scale(1.001);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            /* Shadow mạnh hơn khi hover */
-        }
-
-        /* Khi được chọn (viền màu đỏ) */
-        .option-color.selected {
-            border-color: red;
-            /* Viền đỏ khi được chọn */
-            transform: scale(1.01);
-            /* Phóng to như khi hover */
-        }
-
-        /* Style for the entire table */
-        .table {
-            border-radius: 10px;
-            overflow: hidden;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-
-        /* Style cho hàng chẵn */
-        .table tr:nth-child(even) {
-            background-color: #f8f9fa;
-            /* Màu nhạt - có thể điều chỉnh */
-        }
-
-        /* Style cho hàng lẻ */
-        .table tr:nth-child(odd) {
-            background-color: #ffffff;
-            /* Màu trắng hoặc màu khác tùy chọn */
-        }
-
-        /* Hover effect (tùy chọn) */
-        .table tr:hover {
-            background-color: #f2f2f2;
-            /* Màu khi hover chuột qua */
-        }
-
-        /* Style for table cells */
-        .table td,
-        .table th {
-            border: 1px solid #dee2e6;
-            padding: 8px;
-        }
-
-        /* Các style khác giữ nguyên */
-        .table tr:first-child td,
-        .table tr:first-child th {
-            border-top: none;
-        }
-
-        .table tr:last-child td,
-        .table tr:last-child th {
-            border-bottom: none;
-        }
-
-        .table tr td:first-child,
-        .table tr th:first-child {
-            border-left: none;
-        }
-
-        .table tr td:last-child,
-        .table tr th:last-child {
-            border-right: none;
-        }
-    </style>
+                            <button type="submit" class="btn btn-submit">Gửi đánh giá</button>
+                        </form>
+                    </div>
+   
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <script>
@@ -685,4 +535,32 @@
                 selectVariant(firstVariantOption);
             }
         });
+        // JavaScript to handle modal and form visibility
+
+// Show the login modal
+function showLoginModal() {
+    const modal = document.getElementById('login-modal');
+    modal.style.display = 'block';
+}
+
+// Show the review form
+function showReviewForm() {
+    const reviewForm = document.getElementById('review-form');
+    reviewForm.style.display = 'block';
+}
+
+// Close the login modal
+function closeModal() {
+    const modal = document.getElementById('login-modal');
+    modal.style.display = 'none';
+}
+
+// Close modal if clicked outside of modal content
+window.onclick = function (event) {
+    const modal = document.getElementById('login-modal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+};
+
     </script>
