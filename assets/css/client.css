@@ -135,7 +135,7 @@ nav {
     background: #000;
     transition: width 0.3s;
     position: absolute;
-    bottom: -15px;
+    bottom: -16px;
     left: 0;
 }
 
@@ -997,7 +997,7 @@ input:focus, input:hover {
 }
 
 .review-title {
-    font-size: 1.5rem;
+    font-size: 16px;
     font-weight: bold;
 }
 
@@ -1026,9 +1026,8 @@ input:focus, input:hover {
 }
 
 .thumbnail {
-    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.1);
+        border: solid 1px #d1d5db;
 }
-
 .box-option{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
