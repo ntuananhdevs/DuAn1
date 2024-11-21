@@ -1052,3 +1052,10 @@ input:focus, input:hover {
     border-radius: 5px;
     padding: 10px;
 }
+.result-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px; /* Khoảng cách giữa các sản phẩm */
+    margin: 20px 0;
+}
