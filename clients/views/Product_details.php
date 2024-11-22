@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 </head>
-<div class="container mt-4">
+<div class="container mt-4 mb-4">
     <!-- Header sản phẩm -->
     <div class="product-header">
         <div class="d-flex align-items-center gap-3 ">
@@ -294,7 +294,7 @@
         </div>
 
     </div>
-
+</div>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <script>
