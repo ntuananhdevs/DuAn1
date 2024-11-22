@@ -71,3 +71,5 @@ function scrollProducts1(minx1) {
         container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
 }
+
+
