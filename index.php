@@ -2,25 +2,30 @@
     require_once './commons/env.php';
     require_once './commons/core.php';
 
-#require Controller
+    #require Controller
     require_once './clients/controllers/HomeController.php';
     require_once './clients/controllers/LoginController.php';
     require_once './clients/controllers/ProductsContronller.php';
     require_once './clients/controllers/ResultController.php';
+    require_once './clients/controllers/PayController.php';
+    require_once './clients/controllers/SpCartContronller.php';
 
 
-#require Model
-
+    #require Model
     require_once './clients/models/Home.php';
     require_once './clients/models/Products_details.php';
     require_once './clients/models/LoginModel.php';
     require_once './clients/models/Result.php';
+    require_once './clients/models/Pay.php';
+    require_once './clients/models/ShoppingCart.php';
 
 
     $home = new HomeController();
     $login = new LoginController();
     $products = new ProductsContronller();
     $result = new ResultController();
+    $pay = new PayController();
+    $shoppingCart = new ShoppingCartController();
 
     $act = $_GET['act'] ?? '/';
 
@@ -49,7 +54,7 @@
             '/' => $home->view_home(),
 
             'product_detail' => $products->view_products($_GET['id']),
-
+            'shoppingcart' => $shoppingCart->view_shoppingCart(),
 
             'result' => $result->view_result(),
 
