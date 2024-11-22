@@ -3,7 +3,7 @@
 </head>
 
 <footer>
-    <div class="footer-container">
+    <div class="footer-container mt-5">
         <div class="footer-section">
             <h4>Mua sắm và Học tập</h4>
             <ul>

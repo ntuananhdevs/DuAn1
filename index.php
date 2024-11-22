@@ -35,7 +35,7 @@
         'logout' => 'Logout',
         '/' => 'Home',
         'product_detail' => 'Product Details',
-        'laptop' => 'Laptops',
+        'shoppingcart' => 'WinTech Cart',
         'phone' => 'Phones',
         'result' => 'Search Results',
         'add_comment' => 'Add Comment',
@@ -55,6 +55,7 @@
 
             'product_detail' => $products->view_products($_GET['id']),
             'shoppingcart' => $shoppingCart->view_shoppingCart(),
+            'pay' => $pay->view_pay(),
 
             'result' => $result->view_result(),
 
