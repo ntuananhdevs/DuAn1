@@ -191,14 +191,7 @@
 
             <div class="btn-details mt-5 d-flex justify-content-center align-items-center gap-3">
                 <a id="buy-now-link" href="http://duan1/?act=pay&id=" class="btn btn-danger w-25"> Mua ngay </a>
-               <form action="index.php?action=add-to-cart" method="POST">
-                        <input type="hidden" name="product_id" value="<?php echo $product['id'] ?>">
-                        <input type="hidden" name="quantity" id="hidden-quantity" value="1">
-                        <button type="submit" class="btn-add-cart">
-                            <i class="fas fa-shopping-cart"></i>
-                            Thêm vào giỏ hàng
-                        </button>
-                    
+                <a href="?act=cart&id=" class="btn btn-outline-danger">Thêm vào giỏ hàng</a>                    
             </div>
         </div>
 
