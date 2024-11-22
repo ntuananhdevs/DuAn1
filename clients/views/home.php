@@ -48,24 +48,28 @@ function removeLeadingDots($filePath)
     return preg_replace('/^\.\.\//', '', $filePath);
 }
 
-function renderRatingStars($rating)
-{
+function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $colorEmpty = 'lightgray', $size = '10px') {
     $stars = '';
-    for ($i = 1; $i <= 5; $i++) {
+    
+    for ($i = 1; $i <= $maxStars; $i++) {
         if ($rating >= $i) {
-            $stars .= '<i class="fa-solid fa-star" style="color: blue;"></i>';
+            // Sao đầy
+            $stars .= '<i class="fa-solid fa-star" style="color: ' . $colorFull . '; font-size: ' . $size . '; margin-right: 5px;"></i>';
         } elseif ($rating > $i - 1 && $rating < $i) {
-            $stars .= '<i class="fa-solid fa-star-half-stroke" style="color: blue;"></i>';
+            // Sao nửa
+            $stars .= '<i class="fa-solid fa-star-half-stroke" style="color: ' . $colorFull . '; font-size: ' . $size . '; margin-right: 5px;"></i>';
         } else {
-            $stars .= '<i class="fa-regular fa-star" style="color: lightgray;"></i>';
+            // Sao rỗng
+            $stars .= '<i class="fa-regular fa-star" style="color: ' . $colorEmpty . '; font-size: ' . $size . '; margin-right: 5px;"></i>';
         }
     }
-    return $stars;
+    
+    $tooltip = '<div title="Rating: ' . $rating . '/' . $maxStars . '">' . $stars . '</div>';
+    return $tooltip;
 }
 
+
 ?>
-
-
 
 <div class="container" data-aos="fade-up">
     <h1 class="product-title">Sản phẩm bán chạy</h1>
