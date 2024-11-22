@@ -139,6 +139,7 @@ nav {
 
 /* nav right */
 .nav-right {
+  line-height: 20px;
   display: flex;
   align-items: center;
   gap: 15px; /* Đặt khoảng cách hợp lý giữa các liên kết và icon */
@@ -170,10 +171,15 @@ nav {
 }
 
 .logo-nav img {
-    width: 60px;
+  margin-top: -10px;
+    width: 50px;
 }
 .nav-right {
   margin: auto;
+}
+.icon-nav {
+  font-size: 18px;
+  margin-top: 5px;
 }
 .icon-nav a {
   padding: 0 10px;
@@ -1406,5 +1412,9 @@ input:hover {
     to {
         left: 0%;
     }
+}
+.fw-bold {
+  margin-left: 10px;
+  font-weight: bold;
 }
 

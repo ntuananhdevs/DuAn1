@@ -32,7 +32,7 @@
         <div class="nav-menu">
             <div class="logo-nav d-flex align-content-center">
                 <a href="?act=/">
-                    <img src="../assets/img/logo.png" alt="">
+                    <img src="./assets/img/logo.png" alt="">
                 </a>
                 <p class="fw-bold">WinTech</p>
             </div>

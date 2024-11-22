@@ -17,12 +17,12 @@
                 <li>Bộ nhớ: 512GB</li>
             </ul>
         </div>
-        <div class="quantity-prd d-flex gap-2 align-items-center">
+        <div class="quantity-prd d-flex gap-2 align-items-center justify-content-end">
             <button class="btn border px-3">-</button>
             <input type="number" class="form-control text-center" value="1" style="width: 60px; border: none;">
             <button class="btn border px-3">+</button>
         </div>
-        <div class="price-prd">
+        <div class="price-prd ms-auto">
             <p class="fw-bold fs-5 mb-0">26.000.000 đ</p>
             <p class="text-info mt-2" style="cursor: pointer;">Xóa</p>
         </div>
