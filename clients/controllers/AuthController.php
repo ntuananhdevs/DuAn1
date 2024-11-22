@@ -1,43 +1,49 @@
 <?php
-require_once '../../vendor/autoload.php';
-
 class AuthController {
-    private $client;
+    private $authModel;
 
     public function __construct() {
-        $this->client = new Google_Client();
-        $this->client->setClientId('766981410961-qn145eckf8k1f45l2trjg6nb6uehncol.apps.googleusercontent.com');
-        $this->client->setClientSecret('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');
-        $this->client->setRedirectUri('http://localhost/duan1');
-        $this->client->addScope("email");
-        $this->client->addScope("profile");
+        $this->authModel = new AuthModel();
     }
+
+    public function register() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Lấy dữ liệu từ form
+            $user_name = $_POST['user_name'] ?? null;
+            $fullname = $_POST['fullname'] ?? null;
+            $email = $_POST['email'] ?? null;
+            $password = $_POST['password'] ?? null;
+    
+            if ($user_name && $fullname && $email && $password) {
+                if ($this->authModel->register($user_name, $fullname, $email, $password)) {
+                    header('Location: index.php?act=login');
+                    exit;
+                } else {
+                    echo "Đăng ký không thành công. Vui lòng thử lại.";
+                }
+            } else {
+                echo "Vui lòng điền đầy đủ thông tin.";
+            }
+        }
+        include './clients/auth/AuthLogin.php';
+    }
+    
 
     public function login() {
-        $loginUrl = $this->client->createAuthUrl();
-        header("Location: " . $loginUrl);
-        exit();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $user = $this->authModel->login($email, $password);
+            if ($user) {
+                $_SESSION['user'] = $user;
+                header('Location: index.php');
+            }
+        }
+        include './clients/auth/AuthLogin.php';
     }
 
-    public function callback() {
-        if (isset($_GET['code'])) {
-            $token = $this->client->fetchAccessTokenWithAuthCode($_GET['code']);
-            $this->client->setAccessToken($token['access_token']);
-
-            $googleService = new Google_Service_Oauth2($this->client);
-            $userInfo = $googleService->userinfo->get();
-
-            // Lưu thông tin người dùng vào session
-            $_SESSION['email'] = $userInfo->email;
-            $_SESSION['name'] = $userInfo->name;
-
-            // Chuyển hướng về trang chính
-            header('Location: ?action=home');
-            exit();
-        } else {
-            // Nếu không có mã truy cập, chuyển về trang đăng nhập
-            header('Location: ../login.php');
-            exit();
-        }
+    public function logout() {
+        session_destroy();
+        header('Location: index.php');
     }
 }
