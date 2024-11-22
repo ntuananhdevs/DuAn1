@@ -1089,12 +1089,10 @@ input:hover {
 .footer-subscribe p {
   margin-bottom: 10px;
   font-size: 16px;
-  margin-left: -1110px;
 }
 
 .footer-subscribe input[type="email"] {
   padding: 10px;
-  margin-left: -1080px;
   border: none;
   border-radius: 4px;
   width: 250px;
@@ -1120,8 +1118,6 @@ input:hover {
 }
 
 .footer-social img {
-  margin-left: 1110px;
-  margin-top: -100px;
   width: 40px;
   margin: 0 10px;
   cursor: pointer;

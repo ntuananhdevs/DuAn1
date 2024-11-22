@@ -5,21 +5,40 @@
     <link rel="icon" href="./assets/img/logo.png">
 </head>
 <div class="slide-container" data-aos="fade-down">
-    <div class="slides">
-        <?php foreach ($banners as $index => $banner) : ?>
-            <img src="./uploads/BannerIMG/<?= $banner['img_url'] ?>" class="<?= $index === 0 ? 'active' : '' ?>" alt="Banner Image <?= $index + 1 ?>">
-        <?php endforeach; ?>
-    </div>
-
+    
     <div class="buttons">
         <span class="prev" onclick="slidePrev()"><ion-icon name="arrow-back-outline"></ion-icon></span>
         <span class="next" onclick="slideNext()"><ion-icon name="arrow-forward-outline"></ion-icon></span>
     </div>
-
+    
     <div class="dotsContainer">
         <?php foreach ($banners as $index => $banner) : ?>
             <span class="dot <?= $index === 0 ? 'active' : '' ?>" attr="<?= $index ?>" onclick="switchImage(this)"></span>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    
+    <!-- <div class="slides">
+        <?php foreach ($banners as $index => $banner) : ?>
+            <img src="./uploads/BannerIMG/<?= $banner['img_url'] ?>" class="<?= $index === 0 ? 'active' : '' ?>" alt="Banner Image <?= $index + 1 ?>">
         <?php endforeach; ?>
+    </div> -->
+<div class="container" data-aos="fade-up">
+    <h1 class="event-title">Chương trình và Sự kiện</h1>
+    <a href="#" class="view-all">Xem tất cả &gt;</a>
+    <div class="event-container">
+        <div class="event-item">
+            <img src="https://duet-cdn.vox-cdn.com/thumbor/0x0:1679x1319/2400x1885/filters:focal(840x660:841x661):format(webp)/cdn.vox-cdn.com/uploads/chorus_asset/file/25589537/Screenshot_2024_08_26_at_12.00.35_PM.png" alt="Event 1">
+            <p>Review sản phẩm - Nhận quà liền tay</p>
+        </div>
+        <div class="event-item">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2Ofbp25udJPNMoJLGS5JEFsbMrhDwD77d8w&s" alt="Event 2">
+            <p>Ưu đãi Education</p>
+        </div>
+        <div class="event-item">
+            <img src="https://cdn.shopify.com/s/files/1/0024/0684/2441/files/Blog-REDMAGIC-8S-Pro-Launch-Event-Winners-960x480.jpg?v=1690448232" alt="Event 3">
+            <p>Mua RedMagic 8S Pro nhận ngay game độc quyền</p>
+        </div>
     </div>
 </div>
 
@@ -218,25 +237,6 @@ function renderRatingStars($rating)
             <?php endforeach; ?>
         </div>
         <button class="scroll-btn right" onclick="scrollProducts2('right2')"><ion-icon name="chevron-forward-outline"></ion-icon></button>
-    </div>
-</div>
-
-<div class="container" data-aos="fade-up">
-    <h1 class="event-title">Chương trình và Sự kiện</h1>
-    <a href="#" class="view-all">Xem tất cả &gt;</a>
-    <div class="event-container">
-        <div class="event-item">
-            <img src="https://duet-cdn.vox-cdn.com/thumbor/0x0:1679x1319/2400x1885/filters:focal(840x660:841x661):format(webp)/cdn.vox-cdn.com/uploads/chorus_asset/file/25589537/Screenshot_2024_08_26_at_12.00.35_PM.png" alt="Event 1">
-            <p>Review sản phẩm - Nhận quà liền tay</p>
-        </div>
-        <div class="event-item">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2Ofbp25udJPNMoJLGS5JEFsbMrhDwD77d8w&s" alt="Event 2">
-            <p>Ưu đãi Education</p>
-        </div>
-        <div class="event-item">
-            <img src="https://cdn.shopify.com/s/files/1/0024/0684/2441/files/Blog-REDMAGIC-8S-Pro-Launch-Event-Winners-960x480.jpg?v=1690448232" alt="Event 3">
-            <p>Mua RedMagic 8S Pro nhận ngay game độc quyền</p>
-        </div>
     </div>
 </div>
 
