@@ -6,8 +6,8 @@
     require_once './clients/controllers/HomeController.php';
     require_once './clients/controllers/LoginController.php';
     require_once './clients/controllers/ProductsContronller.php';
-  
     require_once './clients/controllers/ResultController.php';
+    require_once './clients/controllers/cartController.php';
  
 
     #require Model
@@ -15,16 +15,15 @@
     require_once './clients/models/Home.php';
     require_once './clients/models/Products_details.php';
     require_once './clients/models/LoginModel.php';
-  
     require_once './clients/models/Result.php';
+    require_once './clients/models/cartModel.php';
 
 
     $home = new HomeController();
     $login = new LoginController();
     $products = new ProductsContronller();
-    
     $result = new ResultController();
-    
+    $cart = new cartController();
 
   
 
@@ -41,14 +40,12 @@
             //PRODUCT
             'product_detail' => $products->view_products($_GET['id']),
                 // CART
-          
-
+                'cart' => $cart->viewCart(),
+                'add-to-cart' => $cart->addToCart(),
+                'remove-from-cart' => $cart->removeFromCart(),
+               
             ##Result
             'result' => $result->view_result(),
-
-
-
-
 
             default => $home->view_home(),
         };

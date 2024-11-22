@@ -47,7 +47,8 @@
     <!-- Hình ảnh sản phẩm -->
     <div class="row">
         <div class="box_products_details col-md-6">
-            <div class="product-image swiper-container main-slider" style="height: 400px; overflow: hidden; position: relative;">
+            <div class="product-image swiper-container main-slider"
+                style="height: 400px; overflow: hidden; position: relative;">
                 <div class="swiper-wrapper">
                     <?php
                     $uniqueImages = [];
@@ -63,12 +64,12 @@
 
                     // Hiển thị ảnh đã lọc trong phần Main Slider
                     foreach ($uniqueImages as $image): ?>
-                        <div class="swiper-slide d-flex align-content-center justify-content-center align-items-center"
-                            data-color="<?= htmlspecialchars($image['color']) ?>">
-                            <img src="<?= removeLeadingDots($image['images']) ?>" alt="Product Image"
-                                class="img-fluid align-content-center justify-content-center"
-                                style="width: 250px; height: 250px; object-fit: cover; align-items: center">
-                        </div>
+                    <div class="swiper-slide d-flex align-content-center justify-content-center align-items-center"
+                        data-color="<?= htmlspecialchars($image['color']) ?>">
+                        <img src="<?= removeLeadingDots($image['images']) ?>" alt="Product Image"
+                            class="img-fluid align-content-center justify-content-center"
+                            style="width: 250px; height: 250px; object-fit: cover; align-items: center">
+                    </div>
                     <?php endforeach; ?>
                 </div>
                 <div class="swiper-button-next"
@@ -95,10 +96,11 @@
 
                     // Hiển thị ảnh đã lọc trong phần Thumbnail Slider
                     foreach ($uniqueThumbnails as $image): ?>
-                        <div class="swiper-slide" data-color="<?= htmlspecialchars($image['color']) ?>" style="cursor: pointer; max-width: 80px;  ">
-                            <img src="<?= removeLeadingDots($image['images']) ?>" alt="Thumbnail" class="thumbnail"
-                                style="width: 60px; height: 60px; padding: 5px; border-radius: 5px;">
-                        </div>
+                    <div class="swiper-slide" data-color="<?= htmlspecialchars($image['color']) ?>"
+                        style="cursor: pointer; max-width: 80px;  ">
+                        <img src="<?= removeLeadingDots($image['images']) ?>" alt="Thumbnail" class="thumbnail"
+                            style="width: 60px; height: 60px; padding: 5px; border-radius: 5px;">
+                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -110,7 +112,7 @@
             <h5>Chọn dung lượng bộ nhớ và RAM:</h5>
             <div id="variant-container" class="box-option mb-3">
                 <?php foreach ($listPrd_Variant as $variant): ?>
-                    <?php
+                <?php
                     // Lấy giá gốc và thông tin giảm giá
                     $price = $variant['price']; // Giá gốc
                     $discount_value = $variant['discount_value']; // Giá trị giảm giá
@@ -131,25 +133,25 @@
                     $discounted_price = max($discounted_price, 0);
                     ?>
 
-                    <div class="option justify-content-between align-items-center mb-2"
-                        data-id="<?= htmlspecialchars($variant['variant_id']) ?>"
-                        data-color="<?= htmlspecialchars($variant['color']) ?>"
-                        data-price="<?= htmlspecialchars($variant['price']) ?>"
-                        data-discount-value="<?= htmlspecialchars($variant['discount_value']) ?>"
-                        data-discount-type="<?= htmlspecialchars($variant['discount_type']) ?>"
-                        onclick="selectVariant(this)">
-                        <span class="fw-bold"><?= htmlspecialchars($variant['ram']) ?> /
-                            <?= htmlspecialchars($variant['storage']) ?></span>
+                <div class="option justify-content-between align-items-center mb-2"
+                    data-id="<?= htmlspecialchars($variant['variant_id']) ?>"
+                    data-color="<?= htmlspecialchars($variant['color']) ?>"
+                    data-price="<?= htmlspecialchars($variant['price']) ?>"
+                    data-discount-value="<?= htmlspecialchars($variant['discount_value']) ?>"
+                    data-discount-type="<?= htmlspecialchars($variant['discount_type']) ?>"
+                    onclick="selectVariant(this)">
+                    <span class="fw-bold"><?= htmlspecialchars($variant['ram']) ?> /
+                        <?= htmlspecialchars($variant['storage']) ?></span>
 
-                        <p class="text-muted">
-                            <!-- Hiển thị giá giảm -->
-                            <?php if ($discounted_price < $price): ?>
-                                <span><?= number_format($discounted_price, 0, ',', '.') ?> đ</span>
-                            <?php else: ?>
-                                <span class="fw-bold"><?= number_format($price, 0, ',', '.') ?> đ</span>
-                            <?php endif; ?>
-                        </p>
-                    </div>
+                    <p class="text-muted">
+                        <!-- Hiển thị giá giảm -->
+                        <?php if ($discounted_price < $price): ?>
+                        <span><?= number_format($discounted_price, 0, ',', '.') ?> đ</span>
+                        <?php else: ?>
+                        <span class="fw-bold"><?= number_format($price, 0, ',', '.') ?> đ</span>
+                        <?php endif; ?>
+                    </p>
+                </div>
                 <?php endforeach; ?>
 
             </div>
@@ -161,12 +163,14 @@
                 foreach ($listPrd_Variant as $color):
                     if (!in_array($color['color'], $colors)) {
                         $colors[] = $color['color']; ?>
-                        <div class="option-color d-flex align-content-center justify-content-center align-items-center" style="cursor: pointer; width: 120px;  height: 60px;"
-                            data-color="<?= htmlspecialchars($color['color']) ?>" onclick="filterVariants(this)">
-                            <img src="<?= removeLeadingDots($color['images']) ?>"
-                                style="width: 45px; height: 45px; cursor: pointer;" class="color-option">
-                            <p class="fw-bold d-flex align-content-center justify-content-center align-items-center mt-3"><?= htmlspecialchars($color['color']) ?></p>
-                        </div>
+                <div class="option-color d-flex align-content-center justify-content-center align-items-center"
+                    style="cursor: pointer; width: 120px;  height: 60px;"
+                    data-color="<?= htmlspecialchars($color['color']) ?>" onclick="filterVariants(this)">
+                    <img src="<?= removeLeadingDots($color['images']) ?>"
+                        style="width: 45px; height: 45px; cursor: pointer;" class="color-option">
+                    <p class="fw-bold d-flex align-content-center justify-content-center align-items-center mt-3">
+                        <?= htmlspecialchars($color['color']) ?></p>
+                </div>
                 <?php
                     }
                 endforeach; ?>
@@ -187,10 +191,16 @@
 
             <div class="btn-details mt-5 d-flex justify-content-center align-items-center gap-3">
                 <a id="buy-now-link" href="http://duan1/?act=pay&id=" class="btn btn-danger w-25"> Mua ngay </a>
-                <a id="add-to-cart-link" href="http://duan1/?act=cart&id=" class="btn btn-outline-danger">Thêm vào giỏ hàng</a>
+               <form action="index.php?action=add-to-cart" method="POST">
+                        <input type="hidden" name="product_id" value="<?php echo $product['id'] ?>">
+                        <input type="hidden" name="quantity" id="hidden-quantity" value="1">
+                        <button type="submit" class="btn-add-cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            Thêm vào giỏ hàng
+                        </button>
+                    
             </div>
         </div>
-
 
         <div class="row mt-4">
             <!-- Phần mô tả và đánh giá nằm bên trái -->
@@ -282,10 +292,11 @@
                     <table class="table table-striped">
                         <tbody>
                             <?php foreach ($list_spect as $index => $spec) : ?>
-                                <tr class="<?php echo $index % 2 == 0 ? 'bg-light' : ''; ?>">
-                                    <td class="font-weight-bold" style="width: 40%;"><?php echo htmlspecialchars($spec['Specification_Name']); ?></td>
-                                    <td><?php echo htmlspecialchars($spec['Specification_Value']); ?></td>
-                                </tr>
+                            <tr class="<?php echo $index % 2 == 0 ? 'bg-light' : ''; ?>">
+                                <td class="font-weight-bold" style="width: 40%;">
+                                    <?php echo htmlspecialchars($spec['Specification_Name']); ?></td>
+                                <td><?php echo htmlspecialchars($spec['Specification_Value']); ?></td>
+                            </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -294,395 +305,395 @@
         </div>
 
     </div>
+</div>
+
+<style>
+.price_products_variants {
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    /* Khoảng cách giữa các phần tử */
+}
+
+.discount {
+    position: relative;
+    background-color: #ff5e5e;
+    /* Màu đỏ nổi bật cho phần giảm giá */
+    color: white;
+    padding: 20px 25px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.discount::after {
+    content: "Sale";
+    /* Chữ của mác sale */
+    position: absolute;
+    top: -10px;
+    left: -20px;
+    background-color: #ff3b3b;
+    /* Màu đỏ cho mác sale */
+    color: white;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transform: rotate(-45deg);
+    /* Quay mác để giống như treo */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.price-vi {
+    text-align: center;
+}
+
+#variant-price {
+    font-size: 22px;
+    font-weight: bold;
+    color: #d50000;
+    /* Màu đỏ đậm cho giá cuối cùng */
+    margin: 10px 0;
+}
+
+#variant-original-price {
+    font-size: 14px;
+    color: #888;
+    text-decoration: line-through;
+    /* Gạch ngang giá gốc */
+    margin-top: 5px;
+}
+
+@media (max-width: 767px) {
+    .price_products_variants {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .discount {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .price-vi {
+        width: 100%;
+    }
+
+    #variant-price {
+        font-size: 20px;
+    }
+
+    #variant-original-price {
+        font-size: 13px;
+    }
+}
 
 
-    <style>
-        .price_products_variants {
-            background-color: #f7f7f7;
-            border-radius: 8px;
-            padding: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            /* Khoảng cách giữa các phần tử */
+.thumbnails {
+    overflow: hidden;
+    position: relative;
+}
+
+.option {
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.option:hover {
+    transform: scale(1.001);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.option.selected {
+    border-color: red;
+    transform: scale(1.001);
+}
+
+.option-color {
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.option-color:hover {
+    transform: scale(1.001);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    /* Shadow mạnh hơn khi hover */
+}
+
+/* Khi được chọn (viền màu đỏ) */
+.option-color.selected {
+    border-color: red;
+    /* Viền đỏ khi được chọn */
+    transform: scale(1.01);
+    /* Phóng to như khi hover */
+}
+
+/* Style for the entire table */
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* Style cho hàng chẵn */
+.table tr:nth-child(even) {
+    background-color: #f8f9fa;
+    /* Màu nhạt - có thể điều chỉnh */
+}
+
+/* Style cho hàng lẻ */
+.table tr:nth-child(odd) {
+    background-color: #ffffff;
+    /* Màu trắng hoặc màu khác tùy chọn */
+}
+
+/* Hover effect (tùy chọn) */
+.table tr:hover {
+    background-color: #f2f2f2;
+    /* Màu khi hover chuột qua */
+}
+
+/* Style for table cells */
+.table td,
+.table th {
+    border: 1px solid #dee2e6;
+    padding: 8px;
+}
+
+/* Các style khác giữ nguyên */
+.table tr:first-child td,
+.table tr:first-child th {
+    border-top: none;
+}
+
+.table tr:last-child td,
+.table tr:last-child th {
+    border-bottom: none;
+}
+
+.table tr td:first-child,
+.table tr th:first-child {
+    border-left: none;
+}
+
+.table tr td:last-child,
+.table tr th:last-child {
+    border-right: none;
+}
+</style>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script>
+function selectVariant(element) {
+    const options = document.querySelectorAll('#variant-container .option');
+
+    // Xóa lớp "selected" khỏi tất cả các lựa chọn
+    options.forEach(option => option.classList.remove('selected'));
+
+    // Thêm lớp "selected" vào lựa chọn được chọn
+    element.classList.add('selected');
+
+    // Lấy ID, giá, discount_value và discount_type của biến thể được chọn
+    const selectedVariantId = element.getAttribute('data-id');
+    const price = parseInt(element.getAttribute('data-price')); // Giá gốc
+    const discountValue = parseInt(element.getAttribute('data-discount-value')); // Giá trị giảm
+    const discountType = element.getAttribute('data-discount-type'); // Loại giảm giá (percentage hoặc amount)
+
+    // Tính toán giá sau khi giảm (nếu có)
+    let finalPrice = price;
+    let discountAmount = 0;
+    let discountText = ''; // Text sẽ hiển thị giảm giá
+
+    if (discountValue > 0) {
+        if (discountType === 'percentage') {
+            // Giảm theo tỷ lệ phần trăm
+            discountAmount = price * discountValue / 100;
+            finalPrice = price - discountAmount;
+            discountText = `Sale ${discountValue}%`;
+        } else if (discountType === 'amount') {
+            // Giảm theo số tiền
+            discountAmount = discountValue;
+            finalPrice = price - discountAmount;
+            discountText = `Sale ${discountAmount.toLocaleString()} VND`;
         }
+    }
 
-        .discount {
-            position: relative;
-            background-color: #ff5e5e;
-            /* Màu đỏ nổi bật cho phần giảm giá */
-            color: white;
-            padding: 20px 25px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
-            font-weight: bold;
-            text-transform: uppercase;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+    // Cập nhật giá hiển thị trên giao diện
+    const priceElement = document.getElementById('variant-price');
+    const discountElement = document.getElementById('variant-discount');
+    const originalPriceElement = document.getElementById('variant-original-price');
 
-        .discount::after {
-            content: "Sale";
-            /* Chữ của mác sale */
-            position: absolute;
-            top: -10px;
-            left: -20px;
-            background-color: #ff3b3b;
-            /* Màu đỏ cho mác sale */
-            color: white;
-            font-weight: bold;
-            padding: 5px 10px;
-            border-radius: 3px;
-            transform: rotate(-45deg);
-            /* Quay mác để giống như treo */
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-        }
+    if (priceElement) {
+        priceElement.textContent = `${finalPrice.toLocaleString()} VND`;
+    }
 
-        .price-vi {
-            text-align: center;
-        }
+    if (originalPriceElement) {
+        originalPriceElement.textContent = `${price.toLocaleString()} VND`;
+        originalPriceElement.style.textDecoration = 'line-through'; // Để giá gốc có gạch ngang
+    }
 
-        #variant-price {
-            font-size: 22px;
-            font-weight: bold;
-            color: #d50000;
-            /* Màu đỏ đậm cho giá cuối cùng */
-            margin: 10px 0;
-        }
+    if (discountElement) {
+        discountElement.textContent = discountText; // Hiển thị phần trăm hoặc số tiền giảm
+    }
 
-        #variant-original-price {
-            font-size: 14px;
-            color: #888;
-            text-decoration: line-through;
-            /* Gạch ngang giá gốc */
-            margin-top: 5px;
-        }
-
-        @media (max-width: 767px) {
-            .price_products_variants {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .discount {
-                width: 100%;
-                margin-bottom: 10px;
-            }
-
-            .price-vi {
-                width: 100%;
-            }
-
-            #variant-price {
-                font-size: 20px;
-            }
-
-            #variant-original-price {
-                font-size: 13px;
-            }
-        }
-
-
-        .thumbnails {
-            overflow: hidden;
-            position: relative;
-        }
-
-        .option {
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .option:hover {
-            transform: scale(1.001);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .option.selected {
-            border-color: red;
-            transform: scale(1.001);
-        }
-
-        .option-color {
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-        }
-
-        .option-color:hover {
-            transform: scale(1.001);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            /* Shadow mạnh hơn khi hover */
-        }
-
-        /* Khi được chọn (viền màu đỏ) */
-        .option-color.selected {
-            border-color: red;
-            /* Viền đỏ khi được chọn */
-            transform: scale(1.01);
-            /* Phóng to như khi hover */
-        }
-
-        /* Style for the entire table */
-        .table {
-            border-radius: 10px;
-            overflow: hidden;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-
-        /* Style cho hàng chẵn */
-        .table tr:nth-child(even) {
-            background-color: #f8f9fa;
-            /* Màu nhạt - có thể điều chỉnh */
-        }
-
-        /* Style cho hàng lẻ */
-        .table tr:nth-child(odd) {
-            background-color: #ffffff;
-            /* Màu trắng hoặc màu khác tùy chọn */
-        }
-
-        /* Hover effect (tùy chọn) */
-        .table tr:hover {
-            background-color: #f2f2f2;
-            /* Màu khi hover chuột qua */
-        }
-
-        /* Style for table cells */
-        .table td,
-        .table th {
-            border: 1px solid #dee2e6;
-            padding: 8px;
-        }
-
-        /* Các style khác giữ nguyên */
-        .table tr:first-child td,
-        .table tr:first-child th {
-            border-top: none;
-        }
-
-        .table tr:last-child td,
-        .table tr:last-child th {
-            border-bottom: none;
-        }
-
-        .table tr td:first-child,
-        .table tr th:first-child {
-            border-left: none;
-        }
-
-        .table tr td:last-child,
-        .table tr th:last-child {
-            border-right: none;
-        }
-    </style>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
-    <script>
-        function selectVariant(element) {
-            const options = document.querySelectorAll('#variant-container .option');
-
-            // Xóa lớp "selected" khỏi tất cả các lựa chọn
-            options.forEach(option => option.classList.remove('selected'));
-
-            // Thêm lớp "selected" vào lựa chọn được chọn
-            element.classList.add('selected');
-
-            // Lấy ID, giá, discount_value và discount_type của biến thể được chọn
-            const selectedVariantId = element.getAttribute('data-id');
-            const price = parseInt(element.getAttribute('data-price')); // Giá gốc
-            const discountValue = parseInt(element.getAttribute('data-discount-value')); // Giá trị giảm
-            const discountType = element.getAttribute('data-discount-type'); // Loại giảm giá (percentage hoặc amount)
-
-            // Tính toán giá sau khi giảm (nếu có)
-            let finalPrice = price;
-            let discountAmount = 0;
-            let discountText = ''; // Text sẽ hiển thị giảm giá
-
-            if (discountValue > 0) {
-                if (discountType === 'percentage') {
-                    // Giảm theo tỷ lệ phần trăm
-                    discountAmount = price * discountValue / 100;
-                    finalPrice = price - discountAmount;
-                    discountText = `Sale ${discountValue}%`;
-                } else if (discountType === 'amount') {
-                    // Giảm theo số tiền
-                    discountAmount = discountValue;
-                    finalPrice = price - discountAmount;
-                    discountText = `Sale ${discountAmount.toLocaleString()} VND`;
-                }
-            }
-
-            // Cập nhật giá hiển thị trên giao diện
-            const priceElement = document.getElementById('variant-price');
-            const discountElement = document.getElementById('variant-discount');
-            const originalPriceElement = document.getElementById('variant-original-price');
-
-            if (priceElement) {
-                priceElement.textContent = `${finalPrice.toLocaleString()} VND`;
-            }
-
-            if (originalPriceElement) {
-                originalPriceElement.textContent = `${price.toLocaleString()} VND`;
-                originalPriceElement.style.textDecoration = 'line-through'; // Để giá gốc có gạch ngang
-            }
-
-            if (discountElement) {
-                discountElement.textContent = discountText; // Hiển thị phần trăm hoặc số tiền giảm
-            }
-
-            // Cập nhật href của thẻ <a>
-            const buyNowLink = document.getElementById('buy-now-link');
-            const addToCartLink = document.getElementById('add-to-cart-link');
-            if (buyNowLink) {
-                const newHref = `http://duan1/?act=pay&id=${selectedVariantId}`;
-                buyNowLink.setAttribute('href', newHref);
-            }
-            if (addToCartLink) {
-                const newHref = `http://duan1/?act=cart&id=${selectedVariantId}`;
-                addToCartLink.setAttribute('href', newHref);
-            }
-        }
+    // Cập nhật href của thẻ <a>
+    const buyNowLink = document.getElementById('buy-now-link');
+    const addToCartLink = document.getElementById('add-to-cart-link');
+    if (buyNowLink) {
+        const newHref = `http://duan1/?act=pay&id=${selectedVariantId}`;
+        buyNowLink.setAttribute('href', newHref);
+    }
+    if (addToCartLink) {
+        const newHref = `http://duan1/?act=cart&id=${selectedVariantId}`;
+        addToCartLink.setAttribute('href', newHref);
+    }
+}
 
 
 
-        let selectedVariantId = null; // Lưu id của biến thể được chọn
+let selectedVariantId = null; // Lưu id của biến thể được chọn
 
-        function filterVariants(element) {
-            const selectedColor = element.getAttribute('data-color'); // Lấy màu sắc được chọn
-            const variants = document.querySelectorAll('#variant-container .option'); // Tất cả các biến thể
-            const colorOptions = document.querySelectorAll('.option-color'); // Tất cả các màu sắc
+function filterVariants(element) {
+    const selectedColor = element.getAttribute('data-color'); // Lấy màu sắc được chọn
+    const variants = document.querySelectorAll('#variant-container .option'); // Tất cả các biến thể
+    const colorOptions = document.querySelectorAll('.option-color'); // Tất cả các màu sắc
 
-            // Xóa lớp "selected" khỏi tất cả các màu sắc
-            colorOptions.forEach(option => {
-                option.classList.remove('selected');
-            });
+    // Xóa lớp "selected" khỏi tất cả các màu sắc
+    colorOptions.forEach(option => {
+        option.classList.remove('selected');
+    });
 
-            // Thêm lớp "selected" vào màu sắc được chọn
-            element.classList.add('selected');
+    // Thêm lớp "selected" vào màu sắc được chọn
+    element.classList.add('selected');
 
-            // Ẩn tất cả các biến thể
-            variants.forEach(variant => {
-                variant.style.display = 'none';
-                variant.classList.remove('selected'); // Xóa selected từ tất cả variants
-            });
+    // Ẩn tất cả các biến thể
+    variants.forEach(variant => {
+        variant.style.display = 'none';
+        variant.classList.remove('selected'); // Xóa selected từ tất cả variants
+    });
 
-            // Hiển thị các biến thể phù hợp và chọn biến thể đầu tiên
-            let firstMatchingVariant = null;
-            variants.forEach(variant => {
-                if (variant.getAttribute('data-color') === selectedColor) {
-                    variant.style.display = 'block'; // Hiện biến thể phù hợp
-                    if (!firstMatchingVariant) {
-                        firstMatchingVariant = variant;
-                    }
-                }
-            });
-
-            // Tự động chọn biến thể đầu tiên của màu đã chọn
-            if (firstMatchingVariant) {
-                selectVariant(firstMatchingVariant);
+    // Hiển thị các biến thể phù hợp và chọn biến thể đầu tiên
+    let firstMatchingVariant = null;
+    variants.forEach(variant => {
+        if (variant.getAttribute('data-color') === selectedColor) {
+            variant.style.display = 'block'; // Hiện biến thể phù hợp
+            if (!firstMatchingVariant) {
+                firstMatchingVariant = variant;
             }
         }
+    });
+
+    // Tự động chọn biến thể đầu tiên của màu đã chọn
+    if (firstMatchingVariant) {
+        selectVariant(firstMatchingVariant);
+    }
+}
 
 
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Thumbnail Slider
-            var thumbnailSlider = new Swiper('.thumbnail-slider', {
-                spaceBetween: 2,
-                slidesPerView: 4,
-                watchSlidesProgress: true,
-            });
+document.addEventListener('DOMContentLoaded', function() {
+    // Thumbnail Slider
+    var thumbnailSlider = new Swiper('.thumbnail-slider', {
+        spaceBetween: 2,
+        slidesPerView: 4,
+        watchSlidesProgress: true,
+    });
 
-            // Main Image Slider
-            var mainSlider = new Swiper('.main-slider', {
-                spaceBetween: 2,
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                thumbs: {
-                    swiper: thumbnailSlider,
-                },
-            });
+    // Main Image Slider
+    var mainSlider = new Swiper('.main-slider', {
+        spaceBetween: 2,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        thumbs: {
+            swiper: thumbnailSlider,
+        },
+    });
 
-            function getCurrentColor() {
-                return mainSlider.slides[mainSlider.activeIndex].getAttribute('data-color');
+    function getCurrentColor() {
+        return mainSlider.slides[mainSlider.activeIndex].getAttribute('data-color');
+    }
+
+    // Hàm chuyển đến slide cùng màu tiếp theo
+    function goToNextSameColorSlide() {
+        const currentColor = getCurrentColor();
+        let nextIndex = mainSlider.activeIndex + 1;
+
+        while (nextIndex < mainSlider.slides.length) {
+            const nextColor = mainSlider.slides[nextIndex].getAttribute('data-color');
+            if (nextColor === currentColor) {
+                mainSlider.slideTo(nextIndex);
+                break;
             }
+            nextIndex++;
+        }
+    }
 
-            // Hàm chuyển đến slide cùng màu tiếp theo
-            function goToNextSameColorSlide() {
-                const currentColor = getCurrentColor();
-                let nextIndex = mainSlider.activeIndex + 1;
+    // Hàm chuyển đến slide cùng màu trước đó
+    function goToPrevSameColorSlide() {
+        const currentColor = getCurrentColor();
+        let prevIndex = mainSlider.activeIndex - 1;
 
-                while (nextIndex < mainSlider.slides.length) {
-                    const nextColor = mainSlider.slides[nextIndex].getAttribute('data-color');
-                    if (nextColor === currentColor) {
-                        mainSlider.slideTo(nextIndex);
-                        break;
-                    }
-                    nextIndex++;
-                }
+        while (prevIndex >= 0) {
+            const prevColor = mainSlider.slides[prevIndex].getAttribute('data-color');
+            if (prevColor === currentColor) {
+                mainSlider.slideTo(prevIndex);
+                break;
             }
+            prevIndex--;
+        }
+    }
 
-            // Hàm chuyển đến slide cùng màu trước đó
-            function goToPrevSameColorSlide() {
-                const currentColor = getCurrentColor();
-                let prevIndex = mainSlider.activeIndex - 1;
+    // Gắn sự kiện cho các nút Next và Prev
+    document.querySelector('.swiper-button-next').addEventListener('click', function(event) {
+        event.preventDefault();
+        goToNextSameColorSlide();
+    });
 
-                while (prevIndex >= 0) {
-                    const prevColor = mainSlider.slides[prevIndex].getAttribute('data-color');
-                    if (prevColor === currentColor) {
-                        mainSlider.slideTo(prevIndex);
-                        break;
-                    }
-                    prevIndex--;
-                }
-            }
+    document.querySelector('.swiper-button-prev').addEventListener('click', function(event) {
+        event.preventDefault();
+        goToPrevSameColorSlide();
+    });
 
-            // Gắn sự kiện cho các nút Next và Prev
-            document.querySelector('.swiper-button-next').addEventListener('click', function(event) {
-                event.preventDefault();
-                goToNextSameColorSlide();
-            });
-
-            document.querySelector('.swiper-button-prev').addEventListener('click', function(event) {
-                event.preventDefault();
-                goToPrevSameColorSlide();
-            });
-
-            // Thêm class cho ảnh thumbnail khi được chọn
-            mainSlider.on('slideChange', function() {
-                const currentColor = getCurrentColor();
-                document.querySelectorAll('.thumbnail').forEach((thumb, index) => {
-                    const thumbColor = thumb.parentElement.getAttribute('data-color');
-                    if (thumbColor === currentColor && index === mainSlider.activeIndex) {
-                        thumb.style.border = '2px solid #007bff';
-                    } else {
-                        thumb.style.border = '1px solid #d1d5db';
-                    }
-                });
-            });
-
-            // Tự động chọn màu đầu tiên
-            const firstColorOption = document.querySelector('.option-color');
-            if (firstColorOption) {
-                filterVariants(firstColorOption);
-            }
-
-            // Tự động chọn RAM/dung lượng đầu tiên
-            const firstVariantOption = document.querySelector('#variant-container .option');
-            if (firstVariantOption) {
-                selectVariant(firstVariantOption);
+    // Thêm class cho ảnh thumbnail khi được chọn
+    mainSlider.on('slideChange', function() {
+        const currentColor = getCurrentColor();
+        document.querySelectorAll('.thumbnail').forEach((thumb, index) => {
+            const thumbColor = thumb.parentElement.getAttribute('data-color');
+            if (thumbColor === currentColor && index === mainSlider.activeIndex) {
+                thumb.style.border = '2px solid #007bff';
+            } else {
+                thumb.style.border = '1px solid #d1d5db';
             }
         });
-    </script>
+    });
+
+    // Tự động chọn màu đầu tiên
+    const firstColorOption = document.querySelector('.option-color');
+    if (firstColorOption) {
+        filterVariants(firstColorOption);
+    }
+
+    // Tự động chọn RAM/dung lượng đầu tiên
+    const firstVariantOption = document.querySelector('#variant-container .option');
+    if (firstVariantOption) {
+        selectVariant(firstVariantOption);
+    }
+});
+</script>

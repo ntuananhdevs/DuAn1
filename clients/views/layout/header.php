@@ -1,157 +1,183 @@
- <!DOCTYPE html>
- <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
- <head>
-     <!-- Trong phần <head> của header.php -->
+<head>
+    <!-- Trong phần <head> của header.php -->
 
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title><?php echo $title ?? 'Default Title'; ?></title>
-     <link rel="icon" type="image/svg" href="public/img/header-img/rog_hover.svg" />
-     <link rel="stylesheet" href="assets/css/client.css">
-     <link rel="stylesheet" href="assets/css/banner.css">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-     </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo $title ?? 'Default Title'; ?></title>
+    <link rel="icon" type="image/svg" href="public/img/header-img/rog_hover.svg" />
+    <link rel="stylesheet" href="assets/css/client.css">
+    <link rel="stylesheet" href="assets/css/banner.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
 
- </head>
+</head>
 
- <body>
-     <div class="header-nav">
+<body>
+    <div class="header-nav">
 
-         <div class="header-right">
+        <div class="header-right">
 
-         </div>
-     </div>
-     <nav class="no-blur">
+        </div>
+    </div>
+    <nav class="no-blur">
 
-         <div class="nav-menu">
-             <div class="logo-nav">
-                 <a href="?act=/">
-                     <img src="../assets/img/logo.png" alt="">
-                 </a>
-             </div>
-             <div class="nav-center">
-                 <a href="?act=laptop">Laptop</a>
-                 <a href="?act=phone">Thiết bị di động</a>
-                 <a href="#">Màn Hình / Máy Bàn</a>
-                 <a href="#">Bo Mạch Chủ / Linh Kiện</a>
-                 <a href="#">Thiết Bị Mạng / IoT / Servers</a>
-                 <a href="#">Phụ Kiện</a>
-             </div>
-             <div class="nav-right">
-                 <div class="text">
-                     <a href="#">Mua hàng</a>
-                     <a href="#">Hỗ Trợ</a>
-                 </div>
-                 <div class="icon-nav">
-                     <ion-icon name="search-outline" id="searchIcon"></ion-icon>
-                     <a href="#">
-                         <ion-icon name="cart-outline"></ion-icon>
-                     </a>
+        <div class="nav-menu">
+            <div class="logo-nav">
+                <a href="?act=/">
+                    <img src="../assets/img/logo.png" alt="">
+                </a>
+            </div>
+            <div class="nav-center">
+                <a href="?act=laptop">Laptop</a>
+                <a href="?act=phone">Thiết bị di động</a>
+                <a href="#">Màn Hình / Máy Bàn</a>
+                <a href="#">Bo Mạch Chủ / Linh Kiện</a>
+                <a href="#">Thiết Bị Mạng / IoT / Servers</a>
+                <a href="#">Phụ Kiện</a>
+            </div>
+            <div class="nav-right">
+                <div class="text">
+                    <a href="#">Mua hàng</a>
+                    <a href="#">Hỗ Trợ</a>
+                </div>
+                <div class="icon-nav">
+                    <ion-icon name="search-outline" id="searchIcon"></ion-icon>
 
-                     <div class="search-overlay" id="searchOverlay">
-                         <div class="search-nav">
-                             <div class="inputsearch">
-                                 <ion-icon name="search-outline" size="large"></ion-icon>
-                                 <form method="GET" action="?act=result">
-                                     <input type="hidden" name="act" value="result">
-                                     <input type="text" name="search" placeholder="Tìm kiếm"
-                                         value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+                    <a href="index.php?action=cart" class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="count">
+                            <?php
+        session_start();
+        require_once "./clients/models/cartModel.php";
 
-                                 </form>
-                             </div>
-                             <ul class="list-search">
-                                 <p>Liên Kết Nhanh</p>
+        $user_id = $_SESSION['user_id'] ?? null;
+        $session_id = session_id();
+        $cart_model = new cartModel();
+        $cart_items = $cart_model->getCartItems($user_id, $session_id);
 
-                                 <li><a href="?act=laptop">
-                                         <ion-icon name="arrow-forward-outline"></ion-icon>Laptop
-                                     </a></li>
-                                 <li><a href="?act=phone">
-                                         <ion-icon name="arrow-forward-outline"></ion-icon>Dien Thoai
-                                     </a></li>
-                                 <li><a href="#">
-                                         <ion-icon name="arrow-forward-outline"></ion-icon>AirPods
-                                     </a></li>
-                                 <li><a href="#">
-                                         <ion-icon name="arrow-forward-outline"></ion-icon>AirTag
-                                     </a></li>
-                                 <li><a href="#">
-                                         <ion-icon name="arrow-forward-outline"></ion-icon>Apple Trade In
-                                     </a></li>
-                             </ul>
-                         </div>
-                     </div>
-                     <div class="dropdown">
+        // Tính tổng số lượng sản phẩm trong giỏ hàng
+        $total_quantity = array_reduce($cart_items, function ($carry, $item) {
+            return $carry + $item['quantity'];
+        }, 0);
 
-                         <a href="#" id="userIcon">
-                             <ion-icon name="person-outline"></ion-icon>
-                         </a>
-                         <div class="dropdown-menu">
+        echo $total_quantity;
+        ?>
+                        </span>
+                    </a>
 
-                             <?php if (isset($_SESSION['user_id'])) : ?>
 
-                             <a href="?act=profile">Tài khoản của tôi</a>
-                             <a href="?act=orders">Kiểm tra đơn hàng</a>
-                             <a href="?act=logout">Đăng xuất</a>
-                             <?php else : ?>
+                    <div class="search-overlay" id="searchOverlay">
+                        <div class="search-nav">
+                            <div class="inputsearch">
+                                <ion-icon name="search-outline" size="large"></ion-icon>
+                                <form method="GET" action="?act=result">
+                                    <input type="hidden" name="act" value="result">
+                                    <input type="text" name="search" placeholder="Tìm kiếm"
+                                        value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
 
-                             <a href="?act=login">Đăng nhập</a>
-                             <a href="?act=profile">Tài khoản của tôi</a>
-                             <a href="?act=orders">Kiểm tra đơn hàng</a>
-                             <?php endif; ?>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </nav>
-     <script>
-     document.getElementById('userIcon').addEventListener('click', function(event) {
-         event.preventDefault();
-         document.querySelector('.dropdown-menu').classList.toggle('show');
-     });
-     let lastScrollTop = 0;
+                                </form>
+                            </div>
+                            <ul class="list-search">
+                                <p>Liên Kết Nhanh</p>
 
-     document.getElementById('searchIcon').addEventListener('click', function() {
-         document.getElementById('searchOverlay').classList.toggle('active');
-         document.querySelector('.main-content').classList.toggle('blurred');
-     });
+                                <li><a href="?act=laptop">
+                                        <ion-icon name="arrow-forward-outline"></ion-icon>Laptop
+                                    </a></li>
+                                <li><a href="?act=phone">
+                                        <ion-icon name="arrow-forward-outline"></ion-icon>Dien Thoai
+                                    </a></li>
+                                <li><a href="#">
+                                        <ion-icon name="arrow-forward-outline"></ion-icon>AirPods
+                                    </a></li>
+                                <li><a href="#">
+                                        <ion-icon name="arrow-forward-outline"></ion-icon>AirTag
+                                    </a></li>
+                                <li><a href="#">
+                                        <ion-icon name="arrow-forward-outline"></ion-icon>Apple Trade In
+                                    </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="dropdown">
 
-     // Close overlay when clicking outside
-     document.addEventListener('click', function(event) {
-         var searchOverlay = document.getElementById('searchOverlay');
-         if (!searchOverlay.contains(event.target) && !event.target.closest('#searchIcon')) {
-             searchOverlay.classList.remove('active');
-             document.querySelector('.main-content').classList.remove('blurred');
-         }
-     });
+                        <a href="#" id="userIcon">
+                            <ion-icon name="person-outline"></ion-icon>
+                        </a>
+                        <div class="dropdown-menu">
 
-     // Prevent closing overlay when clicking inside it
-     document.querySelector('.search-overlay').addEventListener('click', function(event) {
-         event.stopPropagation();
-     });
+                            <?php if (isset($_SESSION['user_id'])) : ?>
 
-     // Close search overlay on scroll
-     window.addEventListener('scroll', function() {
-         let st = window.pageYOffset || document.documentElement.scrollTop;
-         if (st > lastScrollTop) {
-             document.getElementById('searchOverlay').classList.remove('active');
-             document.querySelector('.main-content').classList.remove('blurred');
-         }
-         lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
-     });
-     </script>
+                            <a href="?act=profile">Tài khoản của tôi</a>
+                            <a href="?act=orders">Kiểm tra đơn hàng</a>
+                            <a href="?act=logout">Đăng xuất</a>
+                            <?php else : ?>
 
-     <script>
-     AOS.init();
-     </script>
+                            <a href="?act=login">Đăng nhập</a>
+                            <a href="?act=profile">Tài khoản của tôi</a>
+                            <a href="?act=orders">Kiểm tra đơn hàng</a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <script>
+    document.getElementById('userIcon').addEventListener('click', function(event) {
+        event.preventDefault();
+        document.querySelector('.dropdown-menu').classList.toggle('show');
+    });
+    let lastScrollTop = 0;
 
-     <script src="../assets/js/main.js"></script>
+    document.getElementById('searchIcon').addEventListener('click', function() {
+        document.getElementById('searchOverlay').classList.toggle('active');
+        document.querySelector('.main-content').classList.toggle('blurred');
+    });
+
+    // Close overlay when clicking outside
+    document.addEventListener('click', function(event) {
+        var searchOverlay = document.getElementById('searchOverlay');
+        if (!searchOverlay.contains(event.target) && !event.target.closest('#searchIcon')) {
+            searchOverlay.classList.remove('active');
+            document.querySelector('.main-content').classList.remove('blurred');
+        }
+    });
+
+    // Prevent closing overlay when clicking inside it
+    document.querySelector('.search-overlay').addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
+
+    // Close search overlay on scroll
+    window.addEventListener('scroll', function() {
+        let st = window.pageYOffset || document.documentElement.scrollTop;
+        if (st > lastScrollTop) {
+            document.getElementById('searchOverlay').classList.remove('active');
+            document.querySelector('.main-content').classList.remove('blurred');
+        }
+        lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+    });
+
+
+    // Toggle hiển thị dropdown khi click icon
+    document.getElementById('cart-icon').addEventListener('click', function() {
+        const cartDropdown = document.getElementById('cart-dropdown');
+        cartDropdown.classList.toggle('active');
+    });
+    </script>
+
+    <script>
+    AOS.init();
+    </script>
+    <script src="../assets/js/main.js"></script>

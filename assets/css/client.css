@@ -177,6 +177,11 @@ nav {
 .nav-right {
     margin: auto;
 }
+.icon-nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 .icon-nav a{
     padding: 0 10px;
     color: #333;
@@ -1052,3 +1057,4 @@ input:focus, input:hover {
     border-radius: 5px;
     padding: 10px;
 }
+
