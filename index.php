@@ -15,6 +15,7 @@
     require_once './clients/models/Products_details.php';
     require_once './clients/models/LoginModel.php';
     require_once './clients/models/Result.php';
+    require_once './clients/models/Comments.php';
 
 
     $home = new HomeController();

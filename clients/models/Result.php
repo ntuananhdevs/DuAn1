@@ -84,7 +84,7 @@ class Result {
             // Thêm điều kiện WHERE nếu có từ khóa tìm kiếm
             if (!empty($search)) {
                 $sql .= "WHERE p.product_name LIKE :search 
-                         OR p.description LIKE :search ";
+                        ";
             }
     
             // Câu lệnh GROUP BY

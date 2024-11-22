@@ -40,7 +40,8 @@
         </div>
     </div>
     <?php
-    function removeLeadingDots($filePath){
+    function removeLeadingDots($filePath)
+    {
         return preg_replace('/^\.\.\//', '', $filePath);
     }
     ?>
@@ -186,8 +187,8 @@
             </div>
 
             <div class="btn-details mt-5 d-flex justify-content-center align-items-center gap-3">
-                <a id="buy-now-link" href="http://duan1/?act=pay&id=" class="btn btn-danger w-25"> Mua ngay </a>
-                <a id="add-to-cart-link" href="http://duan1/?act=cart&id=" class="btn btn-outline-danger">Thêm vào giỏ hàng</a>
+                <a id="buy-now-link" href="?act=pay&id=" class="btn btn-danger w-25"> Mua ngay </a>
+                <a id="add-to-cart-link" href="?act=cart&id=" class="btn btn-outline-danger">Thêm vào giỏ hàng</a>
             </div>
         </div>
 
@@ -266,29 +267,57 @@
                     </div>
                     <hr>
                     <div class="comments text-center">
-                        <?php if (!isset($_SESSION['user'])): ?>
-                            <!-- Hiển thị thông báo yêu cầu đăng nhập -->
-                            <div class="comments text-center">
-                                <p>Bạn cần <a href="login.php">đăng nhập</a> để đánh giá sản phẩm này.</p>
-                                <button class="btn btn-outline-danger" onclick="showLoginModal()">Viết đánh giá </button>
-                            </div>
-                        <?php else: ?>
-                            <!-- Hiển thị form viết đánh giá -->
-                            <div class="comments text-center">
-                                <p>Bạn đánh giá sao về sản phẩm này?</p>
-                                <button class="btn btn-outline-danger" onclick="showReviewForm()">Viết đánh giá</button>
-                            </div>
-                        <?php endif; ?>
+                        <p>Bạn đánh giá sao về sản phầm này?</p>
+                        <button class="btn btn-outline-danger">Viết đánh giá</button>
                     </div>
                     <hr>
+                    <div class="comment-list ms-5">
+                        <?php if (!empty($comments)) : ?>
+                            <?php foreach ($comments as $comment) : ?>
+                                <div class="comment">
+                                    <div class="avt">
+                                        <img
+                                            src="./uploads/<?php echo htmlspecialchars($comment['user_avatar']); ?>" />
+                                    </div>
+                                    <div class="name-date">
+                                        <div class="header-comment">
+                                            <div class="name-user">
+                                                <p><?php echo htmlspecialchars($comment['user_name']); ?></p>
+                                            </div>
+                                            <div class="date">
+                                                <p><?php echo htmlspecialchars($comment['created_date']); ?></p>
+                                            </div>
+                                        </div>
+                                        <div class="contents">
+                                            <p><?php echo htmlspecialchars($comment['comment_content']); ?></p>
+                                        </div>
+                                        <div class="icon">
+                                            <div class="comment__operate">
+                                                <i class="comment__operate__icon like fas fa-thumbs-up"></i>
+                                            </div>
+                                            <div class="comment__operate">
+                                                <i class="comment__operate__icon reply fas fa-reply"></i>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <p>No comments available.</p>
+                        <?php endif; ?>
+                    </div>
+
                 </div>
- </div>
+
+
+            </div>
 
             <!-- Phần thông số kỹ thuật nằm bên phải -->
             <div class="col-md-4">
                 <div class="p-3 border rounded">
                     <h4 class="text-dark">Thông số kỹ thuật</h4>
-                    <table class="table table-striped">
+                    <table class="table table-striped " style="border: solid 1px #e5e7eb">
                         <tbody>
                             <?php foreach ($list_spect as $index => $spec) : ?>
                                 <tr class="<?php echo $index % 2 == 0 ? 'bg-light' : ''; ?>">
@@ -304,37 +333,6 @@
 
     </div>
 
-    <div id="login-modal" class="modal">
-                        <div class="modal-content">
-                            <span class="close-btn" onclick="closeModal()">&times;</span>
-                            <h2>Thông báo</h2>
-                            <p>Bạn cần đăng nhập để đánh giá sản phẩm.</p>
-                            <div class="modal-buttons">
-                                <a href="?act=login" class="btn btn-primary">Đăng nhập</a>
-                                <a href="register.php" class="btn btn-register">Đăng ký</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="review-form" class="review-form" style="display: none;">
-                        <form action="submit_review.php" method="POST">
-                            <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
-
-                            <label for="rating">Chọn đánh giá:</label>
-                            <select name="rating" id="rating" required>
-                                <option value="5">5 sao</option>
-                                <option value="4">4 sao</option>
-                                <option value="3">3 sao</option>
-                                <option value="2">2 sao</option>
-                                <option value="1">1 sao</option>
-                            </select>
-
-                            <label for="comment">Nhận xét của bạn:</label>
-                            <textarea name="comment" id="comment" rows="4" required></textarea>
-
-                            <button type="submit" class="btn btn-submit">Gửi đánh giá</button>
-                        </form>
-                    </div>
-   
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <script>
@@ -394,11 +392,11 @@
             const buyNowLink = document.getElementById('buy-now-link');
             const addToCartLink = document.getElementById('add-to-cart-link');
             if (buyNowLink) {
-                const newHref = `http://duan1/?act=pay&id=${selectedVariantId}`;
+                const newHref = `?act=pay&id=${selectedVariantId}`;
                 buyNowLink.setAttribute('href', newHref);
             }
             if (addToCartLink) {
-                const newHref = `http://duan1/?act=cart&id=${selectedVariantId}`;
+                const newHref = `?act=cart&id=${selectedVariantId}`;
                 addToCartLink.setAttribute('href', newHref);
             }
         }
@@ -535,32 +533,4 @@
                 selectVariant(firstVariantOption);
             }
         });
-        // JavaScript to handle modal and form visibility
-
-// Show the login modal
-function showLoginModal() {
-    const modal = document.getElementById('login-modal');
-    modal.style.display = 'block';
-}
-
-// Show the review form
-function showReviewForm() {
-    const reviewForm = document.getElementById('review-form');
-    reviewForm.style.display = 'block';
-}
-
-// Close the login modal
-function closeModal() {
-    const modal = document.getElementById('login-modal');
-    modal.style.display = 'none';
-}
-
-// Close modal if clicked outside of modal content
-window.onclick = function (event) {
-    const modal = document.getElementById('login-modal');
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
-};
-
     </script>
