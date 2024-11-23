@@ -24,6 +24,7 @@
     $pay = new PayController();
     $shoppingCart = new ShoppingCartController();
     $auth = new AuthController();
+    $products = new ProductsContronller();
 
     $act = $_GET['act'] ?? '/';
 
