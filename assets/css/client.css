@@ -205,7 +205,7 @@ nav {
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1;
   right: 0px;
-  top: 37px;
+  top: 33px;
   margin: 0px auto;
 }
 
@@ -1006,15 +1006,17 @@ input:hover {
   display: inline-block;
   margin-top: 10px;
   padding: 8px 15px;
-  background-color: #f55d5d;
-  color: white;
+  background-color: transparent;
+  color: black;
   text-decoration: none;
   border-radius: 5px;
-  transition: background-color 0.3s;
+  transition: 0.3s;
+  border: solid 1px #007bff;
 }
 
 .buy-now:hover {
-  background-color: #ff0000;
+  background-color: #0056b3;
+  color: #fff;
 }
 
 .discount-container {
@@ -1028,31 +1030,33 @@ input:hover {
   border-radius: 5px 0px 5px;
 }
 .rating-container {
-  margin-left: -110px;
+  margin-left: -170px;
   font-size: 12px;
   display: flex;
   align-items: center;
   gap: 10px;
   justify-content: center;
-  margin-top: -20px;
+  margin-top: 10px;
 }
-.rating-container .views {
-  margin-top: 20px;
+.views {
+  margin-left: 200px;
+  position: initial;
+  margin-top: -17px;
   font-size: 12px;
 }
-.rating-container .views ion-icon {
-  font-size: 12px;
-  margin-right: 2px;
+.views ion-icon {
+  font-size: 10px;
+  left: -100px;
 }
 .product-item .discound {
   text-decoration: line-through;
   color: gray;
   font-size: 9px;
-  margin-right: 10px;
+  margin-right: 1000px;
 }
 .product-item .sale {
   font-size: 15px;
-  margin-left: -20px;
+  margin-left: -100px;
 }
 
 .footer-container {
@@ -1836,3 +1840,173 @@ textarea {
 .submit-btn:hover {
     background-color: darkred;
 }
+
+.scroll-btn {
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index: 10;
+    font-size: 20px;
+}
+
+.scroll-btn.left {
+    left: 0;
+}
+
+.scroll-btn.right {
+    right: 0;
+}
+
+.scroll-btn:hover {
+    transform: scale(1.1);
+}
+.event-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.view-all {
+    display: block;
+    text-align: right;
+    margin-bottom: 20px;
+    color: blue;
+    text-decoration: none;
+}
+
+.event-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.event-item {
+    width: 30%;
+    text-align: center;
+}
+
+.event-item img {
+    width: 100%;
+    height: 250px;
+    border-radius: 8px;
+}
+
+.event-item p {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.slide-container {
+    position: relative;
+    width: 100%;
+    height: 660px;
+    margin: 0 auto;
+}
+
+.slides {
+    width: 100%;
+    height: calc(100% - 40px);
+    position: relative;
+    overflow: hidden;
+}
+
+.slides img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    object-fit: cover;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slides img:not(.active) {
+    top: 0;
+    left: -100%;
+}
+
+.next,
+.prev {
+    width: 50px;
+    height: 50px;
+    background-color: #fff5;
+    color: white;
+    border: none;
+    font-weight: bold;
+    font-family: monospace;
+    border-radius: 50%;
+}
+
+.next:hover,
+.prev:hover {
+    background-color: white;
+    color: black;
+    opacity: 0.8;
+}
+
+.dotsContainer {
+    position: absolute;
+    bottom: 60px;
+    /* Đặt cách đáy một chút để hiển thị rõ hơn */
+    z-index: 3;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.dot {
+    width: 35px;
+    height: 6px;
+    margin: 0px 2px;
+    border-radius: 20px;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.6s ease;
+    background-color: #cccc;
+}
+
+
+
+@keyframes next1 {
+    from {
+        left: 0%;
+    }
+
+    to {
+        left: -100%;
+    }
+}
+
+@keyframes next2 {
+    from {
+        left: 100%;
+    }
+
+    to {
+        left: 0%;
+    }
+}
+
+@keyframes prev1 {
+    from {
+        left: 0%;
+    }
+
+    to {
+        left: 100%;
+    }
+}
+
+@keyframes prev2 {
+    from {
+        left: -100%;
+    }
+
+    to {
+        left: 0%;
+    }
+}
+.fw-bold {
+  margin-left: 10px;
+  font-weight: bold;
+}
+
