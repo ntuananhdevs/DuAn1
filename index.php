@@ -18,6 +18,7 @@
     require_once './clients/models/Pay.php';
     require_once './clients/models/ShoppingCart.php';
     require_once './clients/models/AuthModel.php';
+    require_once './clients/models/Comments.php';
 
     $home = new HomeController();
     $result = new ResultController();
