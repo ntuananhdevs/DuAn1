@@ -4,7 +4,7 @@
 
     #require Controller
     require_once './clients/controllers/HomeController.php';
-    require_once './clients/controllers/LoginController.php';
+    require_once './clients/controllers/AuthController.php';
     require_once './clients/controllers/ProductsContronller.php';
     require_once './clients/controllers/ResultController.php';
     require_once './clients/controllers/PayController.php';
@@ -14,18 +14,18 @@
     #require Model
     require_once './clients/models/Home.php';
     require_once './clients/models/Products_details.php';
-    require_once './clients/models/LoginModel.php';
     require_once './clients/models/Result.php';
     require_once './clients/models/Pay.php';
     require_once './clients/models/ShoppingCart.php';
-
+    require_once './clients/models/AuthModel.php';
+    require_once './clients/models/Comments.php';
 
     $home = new HomeController();
-    $login = new LoginController();
-    $products = new ProductsContronller();
     $result = new ResultController();
     $pay = new PayController();
     $shoppingCart = new ShoppingCartController();
+    $auth = new AuthController();
+    $products = new ProductsContronller();
 
     $act = $_GET['act'] ?? '/';
 
@@ -54,7 +54,11 @@
             '/' => $home->view_home(),
 
             'product_detail' => $products->view_products($_GET['id']),
+            'add_to_cart' => $products->addToCart(),
             'shoppingcart' => $shoppingCart->view_shoppingCart(),
+            'update_cart' => $shoppingCart->updateQuantity(),
+            'delete_items' => $shoppingCart->deleteItem($_GET['product_id']),
+
             'pay' => $pay->view_pay(),
 
             'result' => $result->view_result(),
