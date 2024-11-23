@@ -19,7 +19,6 @@
     require_once './clients/models/Pay.php';
     require_once './clients/models/ShoppingCart.php';
 
-
     $home = new HomeController();
     $login = new LoginController();
     $products = new ProductsContronller();
@@ -54,6 +53,7 @@
             '/' => $home->view_home(),
 
             'product_detail' => $products->view_products($_GET['id']),
+            'add_to_cart' => $products->addToCart(),
             'shoppingcart' => $shoppingCart->view_shoppingCart(),
             'pay' => $pay->view_pay(),
 
