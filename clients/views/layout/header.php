@@ -1,15 +1,15 @@
 <?php
-    session_start();
-    ob_start();
-    if (isset($_SESSION['user_id'])) {
-        $userId = $_SESSION['user_id'];
-        $sessionId = null; // Khi người dùng đã đăng nhập, không cần session_id
-    } else {
-        $userId = null;
-        $sessionId = session_id(); // Sử dụng session_id() để theo dõi phiên
-    }
-    $cart = new ProductsContronller(new products());
-    $cart_item = $cart->getCartItems($userId, $sessionId);
+session_start();
+ob_start();
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+    $sessionId = null; // Khi người dùng đã đăng nhập, không cần session_id
+} else {
+    $userId = null;
+    $sessionId = session_id(); // Sử dụng session_id() để theo dõi phiên
+}
+$cart = new ProductsContronller(new products());
+$cart_item = $cart->getCartItems($userId, $sessionId);
 
 ?>
 <!DOCTYPE html>
@@ -81,6 +81,11 @@
                             </ul>
                         </div>
                     </div>
+                    <?php
+                    function removeLeadingDots2($filePath){
+                        return preg_replace('/^\.\.\//', '', $filePath);
+                    }
+                    ?>
                     <div class="cart-container">
                         <ion-icon name="cart-outline" id="CartIcon"></ion-icon>
                         <span class="cart-badge"><?php echo count($cart_item); ?></span>
@@ -90,7 +95,7 @@
                                 <?php foreach ($cart_item as $item): ?>
                                     <div class="cart-item d-flex gap-3 mt-3">
                                         <div class="img-cart ms-2">
-                                            <img src="<?php echo ($item['img']); ?>" alt="" style="height: 50px;">
+                                            <img src="<?php echo removeLeadingDots2(($item['img'])); ?>" alt="" style="height: 50px;">
                                         </div>
                                         <div class="text-cart">
                                             <div class="name-item">
@@ -238,12 +243,15 @@
         .cart-items {
             max-height: 200px;
             overflow-y: auto;
-            scrollbar-width: none; /* For Firefox */
-            -ms-overflow-style: none; /* For Internet Explorer and Edge */
+            scrollbar-width: none;
+            /* For Firefox */
+            -ms-overflow-style: none;
+            /* For Internet Explorer and Edge */
         }
 
         .cart-items::-webkit-scrollbar {
-            display: none; /* For Chrome, Safari, and Opera */
+            display: none;
+            /* For Chrome, Safari, and Opera */
         }
     </style>
 
