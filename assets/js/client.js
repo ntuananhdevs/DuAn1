@@ -43,7 +43,7 @@ let slideImages = document.querySelectorAll('.slides img');
     }
     function scrollProducts(direction) {
     const container = document.querySelector('.product-container');
-    const scrollAmount = 300;
+    const scrollAmount = 200;
 
     if (direction === 'left') {
         container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
@@ -52,8 +52,8 @@ let slideImages = document.querySelectorAll('.slides img');
     }
 }
 function scrollProducts2(minx) {
-    const container = document.querySelector('#product-container2');
-    const scrollAmount = 300;
+    const container = document.querySelector('#product_container2');
+    const scrollAmount = 200;
 
     if (minx === 'left2') {
         container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
@@ -62,8 +62,8 @@ function scrollProducts2(minx) {
     }
 }
 function scrollProducts1(minx1) {
-    const container = document.querySelector('#product-container-1');
-    const scrollAmount = 300;
+    const container = document.querySelector('#product_container1');
+    const scrollAmount = 200;
 
     if (minx1 === 'left1') {
         container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });

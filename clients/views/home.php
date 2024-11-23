@@ -5,7 +5,11 @@
     <link rel="icon" href="./assets/img/logo.png">
 </head>
 <div class="slide-container" data-aos="fade-down">
-    
+    <div class="slides">
+        <?php foreach ($banners as $index => $banner) : ?>
+            <img src="./uploads/BannerIMG/<?= $banner['img_url'] ?>" class="<?= $index === 0 ? 'active' : '' ?>" alt="Banner Image <?= $index + 1 ?>">
+        <?php endforeach; ?>
+    </div>
     <div class="buttons">
         <span class="prev" onclick="slidePrev()"><ion-icon name="arrow-back-outline"></ion-icon></span>
         <span class="next" onclick="slideNext()"><ion-icon name="arrow-forward-outline"></ion-icon></span>
@@ -18,11 +22,6 @@
         </div>
     </div>
     
-    <!-- <div class="slides">
-        <?php foreach ($banners as $index => $banner) : ?>
-            <img src="./uploads/BannerIMG/<?= $banner['img_url'] ?>" class="<?= $index === 0 ? 'active' : '' ?>" alt="Banner Image <?= $index + 1 ?>">
-        <?php endforeach; ?>
-    </div> -->
 <div class="container" data-aos="fade-up">
     <h1 class="event-title">Chương trình và Sự kiện</h1>
     <a href="#" class="view-all">Xem tất cả &gt;</a>
@@ -50,12 +49,11 @@ function removeLeadingDots($filePath)
 
 function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $colorEmpty = 'lightgray', $size = '10px') {
     $stars = '';
-    
     for ($i = 1; $i <= $maxStars; $i++) {
         if ($rating >= $i) {
             // Sao đầy
             $stars .= '<i class="fa-solid fa-star" style="color: ' . $colorFull . '; font-size: ' . $size . '; margin-right: 5px;"></i>';
-        } elseif ($rating > $i - 1 && $rating < $i) {
+        } elseif ($rating >= $i - 0.5 && $rating < $i) {
             // Sao nửa
             $stars .= '<i class="fa-solid fa-star-half-stroke" style="color: ' . $colorFull . '; font-size: ' . $size . '; margin-right: 5px;"></i>';
         } else {
@@ -98,9 +96,8 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                         <div class="rating">
                             <?= renderRatingStars((int)$product['rating']) ?>
                         </div>
-                        <h7><?= htmlspecialchars($product['rating']) ?></h7>
-                        <p class="views"> <ion-icon name="eye-outline"></ion-icon> <?= htmlspecialchars($product['views']) ?></p>
                     </div>
+                    <p class="views"> <ion-icon name="eye-outline"></ion-icon> <?= htmlspecialchars($product['views']) ?></p>
                     <span class="sale">Sale:
                         <?php
                         $original_price = floatval(str_replace('.', '', $product['Lowest_Price']));
@@ -118,7 +115,8 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                             echo '<span>' . '0' . ' VND</span>';
                         }
                         ?>
-                        <span class="discound"><?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</span>
+                        <br>
+                        <span class="discound">Giá gốc: <?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</span>
                     </span>
                     <hr>
                     <p class="content" ><?= limitText($product['description']); ?></p>
@@ -134,10 +132,10 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
 
 
 <div class="container" data-aos="fade-up">
-    <h1 class="product-title">Sản phẩm có lượt đánh giá cao</h1>
+    <h1 class="product-title">Sản phẩm có đánh giá cao</h1>
     <div class="product-container-wrapper">
         <button class="scroll-btn left" onclick="scrollProducts1('left1')"><ion-icon name="chevron-back-outline"></ion-icon></button>
-        <div class="product-container" id="product-container-1">
+        <div class="product-container" id="product_container1">
             <?php
             usort($products, function($a, $b) {
                 return $b['rating'] - $a['rating'];
@@ -154,9 +152,8 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                         <div class="rating">
                             <?= renderRatingStars((int)$product['rating']) ?>
                         </div>
-                        <h7><?= htmlspecialchars($product['rating']) ?></h7>
-                        <p class="views"> <ion-icon name="eye-outline"></ion-icon> <?= htmlspecialchars($product['views']) ?></p>
                     </div>
+                    <p class="views"> <ion-icon name="eye-outline"></ion-icon> <?= htmlspecialchars($product['views']) ?></p>
                     <span class="sale">Sale:
                         <?php
                         $original_price = floatval(str_replace('.', '', $product['Lowest_Price']));
@@ -174,10 +171,11 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                             echo '<span>' . '0' . ' VND</span>';
                         }
                         ?>
-                        <span class="discound"><?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</span>
+                        <br>
+                        <span class="discound">Giá gốc: <?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</span>
                     </span>
                     <hr>
-                    <p class="content" ><?= $product['description']; ?></p>
+                    <p class="content" ><?= limitText($product['description']); ?></p>
                     <hr>
                     <a href="#" class="buy-now">Mua ngay</a>
                     <a href="?act=product_detail&id=<?= $product['id'] ?>" class="learn-more">Xem chi tiết</a>
@@ -190,10 +188,10 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
 
 
 <div class="container" data-aos="fade-up">
-    <h1 class="product-title">Sản phẩm Sale</h1>
+    <h1 class="product-title">Sản phẩm giảm giá</h1>
     <div class="product-container-wrapper">
         <button class="scroll-btn left" onclick="scrollProducts2('left2')"><ion-icon name="chevron-back-outline"></ion-icon></button>
-        <div class="product-container" id="product-container2">
+        <div class="product-container" id="product_container2">
             <?php
             usort($products, function($a, $b) {
                 return $b['discount_value'] - $a['discount_value'];
@@ -210,9 +208,8 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                         <div class="rating">
                             <?= renderRatingStars((int)$product['rating']) ?>
                         </div>
-                        <h7><?= htmlspecialchars($product['rating']) ?></h7>
-                        <p class="views"> <ion-icon name="eye-outline"></ion-icon> <?= htmlspecialchars($product['views']) ?></p>
                     </div>
+                    <p class="views"> <ion-icon name="eye-outline"></ion-icon> <?= htmlspecialchars($product['views']) ?></p>
                     <span class="sale">Sale:
                         <?php
                         $original_price = floatval(str_replace('.', '', $product['Lowest_Price']));
@@ -230,10 +227,11 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                             echo '<span>' . '0' . ' VND</span>';
                         }
                         ?>
-                        <span class="discound"><?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</span>
+                        <br>
+                        <span class="discound">Giá gốc: <?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</span>
                     </span>
                     <hr>
-                    <p class="content" ><?=$product['description']; ?></p>
+                    <p class="content" ><?= limitText($product['description']); ?></p>
                     <hr>
                     <a href="#" class="buy-now">Mua ngay</a>
                     <a href="?act=product_detail&id=<?= $product['id'] ?>" class="learn-more">Xem chi tiết</a>
