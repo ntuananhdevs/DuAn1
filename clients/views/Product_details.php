@@ -1,6 +1,7 @@
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <div class="container mt-4">
     <!-- Header sản phẩm -->
@@ -267,8 +268,20 @@
                     </div>
                     <hr>
                     <div class="comments text-center">
-                        <p>Bạn đánh giá sao về sản phầm này?</p>
-                        <button class="btn btn-outline-danger">Viết đánh giá</button>
+                        <?php if (isset($_SESSION['user'])): ?>
+                            <!-- Hiển thị thông báo yêu cầu đăng nhập -->
+                            <div class="comments text-center">
+                                <p>Bạn cần đăng nhập để đánh giá sản phẩm này.</p>
+                                <button class="btn btn-outline-danger" onclick="showLoginModal()">Viết đánh giá</button>
+                            </div>
+                        <?php else: ?>
+                            <!-- Hiển thị form viết đánh giá -->
+                            <div class="comments text-center">
+                                <p>Bạn đánh giá sao về sản phẩm này?</p>
+                                <button class="btn btn-outline-danger" onclick="showReviewForm()">Viết đánh giá</button>
+                            </div>
+                        <?php endif; ?>
+
                     </div>
                     <hr>
                     <div class="comment-list ms-5">
@@ -332,6 +345,88 @@
         </div>
 
     </div>
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close "><ion-icon name="close"></ion-icon></span>
+            <h2>Đăng nhập Wintech</h2>
+
+            <div class="login-fb">
+                <div class="comment__operate" id="fb-login-btn">
+                    <i class="comment__operate__icon fab fa-facebook"></i>
+                    <span>Đăng nhập bằng Facebook</span>
+                </div>
+            </div>
+            <div class="login-gg">
+                <div class="comment__operate">
+                    <i class="comment__operate__icon gg -google"></i>
+                    <span>Đăng nhập bằng Google</span>
+                </div>
+            </div>
+            <a href="?act=login"><button>Đăng nhập</button></a>
+
+            <div class="register">
+                <p>Bạn chưa có tài khoản?<a href="?act=register">register</a></p>
+
+            </div>
+        </div>
+    </div>
+    <div id="review-form" class="review-form">
+        <h2>Đánh giá & nhận xét</h2>
+        <div class="product-name">Máy Tính Bảng Lenovo Tab M9 4G 4GB 64GB ZAC50137VN</div>
+
+        <div class="section-title">Đánh giá chung</div>
+        <div class="stars overall-rating">
+            <i class="fa fa-star" data-value="1"></i>
+            <i class="fa fa-star" data-value="2"></i>
+            <i class="fa fa-star" data-value="3"></i>
+            <i class="fa fa-star" data-value="4"></i>
+            <i class="fa fa-star" data-value="5"></i>
+        </div>
+
+        <div class="section-title">Theo trải nghiệm</div>
+        <div>
+            <label>Hiệu năng</label>
+            <div class="stars performance-rating">
+                <i class="fa fa-star" data-value="1"></i>
+                <i class="fa fa-star" data-value="2"></i>
+                <i class="fa fa-star" data-value="3"></i>
+                <i class="fa fa-star" data-value="4"></i>
+                <i class="fa fa-star" data-value="5"></i>
+            </div>
+        </div>
+
+        <div>
+            <label>Thời lượng pin</label>
+            <div class="stars battery-rating">
+                <i class="fa fa-star" data-value="1"></i>
+                <i class="fa fa-star" data-value="2"></i>
+                <i class="fa fa-star" data-value="3"></i>
+                <i class="fa fa-star" data-value="4"></i>
+                <i class="fa fa-star" data-value="5"></i>
+            </div>
+        </div>
+
+        <div>
+            <label>Màn hình</label>
+            <div class="stars screen-rating">
+                <i class="fa fa-star" data-value="1"></i>
+                <i class="fa fa-star" data-value="2"></i>
+                <i class="fa fa-star" data-value="3"></i>
+                <i class="fa fa-star" data-value="4"></i>
+                <i class="fa fa-star" data-value="5"></i>
+            </div>
+        </div>
+
+        <textarea placeholder="Xin mời chia sẻ một số cảm nhận về sản phẩm (nhập tối thiểu 15 kí tự)"></textarea>
+
+        <div class="upload-section">
+            <label for="image-upload">Thêm hình ảnh</label>
+            <input type="file" id="image-upload" accept="image/*">
+        </div>
+
+        <button class="submit-btn">Gửi đánh giá</button>
+    </div>
+
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
@@ -532,5 +627,43 @@
             if (firstVariantOption) {
                 selectVariant(firstVariantOption);
             }
+        });
+        // Hàm kiểm tra trạng thái đăng nhập và hiển thị form tương ứng
+        function showLoginModal() {
+            const modal = document.getElementById('login-modal');
+            modal.style.display = 'block';
+        }
+
+        // Show the review form
+        function showReviewForm() {
+            const reviewForm = document.getElementById('review-form');
+            reviewForm.style.display = 'block';
+        }
+
+        // Close the login modal
+        function closeModal() {
+            const modal = document.getElementById('login-modal');
+            modal.style.display = 'none';
+        }
+
+        // Close modal if clicked outside of modal content
+        window.onclick = function(event) {
+            const modal = document.getElementById('login-modal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+        // JavaScript to handle star rating interactions
+        document.querySelectorAll('.stars').forEach(starGroup => {
+            const stars = starGroup.querySelectorAll('i');
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    const value = star.getAttribute('data-value');
+                    stars.forEach(s => s.classList.remove('selected'));
+                    for (let i = 0; i < value; i++) {
+                        stars[i].classList.add('selected');
+                    }
+                });
+            });
         });
     </script>
