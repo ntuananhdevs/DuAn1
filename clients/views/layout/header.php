@@ -81,11 +81,7 @@ $cart_item = $cart->getCartItems($userId, $sessionId);
                             </ul>
                         </div>
                     </div>
-                    <?php
-                    function removeLeadingDots2($filePath){
-                        return preg_replace('/^\.\.\//', '', $filePath);
-                    }
-                    ?>
+
                     <div class="cart-container">
                         <ion-icon name="cart-outline" id="CartIcon"></ion-icon>
                         <span class="cart-badge"><?php echo count($cart_item); ?></span>
@@ -95,7 +91,7 @@ $cart_item = $cart->getCartItems($userId, $sessionId);
                                 <?php foreach ($cart_item as $item): ?>
                                     <div class="cart-item d-flex gap-3 mt-3">
                                         <div class="img-cart ms-2">
-                                            <img src="<?php echo removeLeadingDots2(($item['img'])); ?>" alt="" style="height: 50px;">
+                                            <img src="<?php echo removeLeadingDots(($item['img'])); ?>" alt="" style="height: 50px;">
                                         </div>
                                         <div class="text-cart">
                                             <div class="name-item">
@@ -124,7 +120,9 @@ $cart_item = $cart->getCartItems($userId, $sessionId);
                                 ?>
                                 <p class="me-2 fw-bold h3"><?php echo number_format($subtotal, 0, ',', '.'); ?>₫</p>
                             </div>
-                            <button class="checkout-btn mt-3">Thanh toán</button>
+                            <form action="?act=shoppingcart" method="post">
+                                <button type="submit" class="checkout-btn mt-3">Thanh toán</button>
+                            </form>
                         </div>
                     </div>
 

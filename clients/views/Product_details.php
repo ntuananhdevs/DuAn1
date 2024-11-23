@@ -40,12 +40,7 @@
             <span class="text-muted mb-1">(<?= $product['total_comments'] ?> đánh giá)</span>
         </div>
     </div>
-    <?php
-    function removeLeadingDots($filePath)
-    {
-        return preg_replace('/^\.\.\//', '', $filePath);
-    }
-    ?>
+
     <!-- Hình ảnh sản phẩm -->
     <div class="row">
         <div class="box_products_details col-md-6">
