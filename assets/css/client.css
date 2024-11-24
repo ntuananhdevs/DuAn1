@@ -1009,7 +1009,7 @@ input:hover {
   margin-top: 10px;
   padding: 8px 15px;
   background-color: #00438b;
-  color: black;
+  color: rgb(255, 255, 255);
   text-decoration: none;
   border-radius: 5px;
   transition: 0.3s;
@@ -1017,7 +1017,6 @@ input:hover {
 
 .buy-now:hover {
   background-color: #007bff;
-  color: #fff;
 }
 
 .discount-container {
