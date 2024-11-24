@@ -9,7 +9,7 @@ function removeLeadingDots($filePath) {
 }
 ?>
 
-<?php if (empty($results)): ?>    
+<?php if (empty($results) || !isset($_GET['search']) || empty( $_GET['search'] ?? '')) :  ?>    
    <img src="https://colorlib.com/wp/wp-content/uploads/sites/2/404-error-template-14.png" alt="" style="width: 100% ; height: 80%;">
 <?php else: ?>
 
@@ -32,8 +32,8 @@ function renderRatingStars($rating)
 
 ?>
 <div class="container">
-<h1 class="product-title">Kết quả tìm kiếm cho từ khóa  : <?= $_GET['search'] ?></h1>
-<div class="product-container">
+<h1 class="product-title" style="margin-top: 30px; margin-bottom: 30px; font-size: 25px">Kết quả tìm kiếm cho từ khóa  : <?= $_GET['search']?></h1>
+<div class="result-container">
     <?php
     usort($results, function($a, $b) {
         return $b['views'] - $a['views'];
@@ -79,7 +79,7 @@ function renderRatingStars($rating)
         </div>
     <?php endforeach; ?>
 </div>
-<?php endif; ?>
+<?php endif; ?> 
 </div>
 
 

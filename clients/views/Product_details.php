@@ -1,6 +1,7 @@
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <div class="container mt-4 mb-4">
     <!-- Header sản phẩm -->
@@ -39,12 +40,7 @@
             <span class="text-muted mb-1">(<?= $product['total_comments'] ?> đánh giá)</span>
         </div>
     </div>
-    <?php
-    function removeLeadingDots($filePath)
-    {
-        return preg_replace('/^\.\.\//', '', $filePath);
-    }
-    ?>
+
     <!-- Hình ảnh sản phẩm -->
     <div class="row">
         <div class="box_products_details col-md-6">
@@ -274,10 +270,59 @@
                     </div>
                     <hr>
                     <div class="comments text-center">
-                        <p>Bạn đánh giá sao về sản phầm này?</p>
-                        <button class="btn btn-outline-danger">Viết đánh giá</button>
+                        <?php if (!isset($_SESSION['user'])): ?>
+                            <!-- Hiển thị thông báo yêu cầu đăng nhập -->
+                            <div class="comments text-center">
+                                <p>Bạn cần đăng nhập để đánh giá sản phẩm này.</p>
+                                <button class="btn btn-outline-danger" onclick="showLoginModal()">Viết đánh giá</button>
+                            </div>
+                        <?php else: ?>
+                            <!-- Hiển thị form viết đánh giá -->
+                            <div class="comments text-center">
+                                <p>Bạn đánh giá sao về sản phẩm này?</p>
+                                <button class="btn btn-outline-danger" onclick="showReviewForm()">Viết đánh giá</button>
+                            </div>
+                        <?php endif; ?>
+
                     </div>
                     <hr>
+                    <div class="comment-list ms-5">
+                        <?php if (!empty($comments)) : ?>
+                            <?php foreach ($comments as $comment) : ?>
+                                <div class="comment">
+                                    <div class="avt">
+                                        <img
+                                            src="./uploads/<?php echo htmlspecialchars($comment['user_avatar']); ?>" />
+                                    </div>
+                                    <div class="name-date">
+                                        <div class="header-comment">
+                                            <div class="name-user">
+                                                <p><?php echo htmlspecialchars($comment['user_name']); ?></p>
+                                            </div>
+                                            <div class="date">
+                                                <p><?php echo htmlspecialchars($comment['created_date']); ?></p>
+                                            </div>
+                                        </div>
+                                        <div class="contents">
+                                            <p><?php echo htmlspecialchars($comment['comment_content']); ?></p>
+                                        </div>
+                                        <div class="icon">
+                                            <div class="comment__operate">
+                                                <i class="comment__operate__icon like fas fa-thumbs-up"></i>
+                                            </div>
+                                            <div class="comment__operate">
+                                                <i class="comment__operate__icon reply fas fa-reply"></i>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <p>No comments available.</p>
+                        <?php endif; ?>
+                    </div>
+
                 </div>
 
 
@@ -302,7 +347,32 @@
         </div>
 
     </div>
-</div>
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close "><ion-icon name="close"></ion-icon></span>
+            <h2>Đăng nhập Wintech</h2>
+
+            <div class="login-fb">
+                <div class="comment__operate" id="fb-login-btn">
+                    <i class="comment__operate__icon fab fa-facebook"></i>
+                    <span>Đăng nhập bằng Facebook</span>
+                </div>
+            </div>
+            <div class="login-gg">
+                <div class="comment__operate">
+                    <i class="comment__operate__icon gg -google"></i>
+                    <span>Đăng nhập bằng Google</span>
+                </div>
+            </div>
+            <a href="?act=login"><button>Đăng nhập</button></a>
+
+            <div class="register">
+                <p>Bạn chưa có tài khoản?<a href="?act=register">register</a></p>
+
+            </div>
+        </div>
+    </div>
+   
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
 <script>
@@ -503,7 +573,29 @@
         }
     });
 
-    //add to cart
-   
 
+    function showLoginModal() {
+        const modal = document.getElementById('login-modal');
+        modal.style.display = 'block';
+    }
+
+    // Show the review form
+    function showReviewForm() {
+        const reviewForm = document.getElementById('review-form');
+        reviewForm.style.display = 'block';
+    }
+
+    // Close the login modal
+    function closeModal() {
+        const modal = document.getElementById('login-modal');
+        modal.style.display = 'none';
+    }
+
+    // Close modal if clicked outside of modal content
+    window.onclick = function(event) {
+        const modal = document.getElementById('login-modal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
 </script>

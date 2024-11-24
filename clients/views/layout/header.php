@@ -81,16 +81,19 @@
                             </ul>
                         </div>
                     </div>
+
                     <div class="cart-container">
                         <ion-icon name="cart-outline" id="CartIcon"></ion-icon>
-                        <span class="cart-badge"><?php echo count($cart_item); ?></span>
+                        <?php if (count($cart_item) > 0): ?>
+                            <span class="cart-badge"><?php echo count($cart_item); ?></span>
+                        <?php endif; ?>
                         <div class="drop-down-cart" id="CartDropdown" style="border-radius: 4px;">
                             <p class="fw-bold"><?php echo count($cart_item); ?> items in cart</p>
                             <div class="cart-items" style="max-height: 200px; overflow-y: auto; position: relative; scrollbar-width: none; -ms-overflow-style: none;">
                                 <?php foreach ($cart_item as $item): ?>
                                     <div class="cart-item d-flex gap-3 mt-3">
                                         <div class="img-cart ms-2">
-                                            <img src="<?php echo ($item['img']); ?>" alt="" style="height: 50px;">
+                                            <img src="<?php echo removeLeadingDots(($item['img'])); ?>" alt="" style="height: 50px;">
                                         </div>
                                         <div class="text-cart">
                                             <div class="name-item">
@@ -119,7 +122,9 @@
                                 ?>
                                 <p class="me-2 fw-bold h3"><?php echo number_format($subtotal, 0, ',', '.'); ?>₫</p>
                             </div>
-                            <button class="checkout-btn mt-3">Thanh toán</button>
+                            <form action="?act=shoppingcart" method="post">
+                                <button type="submit" class="checkout-btn mt-3">Thanh toán</button>
+                            </form>
                         </div>
                     </div>
 
@@ -203,9 +208,6 @@
             display: none;
             z-index: 1000;
         }
-
-
-
         .checkout-btn {
             width: 100%;
             padding: 8px 16px;
@@ -231,19 +233,20 @@
             color: white;
             border-radius: 50%;
             padding: 2px 6px;
-            font-size: 10px;
             font-weight: bold;
         }
-
         .cart-items {
             max-height: 200px;
             overflow-y: auto;
-            scrollbar-width: none; /* For Firefox */
-            -ms-overflow-style: none; /* For Internet Explorer and Edge */
+            scrollbar-width: none;
+            /* For Firefox */
+            -ms-overflow-style: none;
+            /* For Internet Explorer and Edge */
         }
 
         .cart-items::-webkit-scrollbar {
-            display: none; /* For Chrome, Safari, and Opera */
+            display: none;
+            /* For Chrome, Safari, and Opera */
         }
     </style>
 
