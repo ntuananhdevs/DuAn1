@@ -8,9 +8,10 @@ class Comment
         $this->conn = connectDB();
     }
 
-    public function getComment($product_id)
+    public function getComment(int $product_id): array
     {
         try {
+            // Truy vấn để lấy danh sách bình luận kèm thông tin người dùng
             $sql = "
                 SELECT 
                     c.id AS comment_id,
@@ -18,93 +19,52 @@ class Comment
                     c.like AS like_count,
                     c.dislike AS dislike_count,
                     c.created_at AS created_date,
+                    u.id AS user_id,
                     u.user_name AS user_name,
                     u.avatar AS user_avatar
                 FROM comments AS c
-                JOIN users AS u ON c.user_id = u.id
+                INNER JOIN users AS u ON c.user_id = u.id
                 WHERE c.product_id = :product_id
                 ORDER BY c.created_at DESC";
-
+    
+            // Chuẩn bị câu lệnh
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+    
+            // Thực thi và lấy kết quả
             $stmt->execute();
             $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            return $comments;
+    
+            return $comments ?: []; // Trả về mảng rỗng nếu không có dữ liệu
         } catch (PDOException $e) {
-            // Log lỗi và trả về mảng rỗng
-            error_log("Error fetching comments: " . $e->getMessage());
+            // Ghi log lỗi để kiểm tra
+            error_log("Error fetching comments for product ID $product_id: " . $e->getMessage());
             return [];
         }
     }
-        
-    public function get_comments_by_product($product_id)
-    {
-        try {
-            $sql = "SELECT c.id, c.user_id, c.content, c.like, c.dislike, c.created_at, 
-                           u.username AS user_name
-                    FROM comments c
-                    LEFT JOIN users u ON c.user_id = u.id
-                    WHERE c.product_id = :product_id
-                    ORDER BY c.created_at DESC";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            error_log("PDOException: " . $e->getMessage());
-            return [];
-        }
+    
+    public function addComment(int $productId, int $userId, string $content, int $rating): bool
+{
+    try {
+        $sql = "INSERT INTO comments (product_id, user_id, content, rating) 
+                VALUES (:product_id, :user_id, :content, :rating)";
+        $stmt = $this->conn->prepare($sql);
+
+        $content = trim($content); // Sanitize content
+
+        $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':content', $content, PDO::PARAM_STR);
+        $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return true;
+    } catch (PDOException $e) {
+        error_log("PDOException: " . $e->getMessage());
+        return false;
     }
-    public function add_comment($product_id, $user_id, $content, $rating = null)
-    {
-        try {
-            // Insert comment into the comments table
-            $sql = "INSERT INTO comments (product_id, user_id, content, created_at) 
-                    VALUES (:product_id, :user_id, :content, NOW())";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
-            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-            $stmt->bindParam(':content', $content, PDO::PARAM_STR);
-            $stmt->execute();
+}
 
-            // Update the product's rating if rating is provided
-            if (!is_null($rating)) {
-                $this->update_product_rating($product_id, $rating);
-            }
-
-            return true;
-        } catch (PDOException $e) {
-            error_log("PDOException: " . $e->getMessage());
-            return false;
-        }
-    }
-    public function update_product_rating($product_id, $new_rating)
-    {
-        try {
-            // Get the current ratings
-            $sql = "SELECT AVG(rating) AS average_rating 
-                    FROM comments 
-                    WHERE product_id = :product_id AND rating IS NOT NULL";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            $average_rating = $result['average_rating'] ?? $new_rating;
-
-            // Update the product's rating
-            $sql = "UPDATE products SET rating = :rating WHERE id = :product_id";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':rating', $average_rating, PDO::PARAM_STR);
-            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
-            $stmt->execute();
-
-            return true;
-        } catch (PDOException $e) {
-            error_log("PDOException: " . $e->getMessage());
-            return false;
-        }
-    }
 
 }

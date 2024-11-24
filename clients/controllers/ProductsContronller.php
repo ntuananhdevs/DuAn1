@@ -44,55 +44,19 @@ class ProductsContronller {
             $cart_item = $this->products->getCartItems($userId, $sessionId);
             return $cart_item;
     }
-    public function getComments($product_id)
+    
+    public function addComment()
     {
-        if (!$product_id) {
-            echo json_encode(['success' => false, 'message' => 'Invalid product ID.']);
-            return;
-        }
+        $product_id = (int)$_POST['product_id'];
+        $user_id = (int)$_SESSION['user_id'];
+        $content = trim($_POST['content']);
+        $rating = (int)$_POST['rating'];
 
-        $comments = $this->comment->get_comments_by_product($product_id);
-
-        if ($comments) {
-            echo json_encode(['success' => true, 'comments' => $comments]);
-        } else {
-            echo json_encode(['success' => false, 'message' => 'No comments found for this product.']);
+        if ($this->comment->addComment($product_id, $user_id, $content, $rating)) {
+            header('Location: ?act=product_detail&id=' . $product_id);
         }
     }
-    public function addReview($request)
-    {
-        // Extract and sanitize inputs
-        $product_id = isset($request['product_id']) ? (int)$request['product_id'] : null;
-        $user_id = isset($request['user_id']) ? (int)$request['user_id'] : null;
-        $content = isset($request['content']) ? trim($request['content']) : '';
-        $rating = isset($request['rating']) ? (int)$request['rating'] : null;
-    
-        // Validate inputs
-        if (!$product_id || !$user_id) {
-            echo json_encode(['success' => false, 'message' => 'Invalid product or user ID.']);
-            return;
-        }
-    
-        if (strlen($content) < 3) {
-            echo json_encode(['success' => false, 'message' => 'Content must be at least 15 characters long.']);
-            return;
-        }
-    
-        if ($rating !== null && ($rating < 1 || $rating > 5)) {
-            echo json_encode(['success' => false, 'message' => 'Rating must be between 1 and 5.']);
-            return;
-        }
-    
 
-        $success = $this->comment->add_comment($product_id, $user_id, $content, $rating);
-    
-        // Respond with JSON
-        if ($success) {
-            echo json_encode(['success' => true, 'message' => 'Review added successfully.']);
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Failed to add review. Please try again later.']);
-        }
-    }
     
 }
 

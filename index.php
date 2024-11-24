@@ -61,7 +61,7 @@
             'delete_items' => $shoppingCart->deleteItem($_GET['product_id']),
 
             'pay' => $pay->view_pay(),
-            'add_review' => $products->addReview($_POST),
+            'add_review' => $products->addComment($_POST),
             'result' => $result->view_result(),
 
             default => $home->view_home(),

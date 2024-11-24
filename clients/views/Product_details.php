@@ -270,21 +270,42 @@
                     </div>
                     <hr>
                     <div class="comments text-center">
-                        <?php if (isset($_SESSION['user'])): ?>
+                        <?php if (!isset($_SESSION['user_id'])): ?>
                             <!-- Hiển thị thông báo yêu cầu đăng nhập -->
-                            <div class="comments text-center">
-                                <p>Bạn cần đăng nhập để đánh giá sản phẩm này.</p>
-                                <button class="btn btn-outline-danger" onclick="showLoginModal()">Viết đánh giá</button>
-                            </div>
+                            <p>Bạn cần đăng nhập để đánh giá sản phẩm này.</p>
+                            <button class="btn btn-outline-danger" onclick="showLoginModal()">Viết đánh giá</button>
                         <?php else: ?>
                             <!-- Hiển thị form viết đánh giá -->
-                            <div class="comments text-center">
-                                <p>Bạn đánh giá sao về sản phẩm này?</p>
-                                <button class="btn btn-outline-danger" onclick="showReviewForm()">Viết đánh giá</button>
+                            <p>Bạn đánh giá sao về sản phẩm này?</p>
+                            <button class="btn btn-outline-danger" onclick="toggleReviewForm(true)">Viết đánh giá</button>
+
+                            <div id="review-form" class="review-form" style="display: none;">
+                                <form action="?act=add_review" method="post" >
+                                    <h2>Đánh giá & nhận xét</h2>
+                                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>"> <!-- Example Product ID -->
+
+                                    <!-- Hidden field for the user ID -->
+                                    <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>"> <!-- Example User ID -->
+
+                                    <div class="section-title">Đánh giá chung</div>
+                                    <div class="stars overall-rating">
+                                            <input type="hidden" name="rating" id="rating" value="0" required>
+                                            <i class="fa fa-star" data-value="1"></i>
+                                            <i class="fa fa-star" data-value="2"></i>
+                                            <i class="fa fa-star" data-value="3"></i>
+                                            <i class="fa fa-star" data-value="4"></i>
+                                            <i class="fa fa-star" data-value="5"></i>
+                                        </div>
+                                    <textarea name="content" placeholder="Xin mời chia sẻ một số cảm nhận về sản phẩm (nhập tối thiểu 15 kí tự)"></textarea>
+
+                                    <button class="submit-btn" type="submit">Gửi đánh giá</button>
+                                </form>
+
                             </div>
                         <?php endif; ?>
-
                     </div>
+                    <hr>
+
                     <hr>
                     <div class="comment-list ms-5">
                         <?php if (!empty($comments)) : ?>
@@ -297,6 +318,7 @@
                                     <div class="name-date">
                                         <div class="header-comment">
                                             <div class="name-user">
+                                            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>"> 
                                                 <p><?php echo htmlspecialchars($comment['user_name']); ?></p>
                                             </div>
                                             <div class="date">
@@ -372,30 +394,7 @@
             </div>
         </div>
     </div>
-    <div id="review-form" class="review-form">
-        <form action="?act=add_review" method="post">
-            <h2>Đánh giá & nhận xét</h2>
-            <input type="hidden" name="product_id" value="1"> <!-- Example Product ID -->
 
-            <!-- Hidden field for the user ID -->
-            <input type="hidden" name="user_id" value="2"> <!-- Example User ID -->
-
-            <div class="section-title">Đánh giá chung</div>
-            <!-- <div class="stars overall-rating">
-                <input type="hidden" name="overall_rating" id="rating" value="0">
-                <i class="fa fa-star" data-value="1"></i>
-                <i class="fa fa-star" data-value="2"></i>
-                <i class="fa fa-star" data-value="3"></i>
-                <i class="fa fa-star" data-value="4"></i>
-                <i class="fa fa-star" data-value="5"></i>
-            </div> -->
-
-            <textarea name="content" placeholder="Xin mời chia sẻ một số cảm nhận về sản phẩm (nhập tối thiểu 15 kí tự)"></textarea>
-
-            <button class="submit-btn" type="submit">Gửi đánh giá</button>
-        </form>
-
-    </div>
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
@@ -661,6 +660,27 @@
                 });
             });
         }
+        // Hiển thị form đánh giá
+      // Hiển thị hoặc ẩn form đánh giá
+function toggleReviewForm(shouldShow) {
+    const reviewForm = document.getElementById('review-form');
+    reviewForm.style.display = shouldShow ? 'block' : 'none';
+}
+
+// Đóng form khi nhấn nút đóng hoặc nút hủy
+function closeReviewForm() {
+    toggleReviewForm(false);
+}
+
+// Xử lý click bên ngoài form để đóng
+window.addEventListener('click', function(event) {
+    const reviewForm = document.getElementById('review-form');
+    const reviewContent = document.querySelector('.review-content');
+    if (event.target === reviewForm && !reviewContent.contains(event.target)) {
+        closeReviewForm();
+    }
+});
+
 
         // Khởi chạy sau khi DOM được tải
         document.addEventListener('DOMContentLoaded', setupStarRatings);
