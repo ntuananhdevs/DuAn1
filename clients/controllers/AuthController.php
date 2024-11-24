@@ -8,7 +8,6 @@ class AuthController {
 
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Lấy dữ liệu từ form
             $user_name = $_POST['user_name'] ?? null;
             $fullname = $_POST['fullname'] ?? null;
             $email = $_POST['email'] ?? null;

@@ -110,7 +110,7 @@
       
                         <div class="login__box">
                            <input type="text" name="fullname" id="surnames" required placeholder=" " class="login__input">
-                           <label for="surnames" class="login__label">Surnames</label>
+                           <label for="surnames" class="login__label">Fullname</label>
       
                            <i class="ri-id-card-fill login__icon"></i>
                         </div>
