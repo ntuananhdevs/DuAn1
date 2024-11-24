@@ -19,12 +19,12 @@
     require_once './clients/models/ShoppingCart.php';
     require_once './clients/models/AuthModel.php';
 
-
     $home = new HomeController();
     $result = new ResultController();
     $pay = new PayController();
     $shoppingCart = new ShoppingCartController();
     $auth = new AuthController();
+    $products = new ProductsContronller();
 
     $act = $_GET['act'] ?? '/';
 
@@ -53,6 +53,7 @@
             '/' => $home->view_home(),
 
             'product_detail' => $products->view_products($_GET['id']),
+            'add_to_cart' => $products->addToCart(),
             'shoppingcart' => $shoppingCart->view_shoppingCart(),
             'pay' => $pay->view_pay(),
 
