@@ -39,6 +39,7 @@
         'phone' => 'Phones',
         'result' => 'Search Results',
         'add_comment' => 'Add Comment',
+        'add_review' => 'Add Review',
         default => 'Home',
     };
 
@@ -60,7 +61,7 @@
             'delete_items' => $shoppingCart->deleteItem($_GET['product_id']),
 
             'pay' => $pay->view_pay(),
-
+            'add_review' => $products->addComment($_POST),
             'result' => $result->view_result(),
 
             default => $home->view_home(),
