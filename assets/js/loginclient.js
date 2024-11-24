@@ -1,216 +1,46 @@
-// Animations
-const registerButton = document.getElementById("register");
-const loginButton = document.getElementById("login");
-const container = document.getElementById("container");
-
-registerButton.addEventListener("click", () => {
-  container.classList.add("right-panel-active");
-});
-
-loginButton.addEventListener("click", () => {
-  container.classList.remove("right-panel-active");
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-  const gravityItems = document.querySelectorAll('.gravity-item');
-  
-  gravityItems.forEach(item => {
-    const randomDelay = Math.random() * 20;
-    item.style.animationDelay = `${randomDelay}s`;
-  });
-});
-
-// Check Register Error
-const form = document.querySelector('form')
-const username = document.getElementById('username')
-const usernameError = document.querySelector("#username-error")
-const email = document.getElementById('email')
-const emailError = document.querySelector("#email-error")
-const password = document.getElementById('password')
-const passwordError = document.querySelector("#password-error")
-
-// Show input error message
-function showError(input, message) {
-    const formControl = input.parentElement
-    formControl.className = 'form-control error'
-    const small = formControl.querySelector('small')
-    small.innerText = message
-}
-
-// Show success outline
-function showSuccess(input) {
-    const formControl = input.parentElement
-    formControl.className = 'form-control success'
-    const small = formControl.querySelector('small')
-    small.innerText = ''
-}
-
-// Check email is valid
-function checkEmail(email) {
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-    return emailRegex.test(email);
-}
-
-email.addEventListener("input", function(){
-    if (!checkEmail(email.value)) {
-        emailError.textContent = "*Email is not valid"
-    }else {
-        emailError.textContent = "";
-    }
-})
-
-// Check length input user name
-username.addEventListener("input", function(){
-    if (username.value.length < 4) {
-        usernameError.textContent = "*Username must be at least 8 characters."
-    }else if(username.value.length > 20){
-        usernameError.textContent = "*Username must be less than 20 characters.";
-    }else {
-        usernameError.textContent = "";
-    }
-})
-
-// Check length input password
-password.addEventListener("input", function(){
-    if (password.value.length < 8) {
-        passwordError.textContent = "*Password must be at least 8 characters."
-    }else if(password.value.length > 20){
-        passwordError.textContent = "*Password must be less than 20 characters."
-    }else {
-        passwordError.textContent = "";
-    }
-})
-
-
-// Check required fields
-function checkRequired(inputArr) {
-    let isRequired = false
-    inputArr.forEach(function(input) {
-        if (input.value.trim() === '') {
-            showError(input, `*${getFieldName(input)} is required`)
-            isRequired = true
-        }else {
-            showSuccess(input)
-        }
+/*=============== SHOW HIDE PASSWORD LOGIN ===============*/
+const passwordAccess = (loginPass, loginEye) =>{
+    const input = document.getElementById(loginPass),
+          iconEye = document.getElementById(loginEye)
+ 
+    iconEye.addEventListener('click', () =>{
+       // Change password to text
+       input.type === 'password' ? input.type = 'text'
+                                       : input.type = 'password'
+ 
+       // Icon change
+       iconEye.classList.toggle('ri-eye-fill')
+       iconEye.classList.toggle('ri-eye-off-fill')
     })
-
-    return isRequired
-}
-
-// Get fieldname
-function getFieldName(input) {
-    return input.id.charAt(0).toUpperCase() + input.id.slice(1)
-}
-
-// Event listeners
-form.addEventListener('submit', function (e) {
-    e.preventDefault()
-
-    if (!checkRequired([username, email, password])) {
-        // checkLength(username, 3, 15)
-        // checkLength(password, 6, 25)
-        // checkEmail(email)
-    } 
-})
-
-// Check Login Error
-
-let lgForm = document.querySelector('.form-lg')
-let lgEmail = document.querySelector('.email-2')
-let lgEmailError = document.querySelector(".email-error-2")
-let lgPassword = document.querySelector('.password-2')
-let lgPasswordError = document.querySelector(".password-error-2")
-
-function showError2(input, message) {
-    const formControl2 = input.parentElement
-    formControl2.className = 'form-control2 error'
-    const small2 = formControl2.querySelector('small')
-    small2.innerText = message
-}
-
-function showSuccess2(input) {
-    const formControl2 = input.parentElement
-    formControl2.className = 'form-control2 success'
-    const small2 = formControl2.querySelector('small')
-    small2.innerText = '';
-}
-
-// Check email is valid
-function checkEmail2(lgEmail) {
-    const emailRegex2 = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-    return emailRegex2.test(lgEmail);
-}
-
-lgEmail.addEventListener("input", function(){
-    if (!checkEmail2(lgEmail.value)) {
-        lgEmailError.textContent = "*Email is not valid"
-    }else {
-        lgEmailError.textContent = "";
-    }
-})
-
-// Check length input passwrod
-lgPassword.addEventListener("input", function(){
-    if (lgPassword.value.length < 8) {
-        lgPasswordError.textContent = "*Password must be at least 8 characters."
-    }else if (lgPassword.value.length > 20){
-        lgPasswordError.textContent = "*Password must be less than 20 characters."
-    }else {
-        lgPasswordError.textContent = "";
-    }
-})
-
-function checkRequiredLg(inputArr2) {
-    let isRequiredLg = false
-    inputArr2.forEach(function(input){
-        if (input.value.trim() === '') {
-            showError2(input, `*${getFieldNameLg(input)} Please enter your information in this field`)
-            isRequiredLg = true
-        }else {
-            showSuccess2(input)
-        }
+ }
+ passwordAccess('password','loginPassword')
+ 
+ /*=============== SHOW HIDE PASSWORD CREATE ACCOUNT ===============*/
+ const passwordRegister = (loginPass, loginEye) =>{
+    const input = document.getElementById(loginPass),
+          iconEye = document.getElementById(loginEye)
+ 
+    iconEye.addEventListener('click', () =>{
+       // Change password to text
+       input.type === 'password' ? input.type = 'text'
+                                       : input.type = 'password'
+ 
+       // Icon change
+       iconEye.classList.toggle('ri-eye-fill')
+       iconEye.classList.toggle('ri-eye-off-fill')
     })
-
-    return isRequiredLg
-}
-
-function getFieldNameLg(input) {
-    return input.id.charAt(0).toUpperCase() + input.id.slice(1)
-}
-
-lgForm.addEventListener('submit', function (e){
-    if (!checkEmail2(lgEmail.value) || lgPassword.value.length < 8 || lgPassword.value.length > 20) {
-        e.preventDefault();
-        
-        if (!checkEmail2(lgEmail.value)) {
-            lgEmailError.textContent = "*Email is not valid";
-        }
-        
-        if (lgPassword.value.length < 8 || lgPassword.value.length > 20) {
-            lgPasswordError.textContent = "*Password must be between 8 and 20 characters.";
-        }
-    }
-   
-})
-
-// Check Register Error
-const registerForm = document.querySelector('.register-container form');
-const regName = document.getElementById('username');
-const regEmail = document.getElementById('email');
-const regPassword = document.getElementById('password');
-
-// Event listeners for register form
-registerForm.addEventListener('submit', function (e) {
-    if (!checkEmail(regEmail.value) || regPassword.value.length < 8 || regPassword.value.length > 20) {
-        e.preventDefault();
-        
-        if (!checkEmail(regEmail.value)) {
-            emailError.textContent = "*Email is not valid";
-        }
-        
-        if (regPassword.value.length < 8 || regPassword.value.length > 20) {
-            passwordError.textContent = "*Password must be between 8 and 20 characters.";
-        }
-    }
-});
-            
+ }
+ passwordRegister('passwordCreate','loginPasswordCreate')
+ 
+ /*=============== SHOW HIDE LOGIN & CREATE ACCOUNT ===============*/
+ const loginAcessRegister = document.getElementById('loginAccessRegister'),
+       buttonRegister = document.getElementById('loginButtonRegister'),
+       buttonAccess = document.getElementById('loginButtonAccess')
+ 
+ buttonRegister.addEventListener('click', () => {
+    loginAcessRegister.classList.add('active')
+ })
+ 
+ buttonAccess.addEventListener('click', () => {
+    loginAcessRegister.classList.remove('active')
+ })

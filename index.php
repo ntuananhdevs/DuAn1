@@ -4,49 +4,66 @@
 
     #require Controller
     require_once './clients/controllers/HomeController.php';
-    require_once './clients/controllers/LoginController.php';
+    require_once './clients/controllers/AuthController.php';
     require_once './clients/controllers/ProductsContronller.php';
     require_once './clients/controllers/ResultController.php';
-    require_once './clients/controllers/cartController.php';
- 
+    require_once './clients/controllers/PayController.php';
+    require_once './clients/controllers/SpCartContronller.php';
+
 
     #require Model
-
     require_once './clients/models/Home.php';
     require_once './clients/models/Products_details.php';
-    require_once './clients/models/LoginModel.php';
     require_once './clients/models/Result.php';
-    require_once './clients/models/cartModel.php';
-
+    require_once './clients/models/Pay.php';
+    require_once './clients/models/ShoppingCart.php';
+    require_once './clients/models/AuthModel.php';
+    require_once './clients/models/Comments.php';
 
     $home = new HomeController();
-    $login = new LoginController();
-    $products = new ProductsContronller();
     $result = new ResultController();
-    $cart = new cartController();
-
-  
+    $pay = new PayController();
+    $shoppingCart = new ShoppingCartController();
+    $auth = new AuthController();
+    $products = new ProductsContronller();
 
     $act = $_GET['act'] ?? '/';
-    if($act != 'login'){
+
+    $title = match ($act) {
+        'login' => 'Login',
+        'register' => 'Register',
+        'logout' => 'Logout',
+        '/' => 'Home',
+        'product_detail' => 'Product Details',
+        'shoppingcart' => 'WinTech Cart',
+        'phone' => 'Phones',
+        'result' => 'Search Results',
+        'add_comment' => 'Add Comment',
+        default => 'Home',
+    };
+
+    if ($act == 'login') {
+        $auth->login();
+    } else if ($act == 'register') {
+        $auth->register();
+    } else if ($act == 'logout') {
+        $auth->logout();
+    } else {
         include './clients/views/layout/header.php';
-    }
         match ($act) {
             '/' => $home->view_home(),
-            ##LOGIN
-            'register' => $login->register(),
-            'login' => $login->login(),
-           
-            //PRODUCT
+
             'product_detail' => $products->view_products($_GET['id']),
-                // CART
-                'cart' => $cart->viewCart(),
-                'add-to-cart' => $cart->addToCart(),
-                'remove-from-cart' => $cart->removeFromCart(),
-               
-            ##Result
+            'add_to_cart' => $products->addToCart(),
+            'shoppingcart' => $shoppingCart->view_shoppingCart(),
+            'update_cart' => $shoppingCart->updateQuantity(),
+            'delete_items' => $shoppingCart->deleteItem($_GET['product_id']),
+
+            'pay' => $pay->view_pay(),
+
             'result' => $result->view_result(),
 
             default => $home->view_home(),
         };
-    include './clients/views/layout/footer.php';
+        include './clients/views/layout/footer.php';
+    }

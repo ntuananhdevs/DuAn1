@@ -98,5 +98,82 @@ class products {
         return $data;
     }
 
-
+    public function get_or_creatCart($session_id) {
+        $sql = "SELECT id FROM Carts WHERE session_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1, $session_id, PDO::PARAM_STR); 
+        $stmt->execute();
+        $cart = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        // Nếu không tìm thấy giỏ hàng, tạo giỏ hàng mới
+        if (!$cart) {
+            $sql = "INSERT INTO Carts (session_id) VALUES (?)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(1, $session_id, PDO::PARAM_STR);
+            $stmt->execute();
+            return $this->conn->lastInsertId();  
+        }
+    
+        return $cart['id'];  
+    }
+    
+    public function add_or_UpdateItem($cart_id, $product_id, $quantity, $price) {    
+        $sql = "SELECT id, quantity FROM Cart_items WHERE cart_id = ? AND product_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1, $cart_id, PDO::PARAM_INT);  
+        $stmt->bindParam(2, $product_id, PDO::PARAM_INT);  
+        $stmt->execute();
+        $item = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if ($item) {
+            $new_quantity = $item['quantity'] + $quantity;
+            $sql = "UPDATE Cart_items SET quantity = ?, price = ? WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(1, $new_quantity, PDO::PARAM_INT);  
+            $stmt->bindParam(2, $price, PDO::PARAM_STR); // Ensure price is passed as a parameter
+            $stmt->bindParam(3, $item['id'], PDO::PARAM_INT);  
+        } else {
+            $sql = "INSERT INTO Cart_items (cart_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(1, $cart_id, PDO::PARAM_INT);  
+            $stmt->bindParam(2, $product_id, PDO::PARAM_INT);  
+            $stmt->bindParam(3, $quantity, PDO::PARAM_INT);  
+            $stmt->bindParam(4, $price, PDO::PARAM_STR); // Ensure price is passed as a parameter
+        }
+        $stmt->execute();
+        return $stmt->rowCount() > 0;
+    }
+    public function getCartItems($userId = null, $sessionId = null) {
+        $sql = "SELECT 
+                    ci.id AS cart_item_id,
+                    p.product_name,
+                    pv.color,
+                    pv.ram,
+                    pv.storage,
+                    ci.quantity,
+                    ci.price,
+                    vi.img
+                FROM 
+                    carts c
+                JOIN 
+                    cart_items ci ON c.id = ci.cart_id
+                JOIN 
+                    product_variants pv ON ci.product_id = pv.id
+                JOIN 
+                    products p ON pv.product_id = p.id
+                LEFT JOIN 
+                    variants_img vi ON pv.id = vi.variant_id
+                WHERE 
+                    (c.user_id = :user_id OR c.session_id = :session_id)
+                ";
+                    
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            ':user_id' => $userId,
+            ':session_id' => $sessionId
+        ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    
 }

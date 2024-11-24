@@ -1,9 +1,11 @@
 <head>
     <link rel="stylesheet" type="text/css" href="./assets/css/client.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </head>
 
-<footer>
-    <div class="footer-container">
+<footer data-aos="fade-up">
+    <div class="footer-container mt-5">
         <div class="footer-section">
             <h4>Mua sắm và Học tập</h4>
             <ul>
@@ -47,12 +49,15 @@
             </ul>
         </div>
     </div>
-    <div class="footer-subscribe">
+    <!-- <div class="footer-subscribe">
         <p>Nhận các ưu đãi mới nhất và nhiều hơn nữa</p>
         <input type="email" placeholder="Nhập địa chỉ email">
         <button>Sign up</button>
         <div class="footer-social">
             <img src="./assets/img/logo.png" alt="">
         </div>
-    </div>
+    </div> -->
 </footer>
+<script>
+  AOS.init();
+</script>
