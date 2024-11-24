@@ -44,4 +44,19 @@ class ProductsContronller {
             $cart_item = $this->products->getCartItems($userId, $sessionId);
             return $cart_item;
     }
+    
+    public function addComment()
+    {
+        $product_id = (int)$_POST['product_id'];
+        $user_id = (int)$_SESSION['user_id'];
+        $content = trim($_POST['content']);
+        $rating = (int)$_POST['rating'];
+
+        if ($this->comment->addComment($product_id, $user_id, $content, $rating)) {
+            header('Location: ?act=product_detail&id=' . $product_id);
+        }
+    }
+
+    
 }
+

@@ -992,8 +992,9 @@ input:hover {
   display: inline-block;
   margin-top: 10px;
   padding: 8px 15px;
-  background-color: #007bff;
+  background-color: transparent;
   color: white;
+  border: 1px solid blue;
   text-decoration: none;
   border-radius: 5px;
   transition: background-color 0.3s;
@@ -1006,16 +1007,15 @@ input:hover {
   display: inline-block;
   margin-top: 10px;
   padding: 8px 15px;
-  background-color: transparent;
+  background-color: #00438b;
   color: black;
   text-decoration: none;
   border-radius: 5px;
   transition: 0.3s;
-  border: solid 1px #007bff;
 }
 
 .buy-now:hover {
-  background-color: #0056b3;
+  background-color: #007bff;
   color: #fff;
 }
 
@@ -1762,18 +1762,115 @@ input:hover {
     padding: 0 50px 0 50px;
   }
   .review-form {
-    background: white;
-    border-radius: 8px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    width: 500px;
+    max-width: 90%;
     padding: 20px;
-    max-width: 500px;
-    margin: 0 auto;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    z-index: 1000;
+    font-family: Arial, sans-serif;
 }
 
 .review-form h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
     text-align: center;
+    font-weight: bold;
     color: #333;
 }
+
+.review-form .product-name {
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #666;
+}
+
+.review-form .section-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #333;
+}
+
+
+
+
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.stars i {
+  font-size: 24px;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.stars i.selected {
+  color: #f39c12; /* Màu vàng khi được chọn */
+}
+
+.stars i.hover {
+  color: #f39c12; /* Màu vàng khi hover */
+}
+
+.review-form textarea {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 14px;
+    resize: none;
+    box-sizing: border-box;
+}
+
+.review-form .upload-section {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.review-form .upload-section label {
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.review-form .upload-section input[type="file"] {
+    display: none;
+}
+
+.review-form .submit-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #d00;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.review-form .submit-btn:hover {
+    background-color: #a00;
+}
+
 
 .product-name {
     font-size: 16px;
@@ -1804,6 +1901,7 @@ input:hover {
     color: #444;
     margin-bottom: 5px;
 }
+
 
 textarea {
     width: 100%;
@@ -2007,4 +2105,46 @@ textarea {
 .fw-bold {
   margin-left: 10px;
   font-weight: bold;
+}
+.message-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+  z-index: 1000;
+  display: none;
+  animation: slideIn 0.5s ease-in-out;
+}
+
+.message-popup.success {
+  background-color: #4CAF50;
+}
+
+.message-popup.error {
+  background-color: #f44336;
+}
+
+@keyframes slideIn {
+  from {
+      transform: translateX(100%);
+      opacity: 0;
+  }
+  to {
+      transform: translateX(0);
+      opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+      transform: translateX(0);
+      opacity: 1;
+  }
+  to {
+      transform: translateX(100%);
+      opacity: 0;
+  }
 }

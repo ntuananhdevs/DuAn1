@@ -44,6 +44,7 @@
         'phone' => 'Phones',
         'result' => 'Search Results',
         'add_comment' => 'Add Comment',
+        'add_review' => 'Add Review',
         'profile' => 'Profile',
 
         default => 'Home',
@@ -68,7 +69,7 @@
             'profile' => $profile->showProfile($_GET['user_id'] ?? null),
 
             'pay' => $pay->view_pay(),
-
+            'add_review' => $products->addComment($_POST),
             'result' => $result->view_result(),
 
             default => $home->view_home(),
