@@ -85,7 +85,11 @@
                     <div class="cart-container">
                         <ion-icon name="cart-outline" id="CartIcon"></ion-icon>
                         <?php if (count($cart_item) > 0): ?>
-                            <span class="cart-badge"><?php echo count($cart_item); ?></span>
+                            <span class="cart-badge">
+                                <div class="cart-badge-content">
+                                    <?php echo count($cart_item); ?>
+                                </div>
+                            </span>
                         <?php endif; ?>
                         <div class="drop-down-cart" id="CartDropdown" style="border-radius: 4px;">
                             <p class="fw-bold"><?php echo count($cart_item); ?> items in cart</p>
@@ -192,6 +196,7 @@
 
     <style>
         .cart-container {
+            margin-left: 10px;
             position: relative;
             display: inline-block;
         }
@@ -227,12 +232,12 @@
             height: 8px;
             width: 8px;
             position: absolute;
-            top: -4px;
-            right: -4px;
+            top: -5px;
+            right: -6px;
             background-color: blue;
             color: white;
-            border-radius: 50%;
-            padding: 2px 6px;
+            border-radius: 100%;
+            padding: 6px;
             font-weight: bold;
         }
         .cart-items {
@@ -247,6 +252,13 @@
         .cart-items::-webkit-scrollbar {
             display: none;
             /* For Chrome, Safari, and Opera */
+        }
+        .cart-badge-content {
+            position: relative;
+            margin-left: -2.5px;
+            margin-top: -9px;
+            font-size: 11px;
+            padding: 0px;
         }
     </style>
 
