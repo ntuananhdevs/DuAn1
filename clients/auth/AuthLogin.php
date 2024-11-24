@@ -122,6 +122,13 @@
    
                         <i class="ri-mail-fill login__icon"></i>
                      </div>
+
+                     <div class="login__box">
+                        <input type="text" name="phone_number" id="phone_number" required placeholder=" " class="login__input">
+                        <label for="phone_number" class="login__label">SDT</label>
+   
+                        <i class="ri-mail-fill login__icon"></i>
+                     </div>
    
                      <div class="login__box">
                         <input type="password" name="password" id="passwordCreate" required placeholder=" " class="login__input">
