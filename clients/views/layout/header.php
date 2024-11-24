@@ -232,13 +232,14 @@
             height: 8px;
             width: 8px;
             position: absolute;
-            top: -5px;
+            top: -8px;
             right: -6px;
             background-color: blue;
             color: white;
             border-radius: 100%;
             padding: 6px;
             font-weight: bold;
+            padding: 8px;
         }
         .cart-items {
             max-height: 200px;
@@ -256,7 +257,7 @@
         .cart-badge-content {
             position: relative;
             margin-left: -2.5px;
-            margin-top: -9px;
+            margin-top: -9.5px;
             font-size: 11px;
             padding: 0px;
         }
