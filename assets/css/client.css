@@ -993,7 +993,7 @@ input:hover {
   margin-top: 10px;
   padding: 8px 15px;
   background-color: transparent;
-  color: white;
+  color: rgb(0, 0, 0);
   border: 1px solid blue;
   text-decoration: none;
   border-radius: 5px;
@@ -1001,6 +1001,7 @@ input:hover {
 }
 
 .learn-more:hover {
+  color: white;
   background-color: #0056b3;
 }
 .buy-now {
