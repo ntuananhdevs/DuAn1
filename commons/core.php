@@ -61,3 +61,6 @@ function deleteFile($file)
         unlink($path);
     }
 }
+function removeLeadingDots($filePath){
+    return preg_replace('/^\.\.\//', '', $filePath);
+}

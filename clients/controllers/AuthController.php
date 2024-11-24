@@ -8,14 +8,14 @@ class AuthController {
 
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Lấy dữ liệu từ form
             $user_name = $_POST['user_name'] ?? null;
             $fullname = $_POST['fullname'] ?? null;
+            $phone_number = $_POST['phone_number'] ?? null;
             $email = $_POST['email'] ?? null;
             $password = $_POST['password'] ?? null;
     
-            if ($user_name && $fullname && $email && $password) {
-                if ($this->authModel->register($user_name, $fullname, $email, $password)) {
+            if ($user_name && $fullname && $email && $password && $phone_number) {
+                if ($this->authModel->register($user_name, $fullname, $email, $password, $phone_number)) {
                     header('Location: index.php?act=login');
                     exit;
                 } else {

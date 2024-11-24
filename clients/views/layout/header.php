@@ -1,15 +1,15 @@
 <?php
-session_start();
-ob_start();
-if (isset($_SESSION['user_id'])) {
-    $userId = $_SESSION['user_id'];
-    $sessionId = null; // Khi người dùng đã đăng nhập, không cần session_id
-} else {
-    $userId = null;
-    $sessionId = session_id(); // Sử dụng session_id() để theo dõi phiên
-}
-$cart = new ProductsContronller(new products());
-$cart_item = $cart->getCartItems($userId, $sessionId);
+    session_start();
+    ob_start();
+    if (isset($_SESSION['user_id'])) {
+        $userId = $_SESSION['user_id'];
+        $sessionId = null; // Khi người dùng đã đăng nhập, không cần session_id
+    } else {
+        $userId = null;
+        $sessionId = session_id(); // Sử dụng session_id() để theo dõi phiên
+    }
+    $cart = new ProductsContronller(new products());
+    $cart_item = $cart->getCartItems($userId, $sessionId);
 
 ?>
 <!DOCTYPE html>
@@ -81,21 +81,19 @@ $cart_item = $cart->getCartItems($userId, $sessionId);
                             </ul>
                         </div>
                     </div>
-                    <?php
-                    function removeLeadingDots2($filePath){
-                        return preg_replace('/^\.\.\//', '', $filePath);
-                    }
-                    ?>
+
                     <div class="cart-container">
                         <ion-icon name="cart-outline" id="CartIcon"></ion-icon>
-                        <span class="cart-badge"><?php echo count($cart_item); ?></span>
+                        <?php if (count($cart_item) > 0): ?>
+                            <span class="cart-badge"><?php echo count($cart_item); ?></span>
+                        <?php endif; ?>
                         <div class="drop-down-cart" id="CartDropdown" style="border-radius: 4px;">
                             <p class="fw-bold"><?php echo count($cart_item); ?> items in cart</p>
                             <div class="cart-items" style="max-height: 200px; overflow-y: auto; position: relative; scrollbar-width: none; -ms-overflow-style: none;">
                                 <?php foreach ($cart_item as $item): ?>
                                     <div class="cart-item d-flex gap-3 mt-3">
                                         <div class="img-cart ms-2">
-                                            <img src="<?php echo removeLeadingDots2(($item['img'])); ?>" alt="" style="height: 50px;">
+                                            <img src="<?php echo removeLeadingDots(($item['img'])); ?>" alt="" style="height: 50px;">
                                         </div>
                                         <div class="text-cart">
                                             <div class="name-item">
@@ -124,7 +122,9 @@ $cart_item = $cart->getCartItems($userId, $sessionId);
                                 ?>
                                 <p class="me-2 fw-bold h3"><?php echo number_format($subtotal, 0, ',', '.'); ?>₫</p>
                             </div>
-                            <button class="checkout-btn mt-3">Thanh toán</button>
+                            <form action="?act=shoppingcart" method="post">
+                                <button type="submit" class="checkout-btn mt-3">Thanh toán</button>
+                            </form>
                         </div>
                     </div>
 
@@ -208,9 +208,6 @@ $cart_item = $cart->getCartItems($userId, $sessionId);
             display: none;
             z-index: 1000;
         }
-
-
-
         .checkout-btn {
             width: 100%;
             padding: 8px 16px;
@@ -236,10 +233,8 @@ $cart_item = $cart->getCartItems($userId, $sessionId);
             color: white;
             border-radius: 50%;
             padding: 2px 6px;
-            font-size: 10px;
             font-weight: bold;
         }
-
         .cart-items {
             max-height: 200px;
             overflow-y: auto;

@@ -42,10 +42,7 @@
 </div>
 
 <?php
-function removeLeadingDots($filePath)
-{
-    return preg_replace('/^\.\.\//', '', $filePath);
-}
+
 
 function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $colorEmpty = 'lightgray', $size = '10px') {
     $stars = '';

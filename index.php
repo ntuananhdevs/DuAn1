@@ -57,6 +57,9 @@
             'product_detail' => $products->view_products($_GET['id']),
             'add_to_cart' => $products->addToCart(),
             'shoppingcart' => $shoppingCart->view_shoppingCart(),
+            'update_cart' => $shoppingCart->updateQuantity(),
+            'delete_items' => $shoppingCart->deleteItem($_GET['product_id']),
+
             'pay' => $pay->view_pay(),
             'add_review' => $products->addReview($_POST),
             'result' => $result->view_result(),

@@ -1,82 +1,149 @@
+<?php
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+    $sessionId = null;
+} else {
+    $userId = null;
+    $sessionId = session_id();
+}
+$cart = new ShoppingCartController(new ShoppingCart());
+$cart_item = $cart->getCartItems($userId, $sessionId);
+?>
 <div class="container mb-5">
     <h4 class="mb-0 fw-bold mb-4 mt-4">Giỏ mua hàng</h4>
-    <hr class="text-muted">
 
     <!-- Phần sản phẩm -->
-    <div class="boxproducts d-flex gap-4 justify-content-start align-items-start mb-4">
-        <div class="img-prd">
-            <img src="uploads/Products/673a293d4ef22_iphone-16-1.webp" alt="Samsung S23 Ultra" width="120px">
-        </div>
-        <div class="spect-prd ms-4">
-            <h5 class="fw-bold fs-5 mb-2">Samsung S23 Ultra 12GB 512GB - Đen</h5>
-            <h6 class="fw-bold mt-3">Cấu hình</h6>
-            <ul class="list-unstyled">
-                <li>Part Number: 123456789</li>
-                <li>Brand: Samsung</li>
-                <li>Màu: Đen</li>
-                <li>RAM: 12GB</li>
-                <li>Bộ nhớ: 512GB</li>
-            </ul>
-        </div>
-        <div class="quantity-prd d-flex gap-2 align-items-center justify-content-end ms-auto">
-    <button class="btn border px-3 btn-decrease">-</button>
-    <input type="text" class=" text-center quantity-input" value="1" min="1" style="width: 60px; border: none;">
-    <button class="btn border px-3 btn-increase ">+</button>
-</div>
+    <?php foreach ($cart_item as $item): ?>
+        <hr class="text-muted">
+        <div class="boxproducts d-flex gap-4 justify-content-start align-items-start mb-4" style="width: 80%; margin: auto;">
+            <div class="img-prd ">
+                <img src="<?php echo removeLeadingDots($item['img']); ?>" alt="<?php echo htmlspecialchars($item['product_name']); ?>" width="120px">
+            </div>
+            <div class="spect-prd ms-4">
+                <h4 class="fw-bold fs-5 mb-2 "><?php echo htmlspecialchars($item['product_name']); ?> <?php echo htmlspecialchars($item['color']); ?> <?php echo htmlspecialchars($item['storage']); ?></h4>
+                <h6 class="fw-bold">Cấu hình</h6>
+                <ul class="list-unstyled ms-2">
+                    <li><strong>Brand: </strong> <?php echo htmlspecialchars($item['category_name']); ?></li>
+                    <li><strong>Mau sắc: </strong><?php echo htmlspecialchars($item['color']); ?></li>
+                    <li><strong>RAM: </strong><?php echo htmlspecialchars($item['ram']); ?></li>
+                    <li><strong>Bộ nhớ: </strong><?php echo htmlspecialchars($item['storage']); ?></li>
+                </ul>
+            </div>
+            <div class="quantity-prd d-flex gap-2 align-items-center justify-content-end ms-auto">
+                <form action="?act=update_cart" method="POST" class="d-flex align-items-center">
+                    <input type="hidden" name="product_id" value="<?php echo $item['variant_id']; ?>">
 
-        <div class="price-prd">
-            <p class="fw-bold fs-5 mb-0">26.000.000 đ</p>
-            <p class="text-end text-info mt-2" style="cursor: pointer;">Xóa</p>
-        </div>
-    </div>
+                    <button type="submit" name="action" value="decrease" class="btn border px-3">-</button>
 
-    <hr class="text-muted">
+                    <input type="number" name="quantity" class="text-center quantity-input" value="<?php echo htmlspecialchars($item['quantity']); ?>" min="1" style="width: 60px; border: none;" readonly>
+
+                    <button type="submit" name="action" value="increase" class="btn border px-3">+</button>
+                </form>
+            </div>
+
+
+            <div class="price-prd">
+                <p class="fw-bold fs-5 mb-0" data-unit-price="<?php echo $item['price']; ?>">
+                    <?php echo number_format($item['price'] * $item['quantity'], 0, ',', '.'); ?> đ
+                </p>
+                <a href="?act=delete_items&cart_item_id=<?php echo $item['cart_item_id']; ?>" class="text-end text-info fw-550 d-block text-right" style="text-decoration: none;" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">Xóa</a>
+            </div>
+        </div>
+    <?php endforeach; ?>
 
     <!-- Tổng tiền -->
-    <div class="total-mn w-50 ms-auto">
+    <hr class="text-muted">
+    <div class="total-mn ms-auto" style="width: 450px;">
         <div class="total-1 d-flex justify-content-between align-items-center mb-2">
-            <p class="fw-bold h5">Tổng phụ (Bao gồm VAT)</p>
-            <p class="fw-bold h5">26.000.000 đ</p>
+            <p class="fw-bold h5">Tổng phụ</p>
+            <?php
+            $total = 0;
+            foreach ($cart_item as $item) {
+                $total += $item['price'] * $item['quantity'];
+            }
+            ?>
+            <p class="fw-bold h5 tongphu"><?php echo number_format($total, 0, ',', '.'); ?> đ</p>
         </div>
-        <p class="text-muted">Miễn phí vận chuyển toàn quốc</p>
+        <p class="text-muted ms-3">Miễn phí vận chuyển toàn quốc</p>
 
         <div class="total">
             <hr>
+            <?php
+            $total = 0;
+            $vat = 0;
+            foreach ($cart_item as $item) {
+                $total += $item['price'] * $item['quantity'];
+                $vat += $item['price'] * $item['quantity'] * 0.1;
+            }
+            ?>
             <div class="total-end d-flex justify-content-between align-items-center">
                 <p class="fw-bold h4">Tổng (Bao gồm VAT)</p>
-                <p class="fw-bold h4">26.000.000 đ</p>
+                <p class="fw-bold h4 tong"><?php echo number_format($total + $vat, 0, ',', '.'); ?> đ</p>
             </div>
-            <p class="text-muted">Trong đó VAT (10%): 2.400.000 đ</p>
+            <p class="text-muted ms-3">Trong đó VAT (10%): <?php echo number_format($vat, 0, ',', '.'); ?> đ</p>
         </div>
         <a href="?act=checkout" class="btn btn-info w-100 mt-3 text-white">Thanh Toán</a>
     </div>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const btnDecrease = document.querySelector(".btn-decrease");
-        const btnIncrease = document.querySelector(".btn-increase");
-        const quantityInput = document.querySelector(".quantity-input");
+    document.addEventListener("DOMContentLoaded", function() {
+        const btnDecrease = document.querySelectorAll(".btn-decrease");
+        const btnIncrease = document.querySelectorAll(".btn-increase");
+        const quantityInputs = document.querySelectorAll(".quantity-input");
+        const totalDisplay = document.querySelector(".total-end .tong");
+        const vatDisplay = document.querySelector(".total .text-muted");
+        const subtotalDisplay = document.querySelector(".total-1  .tongphu");
 
-        // Disable decrease button if value is 1
-        function updateButtons() {
-            btnDecrease.disabled = quantityInput.value <= 1;
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(value);
         }
 
-        // Decrease quantity
-        btnDecrease.addEventListener("click", function () {
-            if (quantityInput.value > 1) {
-                quantityInput.value--;
-                updateButtons();
-            }
+        // Update total and subtotal
+        function updateTotals() {
+            let subtotal = 0;
+            let vat = 0;
+
+            quantityInputs.forEach((input, index) => {
+                const quantity = parseInt(input.value);
+                const priceElement = btnIncrease[index].closest(".boxproducts").querySelector(".price-prd p.fw-bold");
+                const unitPrice = parseInt(priceElement.dataset.unitPrice);
+
+                const totalPrice = quantity * unitPrice;
+                subtotal += totalPrice;
+
+                // Update product price
+                priceElement.textContent = formatCurrency(totalPrice);
+            });
+
+            vat = subtotal * 0.1; // VAT is 10%
+            totalDisplay.textContent = formatCurrency(subtotal + vat);
+            vatDisplay.textContent = `Trong đó VAT (10%): ${formatCurrency(vat)}`;
+            subtotalDisplay.textContent = formatCurrency(subtotal);
+        }
+
+        // Attach events to buttons
+        btnDecrease.forEach((button, index) => {
+            button.addEventListener("click", function() {
+                const input = quantityInputs[index];
+                if (input.value > 1) {
+                    input.value--;
+                    updateTotals();
+                }
+            });
         });
 
-        // Increase quantity
-        btnIncrease.addEventListener("click", function () {
-            quantityInput.value++;
-            updateButtons();
+        btnIncrease.forEach((button, index) => {
+            button.addEventListener("click", function() {
+                const input = quantityInputs[index];
+                input.value++;
+                updateTotals();
+            });
         });
 
-        // Update button state on load
-        updateButtons();
+        // Initialize totals on load
+        updateTotals();
     });
 </script>
