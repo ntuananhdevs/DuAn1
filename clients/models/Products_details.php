@@ -98,18 +98,30 @@ class products {
         return $data;
     }
 
-    public function get_or_creatCart($session_id) {
-        $sql = "SELECT id FROM Carts WHERE session_id = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(1, $session_id, PDO::PARAM_STR); 
+    public function get_or_creatCart($userId = null, $sessionId = null) {
+        if ($userId) {
+            $sql = "SELECT id FROM Carts WHERE user_id = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(1, $userId, PDO::PARAM_INT);  
+        } else {
+            $sql = "SELECT id FROM Carts WHERE session_id = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(1, $sessionId, PDO::PARAM_STR); 
+        }
         $stmt->execute();
         $cart = $stmt->fetch(PDO::FETCH_ASSOC);
     
         // Nếu không tìm thấy giỏ hàng, tạo giỏ hàng mới
         if (!$cart) {
-            $sql = "INSERT INTO Carts (session_id) VALUES (?)";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(1, $session_id, PDO::PARAM_STR);
+            if ($userId) {
+                $sql = "INSERT INTO Carts (user_id) VALUES (?)";
+                $stmt = $this->conn->prepare($sql);
+                $stmt->bindParam(1, $userId, PDO::PARAM_INT);  
+            } else {
+                $sql = "INSERT INTO Carts (session_id) VALUES (?)";
+                $stmt = $this->conn->prepare($sql);
+                $stmt->bindParam(1, $sessionId, PDO::PARAM_STR);
+            }
             $stmt->execute();
             return $this->conn->lastInsertId();  
         }
@@ -164,16 +176,17 @@ class products {
                 LEFT JOIN 
                     variants_img vi ON pv.id = vi.variant_id
                 WHERE 
-                    (c.user_id = :user_id OR c.session_id = :session_id)
+                    (c.user_id = :user OR c.session_id = :session_id)
                 ";
                     
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([
-            ':user_id' => $userId,
-            ':session_id' => $sessionId
+            'user' => $userId,
+            'session_id' => $sessionId
         ]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
     
     
 }

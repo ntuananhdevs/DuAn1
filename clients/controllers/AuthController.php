@@ -35,7 +35,8 @@ class AuthController {
             $password = $_POST['password'];
             $user = $this->authModel->login($email, $password);
             if ($user) {
-                $_SESSION['user'] = $user;
+                session_start();
+                $_SESSION['user_id'] = $user['id'];
                 header('Location: index.php');
             }
         }
@@ -43,7 +44,9 @@ class AuthController {
     }
 
     public function logout() {
+        session_start();
         session_destroy();
         header('Location: index.php');
+        exit;   
     }
 }
