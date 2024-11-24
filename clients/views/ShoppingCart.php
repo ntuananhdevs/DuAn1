@@ -33,9 +33,9 @@ $cart_item = $cart->getCartItems($userId, $sessionId);
                 <form action="?act=update_cart" method="POST" class="d-flex align-items-center">
                     <input type="hidden" name="product_id" value="<?php echo $item['variant_id']; ?>">
 
-                    <button type="submit" name="action" value="decrease" class="btn border px-3">-</button>
+                    <button type="submit" name="action" value="decrease" class="btn border px-3 me-3">-</button>
 
-                    <input type="number" name="quantity" class="text-center quantity-input" value="<?php echo htmlspecialchars($item['quantity']); ?>" min="1" style="width: 60px; border: none;" readonly>
+                    <input type="number" name="quantity" class="text-center quantity-input fs-3" value="<?php echo htmlspecialchars($item['quantity']); ?>" min="1" style="width: 50px; border: none; background-color: #fcfcfc;" readonly>
 
                     <button type="submit" name="action" value="increase" class="btn border px-3">+</button>
                 </form>
@@ -82,7 +82,7 @@ $cart_item = $cart->getCartItems($userId, $sessionId);
             </div>
             <p class="text-muted ms-3">Trong đó VAT (10%): <?php echo number_format($vat, 0, ',', '.'); ?> đ</p>
         </div>
-        <a href="?act=checkout" class="btn btn-info w-100 mt-3 text-white">Thanh Toán</a>
+        <a href="?act=pay" class="btn btn-info w-100 mt-3 text-white">Thanh Toán</a>
     </div>
 </div>
 <script>
@@ -142,8 +142,6 @@ $cart_item = $cart->getCartItems($userId, $sessionId);
                 updateTotals();
             });
         });
-
-        // Initialize totals on load
         updateTotals();
     });
 </script>

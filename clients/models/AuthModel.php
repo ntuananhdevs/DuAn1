@@ -6,10 +6,10 @@ class AuthModel {
         $this->conn = connectDB();
     }
 
-    public function register($user_name, $fullname, $email, $password) {
+    public function register($user_name, $fullname, $email, $password, $phone_number) {
         $hashedPassword = $password;
-        $stmt = $this->conn->prepare("INSERT INTO users (user_name, fullname, email, password) VALUES (?, ?, ?, ?)");
-        return $stmt->execute([$user_name, $fullname, $email, $hashedPassword]);
+        $stmt = $this->conn->prepare("INSERT INTO users (user_name, fullname, email, password, phone_number) VALUES (?, ?, ?, ?, ?)");
+        return $stmt->execute([$user_name, $fullname, $email, $hashedPassword, $phone_number]);
     }
 
     public function login($email, $password) {
