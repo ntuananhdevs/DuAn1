@@ -157,26 +157,28 @@ class products {
     }
     public function getCartItems($userId = null, $sessionId = null) {
         $sql = "SELECT 
-                    ci.id AS cart_item_id,
-                    p.product_name,
-                    pv.color,
-                    pv.ram,
-                    pv.storage,
-                    ci.quantity,
-                    ci.price,
-                    vi.img
-                FROM 
-                    carts c
-                JOIN 
-                    cart_items ci ON c.id = ci.cart_id
-                JOIN 
-                    product_variants pv ON ci.product_id = pv.id
-                JOIN 
-                    products p ON pv.product_id = p.id
-                LEFT JOIN 
-                    variants_img vi ON pv.id = vi.variant_id
-                WHERE 
-                    (c.user_id = :user OR c.session_id = :session_id)
+    ci.id AS cart_item_id,
+    p.product_name,
+    pv.color,
+    pv.ram,
+    pv.storage,
+    ci.quantity,
+    ci.price,
+    vi.img,
+    SUM(ci.quantity) OVER(PARTITION BY ci.cart_id) AS total_quantity
+FROM 
+    carts c
+JOIN 
+    cart_items ci ON c.id = ci.cart_id
+JOIN 
+    product_variants pv ON ci.product_id = pv.id
+JOIN 
+    products p ON pv.product_id = p.id
+LEFT JOIN 
+    variants_img vi ON pv.id = vi.variant_id
+WHERE 
+    (c.user_id = :user OR c.session_id = :session_id)
+
                 ";
                     
         $stmt = $this->conn->prepare($sql);

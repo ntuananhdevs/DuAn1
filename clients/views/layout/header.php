@@ -60,7 +60,7 @@
                     <a href="#">Hỗ Trợ</a>
                 </div>
                 <div class="icon-nav">
-                    <ion-icon name="search-outline" id="searchIcon"></ion-icon>
+                    <ion-icon name="search-outline" id="searchIcon" style="cursor: pointer;"></ion-icon>
                     <div class="search-overlay" id="searchOverlay">
                         <div class="search-nav">
                             <div class="inputsearch">
@@ -83,16 +83,17 @@
                     </div>
 
                     <div class="cart-container">
-                        <ion-icon name="cart-outline" id="CartIcon"></ion-icon>
-                        <?php if (count($cart_item) > 0): ?>
+                        <ion-icon name="cart-outline" id="CartIcon" style="cursor: pointer;"></ion-icon>
+                        <?php if ($cart_item[0]['total_quantity']  > 0): ?>
                             <span class="cart-badge">
                                 <div class="cart-badge-content">
-                                    <?php echo count($cart_item); ?>
+                                    <?php echo $cart_item[0]['total_quantity'] ; ?>
                                 </div>
                             </span>
                         <?php endif; ?>
                         <div class="drop-down-cart" id="CartDropdown" style="border-radius: 4px;">
-                            <p class="fw-bold"><?php echo count($cart_item); ?> items in cart</p>
+                          <p class="fw-bold"><?php echo $cart_item[0]['total_quantity'] ?? 0; ?> items in cart</p>
+
                             <div class="cart-items" style="max-height: 200px; overflow-y: auto; position: relative; scrollbar-width: none; -ms-overflow-style: none;">
                                 <?php foreach ($cart_item as $item): ?>
                                     <div class="cart-item d-flex gap-3 mt-3">
