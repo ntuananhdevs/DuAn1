@@ -110,7 +110,7 @@
       
                         <div class="login__box">
                            <input type="text" name="fullname" id="surnames" required placeholder=" " class="login__input">
-                           <label for="surnames" class="login__label">Surnames</label>
+                           <label for="surnames" class="login__label">Fullname</label>
       
                            <i class="ri-id-card-fill login__icon"></i>
                         </div>
@@ -119,6 +119,13 @@
                      <div class="login__box">
                         <input type="email" name="email" id="emailCreate" required placeholder=" " class="login__input">
                         <label for="emailCreate" class="login__label">Email</label>
+   
+                        <i class="ri-mail-fill login__icon"></i>
+                     </div>
+
+                     <div class="login__box">
+                        <input type="text" name="phone_number" id="phone_number" required placeholder=" " class="login__input">
+                        <label for="phone_number" class="login__label">SDT</label>
    
                         <i class="ri-mail-fill login__icon"></i>
                      </div>
