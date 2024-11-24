@@ -40,4 +40,55 @@ class ProductsContronller {
             $cart_item = $this->products->getCartItems($userId, $sessionId);
             return $cart_item;
     }
+    public function getComments($product_id)
+    {
+        if (!$product_id) {
+            echo json_encode(['success' => false, 'message' => 'Invalid product ID.']);
+            return;
+        }
+
+        $comments = $this->comment->get_comments_by_product($product_id);
+
+        if ($comments) {
+            echo json_encode(['success' => true, 'comments' => $comments]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'No comments found for this product.']);
+        }
+    }
+    public function addReview($request)
+    {
+        // Extract and sanitize inputs
+        $product_id = isset($request['product_id']) ? (int)$request['product_id'] : null;
+        $user_id = isset($request['user_id']) ? (int)$request['user_id'] : null;
+        $content = isset($request['content']) ? trim($request['content']) : '';
+        $rating = isset($request['rating']) ? (int)$request['rating'] : null;
+    
+        // Validate inputs
+        if (!$product_id || !$user_id) {
+            echo json_encode(['success' => false, 'message' => 'Invalid product or user ID.']);
+            return;
+        }
+    
+        if (strlen($content) < 3) {
+            echo json_encode(['success' => false, 'message' => 'Content must be at least 15 characters long.']);
+            return;
+        }
+    
+        if ($rating !== null && ($rating < 1 || $rating > 5)) {
+            echo json_encode(['success' => false, 'message' => 'Rating must be between 1 and 5.']);
+            return;
+        }
+    
+
+        $success = $this->comment->add_comment($product_id, $user_id, $content, $rating);
+    
+        // Respond with JSON
+        if ($success) {
+            echo json_encode(['success' => true, 'message' => 'Review added successfully.']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to add review. Please try again later.']);
+        }
+    }
+    
 }
+

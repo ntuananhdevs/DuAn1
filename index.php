@@ -39,6 +39,7 @@
         'phone' => 'Phones',
         'result' => 'Search Results',
         'add_comment' => 'Add Comment',
+        'add_review' => 'Add Review',
         default => 'Home',
     };
 
@@ -57,7 +58,7 @@
             'add_to_cart' => $products->addToCart(),
             'shoppingcart' => $shoppingCart->view_shoppingCart(),
             'pay' => $pay->view_pay(),
-
+            'add_review' => $products->addReview($_POST),
             'result' => $result->view_result(),
 
             default => $home->view_home(),

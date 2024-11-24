@@ -275,7 +275,7 @@
                     </div>
                     <hr>
                     <div class="comments text-center">
-                        <?php if (!isset($_SESSION['user'])): ?>
+                        <?php if (isset($_SESSION['user'])): ?>
                             <!-- Hiển thị thông báo yêu cầu đăng nhập -->
                             <div class="comments text-center">
                                 <p>Bạn cần đăng nhập để đánh giá sản phẩm này.</p>
@@ -377,230 +377,296 @@
             </div>
         </div>
     </div>
-   
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <div id="review-form" class="review-form">
+        <form action="?act=add_review" method="post">
+            <h2>Đánh giá & nhận xét</h2>
+            <input type="hidden" name="product_id" value="1"> <!-- Example Product ID -->
 
-<script>
-    function selectVariant(element) {
-        const options = document.querySelectorAll('#variant-container .option');
+            <!-- Hidden field for the user ID -->
+            <input type="hidden" name="user_id" value="2"> <!-- Example User ID -->
 
-        // Xóa lớp "selected" khỏi tất cả các lựa chọn
-        options.forEach(option => option.classList.remove('selected'));
+            <div class="section-title">Đánh giá chung</div>
+            <!-- <div class="stars overall-rating">
+                <input type="hidden" name="overall_rating" id="rating" value="0">
+                <i class="fa fa-star" data-value="1"></i>
+                <i class="fa fa-star" data-value="2"></i>
+                <i class="fa fa-star" data-value="3"></i>
+                <i class="fa fa-star" data-value="4"></i>
+                <i class="fa fa-star" data-value="5"></i>
+            </div> -->
 
-        // Thêm lớp "selected" vào lựa chọn được chọn
-        element.classList.add('selected');
+            <textarea name="content" placeholder="Xin mời chia sẻ một số cảm nhận về sản phẩm (nhập tối thiểu 15 kí tự)"></textarea>
 
-        // Lấy ID, giá, discount_value và discount_type của biến thể được chọn
-        const selectedVariantId = element.getAttribute('data-id');
-        const price = parseInt(element.getAttribute('data-price')); // Giá gốc
-        const discountValue = parseInt(element.getAttribute('data-discount-value')); // Giá trị giảm
-        const discountType = element.getAttribute('data-discount-type'); // Loại giảm giá (percentage hoặc amount)
+            <button class="submit-btn" type="submit">Gửi đánh giá</button>
+        </form>
 
-        // Tính toán giá sau khi giảm (nếu có)
-        let finalPrice = price;
-        let discountAmount = 0;
-        let discountText = ''; // Text sẽ hiển thị giảm giá
+    </div>
 
-        if (discountValue > 0) {
-            if (discountType === 'percentage') {
-                // Giảm theo tỷ lệ phần trăm
-                discountAmount = price * discountValue / 100;
-                finalPrice = price - discountAmount;
-                discountText = `Sale ${discountValue}%`;
-            } else if (discountType === 'amount') {
-                // Giảm theo số tiền
-                discountAmount = discountValue;
-                finalPrice = price - discountAmount;
-                discountText = `Sale ${discountAmount.toLocaleString()} VND`;
-            }
-        }
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
-        // Cập nhật giá hiển thị trên giao diện
-        const priceElement = document.getElementById('variant-price');
-        const discountElement = document.getElementById('variant-discount');
-        const originalPriceElement = document.getElementById('variant-original-price');
+    <script>
+        function selectVariant(element) {
+            const options = document.querySelectorAll('#variant-container .option');
 
-        if (priceElement) {
-            priceElement.textContent = `${finalPrice.toLocaleString()} VND`;
-        }
+            // Xóa lớp "selected" khỏi tất cả các lựa chọn
+            options.forEach(option => option.classList.remove('selected'));
 
-        if (originalPriceElement) {
-            originalPriceElement.textContent = `${price.toLocaleString()} VND`;
-            originalPriceElement.style.textDecoration = 'line-through'; // Để giá gốc có gạch ngang
-        }
+            // Thêm lớp "selected" vào lựa chọn được chọn
+            element.classList.add('selected');
 
-        if (discountElement) {
-            discountElement.textContent = discountText; // Hiển thị phần trăm hoặc số tiền giảm
-        }
+            // Lấy ID, giá, discount_value và discount_type của biến thể được chọn
+            const selectedVariantId = element.getAttribute('data-id');
+            const price = parseInt(element.getAttribute('data-price')); // Giá gốc
+            const discountValue = parseInt(element.getAttribute('data-discount-value')); // Giá trị giảm
+            const discountType = element.getAttribute('data-discount-type'); // Loại giảm giá (percentage hoặc amount)
 
-        // Cập nhật href của thẻ <a>
-        const buyNowLink = document.getElementById('buy-now-link');
-        if (buyNowLink) {
-            const newHref = `?act=pay&id=${selectedVariantId}`;
-            buyNowLink.setAttribute('href', newHref);
-        }
+            // Tính toán giá sau khi giảm (nếu có)
+            let finalPrice = price;
+            let discountAmount = 0;
+            let discountText = ''; // Text sẽ hiển thị giảm giá
 
-        // Update form inputs with selected variant details
-        document.getElementById('selected-variant-id').value = selectedVariantId;
-        document.getElementById('selected-variant-price').value = finalPrice;
-    }
-
-
-
-    let selectedVariantId = null; // Lưu id của biến thể được chọn
-
-    function filterVariants(element) {
-        const selectedColor = element.getAttribute('data-color'); // Lấy màu sắc được chọn
-        const variants = document.querySelectorAll('#variant-container .option'); // Tất cả các biến thể
-        const colorOptions = document.querySelectorAll('.option-color'); // Tất cả các màu sắc
-
-        // Xóa lớp "selected" khỏi tất cả các màu sắc
-        colorOptions.forEach(option => {
-            option.classList.remove('selected');
-        });
-
-        // Thêm lớp "selected" vào màu sắc được chọn
-        element.classList.add('selected');
-
-        // Ẩn tất cả các biến thể
-        variants.forEach(variant => {
-            variant.style.display = 'none';
-            variant.classList.remove('selected'); // Xóa selected từ tất cả variants
-        });
-
-        // Hiển thị các biến thể phù hợp và chọn biến thể đầu tiên
-        let firstMatchingVariant = null;
-        variants.forEach(variant => {
-            if (variant.getAttribute('data-color') === selectedColor) {
-                variant.style.display = 'block'; // Hiện biến thể phù hợp
-                if (!firstMatchingVariant) {
-                    firstMatchingVariant = variant;
+            if (discountValue > 0) {
+                if (discountType === 'percentage') {
+                    // Giảm theo tỷ lệ phần trăm
+                    discountAmount = price * discountValue / 100;
+                    finalPrice = price - discountAmount;
+                    discountText = `Sale ${discountValue}%`;
+                } else if (discountType === 'amount') {
+                    // Giảm theo số tiền
+                    discountAmount = discountValue;
+                    finalPrice = price - discountAmount;
+                    discountText = `Sale ${discountAmount.toLocaleString()} VND`;
                 }
             }
-        });
 
-        // Tự động chọn biến thể đầu tiên của màu đã chọn
-        if (firstMatchingVariant) {
-            selectVariant(firstMatchingVariant);
-        }
-    }
+            // Cập nhật giá hiển thị trên giao diện
+            const priceElement = document.getElementById('variant-price');
+            const discountElement = document.getElementById('variant-discount');
+            const originalPriceElement = document.getElementById('variant-original-price');
 
-
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Thumbnail Slider
-        var thumbnailSlider = new Swiper('.thumbnail-slider', {
-            spaceBetween: 2,
-            slidesPerView: 4,
-            watchSlidesProgress: true,
-        });
-
-        // Main Image Slider
-        var mainSlider = new Swiper('.main-slider', {
-            spaceBetween: 2,
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            thumbs: {
-                swiper: thumbnailSlider,
-            },
-        });
-
-        function getCurrentColor() {
-            return mainSlider.slides[mainSlider.activeIndex].getAttribute('data-color');
-        }
-
-        // Hàm chuyển đến slide cùng màu tiếp theo
-        function goToNextSameColorSlide() {
-            const currentColor = getCurrentColor();
-            let nextIndex = mainSlider.activeIndex + 1;
-
-            while (nextIndex < mainSlider.slides.length) {
-                const nextColor = mainSlider.slides[nextIndex].getAttribute('data-color');
-                if (nextColor === currentColor) {
-                    mainSlider.slideTo(nextIndex);
-                    break;
-                }
-                nextIndex++;
+            if (priceElement) {
+                priceElement.textContent = `${finalPrice.toLocaleString()} VND`;
             }
-        }
 
-        // Hàm chuyển đến slide cùng màu trước đó
-        function goToPrevSameColorSlide() {
-            const currentColor = getCurrentColor();
-            let prevIndex = mainSlider.activeIndex - 1;
-
-            while (prevIndex >= 0) {
-                const prevColor = mainSlider.slides[prevIndex].getAttribute('data-color');
-                if (prevColor === currentColor) {
-                    mainSlider.slideTo(prevIndex);
-                    break;
-                }
-                prevIndex--;
+            if (originalPriceElement) {
+                originalPriceElement.textContent = `${price.toLocaleString()} VND`;
+                originalPriceElement.style.textDecoration = 'line-through'; // Để giá gốc có gạch ngang
             }
+
+            if (discountElement) {
+                discountElement.textContent = discountText; // Hiển thị phần trăm hoặc số tiền giảm
+            }
+
+            // Cập nhật href của thẻ <a>
+            const buyNowLink = document.getElementById('buy-now-link');
+            if (buyNowLink) {
+                const newHref = `?act=pay&id=${selectedVariantId}`;
+                buyNowLink.setAttribute('href', newHref);
+            }
+
+            // Update form inputs with selected variant details
+            document.getElementById('selected-variant-id').value = selectedVariantId;
+            document.getElementById('selected-variant-price').value = finalPrice;
         }
 
-        // Gắn sự kiện cho các nút Next và Prev
-        document.querySelector('.swiper-button-next').addEventListener('click', function(event) {
-            event.preventDefault();
-            goToNextSameColorSlide();
-        });
 
-        document.querySelector('.swiper-button-prev').addEventListener('click', function(event) {
-            event.preventDefault();
-            goToPrevSameColorSlide();
-        });
 
-        // Thêm class cho ảnh thumbnail khi được chọn
-        mainSlider.on('slideChange', function() {
-            const currentColor = getCurrentColor();
-            document.querySelectorAll('.thumbnail').forEach((thumb, index) => {
-                const thumbColor = thumb.parentElement.getAttribute('data-color');
-                if (thumbColor === currentColor && index === mainSlider.activeIndex) {
-                    thumb.style.border = '2px solid #007bff';
-                } else {
-                    thumb.style.border = '1px solid #d1d5db';
+        let selectedVariantId = null; // Lưu id của biến thể được chọn
+
+        function filterVariants(element) {
+            const selectedColor = element.getAttribute('data-color'); // Lấy màu sắc được chọn
+            const variants = document.querySelectorAll('#variant-container .option'); // Tất cả các biến thể
+            const colorOptions = document.querySelectorAll('.option-color'); // Tất cả các màu sắc
+
+            // Xóa lớp "selected" khỏi tất cả các màu sắc
+            colorOptions.forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            // Thêm lớp "selected" vào màu sắc được chọn
+            element.classList.add('selected');
+
+            // Ẩn tất cả các biến thể
+            variants.forEach(variant => {
+                variant.style.display = 'none';
+                variant.classList.remove('selected'); // Xóa selected từ tất cả variants
+            });
+
+            // Hiển thị các biến thể phù hợp và chọn biến thể đầu tiên
+            let firstMatchingVariant = null;
+            variants.forEach(variant => {
+                if (variant.getAttribute('data-color') === selectedColor) {
+                    variant.style.display = 'block'; // Hiện biến thể phù hợp
+                    if (!firstMatchingVariant) {
+                        firstMatchingVariant = variant;
+                    }
                 }
             });
+
+            // Tự động chọn biến thể đầu tiên của màu đã chọn
+            if (firstMatchingVariant) {
+                selectVariant(firstMatchingVariant);
+            }
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Thumbnail Slider
+            var thumbnailSlider = new Swiper('.thumbnail-slider', {
+                spaceBetween: 2,
+                slidesPerView: 4,
+                watchSlidesProgress: true,
+            });
+
+            // Main Image Slider
+            var mainSlider = new Swiper('.main-slider', {
+                spaceBetween: 2,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                thumbs: {
+                    swiper: thumbnailSlider,
+                },
+            });
+
+            function getCurrentColor() {
+                return mainSlider.slides[mainSlider.activeIndex].getAttribute('data-color');
+            }
+
+            // Hàm chuyển đến slide cùng màu tiếp theo
+            function goToNextSameColorSlide() {
+                const currentColor = getCurrentColor();
+                let nextIndex = mainSlider.activeIndex + 1;
+
+                while (nextIndex < mainSlider.slides.length) {
+                    const nextColor = mainSlider.slides[nextIndex].getAttribute('data-color');
+                    if (nextColor === currentColor) {
+                        mainSlider.slideTo(nextIndex);
+                        break;
+                    }
+                    nextIndex++;
+                }
+            }
+
+            // Hàm chuyển đến slide cùng màu trước đó
+            function goToPrevSameColorSlide() {
+                const currentColor = getCurrentColor();
+                let prevIndex = mainSlider.activeIndex - 1;
+
+                while (prevIndex >= 0) {
+                    const prevColor = mainSlider.slides[prevIndex].getAttribute('data-color');
+                    if (prevColor === currentColor) {
+                        mainSlider.slideTo(prevIndex);
+                        break;
+                    }
+                    prevIndex--;
+                }
+            }
+
+            // Gắn sự kiện cho các nút Next và Prev
+            document.querySelector('.swiper-button-next').addEventListener('click', function(event) {
+                event.preventDefault();
+                goToNextSameColorSlide();
+            });
+
+            document.querySelector('.swiper-button-prev').addEventListener('click', function(event) {
+                event.preventDefault();
+                goToPrevSameColorSlide();
+            });
+
+            // Thêm class cho ảnh thumbnail khi được chọn
+            mainSlider.on('slideChange', function() {
+                const currentColor = getCurrentColor();
+                document.querySelectorAll('.thumbnail').forEach((thumb, index) => {
+                    const thumbColor = thumb.parentElement.getAttribute('data-color');
+                    if (thumbColor === currentColor && index === mainSlider.activeIndex) {
+                        thumb.style.border = '2px solid #007bff';
+                    } else {
+                        thumb.style.border = '1px solid #d1d5db';
+                    }
+                });
+            });
+
+            // Tự động chọn màu đầu tiên
+            const firstColorOption = document.querySelector('.option-color');
+            if (firstColorOption) {
+                filterVariants(firstColorOption);
+            }
+
+            // Tự động chọn RAM/dung lượng đầu tiên
+            const firstVariantOption = document.querySelector('#variant-container .option');
+            if (firstVariantOption) {
+                selectVariant(firstVariantOption);
+            }
         });
 
-        // Tự động chọn màu đầu tiên
-        const firstColorOption = document.querySelector('.option-color');
-        if (firstColorOption) {
-            filterVariants(firstColorOption);
+
+        // Hiển thị form đánh giá khi nhấn nút
+        function showReviewForm() {
+            const reviewForm = document.getElementById('review-form');
+            reviewForm.style.display = 'block'; // Hiển thị form
         }
 
-        // Tự động chọn RAM/dung lượng đầu tiên
-        const firstVariantOption = document.querySelector('#variant-container .option');
-        if (firstVariantOption) {
-            selectVariant(firstVariantOption);
+        // Ẩn form đánh giá khi nhấn nút đóng
+        function closeReviewForm() {
+            const reviewForm = document.getElementById('review-form');
+            reviewForm.style.display = 'none'; // Ẩn form
         }
-    });
 
+        // Ẩn form đánh giá nếu người dùng click bên ngoài form
+        window.onclick = function(event) {
+            const reviewForm = document.getElementById('review-form');
+            if (event.target === reviewForm) {
+                reviewForm.style.display = 'none';
+            }
+        };
 
-    function showLoginModal() {
-        const modal = document.getElementById('login-modal');
-        modal.style.display = 'block';
-    }
+        // Hàm xử lý chọn sao
+        function setupStarRatings() {
+            // Tìm tất cả các khối đánh giá sao
+            document.querySelectorAll('.stars').forEach(starContainer => {
+                const stars = starContainer.querySelectorAll('i'); // Lấy tất cả các sao trong container
 
-    // Show the review form
-    function showReviewForm() {
-        const reviewForm = document.getElementById('review-form');
-        reviewForm.style.display = 'block';
-    }
+                stars.forEach((star, index) => {
+                    // Sự kiện click để chọn sao
+                    star.addEventListener('click', () => {
+                        // Xóa trạng thái đã chọn của tất cả các sao
+                        stars.forEach(s => s.classList.remove('selected'));
 
-    // Close the login modal
-    function closeModal() {
-        const modal = document.getElementById('login-modal');
-        modal.style.display = 'none';
-    }
+                        // Đánh dấu tất cả các sao từ đầu đến sao được chọn
+                        for (let i = 0; i <= index; i++) {
+                            stars[i].classList.add('selected');
+                        }
 
-    // Close modal if clicked outside of modal content
-    window.onclick = function(event) {
-        const modal = document.getElementById('login-modal');
-        if (event.target === modal) {
-            modal.style.display = 'none';
+                        // Lưu giá trị sao đã chọn vào thuộc tính data-rating của container
+                        const ratingValue = index + 1;
+                        starContainer.dataset.rating = ratingValue;
+
+                        // In giá trị ra console (hoặc xử lý logic khác)
+                        console.log(`Đánh giá: ${ratingValue} sao cho phần ${starContainer.classList}`);
+                    });
+
+                    // Hiệu ứng hover để làm nổi bật sao
+                    star.addEventListener('mouseover', () => {
+                        stars.forEach((s, i) => {
+                            if (i <= index) {
+                                s.classList.add('hover');
+                            } else {
+                                s.classList.remove('hover');
+                            }
+                        });
+                    });
+
+                    // Xóa hiệu ứng hover khi chuột rời đi
+                    starContainer.addEventListener('mouseleave', () => {
+                        stars.forEach(s => s.classList.remove('hover'));
+                    });
+                });
+            });
         }
-    };
-</script>
+
+        // Khởi chạy sau khi DOM được tải
+        document.addEventListener('DOMContentLoaded', setupStarRatings);
+    </script>
