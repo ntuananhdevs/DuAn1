@@ -41,12 +41,17 @@
                      <label for="email" class="login__label">Email</label>
                      <i class="ri-mail-fill login__icon"></i>
                   </div>
+                  <div id="emailError" class="error-message" style="color: red;">
+                     <?php echo $emailError ?? ''; ?>
+                  </div>
 
                   <div class="login__box">
                      <input type="password" name="password" id="password" placeholder=" " class="login__input">
                      <label for="password" class="login__label">Password</label>
                      <i class="ri-eye-off-fill login__icon login__password" id="loginPassword"></i>
-
+                  </div>
+                  <div id="passwordError" class="error-message" style="color: red;">
+                     <?php echo $passwordError ?? ''; ?>
                   </div>
                </div>
 
@@ -90,14 +95,18 @@
                         <input type="text" name="user_name" id="names" placeholder=" " class="login__input">
                         <label for="names" class="login__label">Names</label>
                         <i class="ri-id-card-fill login__icon"></i>
-
+                        <div id="namesError" class="error-message" style="color: red;">
+                           <?php echo $namesError ?? ''; ?>
+                        </div>
                      </div>
 
                      <div class="login__box">
                         <input type="text" name="fullname" id="surnames" placeholder=" " class="login__input">
                         <label for="surnames" class="login__label">Fullname</label>
-                        <i class="ri-id-card-fill login__icon"></i>
-
+                        <i class="ri-id-card-fill login__icon"></i>  
+                     </div>
+                     <div id="surnamesError" class="error-message" style="color: red;">
+                        <?php echo $surnamesError ?? ''; ?>
                      </div>
                   </div>
 
@@ -105,21 +114,27 @@
                      <input type="email" name="email" id="emailCreate" placeholder=" " class="login__input">
                      <label for="emailCreate" class="login__label">Email</label>
                      <i class="ri-mail-fill login__icon"></i>
-
+                  </div>
+                  <div id="emailCreateError" class="error-message" style="color: red;">
+                     <?php echo $emailCreateError ?? ''; ?>
                   </div>
 
                   <div class="login__box">
                      <input type="text" name="phone_number" id="phone_number" placeholder=" " class="login__input">
                      <label for="phone_number" class="login__label">SDT</label>
                      <i class="ri-mail-fill login__icon"></i>
-
+                  </div>
+                  <div id="phone_numberError" class="error-message" style="color: red;">
+                     <?php echo $phone_numberError ?? ''; ?>
                   </div>
 
                   <div class="login__box">
                      <input type="password" name="password" id="passwordCreate" placeholder=" " class="login__input">
                      <label for="passwordCreate" class="login__label">Password</label>
                      <i class="ri-eye-off-fill login__icon login__password" id="loginPasswordCreate"></i>
-
+                  </div>
+                  <div id="passwordCreateError" class="error-message" style="color: red;">
+                     <?php echo $passwordCreateError ?? ''; ?>
                   </div>
                </div>
 
@@ -133,85 +148,6 @@
          </div>
       </div>
    </div>
-   <script>
-      function checkValidate(formId) {
-         const form = document.getElementById(formId);
-         const errors = [];
-
-         // Lấy các trường từ form
-         const email = form.querySelector('input[name="email"]')?.value.trim();
-         const password = form.querySelector('input[name="password"]')?.value.trim();
-         const userName = form.querySelector('input[name="user_name"]')?.value.trim();
-         const fullName = form.querySelector('input[name="fullname"]')?.value.trim();
-         const phoneNumber = form.querySelector('input[name="phone_number"]')?.value.trim();
-
-         // Kiểm tra cho form đăng nhập
-         if (formId === 'loginForm') {
-            if (!email || !email.match(/^\S+@\S+\.\S+$/)) {
-               errors.push('Email không hợp lệ.');
-            }
-            if (!password || password.length < 6) {
-               errors.push('Mật khẩu phải có ít nhất 6 ký tự.');
-            }
-         }
-
-         // Kiểm tra cho form đăng ký
-         if (formId === 'resigers11') {
-            if (!userName || userName.length < 3) {
-               errors.push('Tên người dùng phải có ít nhất 3 ký tự.');
-            }
-            if (!fullName || fullName.length === 0) {
-               errors.push('Vui lòng nhập họ và tên.');
-            }
-            if (!email || !email.match(/^\S+@\S+\.\S+$/)) {
-               errors.push('Email không hợp lệ.');
-            }
-            if (!phoneNumber || !phoneNumber.match(/^[0-9]{10}$/)) {
-               errors.push('Số điện thoại không hợp lệ. Số điện thoại phải có 10 chữ số.');
-            }
-            if (!password || password.length < 6) {
-               errors.push('Mật khẩu phải có ít nhất 6 ký tự.');
-            }
-         }
-
-         // Hiển thị lỗi hoặc trả về true nếu không có lỗi
-         if (errors.length > 0) {
-            showErrors(errors);
-            return false;
-         }
-
-         return true;
-      }
-
-      function showErrors(errors) {
-         const messagePopup = document.getElementById('message-popup');
-         messagePopup.innerHTML = errors.map(error => `<p>${error}</p>`).join('');
-         messagePopup.className = 'message-popup error';
-         messagePopup.style.display = 'block';
-
-         // Ẩn popup sau 3 giây
-         setTimeout(() => {
-            messagePopup.style.animation = 'slideOut 0.5s ease-in-out';
-            setTimeout(() => {
-               messagePopup.style.display = 'none';
-               messagePopup.style.animation = '';
-            }, 500);
-         }, 3000);
-      }
-
-      // Gắn sự kiện cho từng form
-      document.getElementById('resigers11').addEventListener('submit', (e) => {
-         if (!checkValidate('resigers11')) {
-            e.preventDefault();
-         }
-      });
-
-      document.getElementById('loginForm').addEventListener('submit', (e) => {
-         if (!checkValidate('loginForm')) {
-            e.preventDefault();
-         }
-      });
-   </script>
    <script src="./assets/js/loginclient.js"></script>
 </body>
 
