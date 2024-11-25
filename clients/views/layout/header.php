@@ -84,10 +84,10 @@
 
                     <div class="cart-container">
                         <ion-icon name="cart-outline" id="CartIcon" style="cursor: pointer;"></ion-icon>
-                        <?php if ($cart_item[0]['total_quantity']  > 0): ?>
+                        <?php if (!empty($cart_item) && $cart_item[0]['total_quantity'] > 0): ?>
                             <span class="cart-badge">
                                 <div class="cart-badge-content">
-                                    <?php echo $cart_item[0]['total_quantity'] ; ?>
+                                    <?php echo $cart_item[0]['total_quantity']; ?>
                                 </div>
                             </span>
                         <?php endif; ?>
