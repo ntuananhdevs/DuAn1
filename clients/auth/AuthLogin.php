@@ -133,14 +133,63 @@
          </div>
       </div>
    </div>
-   <script>
-      function showMessage(message, type = 'error') {
+   <!-- <script>
+      function checkValidate(formId) {
+         const form = document.getElementById(formId);
+         const errors = [];
+
+         // Lấy các trường từ form
+         const email = form.querySelector('input[name="email"]')?.value.trim();
+         const password = form.querySelector('input[name="password"]')?.value.trim();
+         const userName = form.querySelector('input[name="user_name"]')?.value.trim();
+         const fullName = form.querySelector('input[name="fullname"]')?.value.trim();
+         const phoneNumber = form.querySelector('input[name="phone_number"]')?.value.trim();
+
+         // Kiểm tra cho form đăng nhập
+         if (formId === 'loginForm') {
+            if (!email || !email.match(/^\S+@\S+\.\S+$/)) {
+               errors.push('Email không hợp lệ.');
+            }
+            if (!password || password.length < 6) {
+               errors.push('Mật khẩu phải có ít nhất 6 ký tự.');
+            }
+         }
+
+         // Kiểm tra cho form đăng ký
+         if (formId === 'resigers11') {
+            if (!userName || userName.length < 3) {
+               errors.push('Tên người dùng phải có ít nhất 3 ký tự.');
+            }
+            if (!fullName || fullName.length === 0) {
+               errors.push('Vui lòng nhập họ và tên.');
+            }
+            if (!email || !email.match(/^\S+@\S+\.\S+$/)) {
+               errors.push('Email không hợp lệ.');
+            }
+            if (!phoneNumber || !phoneNumber.match(/^[0-9]{10}$/)) {
+               errors.push('Số điện thoại không hợp lệ. Số điện thoại phải có 10 chữ số.');
+            }
+            if (!password || password.length < 6) {
+               errors.push('Mật khẩu phải có ít nhất 6 ký tự.');
+            }
+         }
+
+         // Hiển thị lỗi hoặc trả về true nếu không có lỗi
+         if (errors.length > 0) {
+            showErrors(errors);
+            return false;
+         }
+
+         return true;
+      }
+
+      function showErrors(errors) {
          const messagePopup = document.getElementById('message-popup');
-         messagePopup.textContent = message;
-         messagePopup.className = `message-popup ${type}`;
+         messagePopup.innerHTML = errors.map(error => `<p>${error}</p>`).join('');
+         messagePopup.className = 'message-popup error';
          messagePopup.style.display = 'block';
 
-         // Tự động ẩn sau 3 giây
+         // Ẩn popup sau 3 giây
          setTimeout(() => {
             messagePopup.style.animation = 'slideOut 0.5s ease-in-out';
             setTimeout(() => {
@@ -150,58 +199,19 @@
          }, 3000);
       }
 
-      // Xử lý form đăng nhập
-      document.getElementById('loginForm').addEventListener('submit', async (e) => {
-         e.preventDefault();
-         const formData = new FormData(e.target);
-
-         try {
-            const response = await fetch('index.php?act=login', {
-               method: 'POST',
-               body: formData
-            });
-            const data = await response.json();
-
-            if (data.status === 'success') {
-               showMessage(data.message, 'success');
-               // Chuyển hướng sau khi đăng nhập thành công
-               setTimeout(() => {
-                  window.location.href = 'index.php';
-               }, 1500);
-            } else {
-               showMessage(data.message);
-            }
-         } catch (error) {
-            showMessage('Có lỗi xảy ra, vui lòng thử lại');
+      // Gắn sự kiện cho từng form
+      document.getElementById('resigers11').addEventListener('submit', (e) => {
+         if (!checkValidate('resigers11')) {
+            e.preventDefault();
          }
       });
 
-      // Xử lý form đăng ký
-      document.getElementById('resigers11').addEventListener('submit', async (e) => {
-         e.preventDefault();
-         const formData = new FormData(e.target);
-
-         try {
-            const response = await fetch('index.php?act=register', {
-               method: 'POST',
-               body: formData
-            });
-            const data = await response.json();
-
-            if (data.status === 'success') {
-               showMessage(data.message, 'success');
-               // Chuyển hướng sau khi đăng ký thành công
-               setTimeout(() => {
-                  window.location.href = 'index.php?act=login';
-               }, 1500);
-            } else {
-               showMessage(data.message);
-            }
-         } catch (error) {
-            showMessage('Có lỗi xảy ra, vui lòng thử lại');
+      document.getElementById('loginForm').addEventListener('submit', (e) => {
+         if (!checkValidate('loginForm')) {
+            e.preventDefault();
          }
       });
-   </script>
+   </script> -->
    <script src="./assets/js/loginclient.js"></script>
 </body>
 

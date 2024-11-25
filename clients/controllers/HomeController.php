@@ -13,6 +13,7 @@
             $banners = $this->homeModel->getBanner();
             $products = $this->homeModel->get_products();
             include './clients/views/home.php';
+            include './clients/views/layout/header.php';
         }
     }
 
