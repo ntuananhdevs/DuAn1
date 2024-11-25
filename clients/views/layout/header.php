@@ -10,7 +10,6 @@
     }
     $cart = new ProductsContronller(new products());
     $cart_item = $cart->getCartItems($userId, $sessionId);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
