@@ -13,7 +13,12 @@
             $banners = $this->homeModel->getBanner();
             $products = $this->homeModel->get_products();
             include './clients/views/home.php';
-            include './clients/views/layout/header.php';
+        }
+        public function view_apple_products($id)
+        {
+            $apple_category_id = $id;
+            $products = $this->homeModel->get_products_by_category($apple_category_id);
+            include './clients/views/apple_products.php';
         }
     }
 

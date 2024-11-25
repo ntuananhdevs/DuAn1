@@ -302,9 +302,9 @@ article {
   border-radius: 8px;
   padding: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   gap: 20px;
   /* Khoảng cách giữa các phần tử */
 }

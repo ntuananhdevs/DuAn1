@@ -9,7 +9,7 @@
 </head>
 
 <body>
-   <div id="message-popup" class="message-popup"></div>
+   <!-- <div id="message-popup" class="message-popup"></div> -->
    <svg class="login__blob" viewBox="0 0 566 840" xmlns="http://www.w3.org/2000/svg">
       <mask id="mask0" mask-type="alpha">
          <path d="M342.407 73.6315C388.53 56.4007 394.378 17.3643 391.538 
@@ -133,7 +133,7 @@
          </div>
       </div>
    </div>
-   <!-- <script>
+   <script>
       function checkValidate(formId) {
          const form = document.getElementById(formId);
          const errors = [];
@@ -211,7 +211,7 @@
             e.preventDefault();
          }
       });
-   </script> -->
+   </script>
    <script src="./assets/js/loginclient.js"></script>
 </body>
 
