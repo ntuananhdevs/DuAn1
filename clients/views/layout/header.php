@@ -255,11 +255,14 @@
             /* For Chrome, Safari, and Opera */
         }
         .cart-badge-content {
-            position: relative;
-            margin-left: -2.5px;
+            position: absolute;
+            left: 6px;
+            margin-left: auto;
             margin-top: -9.5px;
-            font-size: 11px;
+            font-size: 8px;
             padding: 0px;
+            text-align: center;
+            justify-content: space-between;
         }
     </style>
 
