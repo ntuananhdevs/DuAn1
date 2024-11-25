@@ -50,7 +50,6 @@ class AuthController {
                 }
             }
         } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
             exit;
         }
         include './clients/auth/AuthLogin.php';
@@ -87,7 +86,6 @@ class AuthController {
                 }
             }
         } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
             exit;
         }
         include './clients/auth/AuthLogin.php';
