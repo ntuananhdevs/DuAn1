@@ -44,27 +44,33 @@ class Comment
     }
     
     public function addComment(int $productId, int $userId, string $content, int $rating): bool
-{
-    try {
-        $sql = "INSERT INTO comments (product_id, user_id, content, rating) 
-                VALUES (:product_id, :user_id, :content, :rating)";
-        $stmt = $this->conn->prepare($sql);
-
-        $content = trim($content); // Sanitize content
-
-        $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
-        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
-        $stmt->bindParam(':content', $content, PDO::PARAM_STR);
-        $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
-
-        $stmt->execute();
-
-        return true;
-    } catch (PDOException $e) {
-        error_log("PDOException: " . $e->getMessage());
-        return false;
+    {
+        try {
+            // SQL thêm bình luận vào bảng `comments`
+            $sql = "INSERT INTO comments (product_id, user_id, content, rating) 
+                    VALUES (:product_id, :user_id, :content, :rating)";
+            
+            // Chuẩn bị câu lệnh
+            $stmt = $this->conn->prepare($sql);
+            
+            // Xử lý nội dung
+            $content = trim($content);
+    
+            // Bind các tham số
+            $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->bindParam(':content', $content, PDO::PARAM_STR);
+            $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
+    
+            // Thực thi câu lệnh
+            $stmt->execute();
+    
+            return true;
+        } catch (PDOException $e) {
+            // Log lỗi nếu xảy ra lỗi
+            error_log("PDOException: " . $e->getMessage());
+            return false;
+        }
     }
-}
-
-
+    
 }

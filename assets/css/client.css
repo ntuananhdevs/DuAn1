@@ -1283,6 +1283,7 @@ input:hover {
     margin-top: 20px;
     flex: 1;
     border-top: 1px solid #e0e0e0;
+    
   }
   .comment {
     display: flex;
@@ -1579,7 +1580,7 @@ input:hover {
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%;
+    height: 110%;
     overflow: auto;
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
@@ -1599,18 +1600,21 @@ input:hover {
   }
   .close {
     color: #aaa;
-    float: right;
     font-size: 28px;
     font-weight: bold;
     animation: zoomOut 0.5s;
-  }
-  
-  .close:hover,
-  .close:focus {
+    position: absolute; /* Đặt vị trí tương đối với container cha */
+    top: 10px; /* Khoảng cách từ đỉnh */
+    right: 10px; /* Khoảng cách từ bên phải */
+}
+
+.close:hover,
+.close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
-  }
+}
+
   
   .modal-content p {
     font-size: 18px;
