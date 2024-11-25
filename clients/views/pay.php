@@ -188,10 +188,10 @@
                 <div class="row">
                     <div class="col d-flex ">
                         <p style="white-space: nowrap;"><strong class="h3">Tổng</strong> (Bao gồm VAT)</p>
-                    <div class="col mt-1 text-end">
-                        <p class="text-end h5 " style="white-space: nowrap;"><?= number_format($subtotal, 0, ',', '.') ?> VND</p>
+                        <div class="col mt-1 text-end ms-3">
+                            <p class="text-end h5" style="white-space: nowrap; "><?= number_format($subtotal, 0, ',', '.') ?> VND</p>
+                        </div>
                     </div>
-                </div>
                 <div class="row d-flex justify-content-between" style="font-size: 14px; ">
                     <div class="col">
                         <p>trong đó VAT (10%)</p>

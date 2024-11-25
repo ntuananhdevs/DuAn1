@@ -3,11 +3,7 @@
 </head> 
 
 
-<?php
-function removeLeadingDots($filePath) {
-    return preg_replace('/^\.\.\//', '', $filePath);
-}
-?>
+
 
 <?php if (empty($results) || !isset($_GET['search']) || empty( $_GET['search'] ?? '')) :  ?>    
    <img src="https://colorlib.com/wp/wp-content/uploads/sites/2/404-error-template-14.png" alt="" style="width: 100% ; height: 80%;">

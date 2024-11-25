@@ -46,11 +46,12 @@
                 <p class="fw-bold">WinTech</p>
             </div>
             <div class="nav-center">
-                <a href="?act=laptop">Laptop</a>
-                <a href="?act=phone">Thiết bị di động</a>
-                <a href="#">Màn Hình / Máy Bàn</a>
-                <a href="#">Bo Mạch Chủ / Linh Kiện</a>
-                <a href="#">Thiết Bị Mạng / IoT / Servers</a>
+                <a href="?act=laptop">Apple</a>
+                <a href="?act=phone">Samsung</a>
+                <a href="?act=phone">Oppo</a>
+                <a href="#">Xiaomi</a>
+                <a href="#">Gaming Phone</a>
+                <a href="#">Huawei</a>
                 <a href="#">Phụ Kiện</a>
             </div>
             <div class="nav-right">

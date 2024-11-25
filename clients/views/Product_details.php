@@ -170,12 +170,12 @@
             </div>
 
             <!-- Hiển thị giá biến thể đã chọn -->
-            <div class="price_products_variants d-flex justify-content-center align-items-center mt-3">
-                <div class="discount bg-danger w-25 h-100 d-flex justify-content-center align-items-center">
+            <div class=" justify-content-center align-items-center mt-3 ">
+                <!-- <div class="discount bg-danger w-25 h-100 d-flex justify-content-center align-items-center">
                     <p id="variant-discount" style="font-size: 16px;"></p>
-                </div>
-                <div class="price-vi text-center">
-                    <p id="variant-price" style="font-size: 19px; font-weight: bold; color: red;"></p>
+                </div> -->
+                <div class="price_products_variants price-vi text-center text-center">
+                    <p id="variant-price" style="font-size: 19px; font-weight: bold; color: red; border: 2px solid red; width: 200px; border-radius: 5px; text-align: center;"></p>
                     <p id="variant-original-price" style="font-size: 14px; color: #888;"></p>
                 </div>
 
