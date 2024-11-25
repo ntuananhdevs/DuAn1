@@ -8,6 +8,7 @@ class AuthController {
 
     public function register() {
         try {
+            $message = '';
             $namesError = '';
             $surnamesError = '';
             $emailCreateError = '';
@@ -35,7 +36,15 @@ class AuthController {
                     $phone_numberError = "Vui lòng nhập số điện thoại";
                 }
                 if ( empty($surnamesError) && empty($emailCreateError) && empty($phone_numberError) && empty($passwordCreateError)) {
-                    $this->authModel->register($user_name, $fullname, $email, $password, $phone_number);
+                    try {
+                        $this->authModel->register($user_name, $fullname, $email, $password, $phone_number);
+                    } catch (PDOException $e) {
+                        if ($e->getCode() == 23000 && strpos($e->getMessage(), 'Duplicate entry') !== false) {
+                            $message = "Tài khoản này đã được đăng ký trong hệ thống";
+                        } else {
+                            throw $e;
+                        }
+                    }
                 }
             }
             require_once './clients/auth/AuthLogin.php';

@@ -90,6 +90,9 @@
          <div class="login__area">
             <form method="POST" action="index.php?act=register" id="resigers11" class="login__form">
                <div class="login__content grid">
+                  <div id="message" class="error-message" style="color: red;">
+                     <?php echo $message ?? ''; ?>
+                  </div>
                   <div class="login__group grid">
                      <div class="login__box">
                         <input type="text" name="user_name" id="names" placeholder=" " class="login__input">
