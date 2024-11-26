@@ -30,4 +30,58 @@ class PayController{
         }
         require_once './clients/views/pay.php';
     }
+
+    public function add_order(){
+        $fullname = $_POST['fullname'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $address = $_POST['address'];
+        $total_amount = $_POST['total'];
+        $payment_method = $_POST['payment-method'];
+
+        $user = $this->pay->getUserByEmail($email);
+
+        if(!$user){
+            $password = bin2hex(random_bytes(4)); 
+            $userId = $this->pay->createTemporaryUser($fullname, $email, $password);
+        } else {
+            $userId = $user['id'];
+        }
+        $orderId = $this->pay->createOrder($userId, $fullname, $email, $phone, $address, $total_amount, $payment_method);
+
+        // Lưu thông tin sản phẩm vào đơn hàng
+        if (isset($_SESSION['user_id'])) {
+            $userId = $_SESSION['user_id'];
+            $sessionId = null; 
+        } else {
+            $userId = null;
+            $sessionId = session_id();
+        }
+        $cart = new ProductsContronller(new products());
+        $cart_item = $cart->getCartItems($userId, $sessionId);
+        foreach ($cart_item as $item) {
+            $this->pay->createOrderDetail($orderId, $item['variant_id'], $item['quantity'], $item['price']);
+        }
+
+        // Xóa gio hang
+        $this->pay->delete_cart($userId, $sessionId);
+        // Gửi email kích hoạt tài khoản
+        if (!$user) {
+            $this->sendActivationEmail($email, $password);
+        }
+
+        header('Location: ?act=loadbuy');
+    }
+
+    // Phương thức để gửi email kích hoạt tài khoản
+    private function sendActivationEmail($email, $password) {
+        $subject = "Activate Your Account";
+        $message = "Your temporary password is: " . $password . ". Please log in and change your password.";
+        // Gửi email qua hàm mail() hoặc thư viện email
+        mail($email, $subject, $message);
+    }
+    public function loadbuy(){
+        require_once './clients/views/loadbuy.php';
+    }
+
 }

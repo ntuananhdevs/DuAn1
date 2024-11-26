@@ -46,6 +46,7 @@ $cart_item = $cart->getCartItems($userId, $sessionId);
                 <p class="fw-bold fs-5 mb-0" data-unit-price="<?php echo $item['price']; ?>">
                     <?php echo number_format($item['price'] * $item['quantity'], 0, ',', '.'); ?> đ
                 </p>
+                
                 <a href="?act=delete_items&cart_item_id=<?php echo $item['cart_item_id']; ?>" class="text-end text-info fw-550 d-block text-right" style="text-decoration: none;" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">Xóa</a>
             </div>
         </div>

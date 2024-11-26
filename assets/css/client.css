@@ -302,9 +302,9 @@ article {
   border-radius: 8px;
   padding: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   gap: 20px;
   /* Khoảng cách giữa các phần tử */
 }
@@ -993,30 +993,31 @@ input:hover {
   margin-top: 10px;
   padding: 8px 15px;
   background-color: transparent;
-  color: white;
-  border: 1px solid blue;
+  color: rgb(0, 0, 0);
+  border: 2px solid blue;
   text-decoration: none;
   border-radius: 5px;
   transition: background-color 0.3s;
 }
 
 .learn-more:hover {
+  color: white;
   background-color: #0056b3;
 }
 .buy-now {
   display: inline-block;
   margin-top: 10px;
   padding: 8px 15px;
-  background-color: #00438b;
-  color: black;
+  border: 2px solid #007bff;
+  background-color: #007bff;
+  color: rgb(255, 255, 255);
   text-decoration: none;
   border-radius: 5px;
   transition: 0.3s;
 }
 
 .buy-now:hover {
-  background-color: #007bff;
-  color: #fff;
+  background-color: #00438b;
 }
 
 .discount-container {
@@ -1283,6 +1284,7 @@ input:hover {
     margin-top: 20px;
     flex: 1;
     border-top: 1px solid #e0e0e0;
+    
   }
   .comment {
     display: flex;
@@ -1579,7 +1581,7 @@ input:hover {
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%;
+    height: 110%;
     overflow: auto;
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
@@ -1599,18 +1601,21 @@ input:hover {
   }
   .close {
     color: #aaa;
-    float: right;
     font-size: 28px;
     font-weight: bold;
     animation: zoomOut 0.5s;
-  }
-  
-  .close:hover,
-  .close:focus {
+    position: absolute; /* Đặt vị trí tương đối với container cha */
+    top: 10px; /* Khoảng cách từ đỉnh */
+    right: 10px; /* Khoảng cách từ bên phải */
+}
+
+.close:hover,
+.close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
-  }
+}
+
   
   .modal-content p {
     font-size: 18px;
@@ -2108,43 +2113,37 @@ textarea {
 }
 .message-popup {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 15px 25px;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 15px;
   border-radius: 5px;
-  color: #fff;
-  font-size: 14px;
-  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
   display: none;
-  animation: slideIn 0.5s ease-in-out;
-}
-
-.message-popup.success {
-  background-color: #4CAF50;
+  width: 90%;
+  max-width: 400px;
+  text-align: left;
+  font-size: 14px;
 }
 
 .message-popup.error {
-  background-color: #f44336;
+  border: 1px solid #f5c6cb;
 }
 
-@keyframes slideIn {
-  from {
-      transform: translateX(100%);
-      opacity: 0;
-  }
-  to {
-      transform: translateX(0);
-      opacity: 1;
-  }
+.message-popup p {
+  margin: 0 0 5px;
 }
 
 @keyframes slideOut {
   from {
-      transform: translateX(0);
-      opacity: 1;
+     opacity: 1;
   }
   to {
-      transform: translateX(100%);
-      opacity: 0;
+     opacity: 0;
+     transform: translateY(-20px);
   }
 }
+

@@ -170,12 +170,12 @@
             </div>
 
             <!-- Hiển thị giá biến thể đã chọn -->
-            <div class="price_products_variants d-flex justify-content-center align-items-center mt-3">
-                <div class="discount bg-danger w-25 h-100 d-flex justify-content-center align-items-center">
+            <div class=" justify-content-center align-items-center mt-3 ">
+                <!-- <div class="discount bg-danger w-25 h-100 d-flex justify-content-center align-items-center">
                     <p id="variant-discount" style="font-size: 16px;"></p>
-                </div>
-                <div class="price-vi text-center">
-                    <p id="variant-price" style="font-size: 19px; font-weight: bold; color: red;"></p>
+                </div> -->
+                <div class="price_products_variants price-vi text-center text-center">
+                    <p id="variant-price" style="font-size: 19px; font-weight: bold; color: red; border: 2px solid red; width: 200px; border-radius: 5px; text-align: center;"></p>
                     <p id="variant-original-price" style="font-size: 14px; color: #888;"></p>
                 </div>
 
@@ -274,29 +274,58 @@
                             <!-- Hiển thị thông báo yêu cầu đăng nhập -->
                             <p>Bạn cần đăng nhập để đánh giá sản phẩm này.</p>
                             <button class="btn btn-outline-danger" onclick="showLoginModal()">Viết đánh giá</button>
+
+                            <div id="login-modal" class="modal ">
+                                <div class="modal-content">
+                                    <span class="close "><ion-icon name="close"></ion-icon></span>
+                                    <h2>Đăng nhập Wintech</h2>
+
+                                    <div class="login-fb">
+                                        <div class="comment__operate" id="fb-login-btn">
+                                            <i class="comment__operate__icon fab fa-facebook"></i>
+                                            <span>Đăng nhập bằng Facebook</span>
+                                        </div>
+                                    </div>
+                                    <div class="login-gg">
+                                        <div class="comment__operate">
+                                            <i class="comment__operate__icon gg -google"></i>
+                                            <span>Đăng nhập bằng Google</span>
+                                        </div>
+                                    </div>
+                                    <a href="?act=login" class="me-5"><button>Đăng nhập</button></a>
+
+                                    <div class="register">
+                                        <p>Bạn chưa có tài khoản?<a href="?act=register">register</a></p>
+
+                                    </div>
+                                </div>
+                            </div>
                         <?php else: ?>
                             <!-- Hiển thị form viết đánh giá -->
                             <p>Bạn đánh giá sao về sản phẩm này?</p>
                             <button class="btn btn-outline-danger" onclick="toggleReviewForm(true)">Viết đánh giá</button>
 
                             <div id="review-form" class="review-form" style="display: none;">
-                                <form action="?act=add_review" method="post" >
+                                <form id="rating-form" action="?act=add_review" method="post">
                                     <h2>Đánh giá & nhận xét</h2>
                                     <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>"> <!-- Example Product ID -->
-
-                                    <!-- Hidden field for the user ID -->
                                     <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>"> <!-- Example User ID -->
 
                                     <div class="section-title">Đánh giá chung</div>
                                     <div class="stars overall-rating">
-                                            <input type="hidden" name="rating" id="rating" value="0" required>
-                                            <i class="fa fa-star" data-value="1"></i>
-                                            <i class="fa fa-star" data-value="2"></i>
-                                            <i class="fa fa-star" data-value="3"></i>
-                                            <i class="fa fa-star" data-value="4"></i>
-                                            <i class="fa fa-star" data-value="5"></i>
-                                        </div>
-                                    <textarea name="content" placeholder="Xin mời chia sẻ một số cảm nhận về sản phẩm (nhập tối thiểu 15 kí tự)"></textarea>
+                                        <input type="hidden" name="rating" id="rating" value="0" required>
+                                        <i class="fa fa-star" data-value="1"></i>
+                                        <i class="fa fa-star" data-value="2"></i>
+                                        <i class="fa fa-star" data-value="3"></i>
+                                        <i class="fa fa-star" data-value="4"></i>
+                                        <i class="fa fa-star" data-value="5"></i>
+                                    </div>
+
+                                    <!-- Thông báo lỗi -->
+                                    <p id="rating-error" style="color: red; display: none;">Vui lòng chọn số sao để đánh giá!</p>
+
+                                    <textarea name="content" id="review-content" placeholder="Xin mời chia sẻ một số cảm nhận về sản phẩm (nhập tối thiểu 15 kí tự)"></textarea>
+                                    <p id="content-error" style="color: red; display: none;">Bình luận phải có ít nhất 5 ký tự!</p>
 
                                     <button class="submit-btn" type="submit">Gửi đánh giá</button>
                                 </form>
@@ -318,7 +347,7 @@
                                     <div class="name-date">
                                         <div class="header-comment">
                                             <div class="name-user">
-                                            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>"> 
+
                                                 <p><?php echo htmlspecialchars($comment['user_name']); ?></p>
                                             </div>
                                             <div class="date">
@@ -369,31 +398,7 @@
         </div>
 
     </div>
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <span class="close "><ion-icon name="close"></ion-icon></span>
-            <h2>Đăng nhập Wintech</h2>
 
-            <div class="login-fb">
-                <div class="comment__operate" id="fb-login-btn">
-                    <i class="comment__operate__icon fab fa-facebook"></i>
-                    <span>Đăng nhập bằng Facebook</span>
-                </div>
-            </div>
-            <div class="login-gg">
-                <div class="comment__operate">
-                    <i class="comment__operate__icon gg -google"></i>
-                    <span>Đăng nhập bằng Google</span>
-                </div>
-            </div>
-            <a href="?act=login"><button>Đăng nhập</button></a>
-
-            <div class="register">
-                <p>Bạn chưa có tài khoản?<a href="?act=register">register</a></p>
-
-            </div>
-        </div>
-    </div>
 
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -638,6 +643,12 @@
                         const ratingValue = index + 1;
                         starContainer.dataset.rating = ratingValue;
 
+                        // Gán giá trị vào input ẩn trong form (nếu có)
+                        const ratingInput = document.getElementById('rating');
+                        if (ratingInput) {
+                            ratingInput.value = ratingValue;
+                        }
+
                         // In giá trị ra console (hoặc xử lý logic khác)
                         console.log(`Đánh giá: ${ratingValue} sao cho phần ${starContainer.classList}`);
                     });
@@ -659,27 +670,76 @@
                     });
                 });
             });
+
+            // Kiểm tra trước khi gửi biểu mẫu
+            const reviewForm = document.querySelector('#review-form form');
+           
         }
+        document.getElementById('rating-form').addEventListener('submit', function(event) {
+            let isValid = true;
+
+            // Kiểm tra số sao
+            const ratingInput = document.getElementById('rating');
+            const ratingError = document.getElementById('rating-error');
+            if (!ratingInput.value || parseInt(ratingInput.value) === 0) {
+                ratingError.style.display = 'block'; // Hiển thị thông báo lỗi
+                isValid = false;
+            } else {
+                ratingError.style.display = 'none'; // Ẩn thông báo lỗi
+            }
+
+            // Kiểm tra nội dung bình luận
+            const contentInput = document.getElementById('review-content');
+            const contentError = document.getElementById('content-error');
+            if (!contentInput.value || contentInput.value.trim().length < 5) {
+                contentError.style.display = 'block'; // Hiển thị thông báo lỗi
+                isValid = false;
+            } else {
+                contentError.style.display = 'none'; // Ẩn thông báo lỗi
+            }
+
+            // Nếu không hợp lệ, ngăn gửi biểu mẫu
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+
+
         // Hiển thị form đánh giá
-      // Hiển thị hoặc ẩn form đánh giá
-function toggleReviewForm(shouldShow) {
-    const reviewForm = document.getElementById('review-form');
-    reviewForm.style.display = shouldShow ? 'block' : 'none';
-}
+        // Hiển thị hoặc ẩn form đánh giá
+        // Hiển thị modal đăng nhập
+            function showLoginModal() {
+                document.getElementById('login-modal').style.display = 'block';
+            }
 
-// Đóng form khi nhấn nút đóng hoặc nút hủy
-function closeReviewForm() {
-    toggleReviewForm(false);
-}
+            // Đóng modal
+            document.querySelectorAll('.close').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('login-modal').style.display = 'none';
+                    document.getElementById('review-form').style.display = 'none';
+                });
+            });
 
-// Xử lý click bên ngoài form để đóng
-window.addEventListener('click', function(event) {
-    const reviewForm = document.getElementById('review-form');
-    const reviewContent = document.querySelector('.review-content');
-    if (event.target === reviewForm && !reviewContent.contains(event.target)) {
-        closeReviewForm();
-    }
-});
+        // Hiển thị form đánh giá
+        function toggleReviewForm(show) {
+            const form = document.getElementById('review-form');
+            form.style.display = show ? 'block' : 'none';
+        }
+
+        // Xử lý đánh giá sao
+        document.querySelectorAll('.stars .fa-star').forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = this.getAttribute('data-value');
+                document.getElementById('rating').value = rating;
+
+                // Đánh dấu các sao
+                document.querySelectorAll('.stars .fa-star').forEach(s => s.classList.remove('active'));
+                for (let i = 0; i < rating; i++) {
+                    document.querySelectorAll('.stars .fa-star')[i].classList.add('active');
+                }
+            });
+        });
+
 
 
         // Khởi chạy sau khi DOM được tải

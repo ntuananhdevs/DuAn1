@@ -9,6 +9,7 @@
     require_once './clients/controllers/ResultController.php';
     require_once './clients/controllers/PayController.php';
     require_once './clients/controllers/SpCartContronller.php';
+    require_once './clients/controllers/ProfileController.php';
 
 
     #require Model
@@ -19,6 +20,8 @@
     require_once './clients/models/ShoppingCart.php';
     require_once './clients/models/AuthModel.php';
     require_once './clients/models/Comments.php';
+    require_once './clients/models/ProfileModel.php';
+
 
     $home = new HomeController();
     $result = new ResultController();
@@ -26,6 +29,8 @@
     $shoppingCart = new ShoppingCartController();
     $auth = new AuthController();
     $products = new ProductsContronller();
+    $profile = new ProfileController();
+
 
     $act = $_GET['act'] ?? '/';
 
@@ -40,6 +45,8 @@
         'result' => 'Search Results',
         'add_comment' => 'Add Comment',
         'add_review' => 'Add Review',
+        'profile' => 'Profile',
+
         default => 'Home',
     };
 
@@ -59,11 +66,15 @@
             'shoppingcart' => $shoppingCart->view_shoppingCart(),
             'update_cart' => $shoppingCart->updateQuantity(),
             'delete_items' => $shoppingCart->deleteItem($_GET['product_id']),
+            'profile' => $profile->showProfile($_GET['user_id'] ?? null),
 
             'pay' => $pay->view_pay(),
+            'order' => $pay->add_order(),
+            'loadbuy' => $pay->loadbuy(),
             'add_review' => $products->addComment($_POST),
             'result' => $result->view_result(),
 
+            'apple_products' => $home->view_apple_products($_GET['id']),
             default => $home->view_home(),
         };
         include './clients/views/layout/footer.php';
