@@ -376,7 +376,7 @@
                                 method="POST" 
                                 class="like-form d-flex align-items-center">
                                 <input type="hidden" name="comment_id" value="<?php echo $comment['comment_id']; ?>">
-                                <input type="hidden" name="product_id" value="<?php echo $productId; ?>">
+                                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                                 <button 
                                     type="submit" 
                                     name="action" 
@@ -394,7 +394,7 @@
                                 method="POST" 
                                 class="dislike-form d-flex align-items-center ms-3">
                                 <input type="hidden" name="comment_id" value="<?php echo $comment['comment_id']; ?>">
-                                <input type="hidden" name="product_id" value="<?php echo $productId; ?>">
+                                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                                 <button 
                                     type="submit" 
                                     name="action" 
