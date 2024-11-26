@@ -69,6 +69,8 @@
             'profile' => $profile->showProfile($_GET['user_id'] ?? null),
 
             'pay' => $pay->view_pay(),
+            'order' => $pay->add_order(),
+            'loadbuy' => $pay->loadbuy(),
             'add_review' => $products->addComment($_POST),
             'result' => $result->view_result(),
 

@@ -98,12 +98,11 @@
                     </div>
                     <div style="display: flex; justify-content: center;">
                         <button type="button" id="continueToPayment" class="btn text-white"
-                            style="width: 300px; height: 50px; background-color: #00a3e7;">Tiếp Tục
+                            style="width: 300px; height: 50px;">Tiếp Tục
                         </button>
                     </div>
                 </form>
             </div>
-
             <div id="form2" class="mt-5" style="display: none;">
                 <div class="address  border p-3">
                     <div class="col d-flex justify-content-between">
@@ -123,34 +122,41 @@
                     <strong>Các phương thức vận chuyển</strong>
                     <p class="mt-2">Giao hàng 5 - 6 ngày</p>
                 </div>
+                <form action="?act=order" method="POST" id="paymentForm">
+                    <div class="payment border p-3 mt-4">
+                        <h4>2. Phương thức thanh toán</h4>
 
-                <div class="payment border p-3 mt-4">
-                    <h4>2. Phương thức thanh toán</h4>
+                        <div class="qr d-flex align-items-center gap-2" style="cursor: pointer;" onclick="document.getElementById('payment-method-qr').checked = true; validateForm();">
+                            <input type="radio" name="payment-method" id="payment-method-qr" style="width: 18px; height: 18px;" value="ATM">
+                            <img src="./assets/img/qr.png" alt="" style="width: 80px; height: 60px;">
+                            <p class="m-0 fw-550">Thanh toán ngay với thẻ ATM, Internet Banking, QR Code</p>
+                        </div>
 
-                    <div class="qr d-flex align-items-center gap-2" style="cursor: pointer;" onclick="document.getElementById('payment-method-qr').checked = true;">
-                        <input type="radio" name="payment-method" id="payment-method-qr" style="width: 18px; height: 18px;">
-                        <img src="./assets/img/qr.png" alt="" style="width: 80px; height: 60px;">
-                        <p class="m-0 fw-550">Thanh toán ngay với thẻ ATM, Internet Banking, QR Code</p>
+                        <div class="qr d-flex align-items-center gap-2" style="cursor: pointer;" onclick="document.getElementById('payment-method-global').checked = true; validateForm();">
+                            <input type="radio" name="payment-method" id="payment-method-global" style="width: 18px; height: 18px;" value="Global">
+                            <img src="./assets/img/pay_global.png" alt="" style="width: 80px; height: 60px;">
+                            <p class="m-0 fw-550">Thanh toán ngay với thẻ quốc tế</p>
+                        </div>
+
+                        <div class="qr d-flex align-items-center gap-2" style="cursor: pointer;" onclick="document.getElementById('payment-method-installment').checked = true; validateForm();">
+                            <input type="radio" name="payment-method" id="payment-method-installment" style="width: 18px; height: 18px;" value="Installment">
+                            <img src="./assets/img/save.png" alt="" style="width: 80px; height: 60px;">
+                            <p class="m-0 fw-550">Trả góp 0% lãi (có phí chuyển đổi)</p>
+                        </div>
+
+                        <div class="qr d-flex align-items-center gap-3 mt-2" style="cursor: pointer;" onclick="document.getElementById('payment-method-cod').checked = true; validateForm();">
+                            <input type="radio" name="payment-method" id="payment-method-cod" style="width: 18px; height: 18px;" value="COD">
+                            <img src="./assets/img/shipp.png" alt="" style="width: 40px; height: 30px; margin-right: 25px;">
+                            <p class="m-0 fw-550">Thanh toán khi nhận hàng</p>
+                        </div>
                     </div>
 
-                    <div class="qr d-flex align-items-center gap-2" style="cursor: pointer;" onclick="document.getElementById('payment-method-global').checked = true;">
-                        <input type="radio" name="payment-method" id="payment-method-global" style="width: 18px; height: 18px;">
-                        <img src="./assets/img/pay_global.png" alt="" style="width: 80px; height: 60px;">
-                        <p class="m-0 fw-550">Thanh toán ngay với thẻ quốc tế</p>
-                    </div>
 
-                    <div class="qr d-flex align-items-center gap-2" style="cursor: pointer;" onclick="document.getElementById('payment-method-installment').checked = true;">
-                        <input type="radio" name="payment-method" id="payment-method-installment" style="width: 18px; height: 18px;">
-                        <img src="./assets/img/save.png" alt="" style="width: 80px; height: 60px;">
-                        <p class="m-0 fw-550">Trả góp 0% lãi (có phí chuyển đổi)</p>
-                    </div>
-                    
-                    <div class="qr d-flex align-items-center gap-3 mt-2" style="cursor: pointer;" onclick="document.getElementById('payment-method-cod').checked = true;">
-                        <input type="radio" name="payment-method" id="payment-method-cod" style="width: 18px; height: 18px;">
-                        <img src="./assets/img/shipp.png" alt="" style="width: 40px; height: 30px; margin-right: 25px;">
-                        <p class="m-0 fw-550">Thanh toán khi nhận hàng</p>
-                    </div>
-                </div>
+                    <input type="hidden" name="fullname" id="hidden-fullname">
+                    <input type="hidden" name="email" id="hidden-email">
+                    <input type="hidden" name="address" id="hidden-address">
+                    <input type="hidden" name="phone" id="hidden-phone">
+
             </div>
         </div>
         <?php
@@ -181,76 +187,78 @@
                         $subtotal = $total + $vat;
                         ?>
                         <p class="text-end me-2" style="white-space: nowrap;"><?= number_format($subtotal, 0, ',', '.') ?> VND</p>
-                </div>
-                <h6 style="text-align: left;">Miễn phí vận chuyển toàn quốc</h6>
+                    </div>
+                    <h6 style="text-align: left;">Miễn phí vận chuyển toàn quốc</h6>
 
-                <hr>
-                <div class="row">
-                    <div class="col d-flex ">
-                        <p style="white-space: nowrap;"><strong class="h3">Tổng</strong> (Bao gồm VAT)</p>
-                        <div class="col mt-1 text-end ms-3">
-                            <p class="text-end h5" style="white-space: nowrap; "><?= number_format($subtotal, 0, ',', '.') ?> VND</p>
+                    <hr>
+                    <div class="row">
+                        <div class="col d-flex ">
+                            <p style="white-space: nowrap;"><strong class="h3">Tổng</strong> (Bao gồm VAT)</p>
+                            <div class="col mt-1 text-end ms-3">
+                                <input type="hidden" name="total" value="<?= $subtotal ?>">
+                                <p class="text-end h5" style="white-space: nowrap; "><?= number_format($subtotal, 0, ',', '.') ?> VND</p>
+                            </div>
                         </div>
-                    </div>
-                <div class="row d-flex justify-content-between" style="font-size: 14px; ">
-                    <div class="col">
-                        <p>trong đó VAT (10%)</p>
-                    </div>
-                    <div class="col text-end">
-                        <p><?= number_format($vat, 0, ',', '.') ?> VND</p>
-                    </div>
+                        <div class="row d-flex justify-content-between" style="font-size: 14px; ">
+                            <div class="col">
+                                <p>trong đó VAT (10%)</p>
+                            </div>
+                            <div class="col text-end">
+                                <p><?= number_format($vat, 0, ',', '.') ?> VND</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col d-flex align-items-center">
+                                    <input type="checkbox" name="agreement" id="payment-method-checkbox" onclick="validateForm();">
+                                    <p style="font-size: 14px; margin: 0 10px;">Tôi đồng ý nhận email sau khi mua hàng để đánh giá sản phẩm và/hoặc khảo sát sản phẩm và dịch vụ.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="orderButton" class="btn text-white mt-3" style="width: 100%; height: 50px; background-color: #cccccc;" disabled>Đặt hàng</button>
+                        </div>
                 </div>
-                <div class="row">
-                    <div class="col d-flex align-items-center">
-                        <input type="checkbox" name="payment-method" id="payment-method">
-                        <p style="font-size: 14px; margin: 0 10px;">Tôi đồng ý nhận email sau khi mua hàng để đánh giá sản phẩm và/hoặc khảo sát sản phẩm và dịch vụ.</p>
-                    </div>
-                </div>
-                <button class="btn text-white mt-3" style="width: 100%; height: 50px; background-color: #00a3e7;">Đặt hàng</button>
-            </div>
-            </div>
             </div>
 
             <div class="products_to_cart border p-3 mt-3">
                 <h5><?php echo $cart_item[0]['total_quantity']; ?> Sản phẩm trong giỏ</h5>
-                <?php $i = 0; foreach ($cart_item as $item): $i++; ?>
-                <?php if ($i > 1): ?>
-                    <hr>
-                <?php endif; ?>
-                <div class="producst_item_cart d-flex" style="gap: 10px;">
-                    <img src="<?php echo removeLeadingDots($item['img']) ?>" alt="" style="width: 80px; height: 80px;">
-                    <div class="name_prd d-flex flex-column justify-content-between">
-                        <p class="m-0 fw-bold"><?php echo $item['product_name']; ?> (<?php echo $item['storage']; ?>)</p>
-                        <p class="m-0">Số lượng: 
-                            <span class="text-end" style="margin-left: 200px"><?php echo $item['quantity']; ?></span>
-                        </p>
-                        <p class="m-0 d-flex justify-content-between">
-                            <span>Tổng:</span>
-                            <span><?php echo number_format($item['price'] * $item['quantity'], 0, ',', '.'); ?> đ</span>
-                        </p>
+                <?php $i = 0;
+                foreach ($cart_item as $item): $i++; ?>
+                    <?php if ($i > 1): ?>
+                        <hr>
+                    <?php endif; ?>
+                    <div class="producst_item_cart d-flex" style="gap: 10px;">
+                        <img src="<?php echo removeLeadingDots($item['img']) ?>" alt="" style="width: 80px; height: 80px;">
+                        <div class="name_prd d-flex flex-column justify-content-between">
+                            <p class="m-0 fw-bold"><?php echo $item['product_name']; ?> (<?php echo $item['storage']; ?>)</p>
+                            <p class="m-0">Số lượng:
+                                <span class="text-end" style="margin-left: 200px"><?php echo $item['quantity']; ?></span>
+                            </p>
+                            <p class="m-0 d-flex justify-content-between">
+                                <span>Tổng:</span>
+                                <span><?php echo number_format($item['price'] * $item['quantity'], 0, ',', '.'); ?> đ</span>
+                            </p>
+                        </div>
                     </div>
-                   
-                </div>
                 <?php endforeach; ?>
             </div>
- 
-</div>
-</div>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById("continueToPayment").addEventListener("click", function() {
+            // Lấy thông tin từ các trường trong form1
+            const lastname = document.getElementById("lastname").value;
+            const firstname = document.getElementById("firstname").value;
+            const email = document.getElementById("email").value;
+            const address = document.getElementById("address").value;
+            const province = document.getElementById("province").options[document.getElementById("province").selectedIndex].text;
+            const district = document.getElementById("district").options[document.getElementById("district").selectedIndex].text;
+            const ward = document.getElementById("ward").options[document.getElementById("ward").selectedIndex].text;
+            const phone = document.getElementById("phone").value;
 
-<script>
-    document.getElementById("continueToPayment").addEventListener("click", function() {
-        // Lấy thông tin từ các trường trong form1
-        const lastname = document.getElementById("lastname").value;
-        const firstname = document.getElementById("firstname").value;
-        const email = document.getElementById("email").value;
-        const address = document.getElementById("address").value;
-        const province = document.getElementById("province").options[document.getElementById("province").selectedIndex].text;
-        const district = document.getElementById("district").options[document.getElementById("district").selectedIndex].text;
-        const ward = document.getElementById("ward").options[document.getElementById("ward").selectedIndex].text;
-        const phone = document.getElementById("phone").value;
-
-        // Tạo nội dung hiển thị
-        const addressContent = `
+            // Tạo nội dung hiển thị
+            const addressContent = `
         <p class="m-0">${firstname} ${lastname}</p>
         <p class="m-0">${address}</p>
         <p>${ward}, ${district}, ${province}, Việt Nam</p>
@@ -258,93 +266,249 @@
         <p>Email: ${email}</p>
     `;
 
-        // Hiển thị thông tin vào class address
-        document.querySelector(".address .shipping").innerHTML = addressContent;
+            // Hiển thị thông tin vào class address
+            document.querySelector(".address .shipping").innerHTML = addressContent;
 
-        // Chuyển đổi hiển thị giữa form1 và form2
-        document.getElementById("form1").style.display = "none";
-        document.getElementById("form2").style.display = "block";
+            // Gán dữ liệu vào các trường ẩn
 
-        // Cập nhật trạng thái của header
-        document.querySelector(".shipping").classList.remove("border-active");
-        document.querySelector(".shipping").classList.add("border-inactive");
-        document.querySelector(".pay").classList.remove("border-inactive");
-        document.querySelector(".pay").classList.add("border-active");
-    });
+            fullName = `${lastname} ${firstname}`;
+            document.getElementById("hidden-fullname").value = fullName;
+            document.getElementById("hidden-email").value = email;
+            document.getElementById("hidden-address").value = `${address}, ${ward}, ${district}, ${province}, Việt Nam`;
+            document.getElementById("hidden-phone").value = phone;
 
-    document.querySelector(".address .edit").addEventListener("click", function() {
-        // Hiển thị lại form1 và ẩn form2
-        document.getElementById("form1").style.display = "block";
-        document.getElementById("form2").style.display = "none";
+            // Chuyển đổi hiển thị giữa form1 và form2
+            document.getElementById("form1").style.display = "none";
+            document.getElementById("form2").style.display = "block";
 
-        // Cập nhật trạng thái của header
-        document.querySelector(".pay").classList.remove("border-active");
-        document.querySelector(".pay").classList.add("border-inactive");
-        document.querySelector(".shipping").classList.remove("border-inactive");
-        document.querySelector(".shipping").classList.add("border-active");
-    });
-</script>
-<style>
-    .header-form div {
-        padding-bottom: 10px;
+            // Cập nhật trạng thái của header
+            document.querySelector(".shipping").classList.remove("border-active");
+            document.querySelector(".shipping").classList.add("border-inactive");
+            document.querySelector(".pay").classList.remove("border-inactive");
+            document.querySelector(".pay").classList.add("border-active");
+        });
+        document.querySelector(".address .edit").addEventListener("click", function() {
+            // Hiển thị lại form1 và ẩn form2
+            document.getElementById("form1").style.display = "block";
+            document.getElementById("form2").style.display = "none";
+
+            // Cập nhật trạng thái của header
+            document.querySelector(".pay").classList.remove("border-active");
+            document.querySelector(".pay").classList.add("border-inactive");
+            document.querySelector(".shipping").classList.remove("border-inactive");
+            document.querySelector(".shipping").classList.add("border-active");
+        });
+
+
+
+        //validate form
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('form1');
+            const inputs = form.querySelectorAll('.custom-input, .custom-select');
+            const continueButton = document.getElementById('continueToPayment');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+
+            // Khởi đầu: nút bị vô hiệu hóa
+            continueButton.classList.add('disabled');
+
+            // Hàm kiểm tra định dạng email
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            // Hàm kiểm tra định dạng số điện thoại
+            function isValidPhone(phone) {
+                const phoneRegex = /^[0-9]{10}$/;
+                return phoneRegex.test(phone);
+            }
+
+            // Hàm kiểm tra một input
+            function validateInput(input) {
+                let isValid = true;
+                const value = input.value.trim();
+
+                // Kiểm tra rỗng
+                if (value === '') {
+                    showError(input, 'Trường này không được để trống');
+                    isValid = false;
+                } else {
+                    // Kiểm tra email hoặc số điện thoại
+                    if (input === emailInput && !isValidEmail(value)) {
+                        showError(input, 'Email không hợp lệ');
+                        isValid = false;
+                    } else if (input === phoneInput && !isValidPhone(value)) {
+                        showError(input, 'Số điện thoại không hợp lệ');
+                        isValid = false;
+                    } else {
+                        hideError(input); // Xóa lỗi nếu hợp lệ
+                    }
+                }
+
+                if (!isValid) {
+                    input.classList.add('error');
+                } else {
+                    input.classList.remove('error');
+                }
+                return isValid;
+            }
+
+            // Hàm kiểm tra toàn bộ form để bật/tắt nút Tiếp Tục
+            function validateForm() {
+                let isFormValid = true;
+                inputs.forEach(input => {
+                    if (input.value.trim() === '' || input.classList.contains('error')) {
+                        isFormValid = false;
+                    }
+                });
+
+                // Kích hoạt hoặc vô hiệu hóa nút
+                if (isFormValid) {
+                    continueButton.classList.remove('disabled');
+                    continueButton.classList.add('enabled');
+                } else {
+                    continueButton.classList.remove('enabled');
+                    continueButton.classList.add('disabled');
+                }
+            }
+
+            // Hiển thị thông báo lỗi
+            function showError(input, message) {
+                let errorElement = input.nextElementSibling;
+                if (!errorElement || !errorElement.classList.contains('error-message')) {
+                    errorElement = document.createElement('div');
+                    errorElement.classList.add('error-message');
+                    errorElement.style.color = 'red';
+                    errorElement.style.fontSize = '12px';
+                    input.parentNode.appendChild(errorElement);
+                }
+                errorElement.textContent = message;
+            }
+
+            // Ẩn thông báo lỗi
+            function hideError(input) {
+                const errorElement = input.nextElementSibling;
+                if (errorElement && errorElement.classList.contains('error-message')) {
+                    errorElement.remove();
+                }
+            }
+
+            // Sự kiện khi bấm vào nút Tiếp Tục
+            continueButton.addEventListener('click', function(e) {
+                if (!validateForm()) {
+                    e.preventDefault(); // Ngăn không cho tiếp tục nếu không hợp lệ
+                }
+            });
+
+            // Sự kiện kiểm tra từng input khi thay đổi
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    validateInput(input); // Chỉ kiểm tra input này
+                    validateForm(); // Cập nhật trạng thái nút
+                });
+            });
+        });
+        function validateForm() {
+        // Check if a payment method is selected
+        const paymentSelected = document.querySelector('input[name="payment-method"]:checked') !== null;
+        // Check if the agreement checkbox is checked
+        const checkboxChecked = document.getElementById('payment-method-checkbox').checked;
+
+        // Enable the button if both conditions are met
+        const orderButton = document.getElementById('orderButton');
+        if (paymentSelected && checkboxChecked) {
+            orderButton.disabled = false;
+            orderButton.style.backgroundColor = '#007bff'; // Change button color to active state
+        } else {
+            orderButton.disabled = true;
+            orderButton.style.backgroundColor = '#cccccc'; // Keep button disabled color
+        }
     }
+    </script>
+    <style>
+        /* CSS cho input khi có lỗi */
+        .custom-input.error,
+        .custom-select.error {
+            border-color: red;
+        }
 
-    .border-active {
-        border-bottom: 4px solid #00a3e7 !important;
-    }
+        /* CSS cho nút bấm khi bị vô hiệu hóa */
+        .btn.disabled {
+            background-color: grey;
+            cursor: not-allowed;
+            pointer-events: none;
+            /* Ngăn chặn sự kiện bấm */
+        }
 
-    .border-inactive {
-        border-bottom: 4px solid #ccc !important;
-    }
+        /* CSS cho nút bấm khi hợp lệ */
+        .btn.enabled {
+            background-color: #00a3e7;
+            cursor: pointer;
+            pointer-events: auto;
+            /* Cho phép sự kiện bấm */
+        }
 
-    form .row {
-        margin-bottom: 15px;
-    }
+        .header-form div {
+            padding-bottom: 10px;
+        }
 
-    form input[type="text"],
-    form input[type="email"],
-    form select {
-        height: 40px;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-        padding: 0 10px;
-    }
+        .border-active {
+            border-bottom: 4px solid #00a3e7 !important;
+        }
 
-    input::placeholder {
-        color: #ccc;
-    }
+        .border-inactive {
+            border-bottom: 4px solid #ccc !important;
+        }
 
-    form label {
-        margin-bottom: 10px;
-    }
+        form .row {
+            margin-bottom: 15px;
+        }
+
+        form input[type="text"],
+        form input[type="email"],
+        form select {
+            height: 40px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 0 10px;
+        }
+
+        input::placeholder {
+            color: #ccc;
+        }
+
+        form label {
+            margin-bottom: 10px;
+        }
 
 
-    /* Reset styling */
-    .custom-input,
-    .custom-select {
-        width: 100%;
-        height: 40px;
-        padding: 8px 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        outline: none;
-        font-size: 14px;
-    }
+        /* Reset styling */
+        .custom-input,
+        .custom-select {
+            width: 100%;
+            height: 40px;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            outline: none;
+            font-size: 14px;
+        }
 
-    .custom-input:focus,
-    .custom-select:focus {
-        border-color: #007bff;
-    }
+        .custom-input:focus,
+        .custom-select:focus {
+            border-color: #007bff;
+        }
 
-    .custom-input::placeholder {
-        color: #aaa;
-        font-style: italic;
-    }
+        .custom-input::placeholder {
+            color: #aaa;
+            font-style: italic;
+        }
 
-    .custom-label {
-        font-size: 14px;
-        margin-bottom: 5px;
-        display: block;
-    }
-</style>
+        .custom-label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+        }
+    </style>
