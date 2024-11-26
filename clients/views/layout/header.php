@@ -135,6 +135,9 @@
 
                     <div class="dropdown">
                         <a href="#" id="userIcon"><ion-icon name="person-outline"></ion-icon></a>
+                        <?php if (isset($_SESSION['user_id'])) : ?>
+                            <span class="user-badge"></span>
+                        <?php endif; ?>
                         <div class="dropdown-menu">
                             <?php if (isset($_SESSION['user_id'])) : ?>
                                 <a href="?act=profile">Tài khoản của tôi</a>
@@ -196,6 +199,15 @@
     <script src="../assets/js/main.js"></script>
 
     <style>
+        .user-badge{
+            background-color: #1a821c;
+            height: 8px;
+            width: 8px;
+            position: absolute;
+            top: 10px;
+            right: 8px;
+            border-radius: 50%;
+        }
         .cart-container {
             margin-left: 10px;
             position: relative;
