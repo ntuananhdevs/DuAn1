@@ -46,9 +46,9 @@
                 <p class="fw-bold">WinTech</p>
             </div>
             <div class="nav-center">
-                <a href="?act=laptop">Apple</a>
-                <a href="?act=phone">Samsung</a>
-                <a href="?act=phone">Oppo</a>
+                <a href="?act=apple_products&id=1">Apple</a>
+                <a href="?act=apple_products&id=2">Samsung</a>
+                <a href="?act=apple_products&id=3">Oppo</a>
                 <a href="#">Xiaomi</a>
                 <a href="#">Gaming Phone</a>
                 <a href="#">Huawei</a>

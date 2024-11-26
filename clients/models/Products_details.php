@@ -159,6 +159,7 @@ class products {
         $sql = "SELECT 
                     ci.id AS cart_item_id,
                     p.product_name,
+                    pv.id AS variant_id,
                     pv.color,
                     pv.ram,
                     pv.storage,

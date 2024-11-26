@@ -9,7 +9,7 @@
 </head>
 
 <body>
-   <div id="message-popup" class="message-popup"></div>
+   <!-- <div id="message-popup" class="message-popup"></div> -->
    <svg class="login__blob" viewBox="0 0 566 840" xmlns="http://www.w3.org/2000/svg">
       <mask id="mask0" mask-type="alpha">
          <path d="M342.407 73.6315C388.53 56.4007 394.378 17.3643 391.538 
@@ -41,12 +41,17 @@
                      <label for="email" class="login__label">Email</label>
                      <i class="ri-mail-fill login__icon"></i>
                   </div>
+                  <div id="emailError" class="error-message" style="color: red;">
+                     <?php echo $emailError ?? ''; ?>
+                  </div>
 
                   <div class="login__box">
                      <input type="password" name="password" id="password" placeholder=" " class="login__input">
                      <label for="password" class="login__label">Password</label>
                      <i class="ri-eye-off-fill login__icon login__password" id="loginPassword"></i>
-
+                  </div>
+                  <div id="passwordError" class="error-message" style="color: red;">
+                     <?php echo $passwordError ?? ''; ?>
                   </div>
                </div>
 
@@ -85,19 +90,26 @@
          <div class="login__area">
             <form method="POST" action="index.php?act=register" id="resigers11" class="login__form">
                <div class="login__content grid">
+                  <div id="message" class="error-message" style="color: red;">
+                     <?php echo $message ?? ''; ?>
+                  </div>
                   <div class="login__group grid">
                      <div class="login__box">
                         <input type="text" name="user_name" id="names" placeholder=" " class="login__input">
                         <label for="names" class="login__label">Names</label>
                         <i class="ri-id-card-fill login__icon"></i>
-
+                        <div id="namesError" class="error-message" style="color: red;">
+                           <?php echo $namesError ?? ''; ?>
+                        </div>
                      </div>
 
                      <div class="login__box">
                         <input type="text" name="fullname" id="surnames" placeholder=" " class="login__input">
                         <label for="surnames" class="login__label">Fullname</label>
-                        <i class="ri-id-card-fill login__icon"></i>
-
+                        <i class="ri-id-card-fill login__icon"></i>  
+                     </div>
+                     <div id="surnamesError" class="error-message" style="color: red;">
+                        <?php echo $surnamesError ?? ''; ?>
                      </div>
                   </div>
 
@@ -105,21 +117,27 @@
                      <input type="email" name="email" id="emailCreate" placeholder=" " class="login__input">
                      <label for="emailCreate" class="login__label">Email</label>
                      <i class="ri-mail-fill login__icon"></i>
-
+                  </div>
+                  <div id="emailCreateError" class="error-message" style="color: red;">
+                     <?php echo $emailCreateError ?? ''; ?>
                   </div>
 
                   <div class="login__box">
                      <input type="text" name="phone_number" id="phone_number" placeholder=" " class="login__input">
                      <label for="phone_number" class="login__label">SDT</label>
                      <i class="ri-mail-fill login__icon"></i>
-
+                  </div>
+                  <div id="phone_numberError" class="error-message" style="color: red;">
+                     <?php echo $phone_numberError ?? ''; ?>
                   </div>
 
                   <div class="login__box">
                      <input type="password" name="password" id="passwordCreate" placeholder=" " class="login__input">
                      <label for="passwordCreate" class="login__label">Password</label>
                      <i class="ri-eye-off-fill login__icon login__password" id="loginPasswordCreate"></i>
-
+                  </div>
+                  <div id="passwordCreateError" class="error-message" style="color: red;">
+                     <?php echo $passwordCreateError ?? ''; ?>
                   </div>
                </div>
 
@@ -133,75 +151,6 @@
          </div>
       </div>
    </div>
-   <script>
-      function showMessage(message, type = 'error') {
-         const messagePopup = document.getElementById('message-popup');
-         messagePopup.textContent = message;
-         messagePopup.className = `message-popup ${type}`;
-         messagePopup.style.display = 'block';
-
-         // Tự động ẩn sau 3 giây
-         setTimeout(() => {
-            messagePopup.style.animation = 'slideOut 0.5s ease-in-out';
-            setTimeout(() => {
-               messagePopup.style.display = 'none';
-               messagePopup.style.animation = '';
-            }, 500);
-         }, 3000);
-      }
-
-      // Xử lý form đăng nhập
-      document.getElementById('loginForm').addEventListener('submit', async (e) => {
-         e.preventDefault();
-         const formData = new FormData(e.target);
-
-         try {
-            const response = await fetch('index.php?act=login', {
-               method: 'POST',
-               body: formData
-            });
-            const data = await response.json();
-
-            if (data.status === 'success') {
-               showMessage(data.message, 'success');
-               // Chuyển hướng sau khi đăng nhập thành công
-               setTimeout(() => {
-                  window.location.href = 'index.php';
-               }, 1500);
-            } else {
-               showMessage(data.message);
-            }
-         } catch (error) {
-            showMessage('Có lỗi xảy ra, vui lòng thử lại');
-         }
-      });
-
-      // Xử lý form đăng ký
-      document.getElementById('resigers11').addEventListener('submit', async (e) => {
-         e.preventDefault();
-         const formData = new FormData(e.target);
-
-         try {
-            const response = await fetch('index.php?act=register', {
-               method: 'POST',
-               body: formData
-            });
-            const data = await response.json();
-
-            if (data.status === 'success') {
-               showMessage(data.message, 'success');
-               // Chuyển hướng sau khi đăng ký thành công
-               setTimeout(() => {
-                  window.location.href = 'index.php?act=login';
-               }, 1500);
-            } else {
-               showMessage(data.message);
-            }
-         } catch (error) {
-            showMessage('Có lỗi xảy ra, vui lòng thử lại');
-         }
-      });
-   </script>
    <script src="./assets/js/loginclient.js"></script>
 </body>
 
