@@ -959,7 +959,7 @@ input:hover {
   gap: 20px;
   justify-content: flex-start;
   overflow-x: hidden;
-  white-space: nowrap;
+  white-space: inherit;
   padding: 10px;
   box-sizing: border-box;
   position: relative;

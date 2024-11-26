@@ -3,10 +3,10 @@
     ob_start();
     if (isset($_SESSION['user_id'])) {
         $userId = $_SESSION['user_id'];
-        $sessionId = null; // Khi người dùng đã đăng nhập, không cần session_id
+        $sessionId = null;
     } else {
         $userId = null;
-        $sessionId = session_id(); // Sử dụng session_id() để theo dõi phiên
+        $sessionId = session_id();
     }
     $cart = new ProductsContronller(new products());
     $cart_item = $cart->getCartItems($userId, $sessionId);
@@ -49,7 +49,7 @@
                 <a href="?act=apple_products&id=1">Apple</a>
                 <a href="?act=apple_products&id=2">Samsung</a>
                 <a href="?act=apple_products&id=3">Oppo</a>
-                <a href="#">Xiaomi</a>
+                <a href="?act=apple_products&id=4">Xiaomi</a>
                 <a href="#">Gaming Phone</a>
                 <a href="#">Huawei</a>
                 <a href="#">Phụ Kiện</a>
