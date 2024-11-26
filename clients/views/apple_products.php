@@ -28,19 +28,14 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
 }
 ?>
 <div class="container" data-aos="fade-up">
+    <h1 class="product-title">Sản phẩm giảm giá</h1>
     <div class="product-container-wrapper">
-        <button class="scroll-btn left" onclick="scrollProducts('left')"><ion-icon name="chevron-back-outline"></ion-icon></button>
-        <div class="product-container">
-        <?php
+        <button class="scroll-btn left" onclick="scrollProducts2('left2')"><ion-icon name="chevron-back-outline"></ion-icon></button>
+        <div class="product-container" id="product_container2">
+            <?php
             usort($products, function($a, $b) {
-                return $b['views'] - $a['views'];
+                return $b['discount_value'] - $a['discount_value'];
             });
-            function limitText($text, $limit = 50) {
-                if (mb_strlen($text) > $limit) {
-                    return mb_substr($text, 0, $limit) . '...';
-                }
-                return $text;
-            }
             ?>
             <?php foreach ($products as $product) : ?>
                 <div class="product-item">
@@ -55,7 +50,7 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                         </div>
                     </div>
                     <p class="views"> <ion-icon name="eye-outline"></ion-icon> <?= htmlspecialchars($product['views']) ?></p>
-                    <span class="sale">Sale:
+                    <span class="sale">
                         <?php
                         $original_price = floatval(str_replace('.', '', $product['Lowest_Price']));
                         $discount_value = floatval($product['discount_value']);
@@ -72,19 +67,21 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                             echo '<span>' . '0' . ' VND</span>';
                         }
                         ?>
+                    </span>
                         <br>
                         <span class="discound">Giá gốc: <?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</span>
-                    </span>
-                    <hr>
-                    <p class="content" ><?= limitText($product['description']); ?></p>
-                    <hr>
+                        <span class="save">SAVE: <?= htmlspecialchars(number_format($product['Lowest_Price'] - $discounted_price, 0, ',', '.')) ?> VNĐ</span>
+                    <p class="content-warp" >Mức giá này có thể không ứng với các thông số</p>
+                    <p class="content-warp1" >kỹ thuật bên dưới.</p>
+                    <hr>    
                     <a href="#" class="buy-now">Mua ngay</a>
                     <a href="?act=product_detail&id=<?= $product['id'] ?>" class="learn-more">Xem chi tiết</a>
                 </div>
-                <?php endforeach; ?>
-            </div>
-        <button class="scroll-btn right" onclick="scrollProducts('right')"><ion-icon name="chevron-forward-outline"></ion-icon></button>
+            <?php endforeach; ?>
+        </div>
+        <button class="scroll-btn right" onclick="scrollProducts2('right2')"><ion-icon name="chevron-forward-outline"></ion-icon></button>
     </div>
 </div>
 </body>
 </html>
+<script src="./assets/js/client.js"></script>
