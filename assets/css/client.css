@@ -1287,7 +1287,9 @@ input:hover {
   }
   .comment {
     display: flex;
-    gap: 20px;
+    gap: 17px;
+    height: 100%;
+    margin-bottom: 20px;
   }
   .comment img {
     width: 20px;
@@ -1361,9 +1363,9 @@ input:hover {
     border: none;
     margin-right: 10px; ;
   }
-  .comment__operate i{
+  .comment__operate p{
     
-    margin-bottom: 20px; ;
+    margin-bottom: 0; ;
   }
   .comment__operate__icon.loading::before {
     content: "";

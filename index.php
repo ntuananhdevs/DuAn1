@@ -59,7 +59,7 @@
             'shoppingcart' => $shoppingCart->view_shoppingCart(),
             'update_cart' => $shoppingCart->updateQuantity(),
             'delete_items' => $shoppingCart->deleteItem($_GET['product_id']),
-
+            'update_like_dislike' => $products->updateLikeDislike(),
             'pay' => $pay->view_pay(),
             'add_review' => $products->addComment($_POST),
             'result' => $result->view_result(),

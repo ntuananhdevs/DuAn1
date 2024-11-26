@@ -57,7 +57,7 @@ class ProductsContronller
         $rating = (int)$_POST['rating'];
       
 
-        if ($this->comment->addComment($product_id, $user_id, $content, $rating)) {
+        if ($this->comment->addComment($user_id, $product_id, $content, $rating)) {
             header('Location: ?act=product_detail&id=' . $product_id);
         }
     }
@@ -65,10 +65,9 @@ class ProductsContronller
     
     public function updateLikeDislike()
     {
-        // Kiểm tra phương thức HTTP
+        // Chỉ chấp nhận phương thức HTTP POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $_SESSION['error'] = 'Phương thức không hợp lệ.';
-            $this->redirectToHome();
+            $this->setErrorAndRedirect('Phương thức không hợp lệ.', '?act=/');
             return;
         }
     
@@ -80,33 +79,32 @@ class ProductsContronller
     
         // Kiểm tra tính hợp lệ của dữ liệu
         if (!$commentId || !$userId || !in_array($action, ['like', 'dislike'])) {
-            $_SESSION['error'] = 'Thông tin không hợp lệ.';
-            $this->redirectToHome();
+            $this->setErrorAndRedirect('Thông tin không hợp lệ.', '?act=/');
             return;
         }
     
         // Gọi phương thức updateLikeDislike từ model
-        $result = $this->comment->updateLikeDislike($userId, $commentId, $action , $productId);
+        $result = $this->comment->updateLikeDislike($userId, $commentId, $action);
     
+        // Kiểm tra kết quả và điều hướng
         if ($result) {
-            // Nếu thành công, chuyển hướng đến trang chi tiết sản phẩm
-            if (!$productId) {
-                header('Location: ?act=product_detail&id=' . $productId);
-            } else {
-                header('Location: ?act=comments');
-            }
+            // Chuyển hướng đến trang chi tiết sản phẩm nếu có productId, nếu không thì về danh sách comments
+            $redirectUrl = $productId 
+                ? '?act=product_detail&id=' . $productId 
+                : '?act=comments';
+            header('Location: ' . $redirectUrl);
         } else {
-            // Nếu thất bại, lưu thông báo lỗi
-            $_SESSION['error'] = 'Có lỗi xảy ra khi cập nhật lượt like/dislike.';
-            header('Location: ?act=comments');
+            // Nếu thất bại, hiển thị thông báo lỗi
+            $this->setErrorAndRedirect('Có lỗi xảy ra khi cập nhật lượt like/dislike.', '?act=comments');
         }
         exit;
     }
     
-    // Phương thức hỗ trợ để điều hướng về trang chủ
-    private function redirectToHome()
+    // Hàm hỗ trợ để thiết lập lỗi và điều hướng
+    private function setErrorAndRedirect($message, $redirectUrl)
     {
-        header('Location: ?act=/');
+        $_SESSION['error'] = $message;
+        header('Location: ' . $redirectUrl);
         exit;
     }
     

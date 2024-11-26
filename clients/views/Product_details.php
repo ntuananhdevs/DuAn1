@@ -401,7 +401,7 @@
                                     value="dislike" 
                                     class="btn comment__operate__icon dislike fas fa-thumbs-down">
                                 </button>
-                                <p class="ms-4"><?php echo $comment['dislike_count']; ?></p>
+                                <p class="ms-3"><?php echo $comment['dislike_count']; ?></p>
                             </form>
                         </div>
                         
