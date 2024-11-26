@@ -72,6 +72,7 @@
             'add_review' => $products->addComment($_POST),
             'result' => $result->view_result(),
 
+            'apple_products' => $home->view_apple_products($_GET['id']),
             default => $home->view_home(),
         };
         include './clients/views/layout/footer.php';
