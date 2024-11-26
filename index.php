@@ -69,6 +69,8 @@
             'delete_items' => $shoppingCart->deleteItem($_GET['product_id']),
             'profile' => $profile->showProfile($_GET['user_id'] ?? null),
             'pay' => $pay->view_pay(),
+            'order' => $pay->add_order(),
+            'loadbuy' => $pay->loadbuy(),
             'add_review' => $products->addComment($_POST),
             'result' => $result->view_result(),
             'apple_products' => $home->view_apple_products($_GET['id']),
