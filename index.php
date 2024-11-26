@@ -67,6 +67,7 @@
             'shoppingcart' => $shoppingCart->view_shoppingCart(),
             'update_cart' => $shoppingCart->updateQuantity(),
             'delete_items' => $shoppingCart->deleteItem($_GET['product_id']),
+            'update_like_dislike' => $products->updateLikeDislike(),
             'profile' => $profile->showProfile($_GET['user_id'] ?? null),
             'pay' => $pay->view_pay(),
             'order' => $pay->add_order(),
