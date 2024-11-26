@@ -324,6 +324,14 @@ article {
   text-transform: uppercase;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+.save {
+  margin-top: 5px;
+  position: absolute;
+  margin-right: 10px;
+  margin-left: -991px;
+  font-size: 12px;
+  color: #d50000;
+}
 
 .discount::after {
   content: "Sale";
@@ -989,7 +997,8 @@ input:hover {
 }
 
 .learn-more {
-  display: inline-block;
+  justify-content: center;
+  display: flex;
   margin-top: 10px;
   padding: 8px 15px;
   background-color: transparent;
@@ -997,15 +1006,18 @@ input:hover {
   border: 2px solid blue;
   text-decoration: none;
   border-radius: 5px;
-  transition: background-color 0.3s;
+  transition: 0.5s;
+  font-size: 17px;
 }
 
 .learn-more:hover {
+  border: 2px solid #0056b3;
   color: white;
   background-color: #0056b3;
 }
 .buy-now {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
   margin-top: 10px;
   padding: 8px 15px;
   border: 2px solid #007bff;
@@ -1013,11 +1025,13 @@ input:hover {
   color: rgb(255, 255, 255);
   text-decoration: none;
   border-radius: 5px;
-  transition: 0.3s;
+  transition: 0.5s;
+  font-size: 17px;
 }
 
 .buy-now:hover {
   background-color: #00438b;
+  border: 2px solid #00438b;
 }
 
 .discount-container {
@@ -1057,9 +1071,17 @@ input:hover {
 }
 .product-item .sale {
   font-size: 15px;
-  margin-left: -100px;
+  margin-left: -140px;
 }
-
+.content-warp {
+  font-size: 12px;
+  text-align: left;
+}
+.content-warp1 {
+  font-size: 12px;
+  text-align: left;
+  margin-top: -17px;
+}
 .footer-container {
   display: flex;
   justify-content: space-between;
@@ -2142,4 +2164,3 @@ textarea {
      transform: translateY(-20px);
   }
 }
-

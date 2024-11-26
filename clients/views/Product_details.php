@@ -275,7 +275,7 @@
                             <p>Bạn cần đăng nhập để đánh giá sản phẩm này.</p>
                             <button class="btn btn-outline-danger" onclick="showLoginModal()">Viết đánh giá</button>
 
-                            <div id="login-modal" class="modal">
+                            <div id="login-modal" class="modal ">
                                 <div class="modal-content">
                                     <span class="close "><ion-icon name="close"></ion-icon></span>
                                     <h2>Đăng nhập Wintech</h2>
@@ -306,11 +306,9 @@
                             <button class="btn btn-outline-danger" onclick="toggleReviewForm(true)">Viết đánh giá</button>
 
                             <div id="review-form" class="review-form" style="display: none;">
-                                <form action="?act=add_review" method="post">
+                                <form id="rating-form" action="?act=add_review" method="post">
                                     <h2>Đánh giá & nhận xét</h2>
                                     <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>"> <!-- Example Product ID -->
-
-                                    <!-- Hidden field for the user ID -->
                                     <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>"> <!-- Example User ID -->
 
                                     <div class="section-title">Đánh giá chung</div>
@@ -322,7 +320,12 @@
                                         <i class="fa fa-star" data-value="4"></i>
                                         <i class="fa fa-star" data-value="5"></i>
                                     </div>
-                                    <textarea name="content" placeholder="Xin mời chia sẻ một số cảm nhận về sản phẩm (nhập tối thiểu 15 kí tự)"></textarea>
+
+                                    <!-- Thông báo lỗi -->
+                                    <p id="rating-error" style="color: red; display: none;">Vui lòng chọn số sao để đánh giá!</p>
+
+                                    <textarea name="content" id="review-content" placeholder="Xin mời chia sẻ một số cảm nhận về sản phẩm (nhập tối thiểu 15 kí tự)"></textarea>
+                                    <p id="content-error" style="color: red; display: none;">Bình luận phải có ít nhất 5 ký tự!</p>
 
                                     <button class="submit-btn" type="submit">Gửi đánh giá</button>
                                 </form>
@@ -640,6 +643,12 @@
                         const ratingValue = index + 1;
                         starContainer.dataset.rating = ratingValue;
 
+                        // Gán giá trị vào input ẩn trong form (nếu có)
+                        const ratingInput = document.getElementById('rating');
+                        if (ratingInput) {
+                            ratingInput.value = ratingValue;
+                        }
+
                         // In giá trị ra console (hoặc xử lý logic khác)
                         console.log(`Đánh giá: ${ratingValue} sao cho phần ${starContainer.classList}`);
                     });
@@ -661,21 +670,55 @@
                     });
                 });
             });
+
+            // Kiểm tra trước khi gửi biểu mẫu
+            const reviewForm = document.querySelector('#review-form form');
+           
         }
+        document.getElementById('rating-form').addEventListener('submit', function(event) {
+            let isValid = true;
+
+            // Kiểm tra số sao
+            const ratingInput = document.getElementById('rating');
+            const ratingError = document.getElementById('rating-error');
+            if (!ratingInput.value || parseInt(ratingInput.value) === 0) {
+                ratingError.style.display = 'block'; // Hiển thị thông báo lỗi
+                isValid = false;
+            } else {
+                ratingError.style.display = 'none'; // Ẩn thông báo lỗi
+            }
+
+            // Kiểm tra nội dung bình luận
+            const contentInput = document.getElementById('review-content');
+            const contentError = document.getElementById('content-error');
+            if (!contentInput.value || contentInput.value.trim().length < 5) {
+                contentError.style.display = 'block'; // Hiển thị thông báo lỗi
+                isValid = false;
+            } else {
+                contentError.style.display = 'none'; // Ẩn thông báo lỗi
+            }
+
+            // Nếu không hợp lệ, ngăn gửi biểu mẫu
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+
+
         // Hiển thị form đánh giá
         // Hiển thị hoặc ẩn form đánh giá
         // Hiển thị modal đăng nhập
-        function showLoginModal() {
-            document.getElementById('login-modal').style.display = 'block';
-        }
+            function showLoginModal() {
+                document.getElementById('login-modal').style.display = 'block';
+            }
 
-        // Đóng modal
-        document.querySelectorAll('.close').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('login-modal').style.display = 'none';
-                document.getElementById('review-form').style.display = 'none';
+            // Đóng modal
+            document.querySelectorAll('.close').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('login-modal').style.display = 'none';
+                    document.getElementById('review-form').style.display = 'none';
+                });
             });
-        });
 
         // Hiển thị form đánh giá
         function toggleReviewForm(show) {

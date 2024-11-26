@@ -49,14 +49,7 @@
             </ul>
         </div>
     </div>
-    <!-- <div class="footer-subscribe">
-        <p>Nhận các ưu đãi mới nhất và nhiều hơn nữa</p>
-        <input type="email" placeholder="Nhập địa chỉ email">
-        <button>Sign up</button>
-        <div class="footer-social">
-            <img src="./assets/img/logo.png" alt="">
-        </div>
-    </div> -->
+    
 </footer>
 <script>
   AOS.init();
