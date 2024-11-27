@@ -32,10 +32,10 @@
                     <td>
                         <?php
                         switch($order['payment_method']) {
-                            case 'cod': 
+                            case 'COD': 
                                 echo '<span class="badge bg-primary">Thanh toán khi nhận hàng</span>';
                                 break;
-                            case 'momo':
+                            case 'MOMO':
                                 echo '<span class="badge bg-danger">Thanh toán MoMo</span>';
                                 break;
                             case 'bank_transfer':

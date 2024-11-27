@@ -1,12 +1,16 @@
 <div class="container" data-aos="fade-up">
   <button class="truck-button">
     <span class="default">Vui Lòng Nhấn Để Đặt Hàng</span>
-    <a class="success" href="?act=/">
-      Đặt Hàng Thành Công Cảm Ơn Quý Khách.
-      <svg viewbox="0 0 12 10">
-        <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-      </svg>
-    </a>
+    <div class="success">
+      <a href="?act=/">
+        Đặt Hàng Thành Công, Cảm Ơn Quý Khách.
+        <svg viewbox="0 0 12 10">
+          <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+        </svg>
+        <div class="countdown mt-2"></div>
+      </a>
+    </div>
+    
     <div class="truck">
       <div class="wheel"></div>
       <div class="back"></div>
@@ -14,79 +18,99 @@
       <div class="box"></div>
     </div>
   </button>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.0.1/dist/gsap.min.js"></script>
-  <script>
-    document.querySelectorAll('.truck-button').forEach(button => {
-      let box = button.querySelector('.box'),
-        truck = button.querySelector('.truck');
+</div>
 
-      button.classList.add('animation');
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.0.1/dist/gsap.min.js"></script>
+<script>
+  document.querySelectorAll('.truck-button').forEach(button => {
+    let box = button.querySelector('.box'),
+      truck = button.querySelector('.truck');
 
-      gsap.to(button, {
-        '--box-s': 1,
-        '--box-o': 1,
-        duration: .3,
-        delay: .5
-      });
+    button.classList.add('animation');
 
-      gsap.to(box, {
-        x: 0,
-        duration: .4,
-        delay: .7
-      });
-
-      gsap.to(button, {
-        '--hx': -5,
-        '--bx': 50,
-        duration: .18,
-        delay: .92
-      });
-
-      gsap.to(box, {
-        y: 0,
-        duration: .1,
-        delay: 1.15
-      });
-
-      gsap.set(button, {
-        '--truck-y': 0,
-        '--truck-y-n': -26
-      });
-
-      gsap.to(button, {
-        '--truck-y': 1,
-        '--truck-y-n': -25,
-        duration: .2,
-        delay: 1.25,
-        onComplete() {
-          gsap.timeline({
-            onComplete() {
-              button.classList.add('done');
-            }
-          }).to(truck, {
-            x: 0,
-            duration: .4
-          }).to(truck, {
-            x: 40,
-            duration: 1
-          }).to(truck, {
-            x: 20,
-            duration: .6
-          }).to(truck, {
-            x: 96,
-            duration: .4
-          });
-          gsap.to(button, {
-            '--progress': 1,
-            duration: 2.4,
-            ease: "power2.in"
-          });
-        }
-      });
-
+    gsap.to(button, {
+      '--box-s': 1,
+      '--box-o': 1,
+      duration: .3,
+      delay: .5
     });
-  </script>
+
+    gsap.to(box, {
+      x: 0,
+      duration: .4,
+      delay: .7
+    });
+
+    gsap.to(button, {
+      '--hx': -5,
+      '--bx': 50,
+      duration: .18,
+      delay: .92
+    });
+
+    gsap.to(box, {
+      y: 0,
+      duration: .1,
+      delay: 1.15
+    });
+
+    gsap.set(button, {
+      '--truck-y': 0,
+      '--truck-y-n': -26
+    });
+
+    gsap.to(button, {
+      '--truck-y': 1,
+      '--truck-y-n': -25,
+      duration: .2,
+      delay: 1.25,
+      onComplete() {
+        gsap.timeline({
+          onComplete() {
+            button.classList.add('done');
+          }
+        }).to(truck, {
+          x: 0,
+          duration: .4
+        }).to(truck, {
+          x: 40,
+          duration: 1
+        }).to(truck, {
+          x: 20,
+          duration: .6
+        }).to(truck, {
+          x: 96,
+          duration: .4
+        });
+        gsap.to(button, {
+          '--progress': 1,
+          duration: 2.4,
+          ease: "power2.in"
+        });
+      }
+    });
+  });
+
+  // Đếm ngược hiển thị trong thẻ <a>
+  let countdown = 13;
+  const successLink = document.querySelector('.truck-button .countdown');
+
+  if (successLink) {
+    const originalText = successLink.textContent.trim();
+
+    const interval = setInterval(() => {
+      successLink.textContent = `${originalText} Quay về trang chủ trong ${countdown} giây...`;
+      countdown--;
+
+      if (countdown < 0) {
+        clearInterval(interval);
+        successLink.textContent = "Đang chuyển hướng...";
+        successLink.click();
+      }
+    }, 1000); // Cập nhật mỗi giây
+  }
+</script>
+
   <style>
     a{
       text-decoration: none;
@@ -382,7 +406,7 @@
     }
 
     .container {
-      min-height: 500px;
+      min-height: 600px;
       display: flex;
       font-family: 'Inter UI', 'Inter', Arial;
       justify-content: center;

@@ -3,10 +3,10 @@
     ob_start();
     if (isset($_SESSION['user_id'])) {
         $userId = $_SESSION['user_id'];
-        $sessionId = null; // Khi người dùng đã đăng nhập, không cần session_id
+        $sessionId = null;
     } else {
         $userId = null;
-        $sessionId = session_id(); // Sử dụng session_id() để theo dõi phiên
+        $sessionId = session_id();
     }
     $cart = new ProductsContronller(new products());
     $cart_item = $cart->getCartItems($userId, $sessionId);
@@ -49,7 +49,7 @@
                 <a href="?act=apple_products&id=1">Apple</a>
                 <a href="?act=apple_products&id=2">Samsung</a>
                 <a href="?act=apple_products&id=3">Oppo</a>
-                <a href="#">Xiaomi</a>
+                <a href="?act=apple_products&id=4">Xiaomi</a>
                 <a href="#">Gaming Phone</a>
                 <a href="#">Huawei</a>
                 <a href="#">Phụ Kiện</a>
@@ -102,11 +102,10 @@
                                         </div>
                                         <div class="text-cart">
                                             <div class="name-item">
-                                                <p class="fw-bold"><?php echo htmlspecialchars($item['product_name']); ?></p>
-                                                <p><?php echo htmlspecialchars($item['color']); ?>, <?php echo htmlspecialchars($item['ram']); ?>, <?php echo htmlspecialchars($item['storage']); ?></p>
+                                                <p><strong><?php echo htmlspecialchars($item['product_name']); ?></strong> (<?php echo htmlspecialchars($item['color']); ?>, <?php echo htmlspecialchars($item['ram']); ?>, <?php echo htmlspecialchars($item['storage']); ?>)</p>
                                                 <div class="price-item d-flex justify-content-between">
                                                     <p class="fw-500">x<?php echo htmlspecialchars($item['quantity']); ?></p>
-                                                    <p class="fw-500"><?php echo number_format($item['price'], 0, ',', '.'); ?>₫</p>
+                                                    <p class="fw-500"><?php echo number_format($item['price'], 0, ',', '.'); ?> ₫</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -135,15 +134,16 @@
 
                     <div class="dropdown">
                         <a href="#" id="userIcon"><ion-icon name="person-outline"></ion-icon></a>
+                        <?php if (isset($_SESSION['user_id'])) : ?>
+                            <span class="user-badge"></span>
+                        <?php endif; ?>
                         <div class="dropdown-menu">
                             <?php if (isset($_SESSION['user_id'])) : ?>
                                 <a href="?act=profile">Tài khoản của tôi</a>
                                 <a href="?act=orders">Kiểm tra đơn hàng</a>
                                 <a href="?act=logout">Đăng xuất</a>
                             <?php else : ?>
-                                <a href="?act=login">Đăng nhập</a>
-                                <a href="?act=profile">Tài khoản của tôi</a>
-                                <a href="?act=orders">Kiểm tra đơn hàng</a>
+                                <a href="?act=login">Đăng nhập/Đăng ký</a>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -196,6 +196,15 @@
     <script src="../assets/js/main.js"></script>
 
     <style>
+        .user-badge{
+            background-color: #1a821c;
+            height: 8px;
+            width: 8px;
+            position: absolute;
+            top: 10px;
+            right: 8px;
+            border-radius: 50%;
+        }
         .cart-container {
             margin-left: 10px;
             position: relative;
