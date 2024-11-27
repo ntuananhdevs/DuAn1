@@ -18,7 +18,7 @@
             <h1>Tài khoản</h1>
             <p>Chào mừng, <?= htmlspecialchars($user['user_name'] ?? '') ?>!</p>
         </div>
-        
+
         <div class="profile-content">
             <!-- Left Sidebar -->
             <div class="profile-sidebar">
@@ -27,22 +27,19 @@
                         <?php 
                         $avatarPath = !empty($user['avatar']) ? 'uploads/UserIMG/' . $user['avatar'] : 'assets/images/default-avatar.png';
                         ?>
-                        <img src="<?= $avatarPath ?>" 
-                             class="sidebar-avatar" 
-                             id="sidebar-avatar-preview" 
-                             alt="Avatar">
+                        <img src="<?= $avatarPath ?>" class="sidebar-avatar" id="sidebar-avatar-preview" alt="Avatar">
                     </div>
                     <div class="user-details">
                         <h4><?= htmlspecialchars($user['fullname'] ?? $user['user_name']) ?></h4>
                         <p class="text-muted">Member since <?= date('Y', strtotime($user['created_at'])) ?></p>
                     </div>
                 </div>
-                
+
                 <!-- Navigation Menu -->
                 <nav class="profile-nav">
                     <ul class="nav flex-column">
                         <li>
-                            <a class="nav-link" href="?act=profile&section=overview">
+                            <a class="nav-link" href="?act=profile">
                                 <i class="fas fa-home"></i> Tổng quan
                             </a>
                         </li>
@@ -59,9 +56,9 @@
                             </button>
                             <ul id="account-settings" class="collapse">
                                 <li><a href="?act=profile&section=personal">Hồ sơ cá nhân</a></li>
-                                <li><a href="?act=profile&section=login">Quản lý đăng nhập</a></li>
-                                <li><a href="?act=profile&section=password">Đổi mật khẩu</a></li>
-                                <li><a href="?act=profile&section=register">Đăng ký</a></li>
+                                <li><a href="?act=login">Quản lý đăng nhập</a></li>
+                                <li><a href="?act=login">Đăng ký</a></li>
+                                <li><a href="?act=profile&section=#">Đổi mật khẩu</a></li>
                             </ul>
                         </li>
                         <li class="nav-section">
@@ -72,8 +69,8 @@
                             </button>
                             <ul id="order-status" class="collapse">
                                 <li><a href="?act=orders">Đơn hàng</a></li>
-                                <li><a href="?act=returns">Trả hàng</a></li>
-                                <li><a href="?act=address">Sổ địa chỉ</a></li>
+                                <li><a href="?act=#">Trả hàng</a></li>
+                                <li><a href="?act=#">Sổ địa chỉ</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -90,54 +87,38 @@
                             require_once './clients/views/profile/personal.php';
                             break;
                         case 'login':
-                            require_once './clients/views/profile/login.php';
+                            require_once './clients/views/profile/personal.php';
                             break;
                         case 'password':
-                            require_once './clients/views/profile/password.php';
+                            require_once './clients/views/profile/personal.php';
                             break;
                         case 'register':
-                            require_once './clients/views/profile/register.php';
+                            require_once './clients/views/profile/personal.php';
                             break;
                         default:
                             // Hiển thị nội dung mặc định
                             ?>
-                            <div class="content-section">
-                                <h2>Đăng ký sản phẩm</h2>
-                                <div class="product-registration">
-                                    <img src="assets/img/register-product-icon.png" alt="Register Product">
-                                    <p>Khi bạn hoàn thành quá trình đăng ký sản phẩm, các thiết bị sẽ hiển thị ở đây.</p>
-                                    <a href="#register-product" class="btn-register">Đăng ký sản phẩm đầu tiên của bạn</a>
-                                </div>
-                            </div>
 
-                            <div class="content-section">
-                                <h2>Chương trình và Sự kiện</h2>
-                                <div class="events-slider">
-                                    <!-- Add your events/promotions here -->
-                                </div>
-                            </div>
-                            <?php
+
+                <?php
                             break;
                     }
                 } else {
                     // Hiển thị nội dung mặc định khi không có section
                     ?>
-                    <div class="content-section">
-                        <h2>Đăng ký sản phẩm</h2>
-                        <div class="product-registration">
-                            <img src="assets/img/register-product-icon.png" alt="Register Product">
-                            <p>Khi bạn hoàn thành quá trình đăng ký sản phẩm, các thiết bị sẽ hiển thị ở đây.</p>
-                            <a href="#register-product" class="btn-register">Đăng ký sản phẩm đầu tiên của bạn</a>
-                        </div>
+                <div class="content-section">
+                    <h2>Đăng ký sản phẩm</h2>
+                    <div class="product-registration">
+                        <a href="?act=profile">
+                            <img src="./assets/img/logo.png" alt="">
+                        </a>
+                        <p>Khi bạn hoàn thành quá trình đăng ký sản phẩm, các thiết bị sẽ hiển thị ở đây.</p>
+                        <a href="#register-product" class="btn-register">Đăng ký sản phẩm đầu tiên của bạn</a>
                     </div>
+                </div>
 
-                    <div class="content-section">
-                        <h2>Chương trình và Sự kiện</h2>
-                        <div class="events-slider">
-                            <!-- Add your events/promotions here -->
-                        </div>
-                    </div>
-                    <?php
+
+                <?php
                 }
                 ?>
             </div>
@@ -145,43 +126,43 @@
     </div>
 
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const toggles = document.querySelectorAll('.section-toggle');
-    
-    toggles.forEach(toggle => {
-        toggle.addEventListener('click', function() {
-            const targetId = this.getAttribute('data-target');
-            const targetUl = document.getElementById(targetId);
-            const parentSection = this.closest('.nav-section');
-            
-            // Toggle active state
-            this.classList.toggle('active');
-            parentSection.classList.toggle('open');
-            
-            // Toggle dropdown
-            if (targetUl.classList.contains('show')) {
-                targetUl.classList.remove('show');
-            } else {
-                // Close other dropdowns
-                document.querySelectorAll('.nav-section ul').forEach(ul => {
-                    ul.classList.remove('show');
-                });
-                document.querySelectorAll('.section-toggle').forEach(t => {
-                    t.classList.remove('active');
-                });
-                document.querySelectorAll('.nav-section').forEach(s => {
-                    s.classList.remove('open');
-                });
-                
-                // Open current dropdown
-                targetUl.classList.add('show');
-                this.classList.add('active');
-                parentSection.classList.add('open');
-            }
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggles = document.querySelectorAll('.section-toggle');
+
+        toggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const targetUl = document.getElementById(targetId);
+                const parentSection = this.closest('.nav-section');
+
+                // Toggle active state
+                this.classList.toggle('active');
+                parentSection.classList.toggle('open');
+
+                // Toggle dropdown
+                if (targetUl.classList.contains('show')) {
+                    targetUl.classList.remove('show');
+                } else {
+                    // Close other dropdowns
+                    document.querySelectorAll('.nav-section ul').forEach(ul => {
+                        ul.classList.remove('show');
+                    });
+                    document.querySelectorAll('.section-toggle').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    document.querySelectorAll('.nav-section').forEach(s => {
+                        s.classList.remove('open');
+                    });
+
+                    // Open current dropdown
+                    targetUl.classList.add('show');
+                    this.classList.add('active');
+                    parentSection.classList.add('open');
+                }
+            });
         });
     });
-});
-</script>
+    </script>
 </body>
 
 </html>

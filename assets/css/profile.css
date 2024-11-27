@@ -46,10 +46,14 @@
     border-bottom: 1px solid #e0e0e0;
 }
 
-.avatar-wrapper {
-    width: 64px;
-    height: 64px;
-    margin: 0;
+.avatar-wrapper img{
+     position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 .sidebar-avatar {
@@ -65,12 +69,14 @@
     font-size: 1.1rem;
     margin: 0;
     font-weight: 500;
+    padding: 0 5px;
 }
 
 .user-details p {
     color: #666;
     font-size: 0.9rem;
     margin: 5px 0 0 0;
+    padding: 0 5px;
 }
 
 /* Navigation Menu */
@@ -184,7 +190,7 @@
 }
 
 .product-registration img {
-    width: 120px;
+    width: 80px;
     margin-bottom: 25px;
 }
 

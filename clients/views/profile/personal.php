@@ -58,7 +58,7 @@
             <form action="?act=update_profile" method="POST" id="profile-form" class="needs-validation" novalidate>
                 <div class="form-group form-group-static">
                     <label for="user_name" class="form-label-static">Tên đăng nhập</label>
-                    <input type="text" id="user_name" 
+                    <input type="text" id="user_name" name="user_name"
                            value="<?= htmlspecialchars($user['user_name'] ?? '') ?>" 
                            class="form-control-static" readonly>
                 </div>
