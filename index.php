@@ -21,6 +21,7 @@
     require_once './clients/models/AuthModel.php';
     require_once './clients/models/Comments.php';
     require_once './clients/models/ProfileModel.php';
+    require_once './clients/models/MailService.php';
 
 
     $home = new HomeController();

@@ -107,7 +107,7 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                                 $discounted_price = $original_price - $discount_value;
                             }
                             
-                            echo '<span class="text-danger">' . number_format($discounted_price, 0, ',', '.') . ' VND</span>';
+                            echo '<span>' . number_format($discounted_price, 0, ',', '.') . ' VND</span>';
                         } else {
                             echo '<span>' . '0' . ' VND</span>';
                         }

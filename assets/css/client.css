@@ -324,6 +324,17 @@ article {
   text-transform: uppercase;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+<<<<<<< HEAD
+=======
+.save {
+  display: inline-block;
+  margin-top: 5px;
+  margin-right: 10px;
+  margin-left: -991px;
+  font-size: 12px;
+  color: #d50000;
+}
+>>>>>>> d01aa32e05266dc4a0d62bd4ce6d0081b910e00f
 
 .discount::after {
   content: "Sale";
@@ -951,7 +962,7 @@ input:hover {
   gap: 20px;
   justify-content: flex-start;
   overflow-x: hidden;
-  white-space: nowrap;
+  white-space: inherit;
   padding: 10px;
   box-sizing: border-box;
   position: relative;
@@ -1050,12 +1061,16 @@ input:hover {
   left: -100px;
 }
 .product-item .discound {
+  display: inline-block;
+  width: 115px;
+  text-align: left;
   text-decoration: line-through;
   color: gray;
-  font-size: 9px;
-  margin-right: 1000px;
+  font-size: 10px;
+  margin-right: 994px;
 }
 .product-item .sale {
+  font-weight: bold;
   font-size: 15px;
   margin-left: -100px;
 }
@@ -1277,7 +1292,7 @@ input:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 10px; /* Khoảng cách giữa các sản phẩm */
+    gap: 10px;
     margin: 20px 0;
 }
 .comments {

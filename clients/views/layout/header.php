@@ -1,4 +1,4 @@
-    <?php
+<?php
         session_start();
         ob_start();
         if (isset($_SESSION['user_id'])) {
@@ -56,7 +56,7 @@
                 </div>
                 <div class="nav-right">
                     <div class="text">
-                        <a href="#">Mua hàng</a>
+                    <a href="#">Mua hàng</a>
                         <a href="#">Hỗ Trợ</a>
                     </div>
                     <div class="icon-nav">
@@ -97,7 +97,7 @@
                                 <div class="cart-items" style="max-height: 200px; overflow-y: auto; position: relative; scrollbar-width: none; -ms-overflow-style: none;">
                                     <?php foreach ($cart_item as $item): ?>
                                         <div class="cart-item d-flex gap-3 mt-3">
-                                            <div class="img-cart ms-2">
+                                        <div class="img-cart ms-2">
                                                 <img src="<?php echo removeLeadingDots(($item['img'])); ?>" alt="" style="height: 50px;">
                                             </div>
                                             <div class="text-cart">
@@ -137,7 +137,7 @@
                             <a href="#" id="userIcon"><ion-icon name="person-outline"></ion-icon></a>
                             <?php if (isset($_SESSION['user_id'])) : ?>
                                 <span class="user-badge"></span>
-                            <?php endif; ?>
+                                <?php endif; ?>
                             <div class="dropdown-menu">
                                 <?php if (isset($_SESSION['user_id'])) : ?>
                                     <a href="?act=profile">Tài khoản của tôi</a>
@@ -293,3 +293,4 @@
                 }
             });
         </script>
+
