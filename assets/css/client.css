@@ -324,8 +324,6 @@ article {
   text-transform: uppercase;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-<<<<<<< HEAD
-=======
 .save {
   display: inline-block;
   margin-top: 5px;
@@ -334,7 +332,6 @@ article {
   font-size: 12px;
   color: #d50000;
 }
->>>>>>> d01aa32e05266dc4a0d62bd4ce6d0081b910e00f
 
 .discount::after {
   content: "Sale";
@@ -1298,8 +1295,7 @@ input:hover {
 .comments {
     margin-top: 20px;
     flex: 1;
-    border-top: 1px solid #e0e0e0;
-    
+   
   }
   .comment {
     display: flex;
@@ -1630,7 +1626,7 @@ input:hover {
     left: 0;
     top: 0;
     width: 100%;
-    height: 110%;
+    height: 130%;
     overflow: auto;
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
@@ -1650,12 +1646,13 @@ input:hover {
   }
   .close {
     color: #aaa;
-    font-size: 28px;
+    font-size: 15px;
     font-weight: bold;
     animation: zoomOut 0.5s;
     position: absolute; 
     top: 10px; 
     right: 10px;
+    transition: color 0.3s ease;
 }
 
 .close:hover,

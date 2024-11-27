@@ -271,7 +271,6 @@
                     <hr>
                     <div class="comments text-center">
                         <?php if (!isset($_SESSION['user_id'])): ?>
-                            <!-- Hiển thị thông báo yêu cầu đăng nhập -->
                             <p>Bạn cần đăng nhập để đánh giá sản phẩm này.</p>
                             <button class="btn btn-outline-danger" onclick="showLoginModal()">Viết đánh giá</button>
 
@@ -337,7 +336,7 @@
                     </div>
                     <hr>
 
-                    <hr>
+                
                     <div class="comment-list ms-5">
                         <?php if (!empty($comments)) : ?>
                             <?php foreach ($comments as $comment) : ?>

@@ -11,8 +11,22 @@
                         <option value="" selected class="text-center">Chọn Màu</option>
                         <option value="Black">Đen</option>
                         <option value="Red">Đỏ</option>
+                        <option value="Silver ">Bạc</option>
+                        <option value="Gold">Vàng</option>
+                        <option value="Purple">Tím</option>
+                        <option value="Pink ">Hồng</option>
+                        <option value="Midnight Green">Xanh rêu</option>
+                        <option value="Graphite">Xám than chì</option>
+                        <option value="Sierra Blue ">Xanh dương nhạt</option>
+                        <option value="Space Gray ">Xám không gian</option>
                         <option value="Green">Xanh lá</option>
                         <option value="Blue">Xanh dương</option>
+                        <option value="Titan Black">Titan Đen</option>
+                        <option value="Titan White">Titan Trắng</option>
+                        <option value="Titan Sa Mạc">Titan Sa Mạc</option>
+                        <option value="Titan Natural ">Titan Tự Nhiên</option>
+                        <option value="Titan Blue">Titan Xanh Dương</option>
+                       
                     </select>
 
                     <label class="form-label mb-0 font-weight-bolder" style="margin-right: 37px;">Hình ảnh:</label>
