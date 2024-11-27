@@ -202,8 +202,8 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                             <?= renderRatingStars((int)$product['rating']) ?>
                         </div>
                     </div>
-                    <p class="views"> <ion-icon name="eye-outline"></ion-icon> <?= htmlspecialchars($product['views']) ?></p>
-                    <span class="sale">
+                
+                    <div class="price-home mb-0 mt-2">
                         <?php
                         $original_price = floatval(str_replace('.', '', $product['Lowest_Price']));
                         $discount_value = floatval($product['discount_value']);
@@ -215,19 +215,17 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                                 $discounted_price = $original_price - $discount_value;
                             }
                             
-                            echo '<span class="text-danger">' . number_format($discounted_price, 0, ',', '.') . ' ₫</span>';
+                            echo '<p>' . number_format($discounted_price, 0, ',', '.') . ' ₫</p>';
                         } else {
                             echo '<span>' . '0' . ' ₫</span>';
                         }
                         ?>
-                    </span>
-                        <br>
-                        <span class="discound"><?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?>₫</span>
-                        <span class="save">SAVE: <?= htmlspecialchars(number_format($product['Lowest_Price'] - $discounted_price, 0, ',', '.')) ?>₫</span>
-                    <p class="content-warp" >Mức giá này có thể không ứng với các thông số kỹ thuật bên dưới.</p>
-                    <hr>    
-                    <a href="#" class="buy-now">Mua ngay</a>
-                    <a href="?act=product_detail&id=<?= $product['id'] ?>" class="learn-more">Xem chi tiết</a>
+                    </div>
+                    <div class="price-save d-flex gap-3 mt-0">
+                        <p class="discound-1 text-decoration-line-through" style="font-size: 1rem"><?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?>₫</p>
+                        <p class="save-2 text-danger" style="font-size: 1rem">SAVE: <?= htmlspecialchars(number_format($product['Lowest_Price'] - $discounted_price, 0, ',', '.')) ?>₫</p>
+                    </div>
+                    <a href="?act=product_detail&id=<?= $product['id'] ?>" class="buy-now">Mua ngay</a>
                 </div>
             <?php endforeach; ?>
         </div>

@@ -325,11 +325,10 @@ article {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .save {
-  text-align: left;
   display: inline-block;
   margin-top: 5px;
-  margin-right: 90px;
-  margin-left: -1071px;
+  margin-right: 10px;
+  margin-left: -991px;
   font-size: 12px;
   color: #d50000;
 }
@@ -570,20 +569,13 @@ article {
   padding-bottom: 10px;
   overflow: hidden;
 }
-.price span {
+/* .price span {
   font-size: 12px;
 }
 .price {
   padding: 10px 10px 0 0;
-}
-.price > p {
-  font-weight: 600;
-  color: rgb(199, 66, 0);
-  display: block;
-  font-family: TTNormsProMedium, MyriadSemibold, "Segoe UI", Arial,
-    "PingFang TC", "Microsoft JhengHei", sans-serif;
-  font-size: 19px;
-}
+} */
+
 .underline {
   font-size: 13px;
   line-height: 135%;
@@ -886,16 +878,20 @@ input:hover {
 .price span {
   font-size: 12px;
 }
-.price {
-  padding: 10px 10px 0 0;
+.price-home {
+  margin-bottom: 0;
 }
-.price > p {
+.price-home > p {
   font-weight: 600;
   color: rgb(199, 66, 0);
-  display: block;
   font-family: TTNormsProMedium, MyriadSemibold, "Segoe UI", Arial,
     "PingFang TC", "Microsoft JhengHei", sans-serif;
-  font-size: 19px;
+  font-size: 1.1875rem;
+  text-align: left;
+}
+.price-save{
+  margin: 0;
+
 }
 .underline-phone {
   font-size: 13px;
@@ -1012,9 +1008,9 @@ input:hover {
 }
 
 .learn-more:hover {
-  border: 2px solid #007bff;
+  border: 2px solid #0056b3;
   color: white;
-  background-color: #007bff;
+  background-color: #0056b3;
 }
 .buy-now {
   display: flex;
@@ -1061,12 +1057,17 @@ input:hover {
   font-size: 12px;
 }
 .views ion-icon {
-  font-size: 10px;
+  font-size: 20px;
   left: -100px;
+  color: rgb(102, 102, 102);
+}
+.eyess p {
+  font-size: 17px;
+  color: rgb(102, 102, 102);
 }
 .product-item .discound {
   display: inline-block;
-  width: 138px;
+  width: 115px;
   text-align: left;
   text-decoration: line-through;
   color: gray;
@@ -1076,7 +1077,7 @@ input:hover {
 .product-item .sale {
   font-weight: bold;
   font-size: 15px;
-  margin-left: -163px;
+  margin-left: -140px;
 }
 .content-warp {
   font-size: 12px;
