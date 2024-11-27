@@ -325,10 +325,11 @@ article {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .save {
+  text-align: left;
   display: inline-block;
   margin-top: 5px;
-  margin-right: 10px;
-  margin-left: -991px;
+  margin-right: 90px;
+  margin-left: -1071px;
   font-size: 12px;
   color: #d50000;
 }
@@ -1011,9 +1012,9 @@ input:hover {
 }
 
 .learn-more:hover {
-  border: 2px solid #0056b3;
+  border: 2px solid #007bff;
   color: white;
-  background-color: #0056b3;
+  background-color: #007bff;
 }
 .buy-now {
   display: flex;
@@ -1065,7 +1066,7 @@ input:hover {
 }
 .product-item .discound {
   display: inline-block;
-  width: 115px;
+  width: 138px;
   text-align: left;
   text-decoration: line-through;
   color: gray;
@@ -1075,7 +1076,7 @@ input:hover {
 .product-item .sale {
   font-weight: bold;
   font-size: 15px;
-  margin-left: -140px;
+  margin-left: -163px;
 }
 .content-warp {
   font-size: 12px;
