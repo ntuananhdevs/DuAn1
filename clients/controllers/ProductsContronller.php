@@ -88,8 +88,10 @@ class ProductsContronller
     
         // Kiểm tra kết quả và điều hướng
         if ($result) {
+           
             // Chuyển hướng đến trang chi tiết sản phẩm nếu có productId, nếu không thì về danh sách comments
             $redirectUrl = $productId 
+          
                 ? '?act=product_detail&id=' . $productId 
                 : '?act=comments';
             header('Location: ' . $redirectUrl);

@@ -203,7 +203,7 @@
         </div>
     </main>
 
-    <?php include 'clients/views/layout/footer.php' ?>
+
 
     <script>
     // Tự động ẩn thông báo sau 5 giây

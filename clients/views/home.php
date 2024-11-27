@@ -95,7 +95,7 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                         </div>
                     </div>
                     <p class="views"> <ion-icon name="eye-outline"></ion-icon> <?= htmlspecialchars($product['views']) ?></p>
-                    <span class="sale">Sale:
+                    <span class="sale">
                         <?php
                         $original_price = floatval(str_replace('.', '', $product['Lowest_Price']));
                         $discount_value = floatval($product['discount_value']);
@@ -112,12 +112,13 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                             echo '<span>' . '0' . ' VND</span>';
                         }
                         ?>
+                    </span>
                         <br>
                         <span class="discound">Giá gốc: <?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</span>
-                    </span>
-                    <hr>
-                    <p class="content" ><?= limitText($product['description']); ?></p>
-                    <hr>
+                        <span class="save">SAVE: <?= htmlspecialchars(number_format($product['Lowest_Price'] - $discounted_price, 0, ',', '.')) ?> VNĐ</span>
+                    <p class="content-warp" >Mức giá này có thể không ứng với các thông số</p>
+                    <p class="content-warp1" >kỹ thuật bên dưới.</p>
+                    <hr>    
                     <a href="#" class="buy-now">Mua ngay</a>
                     <a href="?act=product_detail&id=<?= $product['id'] ?>" class="learn-more">Xem chi tiết</a>
                 </div>
@@ -151,7 +152,7 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                         </div>
                     </div>
                     <p class="views"> <ion-icon name="eye-outline"></ion-icon> <?= htmlspecialchars($product['views']) ?></p>
-                    <span class="sale">Sale:
+                    <span class="sale">
                         <?php
                         $original_price = floatval(str_replace('.', '', $product['Lowest_Price']));
                         $discount_value = floatval($product['discount_value']);
@@ -168,12 +169,13 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                             echo '<span>' . '0' . ' VND</span>';
                         }
                         ?>
+                    </span>
                         <br>
                         <span class="discound">Giá gốc: <?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</span>
-                    </span>
-                    <hr>
-                    <p class="content" ><?= limitText($product['description']); ?></p>
-                    <hr>
+                        <span class="save">SAVE: <?= htmlspecialchars(number_format($product['Lowest_Price'] - $discounted_price, 0, ',', '.')) ?> VNĐ</span>
+                    <p class="content-warp" >Mức giá này có thể không ứng với các thông số</p>
+                    <p class="content-warp1" >kỹ thuật bên dưới.</p>
+                    <hr>    
                     <a href="#" class="buy-now">Mua ngay</a>
                     <a href="?act=product_detail&id=<?= $product['id'] ?>" class="learn-more">Xem chi tiết</a>
                 </div>
@@ -207,7 +209,7 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                         </div>
                     </div>
                     <p class="views"> <ion-icon name="eye-outline"></ion-icon> <?= htmlspecialchars($product['views']) ?></p>
-                    <span class="sale">Sale:
+                    <span class="sale">
                         <?php
                         $original_price = floatval(str_replace('.', '', $product['Lowest_Price']));
                         $discount_value = floatval($product['discount_value']);
@@ -224,12 +226,13 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                             echo '<span>' . '0' . ' VND</span>';
                         }
                         ?>
+                    </span>
                         <br>
                         <span class="discound">Giá gốc: <?= htmlspecialchars(number_format($product['Lowest_Price'], 0, ',', '.')) ?> VNĐ</span>
-                    </span>
-                    <hr>
-                    <p class="content" ><?= limitText($product['description']); ?></p>
-                    <hr>
+                        <span class="save">SAVE: <?= htmlspecialchars(number_format($product['Lowest_Price'] - $discounted_price, 0, ',', '.')) ?> VNĐ</span>
+                    <p class="content-warp" >Mức giá này có thể không ứng với các thông số</p>
+                    <p class="content-warp1" >kỹ thuật bên dưới.</p>
+                    <hr>    
                     <a href="#" class="buy-now">Mua ngay</a>
                     <a href="?act=product_detail&id=<?= $product['id'] ?>" class="learn-more">Xem chi tiết</a>
                 </div>
