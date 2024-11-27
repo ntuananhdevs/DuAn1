@@ -7,7 +7,11 @@
         public function __construct() {
             $this->homeModel = new Home();
         }
-
+        public function view_landing_page()
+        {
+            $products = $this->homeModel->get_products();
+            include './clients/views/langdingpage.php';
+        }
         public function view_home()
         {
             $banners = $this->homeModel->getBanner();

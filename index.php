@@ -61,7 +61,8 @@
     } else {
         include './clients/views/layout/header.php';
         match ($act) {
-            '/' => $home->view_home(),
+            '/' => $home->view_landing_page(),
+            'home' => $home->view_home(),
             'product_detail' => $products->view_products($_GET['id']),
             'add_to_cart' => $products->addToCart(),
             'shoppingcart' => $shoppingCart->view_shoppingCart(),

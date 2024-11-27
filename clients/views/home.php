@@ -10,10 +10,6 @@
             <img src="./uploads/BannerIMG/<?= $banner['img_url'] ?>" class="<?= $index === 0 ? 'active' : '' ?>" alt="Banner Image <?= $index + 1 ?>">
         <?php endforeach; ?>
     </div>
-    <!-- <div class="buttons">
-        <span class="prev" onclick="slidePrev()"><ion-icon name="arrow-back-outline"></ion-icon></span>
-        <span class="next" onclick="slideNext()"><ion-icon name="arrow-forward-outline"></ion-icon></span>
-    </div> -->
     
     <div class="dotsContainer">
         <?php foreach ($banners as $index => $banner) : ?>

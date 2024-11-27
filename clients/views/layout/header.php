@@ -54,6 +54,7 @@
                 <p class="fw-bold">WinTech</p>
             </div>
             <div class="nav-center">
+                <a href="?act=home">Trang chủ</a>
                 <?php foreach($categories as $category): ?>
                     <a href="?act=apple_products&id=<?php echo $category['id']; ?>">
                         <?php echo htmlspecialchars($category['category_name']); ?>
