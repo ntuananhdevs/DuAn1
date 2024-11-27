@@ -48,6 +48,7 @@
         'add_review' => 'Add Review',
         'profile' => 'Profile',
         'update-avatar' => 'Update Avatar',  
+        'loadbuy' => 'Chờ một chút',
         default => 'Home',
     };
     

@@ -18,7 +18,7 @@ class MailService {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
-            $mail->setFrom('nguyentuananh.ndta@gmail.com', 'Your Store Name'); // Email gửi
+            $mail->setFrom('nguyentuananh.ndta@gmail.com', 'WinTech'); 
             $mail->addAddress($toEmail); 
 
             // Nội dung email
@@ -26,9 +26,10 @@ class MailService {
             $mail->Subject = 'Activate Your Account';
             $mail->Body = "
                 <h1>Activate Your Account</h1>
+                <p>Thank you for your purchase, please log in again to track your order</p>
                 <p>Your temporary password is: <strong>$temporaryPassword</strong></p>
                 <p>Please log in and change your password immediately.</p>
-                <p><a href='http://your-website.com/login'>Login Here</a></p>
+                <p><a href=''>Login Here</a></p>
             ";
 
             $mail->send();
