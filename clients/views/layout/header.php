@@ -109,11 +109,10 @@
                                         </div>
                                         <div class="text-cart">
                                             <div class="name-item">
-                                                <p class="fw-bold"><?php echo htmlspecialchars($item['product_name']); ?></p>
-                                                <p><?php echo htmlspecialchars($item['color']); ?>, <?php echo htmlspecialchars($item['ram']); ?>, <?php echo htmlspecialchars($item['storage']); ?></p>
+                                                <p><strong><?php echo htmlspecialchars($item['product_name']); ?></strong> (<?php echo htmlspecialchars($item['color']); ?>, <?php echo htmlspecialchars($item['ram']); ?>, <?php echo htmlspecialchars($item['storage']); ?>)</p>
                                                 <div class="price-item d-flex justify-content-between">
                                                     <p class="fw-500">x<?php echo htmlspecialchars($item['quantity']); ?></p>
-                                                    <p class="fw-500"><?php echo number_format($item['price'], 0, ',', '.'); ?>₫</p>
+                                                    <p class="fw-500"><?php echo number_format($item['price'], 0, ',', '.'); ?> ₫</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -151,9 +150,7 @@
                                 <a href="?act=orders">Kiểm tra đơn hàng</a>
                                 <a href="?act=logout">Đăng xuất</a>
                             <?php else : ?>
-                                <a href="?act=login">Đăng nhập</a>
-                                <a href="?act=profile">Tài khoản của tôi</a>
-                                <a href="?act=orders">Kiểm tra đơn hàng</a>
+                                <a href="?act=login">Đăng nhập/Đăng ký</a>
                             <?php endif; ?>
                         </div>
                     </div>
