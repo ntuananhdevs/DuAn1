@@ -7,7 +7,7 @@ class Category {
     }
 
     public function getAllCategories() {
-        $sql = "SELECT * FROM categories WHERE status = 1";
+        $sql = "SELECT * FROM category";
         return $this->conn->query($sql);
     }
 }

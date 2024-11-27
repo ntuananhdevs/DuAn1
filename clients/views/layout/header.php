@@ -1,6 +1,11 @@
 <?php
     session_start();
     ob_start();
+    
+    // Thêm các dòng include này
+    require_once "./clients/models/Category.php";
+    require_once "./clients/controllers/CategoryController.php";
+    
     if (isset($_SESSION['user_id'])) {
         $userId = $_SESSION['user_id'];
         $sessionId = null;
@@ -10,9 +15,9 @@
     }
     $cart = new ProductsContronller(new products());
     $cart_item = $cart->getCartItems($userId, $sessionId);
-    // $categoryModel = new Category();
-    // $categoryController = new CategoryController($categoryModel);
-    // $categories = $categoryController->getCategories();
+    $categoryModel = new Category();
+    $categoryController = new CategoryController($categoryModel);
+    $categories = $categoryController->getCategories();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,7 +56,7 @@
             <div class="nav-center">
                 <?php foreach($categories as $category): ?>
                     <a href="?act=apple_products&id=<?php echo $category['id']; ?>">
-                        <?php echo htmlspecialchars($category['name']); ?>
+                        <?php echo htmlspecialchars($category['category_name']); ?>
                     </a>
                 <?php endforeach; ?>
             </div>
