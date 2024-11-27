@@ -10,6 +10,9 @@
     }
     $cart = new ProductsContronller(new products());
     $cart_item = $cart->getCartItems($userId, $sessionId);
+    // $categoryModel = new Category();
+    // $categoryController = new CategoryController($categoryModel);
+    // $categories = $categoryController->getCategories();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,13 +49,11 @@
                 <p class="fw-bold">WinTech</p>
             </div>
             <div class="nav-center">
-                <a href="?act=apple_products&id=1">Apple</a>
-                <a href="?act=apple_products&id=2">Samsung</a>
-                <a href="?act=apple_products&id=3">Oppo</a>
-                <a href="?act=apple_products&id=4">Xiaomi</a>
-                <a href="#">Gaming Phone</a>
-                <a href="#">Huawei</a>
-                <a href="#">Phụ Kiện</a>
+                <?php foreach($categories as $category): ?>
+                    <a href="?act=apple_products&id=<?php echo $category['id']; ?>">
+                        <?php echo htmlspecialchars($category['name']); ?>
+                    </a>
+                <?php endforeach; ?>
             </div>
             <div class="nav-right">
                 <div class="text">
