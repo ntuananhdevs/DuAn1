@@ -69,6 +69,9 @@
         const variantHtml = `
         <div class="variant">
             <hr>
+            <div style="display: flex; justify-content: flex-start;">
+                <button type="button" class="btn btn-danger" onclick="removeVariant(this)">Remove</button>
+            </div>
             <div class="color" style="display: flex; gap: 10px; align-items: center;">
                 <label class="form-label mb-0 font-weight-bolder">Chọn màu sắc:</label>
                 <select name="variants[${variantIndex}][color]" id="colorSelect${variantIndex}" class="form-select" style="width: 10%;">
@@ -120,6 +123,10 @@
         `;
         container.insertAdjacentHTML("beforeend", variantHtml);
         variantIndex++;
+    }
+
+    function removeVariant(el) {
+        el.closest(".variant").remove();
     }
 
     function previewImage(input, index) {

@@ -8,13 +8,7 @@
         <div class="variant">
             <div class="color" style="display: flex; gap: 10px; align-items: center;">
                 <label class="form-label mb-0 font-weight-bolder">Chọn màu sắc:</label>
-                <select name="color" id="colorSelect" class="form-select" style="width: 15%;">
-                    <option value="">Chọn Màu</option>
-                    <option value="Black" <?php echo $variant['color'] == 'Black' ? 'selected' : ''; ?>>Đen</option>
-                    <option value="Red" <?php echo $variant['color'] == 'Red' ? 'selected' : ''; ?>>Đỏ</option>
-                    <option value="Green" <?php echo $variant['color'] == 'Green' ? 'selected' : ''; ?>>Xanh lá</option>
-                    <option value="Blue" <?php echo $variant['color'] == 'Blue' ? 'selected' : ''; ?>>Xanh dương</option>
-                </select>
+                <input type="text" name="color" id="colorInput" class="form-control" style="width: 15%;" value="<?php echo htmlspecialchars($variant['color']); ?>" placeholder="Nhập màu sắc">
 
                 <label class="form-label mb-0 font-weight-bolder" style="margin-right: 37px;">Hình ảnh:</label>
                 <input type="file" class="form-control" name="image" accept="image/*" onchange="previewImage(this, 'imagePreview')" style="width: 26%;">
