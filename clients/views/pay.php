@@ -127,21 +127,15 @@
                         <h4>2. Phương thức thanh toán</h4>
 
                         <div class="qr d-flex align-items-center gap-2" style="cursor: pointer;" onclick="document.getElementById('payment-method-qr').checked = true; validateForm();">
-                            <input type="radio" name="payment-method" id="payment-method-qr" style="width: 18px; height: 18px;" value="ATM">
+                            <input type="radio" name="payment-method" id="payment-method-qr" style="width: 18px; height: 18px;" value="bank_transfer">
                             <img src="./assets/img/qr.png" alt="" style="width: 80px; height: 60px;">
                             <p class="m-0 fw-550">Thanh toán ngay với thẻ ATM, Internet Banking, QR Code</p>
                         </div>
 
                         <div class="qr d-flex align-items-center gap-2" style="cursor: pointer;" onclick="document.getElementById('payment-method-global').checked = true; validateForm();">
-                            <input type="radio" name="payment-method" id="payment-method-global" style="width: 18px; height: 18px;" value="Global">
+                            <input type="radio" name="payment-method" id="payment-method-global" style="width: 18px; height: 18px;" value="MOMO">
                             <img src="./assets/img/pay_global.png" alt="" style="width: 80px; height: 60px;">
-                            <p class="m-0 fw-550">Thanh toán ngay với thẻ quốc tế</p>
-                        </div>
-
-                        <div class="qr d-flex align-items-center gap-2" style="cursor: pointer;" onclick="document.getElementById('payment-method-installment').checked = true; validateForm();">
-                            <input type="radio" name="payment-method" id="payment-method-installment" style="width: 18px; height: 18px;" value="Installment">
-                            <img src="./assets/img/save.png" alt="" style="width: 80px; height: 60px;">
-                            <p class="m-0 fw-550">Trả góp 0% lãi (có phí chuyển đổi)</p>
+                            <p class="m-0 fw-550">Thanh toán với MOMO </p>
                         </div>
 
                         <div class="qr d-flex align-items-center gap-3 mt-2" style="cursor: pointer;" onclick="document.getElementById('payment-method-cod').checked = true; validateForm();">

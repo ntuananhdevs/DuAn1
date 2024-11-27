@@ -74,6 +74,8 @@
             'delete_items' => $shoppingCart->deleteItem($_GET['product_id']),
             'profile' => $profile->showProfile(),
             'update_profile' => $profile->updateProfile(),
+            'update_like_dislike' => $products->updateLikeDislike(),
+            'profile' => $profile->showProfile($_GET['user_id'] ?? null),
             'pay' => $pay->view_pay(),
             'order' => $pay->add_order(),
             'loadbuy' => $pay->loadbuy(),

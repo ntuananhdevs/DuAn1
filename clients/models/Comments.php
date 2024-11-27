@@ -26,15 +26,15 @@ class Comment
                 INNER JOIN users AS u ON c.user_id = u.id
                 WHERE c.product_id = :product_id
                 ORDER BY c.created_at DESC";
-    
+
             // Chuẩn bị câu lệnh
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
-    
+
             // Thực thi và lấy kết quả
             $stmt->execute();
             $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
             return $comments ?: []; // Trả về mảng rỗng nếu không có dữ liệu
         } catch (PDOException $e) {
             // Ghi log lỗi để kiểm tra
@@ -42,35 +42,94 @@ class Comment
             return [];
         }
     }
-    
-    public function addComment(int $productId, int $userId, string $content, int $rating): bool
+
+    public function updateLikeDislike($userId, $commentId, $action)
     {
+        // Lấy trạng thái hiện tại của comment
+        $sqlFetch = "SELECT `like`, `dislike` FROM comments WHERE id = :comment_id";
+        $stmtFetch = $this->conn->prepare($sqlFetch);
+        $stmtFetch->bindParam(':comment_id', $commentId, PDO::PARAM_INT);
+        $stmtFetch->execute();
+        $comment = $stmtFetch->fetch(PDO::FETCH_ASSOC);
+    
+        if (!$comment) {
+            // Comment không tồn tại
+            return false;
+        }
+    
         try {
-            // SQL thêm bình luận vào bảng `comments`
-            $sql = "INSERT INTO comments (product_id, user_id, content, rating) 
-                    VALUES (:product_id, :user_id, :content, :rating)";
-            
-            // Chuẩn bị câu lệnh
-            $stmt = $this->conn->prepare($sql);
-            
-            // Xử lý nội dung
-            $content = trim($content);
+            // Bắt đầu giao dịch
+            $this->conn->beginTransaction();
     
-            // Bind các tham số
-            $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
-            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
-            $stmt->bindParam(':content', $content, PDO::PARAM_STR);
-            $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
+            if ($action === 'like') {
+                if ($comment['like'] > 0) {
+                    // Nếu đã like, giảm like
+                    $sqlLike = "UPDATE comments SET `like` = `like` - 1 WHERE id = :comment_id";
+                    $stmtLike = $this->conn->prepare($sqlLike);
+                    $stmtLike->bindParam(':comment_id', $commentId, PDO::PARAM_INT);
+                    $stmtLike->execute();
+                } else {
+                    // Nếu chưa like, tăng like và giảm dislike nếu có
+                    if ($comment['dislike'] > 0) {
+                        $sqlDislike = "UPDATE comments SET `dislike` = `dislike` - 1 WHERE id = :comment_id";
+                        $stmtDislike = $this->conn->prepare($sqlDislike);
+                        $stmtDislike->bindParam(':comment_id', $commentId, PDO::PARAM_INT);
+                        $stmtDislike->execute();
+                    }
     
-            // Thực thi câu lệnh
-            $stmt->execute();
+                    $sqlLike = "UPDATE comments SET `like` = `like` + 1 WHERE id = :comment_id";
+                    $stmtLike = $this->conn->prepare($sqlLike);
+                    $stmtLike->bindParam(':comment_id', $commentId, PDO::PARAM_INT);
+                    $stmtLike->execute();
+                }
+            } elseif ($action === 'dislike') {
+                if ($comment['dislike'] > 0) {
+                    // Nếu đã dislike, giảm dislike
+                    $sqlDislike = "UPDATE comments SET `dislike` = `dislike` - 1 WHERE id = :comment_id";
+                    $stmtDislike = $this->conn->prepare($sqlDislike);
+                    $stmtDislike->bindParam(':comment_id', $commentId, PDO::PARAM_INT);
+                    $stmtDislike->execute();
+                } else {
+                    // Nếu chưa dislike, tăng dislike và giảm like nếu có
+                    if ($comment['like'] > 0) {
+                        $sqlLike = "UPDATE comments SET `like` = `like` - 1 WHERE id = :comment_id";
+                        $stmtLike = $this->conn->prepare($sqlLike);
+                        $stmtLike->bindParam(':comment_id', $commentId, PDO::PARAM_INT);
+                        $stmtLike->execute();
+                    }
     
+                    $sqlDislike = "UPDATE comments SET `dislike` = `dislike` + 1 WHERE id = :comment_id";
+                    $stmtDislike = $this->conn->prepare($sqlDislike);
+                    $stmtDislike->bindParam(':comment_id', $commentId, PDO::PARAM_INT);
+                    $stmtDislike->execute();
+                }
+            }
+    
+            // Commit giao dịch
+            $this->conn->commit();
             return true;
-        } catch (PDOException $e) {
-            // Log lỗi nếu xảy ra lỗi
-            error_log("PDOException: " . $e->getMessage());
+        } catch (Exception $e) {
+            // Rollback nếu có lỗi
+            $this->conn->rollBack();
             return false;
         }
     }
     
+    
+    public function addComment($user_id, $product_id, $content, $rating)
+    {
+        $sql = "INSERT INTO comments (user_id, product_id, content, rating) 
+                VALUES (:user_id, :product_id, :content, :rating)";
+        $stmt = $this->conn->prepare($sql);
+        
+        // Gắn các giá trị vào tham số
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+        $stmt->bindParam(':content', $content, PDO::PARAM_STR);
+        $stmt->bindParam(':rating', $rating, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+    
 }
+
