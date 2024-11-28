@@ -48,6 +48,7 @@
         'add_review' => 'Add Review',
         'profile' => 'Profile',
         'update-avatar' => 'Update Avatar',  
+        'loadbuy' => 'Chờ một chút',
         default => 'Home',
     };
     
@@ -62,9 +63,11 @@
     } else {
         include './clients/views/layout/header.php';
         match ($act) {
-            '/' => $home->view_home(),
+            '/' => $home->view_landing_page(),
+            'home' => $home->view_home(),
             'product_detail' => $products->view_products($_GET['id']),
             'add_to_cart' => $products->addToCart(),
+            'add_to_cart_now' => $products->addToCartNow(),
             'shoppingcart' => $shoppingCart->view_shoppingCart(),
             'update_cart' => $shoppingCart->updateQuantity(),
             'delete_items' => $shoppingCart->deleteItem($_GET['product_id']),

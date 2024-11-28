@@ -83,14 +83,30 @@
         const variantHtml = `
         <div class="variant">
             <hr>
+            <div style="display: flex; justify-content: flex-start;">
+                <button type="button" class="btn btn-danger" onclick="removeVariant(this)">Remove</button>
+            </div>
             <div class="color" style="display: flex; gap: 10px; align-items: center;">
                 <label class="form-label mb-0 font-weight-bolder">Chọn màu sắc:</label>
                 <select name="variants[${variantIndex}][color]" id="colorSelect${variantIndex}" class="form-select" style="width: 10%;">
-                    <option value="">Chọn Màu</option>
-                    <option value="Black">Đen</option>
-                    <option value="Red">Đỏ</option>
-                    <option value="Green">Xanh lá</option>
-                    <option value="Blue">Xanh dương</option>
+                        <option value="" selected class="text-center">Chọn Màu</option>
+                        <option value="Black">Đen</option>
+                        <option value="Red">Đỏ</option>
+                        <option value="Silver ">Bạc</option>
+                        <option value="Gold">Vàng</option>
+                        <option value="Purple">Tím</option>
+                        <option value="Pink ">Hồng</option>
+                        <option value="Midnight Green">Xanh rêu</option>
+                        <option value="Graphite">Xám than chì</option>
+                        <option value="Sierra Blue ">Xanh dương nhạt</option>
+                        <option value="Space Gray ">Xám không gian</option>
+                        <option value="Green">Xanh lá</option>
+                        <option value="Blue">Xanh dương</option>
+                        <option value="Titan Black">Titan Đen</option>
+                        <option value="Titan White">Titan Trắng</option>
+                        <option value="Titan Sa Mạc">Titan Sa Mạc</option>
+                        <option value="Titan Natural ">Titan Tự Nhiên</option>
+                        <option value="Titan Blue">Titan Xanh Dương</option>
                 </select>
                 <input type="text" placeholder="Thêm màu mới" id="colorInput${variantIndex}" onblur="addOptionOnBlur('colorSelect${variantIndex}', 'colorInput${variantIndex}')" class="form-control" style="width: 12%;">
 
@@ -134,6 +150,10 @@
         `;
         container.insertAdjacentHTML("beforeend", variantHtml);
         variantIndex++;
+    }
+
+    function removeVariant(el) {
+        el.closest(".variant").remove();
     }
 
     function previewImage(input, index) {
