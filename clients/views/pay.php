@@ -15,7 +15,7 @@
             <div id="form1" class="border p-3 mt-5">
                 <h4>1. Lựa chọn phương thức vận chuyển</h4>
                 <p class="fw-bold">Địa chỉ nhận hàng</p>
-                <form method="POST" action="">
+                <form method="POST">
                     <div class="row mb-4">
                         <div class="col">
                             <label for="lastname" class="form-labell">Họ</label>
@@ -210,7 +210,7 @@
                             </div>
                         </div>
                         <button id="orderButton" class="btn text-white mt-3" style="width: 100%; height: 50px; background-color: #cccccc;" disabled>Đặt hàng</button>
-                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -238,6 +238,11 @@
             </div>
             </form>
         </div>
+
+    </div>
+    <!-- Spinner HTML -->
+    <div id="loading-spinner" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50__);">
+        <div class="spinner"></div>
     </div>
     <script>
         document.getElementById("continueToPayment").addEventListener("click", function() {
@@ -403,24 +408,72 @@
                 });
             });
         });
-        function validateForm() {
-        // Check if a payment method is selected
-        const paymentSelected = document.querySelector('input[name="payment-method"]:checked') !== null;
-        // Check if the agreement checkbox is checked
-        const checkboxChecked = document.getElementById('payment-method-checkbox').checked;
 
-        // Enable the button if both conditions are met
-        const orderButton = document.getElementById('orderButton');
-        if (paymentSelected && checkboxChecked) {
-            orderButton.disabled = false;
-            orderButton.style.backgroundColor = '#007bff'; // Change button color to active state
-        } else {
-            orderButton.disabled = true;
-            orderButton.style.backgroundColor = '#cccccc'; // Keep button disabled color
+        function validateForm() {
+            // Check if a payment method is selected
+            const paymentSelected = document.querySelector('input[name="payment-method"]:checked') !== null;
+            // Check if the agreement checkbox is checked
+            const checkboxChecked = document.getElementById('payment-method-checkbox').checked;
+
+            // Enable the button if both conditions are met
+            const orderButton = document.getElementById('orderButton');
+            if (paymentSelected && checkboxChecked) {
+                orderButton.disabled = false;
+                orderButton.style.backgroundColor = '#007bff'; // Change button color to active state
+            } else {
+                orderButton.disabled = true;
+                orderButton.style.backgroundColor = '#cccccc'; // Keep button disabled color
+            }
         }
-    }
+        // Hiển thị spinner khi form được gửi
+        function showLoading() {
+            document.getElementById('loading-spinner').style.display = 'block';
+        }
+
+        // Ẩn spinner khi form hoàn thành
+        function hideLoading() {
+            document.getElementById('loading-spinner').style.display = 'none';
+        }
+
+        // Gọi hàm showLoading khi gửi form
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function() {
+                showLoading();
+            });
+        });
     </script>
     <style>
+        #loading-spinner {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
+
+        .spinner {
+            border: 10px solid #f3f3f3;
+            border-top: 10px solid #3498db;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
         /* CSS cho input khi có lỗi */
         .custom-input.error,
         .custom-select.error {

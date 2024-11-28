@@ -2,9 +2,11 @@
 class PayController{
     
     public $pay;
+    public $mail;
 
     public function __construct() {
         $this->pay = new Pay();
+        $this->mail = new MailService();
     }
 
     public function view_pay(){
@@ -42,7 +44,7 @@ class PayController{
         $user = $this->pay->getUserByEmail($email);
 
         if(!$user){
-            $password = bin2hex(random_bytes(4)); 
+            $password = bin2hex(random_bytes(8)); 
             $userId = $this->pay->createTemporaryUser($fullname, $email, $password);
         } else {
             $userId = $user['id'];
@@ -67,19 +69,16 @@ class PayController{
         $this->pay->delete_cart($userId, $sessionId);
         // Gửi email kích hoạt tài khoản
         if (!$user) {
-            $this->sendActivationEmail($email, $password);
+            $this->mail->sendActivationEmail($email, $password);
         }
 
         header('Location: ?act=loadbuy');
     }
 
-    // Phương thức để gửi email kích hoạt tài khoản
-    private function sendActivationEmail($email, $password) {
-        $subject = "Activate Your Account";
-        $message = "Your temporary password is: " . $password . ". Please log in and change your password.";
-        // Gửi email qua hàm mail() hoặc thư viện email
-        mail($email, $subject, $message);
-    }
+
+
+
+
     public function loadbuy(){
         require_once './clients/views/loadbuy.php';
     }

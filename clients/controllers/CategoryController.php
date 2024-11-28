@@ -1,15 +1,13 @@
 <?php
-class CategoryController{
-    public $conn;
-
-    public function __construct() {
-        $this->conn = connectDB();
+class CategoryController {
+    private $category;
+    
+    public function __construct($category) {
+        $this->category = $category;
     }
-
-    public function getAllCategories(){
-        $sql = "SELECT * FROM category";
-        $result = $this->conn->query($sql);
-        return $result;
+    
+    public function getCategories() {
+        return $this->category->getAllCategories();
     }
 }
 ?>

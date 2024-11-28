@@ -64,15 +64,15 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                                 $discounted_price = $original_price - $discount_value;
                             }
                             
-                            echo '<span class="text-danger">' . number_format($discounted_price, 0, ',', '.') . ' VND</span>';
+                            echo '<span class="text-danger">' . number_format($discounted_price, 0, ',', '.') . '₫</span>';
                         } else {
                             echo '<span>' . '0' . ' VND</span>';
                         }
                         ?>
                     </span>
                         <br>
-                        <span class="discound">Giá gốc: <?= htmlspecialchars(number_format($result['Lowest_Price'], 0, ',', '.')) ?></span>
-                        <span class="save">SAVE: <?= htmlspecialchars(number_format($result['Lowest_Price'] - $discounted_price, 0, ',', '.')) ?> VNĐ</span>
+                        <span class="discound"><?= htmlspecialchars(number_format($result['Lowest_Price'], 0, ',', '.')) ?>₫</span>
+                        <span class="save">SAVE: <?= htmlspecialchars(number_format($result['Lowest_Price'] - $discounted_price, 0, ',', '.')) ?>₫</span>
                     <p class="content-warp" >Mức giá này có thể không ứng với các thông số kỹ thuật bên dưới.</p>
                     <hr>    
                     <a href="#" class="buy-now">Mua ngay</a>

@@ -183,7 +183,13 @@
             </div>
 
             <div class="btn-details mt-5 d-flex justify-content-center align-items-center gap-3">
-                <a id="buy-now-link" href="?act=pay&id=" class="btn btn-danger w-25"> Mua ngay </a>
+            <form id="add-to-cart-now" action="?act=add_to_cart_now" method="POST">
+                    <input type="hidden" name="id" value="<?= $product['id'] ?>">
+                    <input type="hidden" name="product_id" id="selected-variant-id-now" value="">
+                    <input type="hidden" name="quantity" value="1">
+                    <input type="hidden" name="price" id="selected-variant-price-now" value="">
+                    <button type="submit" class="btn btn-danger">Mua ngay</button>
+                </form>
 
                 <form id="add-to-cart-form" action="?act=add_to_cart" method="POST">
                     <input type="hidden" name="id" value="<?= $product['id'] ?>">
@@ -513,10 +519,10 @@
             // Update form inputs with selected variant details
             document.getElementById('selected-variant-id').value = selectedVariantId;
             document.getElementById('selected-variant-price').value = finalPrice;
+
+            document.getElementById('selected-variant-id-now').value = selectedVariantId;
+            document.getElementById('selected-variant-price-now').value = finalPrice;
         }
-
-
-
         let selectedVariantId = null; // Lưu id của biến thể được chọn
 
         function filterVariants(element) {
@@ -554,9 +560,6 @@
                 selectVariant(firstMatchingVariant);
             }
         }
-
-
-
         document.addEventListener('DOMContentLoaded', function() {
             // Thumbnail Slider
             var thumbnailSlider = new Swiper('.thumbnail-slider', {
@@ -580,7 +583,6 @@
             function getCurrentColor() {
                 return mainSlider.slides[mainSlider.activeIndex].getAttribute('data-color');
             }
-
             // Hàm chuyển đến slide cùng màu tiếp theo
             function goToNextSameColorSlide() {
                 const currentColor = getCurrentColor();
@@ -595,7 +597,6 @@
                     nextIndex++;
                 }
             }
-
             // Hàm chuyển đến slide cùng màu trước đó
             function goToPrevSameColorSlide() {
                 const currentColor = getCurrentColor();
@@ -616,12 +617,10 @@
                 event.preventDefault();
                 goToNextSameColorSlide();
             });
-
             document.querySelector('.swiper-button-prev').addEventListener('click', function(event) {
                 event.preventDefault();
                 goToPrevSameColorSlide();
             });
-
             // Thêm class cho ảnh thumbnail khi được chọn
             mainSlider.on('slideChange', function() {
                 const currentColor = getCurrentColor();
@@ -647,9 +646,6 @@
                 selectVariant(firstVariantOption);
             }
         });
-
-
-
         // Hàm xử lý chọn sao
         function setupStarRatings() {
             // Tìm tất cả các khối đánh giá sao
@@ -837,7 +833,6 @@
                 event.preventDefault(); // Ngừng hành động của form
                 return; // Không thực hiện hành động gì thêm
             }
-
             // Nếu chưa dislike, đánh dấu là đã dislike
             dislikedComments.add(commentId);
 
@@ -845,14 +840,11 @@
             if (likedComments.has(commentId)) {
                 likedComments.delete(commentId);
             }
-
             // Cập nhật giao diện hoặc gửi dữ liệu lên server nếu cần
             // Ví dụ: thay đổi icon, số lượt không thích, v.v.
         });
     });
 });
-
-
         // Khởi chạy sau khi DOM được tải
         document.addEventListener('DOMContentLoaded', setupStarRatings);
     </script>
