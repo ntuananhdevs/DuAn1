@@ -58,7 +58,12 @@
         $auth->register();
     } else if ($act == 'logout') {
         $auth->logout();
-    } else if ($act == 'update-avatar') {  
+    } else if($act == 'changer_password') {
+        $auth->changePassword();
+    } else if($act == 'changepassword') {
+        $auth->changePassword_action();
+    }
+    else if ($act == 'update-avatar') {  
         $profile->updateAvatar(); 
     } else {
         include './clients/views/layout/header.php';

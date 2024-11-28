@@ -131,7 +131,7 @@
         .products-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);  
-            gap: 10rem;
+            gap: 3rem;
             max-width: 980px;
             margin: 0 auto;
             padding: 0 22px;
@@ -260,6 +260,14 @@
                 height: calc(100vh - 300px);
             }
         }
+        .see-all-products {
+            text-decoration: none;
+            color: var(--primary);
+            text-align: center;
+            justify-content: center;
+            display: block;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -277,7 +285,7 @@
     <section class="products">
         <div class="products-grid">
         <?php 
-        $limitedProducts = array_slice($products, 0, 5);
+        $limitedProducts = array_slice($products, 0, 4);
         foreach ($limitedProducts as $product) : 
             $imagePath = preg_replace('/\./', '', $product['img'], 1);
         ?>
@@ -286,11 +294,12 @@
             <h3><?= htmlspecialchars($product['product_name']) ?></h3>
             <p>HOT</p>
             <p class="price"><?= htmlspecialchars($product['Lowest_Price']) ?></p>
-            <a href="#" class="buy-button">Buy</a>
+            <a href="?act=product_detail&id=<?= $product['id'] ?>" class="buy-button">Buy</a>
         </div>
         <?php endforeach; ?>
         </div>
     </section>
+    <a class="see-all-products" href="?act=home">See all products</a>
     </div>
     <script>
         const cards = document.querySelectorAll('.product-card');
