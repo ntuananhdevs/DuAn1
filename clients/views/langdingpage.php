@@ -276,32 +276,23 @@
     <div class="container">
     <section class="products">
         <div class="products-grid">
-            <div class="product-card">
-                <img src="https://itechcolombia.co/wp-content/uploads/2024/09/233664-233669-233674-iphone-16-ultramarine.webp" alt="iPhone 16">
-                <h3>iPhone 16</h3>
-                <p>The most powerful iPhone ever.</p>
-                <p class="price">From $999</p>
-                <a href="#" class="buy-button">Buy</a>
-            </div>
-            <div class="product-card">
-                <img src="https://d1erhn8sljv386.cloudfront.net/k59w083BQadPW6HmRvP3LcVSSt0=/fit-in/1000x1000/filters:format(webp)/https://s3.amazonaws.com/lmbucket0/media/product/t-mobile-apple-iphone-16-pro-frontimage-white-titanium.png" alt="iPhone 16 Pro">
-                <h3>iPhone 16 Pro</h3>
-                <p>A total powerhouse.</p>
-                <p class="price">From $799</p>
-                <a href="#" class="buy-button">Buy</a>
-            </div>
-            <div class="product-card">
-                <img src="https://itechcolombia.co/wp-content/uploads/2024/09/233709-233717-iphone-16-pro-max-desert.webp" alt="iPhone 16 Pro Max">
-                <h3>iPhone 16 Pro Max</h3>
-                <p>As amazing as ever.</p>
-                <p class="price">From $699</p>
-                <a href="#" class="buy-button">Buy</a>
-            </div>
+        <?php 
+        $limitedProducts = array_slice($products, 0, 5);
+        foreach ($limitedProducts as $product) : 
+            $imagePath = preg_replace('/\./', '', $product['img'], 1);
+        ?>
+        <div class="product-card">
+            <img src="<?= htmlspecialchars($imagePath) ?>" alt="iPhone 16 Pro">
+            <h3><?= htmlspecialchars($product['product_name']) ?></h3>
+            <p>HOT</p>
+            <p class="price"><?= htmlspecialchars($product['Lowest_Price']) ?></p>
+            <a href="#" class="buy-button">Buy</a>
+        </div>
+        <?php endforeach; ?>
         </div>
     </section>
     </div>
     <script>
-        // Animate products on scroll
         const cards = document.querySelectorAll('.product-card');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry, index) => {
@@ -315,8 +306,6 @@
         });
 
         cards.forEach(card => observer.observe(card));
-
-        // Parallax effect on hero image
         const heroImage = document.querySelector('.hero-image img');
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
