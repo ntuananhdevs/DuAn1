@@ -1,6 +1,11 @@
 <?php
     session_start();
     ob_start();
+    
+    // Thêm các dòng include này
+    require_once "./clients/models/Category.php";
+    require_once "./clients/controllers/CategoryController.php";
+    
     if (isset($_SESSION['user_id'])) {
         $userId = $_SESSION['user_id'];
         $sessionId = null;
@@ -10,6 +15,9 @@
     }
     $cart = new ProductsContronller(new products());
     $cart_item = $cart->getCartItems($userId, $sessionId);
+    $categoryModel = new Category();
+    $categoryController = new CategoryController($categoryModel);
+    $categories = $categoryController->getCategories();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,13 +54,12 @@
                 <p class="fw-bold">WinTech</p>
             </div>
             <div class="nav-center">
-                <a href="?act=apple_products&id=1">Apple</a>
-                <a href="?act=apple_products&id=2">Samsung</a>
-                <a href="?act=apple_products&id=3">Oppo</a>
-                <a href="?act=apple_products&id=4">Xiaomi</a>
-                <a href="#">Gaming Phone</a>
-                <a href="#">Huawei</a>
-                <a href="#">Phụ Kiện</a>
+                <a href="?act=home">Trang chủ</a>
+                <?php foreach($categories as $category): ?>
+                    <a href="?act=apple_products&id=<?php echo $category['id']; ?>">
+                        <?php echo htmlspecialchars($category['category_name']); ?>
+                    </a>
+                <?php endforeach; ?>
             </div>
             <div class="nav-right">
                 <div class="text">
@@ -197,13 +204,14 @@
 
     <style>
         .user-badge{
+            border: 1px solid white;
             background-color: #1a821c;
             height: 8px;
             width: 8px;
             position: absolute;
             top: 10px;
-            right: 8px;
-            border-radius: 50%;
+            right: 10px;
+            border-radius: 100%;
         }
         .cart-container {
             margin-left: 10px;

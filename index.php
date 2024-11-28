@@ -58,14 +58,21 @@
         $auth->register();
     } else if ($act == 'logout') {
         $auth->logout();
-    } else if ($act == 'update-avatar') {  
+    } else if($act == 'changer_password') {
+        $auth->changePassword();
+    } else if($act == 'changepassword') {
+        $auth->changePassword_action();
+    }
+    else if ($act == 'update-avatar') {  
         $profile->updateAvatar(); 
     } else {
         include './clients/views/layout/header.php';
         match ($act) {
-            '/' => $home->view_home(),
+            '/' => $home->view_landing_page(),
+            'home' => $home->view_home(),
             'product_detail' => $products->view_products($_GET['id']),
             'add_to_cart' => $products->addToCart(),
+            'add_to_cart_now' => $products->addToCartNow(),
             'shoppingcart' => $shoppingCart->view_shoppingCart(),
             'update_cart' => $shoppingCart->updateQuantity(),
             'delete_items' => $shoppingCart->deleteItem($_GET['product_id']),

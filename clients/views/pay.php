@@ -15,7 +15,7 @@
             <div id="form1" class="border p-3 mt-5">
                 <h4>1. Lựa chọn phương thức vận chuyển</h4>
                 <p class="fw-bold">Địa chỉ nhận hàng</p>
-                <form method="POST" action="">
+                <form method="POST">
                     <div class="row mb-4">
                         <div class="col">
                             <label for="lastname" class="form-labell">Họ</label>

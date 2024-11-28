@@ -66,8 +66,7 @@ class AuthController {
                 
                 if (empty($email)) {
                     $emailError = "Email không được để trống";
-                }
-                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $emailError = "Địa chỉ email không hợp lệ";
                 }
                 
@@ -75,18 +74,29 @@ class AuthController {
                     $passwordError = "Mật khẩu không được để trống";
                 }
 
-                $user = $this->authModel->login($email, $password);
-                if ($user) {
-                    session_start();
-                    $_SESSION['user_id'] = $user['id'];
-                    header('Location: index.php');
-                    exit;
-                } else {
-                    $error = "Email hoặc mật khẩu không chính xác";
+                if (empty($emailError) && empty($passwordError)) {
+                    $user = $this->authModel->login($email, $password);
+                    if ($user) {
+                        if (password_verify($password, $user['password'])) {
+                            session_start();
+                            $_SESSION['user_id'] = $user['id'];
+                            if ($user['is_temporary'] == 1) {
+                                header("Location: ?act=changer_password");
+                            } else {
+                                header('Location: index.php');
+                            }
+                            exit;
+                        } else {
+                            $error = "Email hoặc mật khẩu không chính xác";
+                        }
+                    } else {
+                        $error = "Không tìm thấy tài khoản";
+                    }
+
                 }
             }
         } catch (Exception $e) {
-            exit;
+            echo $e->getMessage();
         }
         require_once './clients/auth/AuthLogin.php';
     }
@@ -97,5 +107,20 @@ class AuthController {
         header('Location: index.php');
         exit;   
     }
+
+    public function changePassword() {
+        require_once './clients/auth/ChangePassword.php';
+    }
+    public function changePassword_action() {
+        session_start();
+        $userId = $_SESSION['user_id'];
+        $confirmPassword = $_POST['confirm_password'];
+
+        $this->authModel->updatePassword($userId, $confirmPassword);
+
+        $this->authModel->markAsPermanent($userId);
+        header("Location: ?act=login");
+    }
+
 }
 

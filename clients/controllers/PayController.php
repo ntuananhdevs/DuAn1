@@ -44,7 +44,7 @@ class PayController{
         $user = $this->pay->getUserByEmail($email);
 
         if(!$user){
-            $password = bin2hex(random_bytes(4)); 
+            $password = bin2hex(random_bytes(8)); 
             $userId = $this->pay->createTemporaryUser($fullname, $email, $password);
         } else {
             $userId = $user['id'];
