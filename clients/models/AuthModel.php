@@ -35,4 +35,24 @@ class AuthModel {
         $query = $this->conn->prepare("UPDATE users SET is_temporary = 0 WHERE id = :user_id");
         $query->execute(['user_id' => $userId]);
     }
+    public function checkUserNameExists($username) {
+        $sql = "SELECT COUNT(*) FROM users WHERE user_name = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$username]);
+        return $stmt->fetchColumn() > 0;
+    }
+    
+    public function checkEmailExists($email) {
+        $sql = "SELECT COUNT(*) FROM users WHERE email = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$email]);
+        return $stmt->fetchColumn() > 0;
+    }
+    
+    public function checkPhoneExists($phone) {
+        $sql = "SELECT COUNT(*) FROM users WHERE phone_number = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$phone]);
+        return $stmt->fetchColumn() > 0;
+    }
 }
