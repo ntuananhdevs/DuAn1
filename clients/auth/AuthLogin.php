@@ -34,7 +34,10 @@
          <h1 class="login__title">Log in to your account.</h1>
 
          <div class="login__area">
-            <form method="POST" action="index.php?act=login" id="loginForm" class="login__form">
+            <form method="POST" action="?act=login" id="loginForm" class="login__form">
+               <div id="error" class="error-message" style="color: red;">
+                  <?php echo $error ?? ''; ?>
+               </div>
                <div class="login__content grid">
                   <div class="login__box">
                      <input type="text" name="email" id="email" placeholder=" " class="login__input">
