@@ -33,38 +33,30 @@ class ProfileController {
     }
 
     public function updateProfile() {
+        error_log('=== Update Profile Debug ===');
+        error_log('Request Method: ' . $_SERVER['REQUEST_METHOD']);
+        error_log('POST data: ' . print_r($_POST, true));
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ?act=profile&section=personal');
+            header('Location: index.php?act=profile&section=personal');
             exit;
         }
 
         $userId = $_SESSION['user_id'] ?? null;
         if (!$userId) {
             $_SESSION['error'] = "Vui lòng đăng nhập để cập nhật thông tin";
-            header('Location: ?act=login');
+            header('Location: index.php?act=login');
             exit;
         }
 
         $fullname = trim($_POST['fullname'] ?? '');
-        $email = trim($_POST['email'] ?? '');
         $phone_number = trim($_POST['phone_number'] ?? '');
+        $email = trim($_POST['email'] ?? '');
 
         // Validation
         if (empty($fullname) || empty($phone_number)) {
             $_SESSION['error'] = "Vui lòng điền đầy đủ thông tin bắt buộc";
-            header('Location: ?act=profile&section=personal');
-            exit;
-        }
-
-        if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $_SESSION['error'] = "Email không hợp lệ";
-            header('Location: ?act=profile&section=personal');
-            exit;
-        }
-
-        if (!preg_match('/^[0-9]{10}$/', $phone_number)) {
-            $_SESSION['error'] = "Số điện thoại không hợp lệ";
-            header('Location: ?act=profile&section=personal');
+            header('Location: index.php?act=profile&section=personal');
             exit;
         }
 
@@ -80,7 +72,7 @@ class ProfileController {
             $_SESSION['error'] = "Có lỗi xảy ra khi cập nhật thông tin";
         }
 
-        header('Location: ?act=profile&section=personal');
+        header('Location: index.php?act=profile&section=personal');
         exit;
     }
 

@@ -19,6 +19,10 @@ class ProfileModel {
 
     public function updateUserProfile($userId, $data) {
         try {
+            error_log('=== Database Update Debug ===');
+            error_log('User ID: ' . $userId);
+            error_log('Update data: ' . print_r($data, true));
+
             $sql = "UPDATE users SET 
                     fullname = :fullname,
                     email = :email,
@@ -36,12 +40,14 @@ class ProfileModel {
 
             if (!$result) {
                 error_log("Update failed for user ID: $userId");
-                error_log("SQL Error: " . implode(", ", $stmt->errorInfo()));
+                error_log("SQL Error: " . print_r($stmt->errorInfo(), true));
+            } else {
+                error_log("Update successful");
             }
             
             return $result;
         } catch (PDOException $e) {
-            error_log("Error updating profile: " . $e->getMessage());
+            error_log("Database error: " . $e->getMessage());
             return false;
         }
     }

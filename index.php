@@ -49,6 +49,7 @@
         'profile' => 'Profile',
         'update-avatar' => 'Update Avatar',  
         'loadbuy' => 'Chờ một chút',
+        'update_profile' => 'Update Profile',
         default => 'Home',
     };
     
@@ -84,6 +85,7 @@
             'add_review' => $products->addComment($_POST),
             'result' => $result->view_result(),
             'apple_products' => $home->view_apple_products($_GET['id']),
+            'update_profile' => $profile->updateProfile(),
             default => $home->view_home(),
         };
         include './clients/views/layout/footer.php';

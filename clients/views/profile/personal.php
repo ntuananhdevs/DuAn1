@@ -55,7 +55,9 @@
 
         <!-- Right Column - Form -->
         <div class="profile-form-section">
-            <form action="?act=update_profile" method="POST" id="profile-form" class="needs-validation" novalidate>
+            <form action="index.php?act=update_profile" method="POST" id="profile-form" class="needs-validation" novalidate>
+                <input type="hidden" name="form_submitted" value="1">
+                
                 <div class="form-group form-group-static">
                     <label for="user_name" class="form-label-static">Tên đăng nhập</label>
                     <input type="text" id="user_name" name="user_name"
