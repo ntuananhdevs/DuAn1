@@ -1,0 +1,206 @@
+.content-section {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.section-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.section-desc {
+    color: #666;
+    font-size: 14px;
+}
+
+/* Order Filters */
+.order-filters {
+    margin-bottom: 30px;
+    overflow-x: auto;
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+    padding-bottom: 5px;
+}
+
+.btn-filter {
+    padding: 8px 20px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    background: #fff;
+    color: #666;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.btn-filter.active {
+    background: #0066cc;
+    color: #fff;
+    border-color: #0066cc;
+}
+
+/* Order Card */
+.order-card {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+}
+
+.order-id {
+    font-weight: 600;
+    color: #333;
+}
+
+.order-date {
+    color: #666;
+    font-size: 14px;
+}
+
+.order-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.order-status.pending { background: #fff3cd; color: #856404; }
+.order-status.processing { background: #cce5ff; color: #004085; }
+
+.order-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 40px 0;
+    position: relative;
+    padding: 0 20px;
+}
+
+.order-progress::before {
+    content: '';
+    position: absolute;
+    top: 25px;
+    left: 50px;
+    right: 50px;
+    height: 2px;
+    background: #e0e0e0;
+    z-index: 1;
+}
+
+.progress-step {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.step-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.step-icon i {
+    font-size: 20px;
+    color: #999;
+}
+
+.step-label {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 5px;
+    max-width: 120px;
+}
+
+.step-date {
+    font-size: 12px;
+    color: #999;
+}
+
+/* Active and completed states */
+.progress-step.active .step-icon {
+    border-color: #4CAF50;
+    background: #4CAF50;
+}
+
+.progress-step.active .step-icon i {
+    color: #fff;
+}
+
+.progress-step.completed .step-icon {
+    border-color: #4CAF50;
+    background: #4CAF50;
+}
+
+.progress-step.completed .step-icon i {
+    color: #fff;
+}
+
+.progress-step.completed ~ .progress-step .step-icon {
+    border-color: #e0e0e0;
+    background: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .order-progress {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0;
+        margin: 20px 0;
+    }
+
+    .order-progress::before {
+        top: 0;
+        left: 25px;
+        width: 2px;
+        height: 100%;
+    }
+
+    .progress-step {
+        flex-direction: row;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .step-icon {
+        margin-right: 15px;
+        margin-bottom: 0;
+    }
+
+    .step-label {
+        text-align: left;
+        margin-bottom: 0;
+    }
+}
