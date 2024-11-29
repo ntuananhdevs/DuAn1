@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 // Kiểm tra trạng thái của form
 if (isset($_SESSION['register']) && $_SESSION['register'] === true) {

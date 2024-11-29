@@ -4,261 +4,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông tin cá nhân</title>
+    <title>Tài khoản - <?= htmlspecialchars($user['user_name'] ?? '') ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="assets/css/profile.css">
-    <style>
-    .alert {
-        padding: 15px;
-        margin-bottom: 20px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        animation: slideIn 0.5s ease-in-out;
-    }
-
-    .alert-success {
-        color: #155724;
-        background-color: #d4edda;
-        border-color: #c3e6cb;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .alert-danger {
-        color: #721c24;
-        background-color: #f8d7da;
-        border-color: #f5c6cb;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .alert i {
-        font-size: 20px;
-    }
-
-    .alert-close {
-        margin-left: auto;
-        cursor: pointer;
-        font-size: 20px;
-        color: inherit;
-        opacity: 0.5;
-    }
-
-    .alert-close:hover {
-        opacity: 1;
-    }
-
-    @keyframes slideIn {
-        from {
-            transform: translateY(-100%);
-            opacity: 0;
-        }
-
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    }
-
-    @keyframes fadeOut {
-        from {
-            opacity: 1;
-        }
-
-        to {
-            opacity: 0;
-        }
-    }
-
-    .avatar-wrapper {
-        position: relative;
-        display: inline-block;
-    }
-
-    .btn-change-avatar {
-        position: absolute;
-        bottom: 15px;
-        right: 15px;
-        background-color: #FFCC33;
-        border: none;
-        padding: 5px;
-        cursor: pointer;
-        border-radius: 50%;
-        font-size: 12px;
-    }
-
-    .btn-change-avatar:hover {
-        background-color: rgba(255, 255, 255, 1);
-    }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
+
 <body>
-    <main>
-        <div class="container">
-            <div class="profile-wrapper">
-                <!-- Sidebar -->
-                <div class="profile-sidebar">
-                    <div class="user-info">
-                        <div class="avatar-wrapper">
-                            <img id="avatarImage"
-                                src="<?= !empty($user['avatar']) ? htmlspecialchars($user['avatar']) : '' ?>"
-                                alt="Avatar" class="avatar">
-                            <form action="?action=update-avatar" method="POST" enctype="multipart/form-data"
-                                class="avatar-form" id="avatarForm">
-                                <input type="file" name="avatar" accept="" id="avatarInput"
-                                    style="display: none;" onchange="previewAvatar(event)">
-                                <button type="button" class="btn-change-avatar"
-                                    onclick="document.getElementById('avatarInput').click();">
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-                            </form>
-                        </div>
+    <div class="container">
+        <div class="profile-header">
+            <h1>Tài khoản</h1>
+            <p>Chào mừng, <?= htmlspecialchars($user['user_name'] ?? '') ?>!</p>
+        </div>
 
-                        <h3><?= htmlspecialchars($user['user_name'] ?? '') ?></h3>
-                        <p class="email"><?= htmlspecialchars($user['email'] ?? '') ?></p>
+        <div class="profile-content">
+            <!-- Left Sidebar -->
+            <div class="profile-sidebar">
+                <div class="user-info">
+                    <div class="avatar-wrapper">
+                        <?php 
+                        $avatarPath = !empty($user['avatar']) ? 'uploads/UserIMG/' . $user['avatar'] : 'assets/images/default-avatar.png';
+                        ?>
+                        <img src="<?= $avatarPath ?>" class="sidebar-avatar" id="sidebar-avatar-preview" alt="Avatar">
                     </div>
-                    <nav class="profile-nav">
-                        <a href="#profile" class="active">
-                            <i class="fas fa-user"></i>Thông tin cá nhân
-                        </a>
-                        <a href="?action=orders">
-                            <i class="fas fa-shopping-bag"></i>Đơn hàng của tôi
-                        </a>
-                        <a href="#address">
-                            <i class="fas fa-map-marker-alt"></i>Sổ địa chỉ
-                        </a>
-                        <a href="#password">
-                            <i class="fas fa-lock"></i>Đổi mật khẩu
-                        </a>
-                    </nav>
-                </div>
-
-                <!-- Main Content -->
-                <div class="profile-content">
-                    <div class="content-section" id="profile">
-                        <h2>Thông tin cá nhân</h2>
-
-                        <?php if (isset($_SESSION['error'])): ?>
-                        <div class="alert alert-danger" id="errorAlert">
-                            <i class="fas fa-exclamation-circle"></i>
-                            <span><?= htmlspecialchars($_SESSION['error']) ?></span>
-                            <?php unset($_SESSION['error']); ?>
-                            <span class="alert-close" onclick="closeAlert(this.parentElement)">&times;</span>
-                        </div>
-                        <?php endif; ?>
-
-                        <?php if (isset($_SESSION['success'])): ?>
-                        <div class="alert alert-success" id="successAlert">
-                            <i class="fas fa-check-circle"></i>
-                            <span><?= htmlspecialchars($_SESSION['success']) ?></span>
-                            <?php unset($_SESSION['success']); ?>
-                            <span class="alert-close" onclick="closeAlert(this.parentElement)">&times;</span>
-                        </div>
-                        <?php endif; ?>
-
-                        <form class="profile-form" action="?action=update-profile" method="POST"
-                            enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label>Họ và tên</label>
-                                <input type="text" name="fullname"
-                                    value="<?= htmlspecialchars($user['user_name'] ?? '') ?>"
-                                    placeholder="Nhập họ và tên">
-                            </div>
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label>Số điện thoại</label>
-                                <input type="tel" name="phone"
-                                    value="<?= htmlspecialchars($user['phone_number'] ?? '') ?>"
-                                    placeholder="Nhập số điện thoại">
-                            </div>
-                            <div class="form-group">
-                                <label>Ngày sinh</label>
-                                <input type="date" name="birthday"
-                                    value="<?= htmlspecialchars($user['birthday'] ?? '') ?>">
-                            </div>
-                            <div class="form-group">
-                                <label>Giới tính</label>
-                                <select name="gender">
-                                    <option value="">Chọn giới tính</option>
-                                    <option value="1" <?= ($user['gender'] ?? '') == 1 ? 'selected' : '' ?>>Nam</option>
-                                    <option value="0" <?= ($user['gender'] ?? '') == 0 ? 'selected' : '' ?>>Nữ</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Địa chỉ</label>
-                                <textarea name="address" rows="3"
-                                    placeholder="Nhập địa chỉ"><?= htmlspecialchars($user['address'] ?? '') ?></textarea>
-                            </div>
-                            <button type="submit" class="btn-save">Lưu thay đổi</button>
-                        </form>
+                    <div class="user-details">
+                        <h4><?= htmlspecialchars($user['fullname'] ?? $user['user_name']) ?></h4>
+                        <p class="text-muted">Member since <?= date('Y', strtotime($user['created_at'])) ?></p>
                     </div>
                 </div>
+
+                <!-- Navigation Menu -->
+                <nav class="profile-nav">
+                    <ul class="nav flex-column">
+                        <li>
+                            <a class="nav-link" href="?act=profile">
+                                <i class="fas fa-home"></i> Tổng quan
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="?act=profile&section=messages">
+                                <i class="fas fa-envelope"></i> Trung tâm tin nhắn
+                            </a>
+                        </li>
+                        <li class="nav-section">
+                            <button class="section-toggle" data-target="account-settings">
+                                <i class="fas fa-cog"></i>
+                                <span>Cài đặt tài khoản</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <ul id="account-settings" class="collapse">
+                                <li><a href="?act=profile&section=personal">Hồ sơ cá nhân</a></li>
+                                <li><a href="?act=login">Quản lý đăng nhập</a></li>
+                                <li><a href="?act=login">Đăng ký</a></li>
+                                <li><a href="?act=profile&section=#">Đổi mật khẩu</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-section">
+                            <button class="section-toggle" data-target="order-status">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Trạng thái đơn hàng</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <ul id="order-status" class="collapse">
+                                <li><a href="?act=orders">Đơn hàng</a></li>
+                                <li><a href="?act=#">Trả hàng</a></li>
+                                <li><a href="?act=#">Sổ địa chỉ</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="profile-main">
+                <?php
+                // Kiểm tra và load nội dung tương ứng với section
+                if (isset($_GET['section'])) {
+                    switch ($_GET['section']) {
+                        case 'personal':
+                            require_once './clients/views/profile/personal.php';
+                            break;
+                        case 'login':
+                            require_once './clients/views/profile/personal.php';
+                            break;
+                        case 'password':
+                            require_once './clients/views/profile/personal.php';
+                            break;
+                        case 'register':
+                            require_once './clients/views/profile/personal.php';
+                            break;
+                        default:
+                            // Hiển thị nội dung mặc định
+                            ?>
+
+
+                <?php
+                            break;
+                    }
+                } else {
+                    // Hiển thị nội dung mặc định khi không có section
+                    ?>
+                <div class="content-section">
+                    <h2>Đăng ký sản phẩm</h2>
+                    <div class="product-registration">
+                        <a href="?act=profile">
+                            <img src="./assets/img/logo.png" alt="">
+                        </a>
+                        <p>Khi bạn hoàn thành quá trình đăng ký sản phẩm, các thiết bị sẽ hiển thị ở đây.</p>
+                        <a href="#register-product" class="btn-register">Đăng ký sản phẩm đầu tiên của bạn</a>
+                    </div>
+                </div>
+
+
+                <?php
+                }
+                ?>
             </div>
         </div>
-    </main>
-
-
+    </div>
 
     <script>
-    // Tự động ẩn thông báo sau 5 giây
     document.addEventListener('DOMContentLoaded', function() {
-        const alerts = document.querySelectorAll('.alert');
-        alerts.forEach(alert => {
-            setTimeout(() => {
-                if (alert) {
-                    fadeOutAlert(alert);
+        const toggles = document.querySelectorAll('.section-toggle');
+
+        toggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const targetUl = document.getElementById(targetId);
+                const parentSection = this.closest('.nav-section');
+
+                // Toggle active state
+                this.classList.toggle('active');
+                parentSection.classList.toggle('open');
+
+                // Toggle dropdown
+                if (targetUl.classList.contains('show')) {
+                    targetUl.classList.remove('show');
+                } else {
+                    // Close other dropdowns
+                    document.querySelectorAll('.nav-section ul').forEach(ul => {
+                        ul.classList.remove('show');
+                    });
+                    document.querySelectorAll('.section-toggle').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    document.querySelectorAll('.nav-section').forEach(s => {
+                        s.classList.remove('open');
+                    });
+
+                    // Open current dropdown
+                    targetUl.classList.add('show');
+                    this.classList.add('active');
+                    parentSection.classList.add('open');
                 }
-            }, 5000);
+            });
         });
     });
-
-    // Hàm đóng thông báo khi click
-    function closeAlert(alert) {
-        fadeOutAlert(alert);
-    }
-
-    // Hiệu ứng fade out
-    function fadeOutAlert(alert) {
-        alert.style.animation = 'fadeOut 0.5s ease-in-out';
-        setTimeout(() => {
-            alert.remove();
-        }, 500);
-    }
-
-    function previewAvatar(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('avatarImage').src = e.target.result; // Cập nhật ảnh đại diện
-            }
-            reader.readAsDataURL(file);
-            // Gửi form ngay sau khi chọn ảnh
-            document.getElementById('avatarForm').submit();
-        }
-    }
-    </script>
-
-
-    <script>
-    function previewAvatar(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('avatarImage').src = e.target.result; // Cập nhật ảnh đại diện
-            }
-            reader.readAsDataURL(file);
-            // Gửi form ngay sau khi chọn ảnh
-            document.getElementById('avatarForm').submit();
-        }
-    }
     </script>
 </body>
 

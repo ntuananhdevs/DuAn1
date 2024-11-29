@@ -170,8 +170,8 @@
             </div>
 
             <!-- Hiển thị giá biến thể đã chọn -->
-            <div class="price_products_variants d-flex justify-content-center align-items-center mt-3">
-                <div class="discount bg-danger w-25 h-100 d-flex justify-content-center align-items-center">
+            <div class="price_products_variants">
+                <div class="discount_sale">
                     <p id="variant-discount" style="font-size: 16px;"></p>
                 </div>
                 <div class="price-vi text-center">
@@ -774,7 +774,7 @@
             const reviewForm = document.getElementById('review-form');
             if (reviewForm) reviewForm.style.display = 'none';
 
-            // Reset đánh giá sao
+            // Reset ánh giá sao
             const ratingInput = document.getElementById('rating');
             if (ratingInput) ratingInput.value = "0";
 
@@ -812,13 +812,11 @@
                         return; // Không thực hiện hành động gì thêm
                     }
 
-                    // Nếu chưa like, đánh dấu là đã like
-                    likedComments.add(commentId);
+            likedComments.add(commentId);
 
-                    // Nếu đã dislike, bỏ dislike trước
-                    if (dislikedComments.has(commentId)) {
-                        dislikedComments.delete(commentId);
-                    }
+            if (dislikedComments.has(commentId)) {
+                dislikedComments.delete(commentId);
+            }
 
                     // Cập nhật giao diện hoặc gửi dữ liệu lên server nếu cần
                     // Ví dụ: thay đổi icon, số lượt thích, v.v.
@@ -854,3 +852,187 @@
         // Khởi chạy sau khi DOM được tải
         document.addEventListener('DOMContentLoaded', setupStarRatings);
     </script>
+<style>
+    .price_products_variants{
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .discount_sale{
+        width: fit-content;
+        padding: 8px 20px;
+        border-radius: 25px;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(45deg, #dc3545, #ff6b6b);
+        box-shadow: 0 2px 10px rgba(220, 53, 69, 0.2);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .discount_sale p {
+        color: white;
+        font-size: 15px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0;
+        position: relative;
+        z-index: 2;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .discount_sale:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.3),
+            transparent
+        );
+        transition: 0.5s;
+    }
+
+    .discount_sale:hover:before {
+        left: 100%;
+    }
+
+    .discount_sale:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+    }
+
+    /* Animation */
+    @keyframes float {
+        0% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-5px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    .discount_sale {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+        .discount_sale {
+            padding: 6px 15px;
+        }
+        
+        .discount_sale p {
+            font-size: 13px;
+        }
+    }
+
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+        .discount_sale {
+            background: linear-gradient(45deg, #c82333, #e74c3c);
+            box-shadow: 0 2px 10px rgba(231, 76, 60, 0.2);
+        }
+    }
+    .price-vi {
+        padding: 15px 20px;
+        border-radius: 8px;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0,0,0,0.05);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .price-vi:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.2),
+            transparent
+        );
+        transition: 0.5s;
+    }
+
+    .price-vi:hover:before {
+        left: 100%;
+    }
+
+    .price-vi:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    #variant-price {
+        font-size: 28px !important;
+        font-weight: 700 !important;
+        color: #dc3545 !important;
+        margin-bottom: 8px;
+        display: block;
+        text-shadow: 1px 1px 1px rgba(0,0,0,0.05);
+    }
+
+    #variant-original-price {
+        font-size: 16px !important;
+        color: #6c757d !important;
+        text-decoration: line-through;
+        margin: 0;
+        display: block;
+        position: relative;
+    }
+    @media (max-width: 768px) {
+        .price-vi {
+            padding: 12px 15px;
+        }
+        
+        #variant-price {
+            font-size: 24px !important;
+        }
+        
+        #variant-original-price {
+            font-size: 14px !important;
+        }
+    }
+
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+        .price-vi {
+            background: #2d2d2d;
+            border-color: rgba(255,255,255,0.1);
+        }
+        
+        #variant-price {
+            color: #ff4d4d !important;
+        }
+    }
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+</style>

@@ -126,31 +126,31 @@
                             <?= htmlspecialchars($result['views']) ?>
                         </p>
                     </div>
-
-                    <!-- Giá sản phẩm -->
-                    <span class="sale">
-                        Sale:
+                
+                    <div class="price-home mb-0 mt-2">
                         <?php
                         $original_price = floatval(str_replace('.', '', $result['Lowest_Price']));
                         $discount_value = floatval($result['discount_value']);
                         $discount_status = $result['discount_status'];
 
                         if ($discount_value > 0 && $discount_status === 'active') {
-                            $discounted_price = $result['discount_type'] === 'percentage'
-                                ? $original_price * (1 - $discount_value / 100)
-                                : $original_price - $discount_value;
-
-                            echo '<span class="text-danger">' . number_format($discounted_price, 0, ',', '.') . ' VND</span>';
+                            if ($result['discount_type'] == 'percentage') {
+                                $discounted_price = $original_price * (1 - $discount_value / 100);
+                            } else {
+                                $discounted_price = $original_price - $discount_value;
+                            }
+                            
+                            echo '<p>' . number_format($discounted_price, 0, ',', '.') . ' ₫</p>';
                         } else {
-                            echo '<span>0 VND</span>';
+                            echo '<span>' . '0' . ' ₫</span>';
                         }
                         ?>
-                        <span class="discount"><?= htmlspecialchars(number_format($result['Lowest_Price'], 0, ',', '.')) ?> VNĐ</span>
-                    </span>
-                    <hr>
-                    <!-- Liên kết sản phẩm -->
-                    <a href="#" class="buy-now">Mua ngay</a>
-                    <a href="?act=product_detail&id=<?= $result['id'] ?>" class="learn-more">Xem chi tiết</a>
+                    </div>
+                    <div class="price-save d-flex gap-3 mt-0">
+                        <p class="discound-1 text-decoration-line-through" style="font-size: 1rem"><?= htmlspecialchars(number_format($result['Lowest_Price'], 0, ',', '.')) ?>₫</p>
+                        <p class="save-2 text-danger" style="font-size: 1rem">SAVE: <?= htmlspecialchars(number_format($result['Lowest_Price'] - $discounted_price, 0, ',', '.')) ?>₫</p>
+                    </div>
+                    <a href="?act=product_detail&id=<?= $result['id'] ?>" class="buy-now">Mua ngay</a>
                 </div>
             <?php endforeach; ?>
         </div>

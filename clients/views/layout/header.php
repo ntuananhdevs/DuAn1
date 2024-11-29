@@ -1,5 +1,4 @@
 <?php
-    session_start();
     ob_start();
     
     // Thêm các dòng include này
@@ -203,6 +202,15 @@
     <script src="../assets/js/main.js"></script>
 
     <style>
+        .nav-center {
+            margin-right: 540px;
+        }
+        .fw-bold{
+            color: #333;
+        }
+        .icon-nav{
+            color: #333;
+        }
         .user-badge{
             border: 1px solid white;
             background-color: #1a821c;
