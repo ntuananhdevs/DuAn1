@@ -88,7 +88,6 @@ class AuthController {
 
     public function login() {
         try {
-            session_start();
             $error = '';
             $emailError = '';
             $passwordError = '';
