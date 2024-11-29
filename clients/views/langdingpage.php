@@ -150,6 +150,7 @@
             flex-direction: column;
             justify-content: space-between;
             height: 100%;
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
         }
 
         .product-card.animate {
@@ -197,7 +198,7 @@
             background: var(--primary);
             color: white;
             padding: 8px 16px;
-            border-radius: 980px;
+            border-radius:2px;
             font-size: 12px;
             line-height: 1.33337;
             font-weight: 400;
