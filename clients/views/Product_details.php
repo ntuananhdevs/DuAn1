@@ -276,7 +276,7 @@
 
                             <div id="login-modal" class="modal ">
                                 <div class="modal-content">
-                                    <span class="close "><ion-icon name="close"></ion-icon></span>
+                                    
                                     <h2>Đăng nhập Wintech</h2>
 
                                     <div class="login-fb">
