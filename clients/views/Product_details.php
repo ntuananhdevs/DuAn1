@@ -183,13 +183,7 @@
             </div>
 
             <div class="btn-details mt-5 d-flex justify-content-center align-items-center gap-3">
-            <form id="add-to-cart-now" action="?act=add_to_cart_now" method="POST">
-                    <input type="hidden" name="id" value="<?= $product['id'] ?>">
-                    <input type="hidden" name="product_id" id="selected-variant-id-now" value="">
-                    <input type="hidden" name="quantity" value="1">
-                    <input type="hidden" name="price" id="selected-variant-price-now" value="">
-                    <button type="submit" class="btn btn-danger">Mua ngay</button>
-                </form>
+                <a id="buy-now-link" href="?act=pay&id=" class="btn btn-danger w-25"> Mua ngay </a>
 
                 <form id="add-to-cart-form" action="?act=add_to_cart" method="POST">
                     <input type="hidden" name="id" value="<?= $product['id'] ?>">
@@ -277,13 +271,12 @@
                     <hr>
                     <div class="comments text-center">
                         <?php if (!isset($_SESSION['user_id'])): ?>
-                            <!-- Hiển thị thông báo yêu cầu đăng nhập -->
                             <p>Bạn cần đăng nhập để đánh giá sản phẩm này.</p>
                             <button class="btn btn-outline-danger" onclick="showLoginModal()">Viết đánh giá</button>
 
                             <div id="login-modal" class="modal ">
                                 <div class="modal-content">
-                                    <span class="close "><ion-icon name="close"></ion-icon></span>
+                                    
                                     <h2>Đăng nhập Wintech</h2>
 
                                     <div class="login-fb">
@@ -316,7 +309,7 @@
                                 <span class="close "><ion-icon name="close"></ion-icon></span>
                                 <form id="rating-form" action="?act=add_review" method="post">
                                     <h2>Đánh giá & nhận xét</h2>
-                                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>"> 
+                                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                                     <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
 
                                     <div class="section-title">Đánh giá chung</div>
@@ -343,88 +336,87 @@
                     </div>
                     <hr>
 
-                    <hr>
-                    <div class="comment-list ms-5">
-    <?php if (!empty($comments)) : ?>
-        <?php foreach ($comments as $comment) : ?>
-            <div class="comment">
-                <!-- Avatar -->
-                <div class="avt">
-                    <img
-                        src="./uploads/<?php echo htmlspecialchars($comment['user_avatar']); ?>" 
-                        class="user-avatar"
-                       />
-                </div>
                 
-                <!-- User Information and Comment -->
-                <div class="name-date">
-                    <!-- Header: User Name and Date -->
-                    <div class="header-comment">
-                        <div class="name-user">
-                            <p><?php echo htmlspecialchars($comment['user_name']); ?></p>
-                        </div>
-                        <div class="date">
-                            <p><?php echo htmlspecialchars($comment['created_date']); ?></p>
-                        </div>
+                    <div class="comment-list ms-5">
+                        <?php if (!empty($comments)) : ?>
+                            <?php foreach ($comments as $comment) : ?>
+                                <div class="comment">
+                                    <!-- Avatar -->
+                                    <div class="avt">
+                                        <img
+                                            src="./uploads/<?php echo htmlspecialchars($comment['user_avatar']); ?>"
+                                            class="user-avatar" />
+                                    </div>
+
+                                    <!-- User Information and Comment -->
+                                    <div class="name-date">
+                                        <!-- Header: User Name and Date -->
+                                        <div class="header-comment">
+                                            <div class="name-user">
+                                                <p><?php echo htmlspecialchars($comment['user_name']); ?></p>
+                                            </div>
+                                            <div class="date">
+                                                <p><?php echo htmlspecialchars($comment['created_date']); ?></p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Comment Content -->
+                                        <div class="contents">
+                                            <p><?php echo htmlspecialchars($comment['comment_content']); ?></p>
+                                        </div>
+
+                                        <!-- Like, Dislike, and Reply Actions -->
+                                        <div class="icon">
+                                            <!-- Like Button -->
+                                            <div class="comment__operate">
+                                                <form
+                                                    action="?act=update_like_dislike"
+                                                    method="POST"
+                                                    class="like-form d-flex align-items-center">
+                                                    <input type="hidden" name="comment_id" value="<?php echo $comment['comment_id']; ?>">
+                                                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                                                    <button
+                                                        type="submit"
+                                                        name="action"
+                                                        value="like"
+                                                        class="btn comment__operate__icon like fas fa-thumbs-up">
+                                                    </button>
+                                                    <p class=""><?php echo $comment['like_count']; ?></p>
+                                                </form>
+                                            </div>
+
+                                            <!-- Dislike Button -->
+                                            <div class="comment__operate">
+                                                <form
+                                                    action="?act=update_like_dislike"
+                                                    method="POST"
+                                                    class="dislike-form d-flex align-items-center ms-3">
+                                                    <input type="hidden" name="comment_id" value="<?php echo $comment['comment_id']; ?>">
+                                                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                                                    <button
+                                                        type="submit"
+                                                        name="action"
+                                                        value="dislike"
+                                                        class="btn comment__operate__icon dislike fas fa-thumbs-down">
+                                                    </button>
+                                                    <p class=""><?php echo $comment['dislike_count']; ?></p>
+                                                </form>
+                                            </div>
+
+                                            <!-- Reply Button -->
+                                            <div class="comment__operate">
+                                                <button
+                                                    class="btn comment__operate__icon reply fas fa-reply ms-3">
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <p>No comments available.</p>
+                        <?php endif; ?>
                     </div>
-                    
-                    <!-- Comment Content -->
-                    <div class="contents">
-                        <p><?php echo htmlspecialchars($comment['comment_content']); ?></p>
-                    </div>
-                    
-                    <!-- Like, Dislike, and Reply Actions -->
-                    <div class="icon">
-                        <!-- Like Button -->
-                        <div class="comment__operate">
-                            <form 
-                                action="?act=update_like_dislike" 
-                                method="POST" 
-                                class="like-form d-flex align-items-center">
-                                <input type="hidden" name="comment_id" value="<?php echo $comment['comment_id']; ?>">
-                                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                                <button 
-                                    type="submit" 
-                                    name="action" 
-                                    value="like" 
-                                    class="btn comment__operate__icon like fas fa-thumbs-up">
-                                </button>
-                                <p class="ms-2"><?php echo $comment['like_count']; ?></p>
-                            </form>
-                        </div>
-                        
-                        <!-- Dislike Button -->
-                        <div class="comment__operate">
-                            <form 
-                                action="?act=update_like_dislike" 
-                                method="POST" 
-                                class="dislike-form d-flex align-items-center ms-3">
-                                <input type="hidden" name="comment_id" value="<?php echo $comment['comment_id']; ?>">
-                                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                                <button 
-                                    type="submit" 
-                                    name="action" 
-                                    value="dislike" 
-                                    class="btn comment__operate__icon dislike fas fa-thumbs-down">
-                                </button>
-                                <p class="ms-3"><?php echo $comment['dislike_count']; ?></p>
-                            </form>
-                        </div>
-                        
-                        <!-- Reply Button -->
-                        <div class="comment__operate">
-                            <button 
-                                class="btn comment__operate__icon reply fas fa-reply ms-3">
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    <?php else : ?>
-        <p>No comments available.</p>
-    <?php endif; ?>
-</div>
 
 
                 </div>
@@ -519,10 +511,10 @@
             // Update form inputs with selected variant details
             document.getElementById('selected-variant-id').value = selectedVariantId;
             document.getElementById('selected-variant-price').value = finalPrice;
-
-            document.getElementById('selected-variant-id-now').value = selectedVariantId;
-            document.getElementById('selected-variant-price-now').value = finalPrice;
         }
+
+
+
         let selectedVariantId = null; // Lưu id của biến thể được chọn
 
         function filterVariants(element) {
@@ -560,6 +552,9 @@
                 selectVariant(firstMatchingVariant);
             }
         }
+
+
+
         document.addEventListener('DOMContentLoaded', function() {
             // Thumbnail Slider
             var thumbnailSlider = new Swiper('.thumbnail-slider', {
@@ -583,6 +578,7 @@
             function getCurrentColor() {
                 return mainSlider.slides[mainSlider.activeIndex].getAttribute('data-color');
             }
+
             // Hàm chuyển đến slide cùng màu tiếp theo
             function goToNextSameColorSlide() {
                 const currentColor = getCurrentColor();
@@ -597,6 +593,7 @@
                     nextIndex++;
                 }
             }
+
             // Hàm chuyển đến slide cùng màu trước đó
             function goToPrevSameColorSlide() {
                 const currentColor = getCurrentColor();
@@ -617,10 +614,12 @@
                 event.preventDefault();
                 goToNextSameColorSlide();
             });
+
             document.querySelector('.swiper-button-prev').addEventListener('click', function(event) {
                 event.preventDefault();
                 goToPrevSameColorSlide();
             });
+
             // Thêm class cho ảnh thumbnail khi được chọn
             mainSlider.on('slideChange', function() {
                 const currentColor = getCurrentColor();
@@ -646,6 +645,9 @@
                 selectVariant(firstVariantOption);
             }
         });
+
+
+
         // Hàm xử lý chọn sao
         function setupStarRatings() {
             // Tìm tất cả các khối đánh giá sao
@@ -794,21 +796,21 @@
             }
         });
         document.addEventListener('DOMContentLoaded', function() {
-    // Giả sử rằng bạn có một cách để xác định người dùng đã thích hay không
-    // Đây là ví dụ đơn giản: biến trạng thái như đã thích hoặc đã dislike
-    var likedComments = new Set(); // Lưu trữ các ID của bình luận đã like
-    var dislikedComments = new Set(); // Lưu trữ các ID của bình luận đã dislike
+            // Giả sử rằng bạn có một cách để xác định người dùng đã thích hay không
+            // Đây là ví dụ đơn giản: biến trạng thái như đã thích hoặc đã dislike
+            var likedComments = new Set(); // Lưu trữ các ID của bình luận đã like
+            var dislikedComments = new Set(); // Lưu trữ các ID của bình luận đã dislike
 
-    // Xử lý click cho nút Like
-    document.querySelectorAll('.comment__operate .like').forEach(function(likeButton) {
-        likeButton.addEventListener('click', function(event) {
-            var commentId = event.target.closest('form').querySelector('input[name="comment_id"]').value;
+            // Xử lý click cho nút Like
+            document.querySelectorAll('.comment__operate .like').forEach(function(likeButton) {
+                likeButton.addEventListener('click', function(event) {
+                    var commentId = event.target.closest('form').querySelector('input[name="comment_id"]').value;
 
-            // Nếu đã like rồi thì ngừng hành động này
-            if (likedComments.has(commentId)) {
-                event.preventDefault(); // Ngừng hành động của form
-                return; // Không thực hiện hành động gì thêm
-            }
+                    // Nếu đã like rồi thì ngừng hành động này
+                    if (likedComments.has(commentId)) {
+                        event.preventDefault(); // Ngừng hành động của form
+                        return; // Không thực hiện hành động gì thêm
+                    }
 
             likedComments.add(commentId);
 
@@ -816,33 +818,37 @@
                 dislikedComments.delete(commentId);
             }
 
-            // Cập nhật giao diện hoặc gửi dữ liệu lên server nếu cần
-            // Ví dụ: thay đổi icon, số lượt thích, v.v.
+                    // Cập nhật giao diện hoặc gửi dữ liệu lên server nếu cần
+                    // Ví dụ: thay đổi icon, số lượt thích, v.v.
+                });
+            });
+
+            // Xử lý click cho nút Dislike
+            document.querySelectorAll('.comment__operate .dislike').forEach(function(dislikeButton) {
+                dislikeButton.addEventListener('click', function(event) {
+                    var commentId = event.target.closest('form').querySelector('input[name="comment_id"]').value;
+
+                    // Nếu đã dislike rồi thì ngừng hành động này
+                    if (dislikedComments.has(commentId)) {
+                        event.preventDefault(); // Ngừng hành động của form
+                        return; // Không thực hiện hành động gì thêm
+                    }
+
+                    // Nếu chưa dislike, đánh dấu là đã dislike
+                    dislikedComments.add(commentId);
+
+                    // Nếu đã like, bỏ like trước
+                    if (likedComments.has(commentId)) {
+                        likedComments.delete(commentId);
+                    }
+
+                    // Cập nhật giao diện hoặc gửi dữ liệu lên server nếu cần
+                    // Ví dụ: thay đổi icon, số lượt không thích, v.v.
+                });
+            });
         });
-    });
 
-    // Xử lý click cho nút Dislike
-    document.querySelectorAll('.comment__operate .dislike').forEach(function(dislikeButton) {
-        dislikeButton.addEventListener('click', function(event) {
-            var commentId = event.target.closest('form').querySelector('input[name="comment_id"]').value;
 
-            // Nếu đã dislike rồi thì ngừng hành động này
-            if (dislikedComments.has(commentId)) {
-                event.preventDefault(); // Ngừng hành động của form
-                return; // Không thực hiện hành động gì thêm
-            }
-            // Nếu chưa dislike, đánh dấu là đã dislike
-            dislikedComments.add(commentId);
-
-            // Nếu đã like, bỏ like trước
-            if (likedComments.has(commentId)) {
-                likedComments.delete(commentId);
-            }
-            // Cập nhật giao diện hoặc gửi dữ liệu lên server nếu cần
-            // Ví dụ: thay đổi icon, số lượt không thích, v.v.
-        });
-    });
-});
         // Khởi chạy sau khi DOM được tải
         document.addEventListener('DOMContentLoaded', setupStarRatings);
     </script>
