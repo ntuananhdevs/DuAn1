@@ -13,7 +13,7 @@
 
             <div class="star-rating mb-2">
                 <?php
-                $rating = isset($product['rating']) ? floatval($product['rating']) : 0; // Giá trị rating từ database
+                $rating = isset($product['rating']) ? floatval($product['rating']) : 0;
                 $maxStars = 5; // Tổng số sao tối đa
 
                 for ($i = 1; $i <= $maxStars; $i++) {
@@ -171,17 +171,42 @@
 
             <!-- Hiển thị giá biến thể đã chọn -->
             <div class="price_products_variants">
-                <div class="discount_sale">
-                    <p id="variant-discount" style="font-size: 16px;"></p>
-                </div>
                 <div class="price-vi text-center">
+                    <div class="discount_sale">
+                        <p id="variant-discount" style="font-size: 16px;"></p>
+                    </div>
                     <p id="variant-price" style="font-size: 19px; font-weight: bold; color: red;"></p>
                     <p id="variant-original-price" style="font-size: 14px; color: #888;"></p>
                 </div>
+                <div class="button-mcx">
+                    <div class="button-container">
+                        <form id="add-to-cart-now" action="?act=add_to_cart_now" method="POST">
+                            <input type="hidden" name="id" value="<?= $product['id'] ?>">
+                            <input type="hidden" name="product_id" id="selected-variant-id-now" value="">
+                            <input type="hidden" name="quantity" value="1">
+                            <input type="hidden" name="price" id="selected-variant-price-now" value="">
+                            <button type="submit" id="buy-now-link" class="btn btn-danger w-100 mb-2">Mua ngay</button>
+                        </form>
 
-
+                        <form id="add-to-cart-form" action="?act=add_to_cart" method="POST">
+                            <input type="hidden" name="id" value="<?= $product['id'] ?>">
+                            <input type="hidden" name="product_id" id="selected-variant-id" value="">
+                            <input type="hidden" name="quantity" value="1">
+                            <input type="hidden" name="price" id="selected-variant-price" value="">
+                            <button type="submit" id="add-to-cart-link" class="btn btn-outline-danger w-100">Thêm vào giỏ hàng</button>
+                        </form>
+                    </div>
+                </div>
             </div>
 
+            <!-- <div class="btn-details mt-5 d-flex justify-content-center align-items-center gap-3">
+            <form id="add-to-cart-now" action="?act=add_to_cart_now" method="POST">
+                    <input type="hidden" name="id" value="<?= $product['id'] ?>">
+                    <input type="hidden" name="product_id" id="selected-variant-id-now" value="">
+                    <input type="hidden" name="quantity" value="1">
+                    <input type="hidden" name="price" id="selected-variant-price-now" value="">
+                    <button type="submit" class="btn btn-danger">Mua ngay</button>
+                </form>
             <div class="btn-details mt-5 d-flex justify-content-center align-items-center gap-3">
                 <a id="buy-now-link" href="?act=pay&id=" class="btn btn-danger w-25"> Mua ngay </a>
 
@@ -192,7 +217,7 @@
                     <input type="hidden" name="price" id="selected-variant-price" value="">
                     <button type="submit" class="btn btn-outline-danger">Thêm vào giỏ hàng</button>
                 </form>
-            </div>
+            </div> -->
         </div>
 
 
@@ -858,12 +883,9 @@
         flex-direction: column;
         gap: 15px;
         padding: 15px;
-        background: #f8f9fa;
         border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
     .discount_sale{
-        width: fit-content;
         padding: 8px 20px;
         border-radius: 25px;
         position: relative;
@@ -947,6 +969,8 @@
         }
     }
     .price-vi {
+        height: 160px;
+        width: 350px;
         padding: 15px 20px;
         border-radius: 8px;
         background: white;
@@ -1035,4 +1059,112 @@
             transform: scale(1);
         }
     }
+    .button-mcx {
+    margin-top: 15px;
+}
+
+.button-container {
+    margin-top: -191px;
+    width: 250px;
+    max-width: 350px; /* Độ rộng giống với khối giá */
+    margin-left: auto; /* Căn phải */
+}
+
+.button-mcx button {
+    padding: 12px 25px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Style cho nút Mua ngay */
+.button-mcx .btn-danger {
+    background: linear-gradient(45deg, #dc3545, #ff6b6b);
+    border: none;
+    box-shadow: 0 2px 10px rgba(220, 53, 69, 0.2);
+}
+
+/* Style cho nút Thêm vào giỏ hàng */
+.button-mcx .btn-outline-danger {
+    border: 2px solid #dc3545;
+    background: transparent;
+    color: #dc3545;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Hiệu ứng hover */
+.button-mcx button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+/* Hiệu ứng shine */
+.button-mcx button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.3),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.button-mcx button:hover:before {
+    left: 100%;
+}
+
+/* Animation float */
+.button-mcx button {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .button-container {
+        margin: 0 auto; /* Căn giữa trên mobile */
+    }
+    
+    .button-mcx button {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .button-mcx .btn-danger {
+        background: linear-gradient(45deg, #c82333, #e74c3c);
+    }
+    
+    .button-mcx .btn-outline-danger {
+        border-color: #e74c3c;
+        color: #e74c3c;
+    }
+}
+#buy-now-link, #add-to-cart-link {
+    text-decoration: none;
+    height: 75px;
+}
 </style>
