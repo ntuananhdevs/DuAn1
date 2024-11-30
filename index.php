@@ -10,6 +10,7 @@
     require_once './clients/controllers/PayController.php';
     require_once './clients/controllers/SpCartContronller.php';
     require_once './clients/controllers/ProfileController.php';
+    require_once './clients/controllers/OrderController.php';
 
 
     #require Model
@@ -31,6 +32,7 @@
     $auth = new AuthController();
     $products = new ProductsContronller();
     $profile = new ProfileController();
+    $order = new OrderController();
 
 
     $act = $_GET['act'] ?? '/';
@@ -52,6 +54,8 @@
         'update_profile' => 'Update Profile',
         'get_districts' => $pay->getDistrictsJson(),
         'get_wards' => $pay->getWardsJson(),
+        'orders' => 'Theo dõi đơn hàng',
+        'order_detail' => 'Chi tiết đơn hàng',
         default => 'Home',
     };
     
@@ -90,6 +94,8 @@
             'update_profile' => $profile->updateProfile(),
             'get_districts' => $pay->getDistrictsJson(),
             'get_wards' => $pay->getWardsJson(),
+            'orders' => $order->viewOrders(),
+            'order_detail' => $order->getOrderDetail($_GET['id'] ?? null),
             default => $home->view_home(),
         };
         include './clients/views/layout/footer.php';
