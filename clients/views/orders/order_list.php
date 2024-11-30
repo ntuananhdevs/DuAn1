@@ -54,12 +54,12 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php echo isset($_GET['status']) && $_GET['status'] == 'returned' ? 'active' : ''; ?>"
-                href="index.php?act=orders&status=returned  ">
+            <a class="nav-link <?php echo isset($_GET['status']) && $_GET['status'] == 'cancelled' ? 'active' : ''; ?>"
+                href="index.php?act=orders&status=cancelled  ">
                 Đã hủy
-                <?php if (isset($orderCounts['returned']) && $orderCounts['returned'] > 0): ?>
+                <?php if (isset($orderCounts['cancelled']) && $orderCounts['cancelled'] > 0): ?>
                     <span class="badgee">
-                        <?php echo $orderCounts['returned']; ?>
+                        <?php echo $orderCounts['cancelled']; ?>
                     </span>
                 <?php endif; ?>
             </a>
@@ -110,7 +110,7 @@
                             <span class="text-danger fw-bold ms-2"><?php echo number_format($order['total_amount'], 0, ',', '.'); ?>đ</span>
                         </div>
                        
-                        <div class="order-actions">
+                        <div class="order-actions" id="order-actions-<?php echo $order['id']; ?>">
                             <?php if ($order['shipping_status'] === 'pending'): ?>
                                 <form method="POST" action="index.php?act=cancel_order" style="display: inline;" 
                                       onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')">
@@ -123,6 +123,11 @@
                                 <a href="index.php?act=order_detail&id=<?= $order['id'] ?>&rebuy=true" 
                                    class="btn btn-primary">
                                     <i class="fas fa-shopping-cart"></i> Mua lại
+                                </a>
+                            <?php elseif ($order['shipping_status'] === 'delivered'): ?>
+                                <a href="index.php?act=return_order&id=<?= $order['id'] ?>" 
+                                   class="btn btn-warning">
+                                    <i class="fas fa-undo"></i> Trả hàng
                                 </a>
                             <?php endif; ?>
                         </div>
@@ -182,11 +187,116 @@ function rebuyOrder(orderId) {
     // Chuyển hướng đến trang chi tiết sản phẩm hoặc giỏ hàng
     window.location.href = `index.php?act=order_detail&id=${orderId}&rebuy=true`;
 }
-
 function updateOrderCounts() {
-    // Tải lại trang để cập nhật số lượng
     location.reload();
 }
+
+//sse
+const eventSource = new EventSource('sse.php');  // Kết nối SSE
+console.log(eventSource);
+
+// Lắng nghe sự kiện và cập nhật trạng thái đơn hàng
+eventSource.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+    const orderId = data.orderId;
+    const status = data.status;
+
+    // Cập nhật trạng thái đơn hàng trong giao diện
+    const statusBadge = document.getElementById(`status-badge-${orderId}`);
+    if (statusBadge) {
+        statusBadge.textContent = getStatusText(status);
+        statusBadge.className = getStatusClass(status);
+    }
+
+    // Cập nhật các nút hành động
+    updateOrderActions(orderId, status);
+    
+    // Cập nhật số lượng đơn hàng trong các tab
+    updateTabCounts(data.orderCounts);
+};
+
+// Thêm hàm mới để cập nhật số lượng trong các tab
+function updateTabCounts(counts) {
+    // Cập nhật tổng số đơn hàng
+    const totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
+    const allTab = document.querySelector('.nav-link[href="index.php?act=orders"] .badgee');
+    if (allTab) {
+        allTab.textContent = totalCount;
+        allTab.style.display = totalCount > 0 ? '' : 'none';
+    }
+
+    // Cập nhật từng trạng thái
+    const statuses = ['pending', 'in_transit', 'delivered', 'cancelled'];
+    statuses.forEach(status => {
+        const tab = document.querySelector(`.nav-link[href="index.php?act=orders&status=${status}"] .badgee`);
+        if (tab) {
+            const count = counts[status] || 0;
+            tab.textContent = count;
+            tab.style.display = count > 0 ? '' : 'none';
+        }
+    });
+}
+
+// Hàm trả về tên trạng thái
+function getStatusText(status) {
+    const statusMapping = {
+        'pending': 'Chờ xác nhận',
+        'in_transit': 'Đang giao',
+        'delivered': 'Đã giao',
+        'returned': 'Trả hàng',
+        'cancelled': 'Đã hủy'
+    };
+    return statusMapping[status] || 'Không xác định';
+}
+
+// Hàm trả về lớp CSS cho badge trạng thái
+function getStatusClass(status) {
+    const statusClasses = {
+        'pending': 'badge bg-warning',
+        'in_transit': 'badge bg-info',
+        'delivered': 'badge bg-success',
+        'cancelled': 'badge bg-danger',
+        'returned': 'badge bg-warning'
+    };
+    return statusClasses[status] || 'badge bg-secondary';
+}
+
+// Hàm cập nhật các nút hành động của đơn hàng
+function updateOrderActions(orderId, status) {
+    const orderActions = document.getElementById(`order-actions-${orderId}`);
+    console.log(orderActions);
+    if (orderActions) {
+        orderActions.innerHTML = '';  // Xóa nội dung cũ
+
+        switch(status) {
+            case 'pending':
+                orderActions.innerHTML = `
+                    <form method="POST" action="index.php?act=cancel_order" style="display: inline;" 
+                          onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')">
+                        <input type="hidden" name="order_id" value="${orderId}">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-times"></i> Hủy đơn hàng
+                        </button>
+                    </form>`;
+                break;
+            case 'returned':
+                orderActions.innerHTML = `
+                    <a href="index.php?act=order_detail&id=${orderId}&rebuy=true" 
+                       class="btn btn-primary">
+                        <i class="fas fa-shopping-cart"></i> Mua lại
+                    </a>`;
+                break;
+            case 'delivered':
+                orderActions.innerHTML = `
+                    <a href="index.php?act=return_order&id=${orderId}" 
+                       class="btn btn-warning">
+                        <i class="fas fa-undo"></i> Trả hàng
+                    </a>`;
+                break;
+        }
+    }
+}
+
 </script>
 <style>
     .badgee {
@@ -227,6 +337,8 @@ function updateOrderCounts() {
 
     /* Card Styles */
     .card {
+        width: 90%;
+        margin: auto;
         border-radius: 12px;
         /* Bo tròn mềm mại hơn */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
