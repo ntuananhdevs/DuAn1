@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 if (isset($_SESSION['register']) && $_SESSION['register'] === true) {
    $register = true; // Hiển thị form đăng ký
