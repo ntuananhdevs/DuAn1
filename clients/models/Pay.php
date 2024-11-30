@@ -58,7 +58,13 @@ class Pay
     }
     // Tạo đơn hàng mới
     public function createOrder($userId, $fullname, $email, $phone, $address, $total_amount, $payment_method) {
-        $query = $this->conn->prepare("INSERT INTO orders (user_id, guest_fullname, guest_email, guest_phone, shipping_address, total_amount, payment_method) VALUES (:user_id, :fullname, :email, :phone, :address, :total_amount, :payment_method)");
+        $payment_status = ($payment_method === 'bank_transfer' || $payment_method === 'MOMO') ? 'paid' : 'unpaid';
+        $payment_date = ($payment_method === 'bank_transfer' || $payment_method === 'MOMO') ? date('Y-m-d H:i:s') : null;
+    
+        $query = $this->conn->prepare("INSERT INTO orders 
+            (user_id, guest_fullname, guest_email, guest_phone, shipping_address, total_amount, payment_method, payment_status, payment_date) 
+            VALUES (:user_id, :fullname, :email, :phone, :address, :total_amount, :payment_method, :payment_status, :payment_date)");
+    
         $query->execute([
             'user_id' => $userId,
             'fullname' => $fullname,
@@ -66,10 +72,14 @@ class Pay
             'phone' => $phone,
             'address' => $address,
             'total_amount' => $total_amount,
-            'payment_method' => $payment_method
+            'payment_method' => $payment_method,
+            'payment_status' => $payment_status,
+            'payment_date' => $payment_date
         ]);
+    
         return $this->conn->lastInsertId();
     }
+    
       // Lưu thông tin sản phẩm vào đơn hàng
       public function createOrderDetail($orderId, $productId, $quantity, $price) {
         $query = $this->conn->prepare("INSERT INTO order_details (order_id, product_variant_id, quantity, subtotal) VALUES (:order_id, :product_variant_id, :quantity, :subtotal)");

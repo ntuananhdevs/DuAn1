@@ -74,8 +74,7 @@ class OderModel
 
         return $products;
     }
-    public function get_order_details($id)
-{
+    public function get_order_details($id) {
     try {
         $sql = "SELECT 
                     o.*, 

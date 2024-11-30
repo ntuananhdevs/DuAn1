@@ -56,8 +56,6 @@
                             </button>
                             <ul id="account-settings" class="collapse">
                                 <li><a href="?act=profile&section=personal">Hồ sơ cá nhân</a></li>
-                                <li><a href="?act=login">Quản lý đăng nhập</a></li>
-                                <li><a href="?act=login">Đăng ký</a></li>
                                 <li><a href="?act=profile&section=#">Đổi mật khẩu</a></li>
                             </ul>
                         </li>

@@ -39,7 +39,7 @@
                     <div class="row mb-4">
                         <div class="col">
                             <label for="province" class="form-label">Chọn Tỉnh:</label>
-                            <select id="province" name="province" class="custom-select" onchange="this.form.submit()">
+                            <select id="province" name="province" class="custom-select">
                                 <option value="">Chọn Tỉnh</option>
                                 <?php foreach ($provinces as $province): ?>
                                     <option value="<?php echo $province['code']; ?>"
@@ -51,16 +51,8 @@
                         </div>
                         <div class="col">
                             <label for="district" class="form-label">Chọn Huyện:</label>
-                            <select id="district" name="district" class="custom-select" onchange="this.form.submit()">
+                            <select id="district" name="district" class="custom-select">
                                 <option value="">Chọn Huyện</option>
-                                <?php if (isset($districts)): ?>
-                                    <?php foreach ($districts as $district): ?>
-                                        <option value="<?php echo $district['code']; ?>"
-                                            <?php echo isset($selectedDistrict) && $selectedDistrict === $district['code'] ? 'selected' : ''; ?>>
-                                            <?php echo htmlspecialchars($district['name']); ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
                             </select>
                         </div>
                     </div>
@@ -69,13 +61,6 @@
                             <label for="ward" class="form-label">Phường</label>
                             <select class="custom-select" name="ward" id="ward">
                                 <option value="">Chọn phường</option>
-                                <?php if (isset($wards)): ?>
-                                    <?php foreach ($wards as $ward): ?>
-                                        <option value="<?php echo $ward['code']; ?>">
-                                            <?php echo htmlspecialchars($ward['name']); ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
                             </select>
                         </div>
                         <div class="col">
@@ -439,6 +424,57 @@
         document.querySelectorAll('form').forEach(form => {
             form.addEventListener('submit', function() {
                 showLoading();
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const provinceSelect = document.getElementById('province');
+            const districtSelect = document.getElementById('district');
+            const wardSelect = document.getElementById('ward');
+
+            // Xử lý khi thay đổi tỉnh
+            provinceSelect.addEventListener('change', function() {
+                const provinceCode = this.value;
+                // Reset district và ward
+                districtSelect.innerHTML = '<option value="">Chọn Huyện</option>';
+                wardSelect.innerHTML = '<option value="">Chọn Phường</option>';
+                
+                if (provinceCode) {
+                    // Gọi API lấy danh sách huyện
+                    fetch(`?act=get_districts&province_code=${provinceCode}`)
+                        .then(response => response.json())
+                        .then(districts => {
+                            districts.forEach(district => {
+                                const option = document.createElement('option');
+                                option.value = district.code;
+                                option.textContent = district.name;
+                                districtSelect.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
+            });
+
+            // Xử lý khi thay đổi huyện
+            districtSelect.addEventListener('change', function() {
+                const districtCode = this.value;
+                // Reset ward
+                wardSelect.innerHTML = '<option value="">Chọn Phường</option>';
+                
+                if (districtCode) {
+                    // Gọi API lấy danh sách phường
+                    fetch(`?act=get_wards&district_code=${districtCode}`)
+                        .then(response => response.json())
+                        .then(wards => {
+                            wards.forEach(ward => {
+                                const option = document.createElement('option');
+                                option.value = ward.code;
+                                option.textContent = ward.name;
+                                wardSelect.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
             });
         });
     </script>

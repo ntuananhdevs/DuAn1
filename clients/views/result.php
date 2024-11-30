@@ -31,8 +31,23 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
 }
 
 ?>
+
+<h1 class="product-title ms-5" style="margin-top: 30px; margin-bottom: 30px; font-size: 25px">Kết quả tìm kiếm cho từ khóa  : <?= $_GET['search']?></h1>
+<div class="d-flex ms-5">
+<h4 class="product-title ms-3" style="font-size: 20px;">Sắp xếp theo</h4>
+            <button type="button" class="btn btn-outline-secondary ms-3 sort-button rounded-pill " data-sort="relevance">
+                <ion-icon name="filter-outline"></ion-icon> Liên quan
+            </button>
+            <br>
+            <button type="button" class="btn btn-outline-secondary ms-3 sort-button rounded-pill" data-sort="high-price">
+                Giá cao <ion-icon name="arrow-down-outline"></ion-icon>
+            </button>
+            <button type="button" class="btn btn-outline-secondary ms-3 sort-button rounded-pill" data-sort="low-price">
+                Giá thấp<ion-icon name="arrow-up-outline"></ion-icon>
+            </button>
+        </div>
+
 <div class="container">
-<h1 class="product-title" style="margin-top: 30px; margin-bottom: 30px; font-size: 25px">Kết quả tìm kiếm cho từ khóa  : <?= $_GET['search']?></h1>
 <div class="result-container">
     <?php
     usort($results, function($a, $b) {
@@ -82,5 +97,61 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
 </div>
 
 
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const sortButtons = document.querySelectorAll(".sort-button");
+    const productContainer = document.querySelector(".result-container");
+
+    // Lấy danh sách sản phẩm ban đầu
+    const products = Array.from(document.querySelectorAll(".product-item"));
+
+    sortButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+            const sortType = this.getAttribute("data-sort");
+
+            // Xóa trạng thái active của các nút khác
+            sortButtons.forEach((btn) => btn.classList.remove("active"));
+            this.classList.add("active");
+
+            // Sắp xếp sản phẩm theo tiêu chí
+            let sortedProducts;
+            if (sortType === "high-price") {
+                sortedProducts = [...products].sort((a, b) => {
+                    const priceA = parseFloat(
+                        a.querySelector(".price-home p").textContent.replace(/[^0-9]/g, "")
+                    );
+                    const priceB = parseFloat(
+                        b.querySelector(".price-home p").textContent.replace(/[^0-9]/g, "")
+                    );
+                    return priceB - priceA;
+                });
+            } else if (sortType === "low-price") {
+                sortedProducts = [...products].sort((a, b) => {
+                    const priceA = parseFloat(
+                        a.querySelector(".price-home p").textContent.replace(/[^0-9]/g, "")
+                    );
+                    const priceB = parseFloat(
+                        b.querySelector(".price-home p").textContent.replace(/[^0-9]/g, "")
+                    );
+                    return priceA - priceB;
+                });
+            } else if (sortType === "relevance") {
+                sortedProducts = [...products].sort((a, b) => {
+                    const viewsA = parseInt(a.getAttribute("data-views"), 10);
+                    const viewsB = parseInt(b.getAttribute("data-views"), 10);
+                    return viewsB - viewsA;
+                });
+            }
+
+            // Xóa sản phẩm hiện tại và thêm sản phẩm đã sắp xếp
+            productContainer.innerHTML = "";
+            sortedProducts.forEach((product) => productContainer.appendChild(product));
+        });
+    });
+});
+
+</script>
 
 
