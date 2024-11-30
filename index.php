@@ -10,6 +10,7 @@
     require_once './clients/controllers/PayController.php';
     require_once './clients/controllers/SpCartContronller.php';
     require_once './clients/controllers/ProfileController.php';
+    require_once './clients/controllers/OrderController.php';
 
 
     #require Model
@@ -31,6 +32,7 @@
     $auth = new AuthController();
     $products = new ProductsContronller();
     $profile = new ProfileController();
+    $order = new OrderController();
 
 
     $act = $_GET['act'] ?? '/';
@@ -50,6 +52,8 @@
         'update-avatar' => 'Update Avatar',  
         'loadbuy' => 'Chờ một chút',
         'update_profile' => 'Update Profile',
+        'orders' => 'Theo dõi đơn hàng',
+        'order_detail' => 'Chi tiết đơn hàng',
         default => 'Home',
     };
     
@@ -86,6 +90,8 @@
             'result' => $result->view_result(),
             'apple_products' => $home->view_apple_products($_GET['id']),
             'update_profile' => $profile->updateProfile(),
+            'orders' => $order->viewOrders(),
+            'order_detail' => $order->getOrderDetail($_GET['id'] ?? null),
             default => $home->view_home(),
         };
         include './clients/views/layout/footer.php';
