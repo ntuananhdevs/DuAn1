@@ -9,60 +9,46 @@ class OrderModel
     }
 
     // Thêm phương thức tạo đơn hàng
-    public function createOrder($orderData)
+    
+public function getOrdersByUserId($userId, $status = 'all')
     {
         try {
-            $this->conn->beginTransaction();
-
-            // 1. Tạo đơn hàng mới
-            $sql = "INSERT INTO orders (user_id, guest_fullname, guest_email, guest_phone, 
-                                      total_amount, payment_method, shipping_address, 
-                                      payment_status, shipping_status) 
-                    VALUES (:user_id, :fullname, :email, :phone, 
-                           :total_amount, :payment_method, :address, 
-                           'unpaid', 'pending')";
+            // First query to get order counts by status
+            $countQuery = "SELECT 
+                shipping_status,
+                COUNT(*) as count
+            FROM Orders 
+            WHERE user_id = :user_id
+            GROUP BY shipping_status";
             
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute([
-                ':user_id' => $_SESSION['user_id'],
-                ':fullname' => $orderData['fullname'],
-                ':email' => $orderData['email'],
-                ':phone' => $orderData['phone'],
-                ':total_amount' => $orderData['total_amount'],
-                ':payment_method' => $orderData['payment_method'],
-                ':address' => $orderData['address']
-            ]);
-
-            $orderId = $this->conn->lastInsertId();
-
-            // 2. Thêm chi tiết đơn hàng
-            foreach ($orderData['items'] as $item) {
-                $detailSql = "INSERT INTO order_details (order_id, product_variant_id, quantity, price) 
-                             VALUES (:order_id, :variant_id, :quantity, :price)";
-                $detailStmt = $this->conn->prepare($detailSql);
-                $detailStmt->execute([
-                    ':order_id' => $orderId,
-                    ':variant_id' => $item['variant_id'],
-                    ':quantity' => $item['quantity'],
-                    ':price' => $item['price']
-                ]);
+            $countStmt = $this->conn->prepare($countQuery);
+            $countStmt->execute(['user_id' => $userId]);
+            $statusCounts = [];
+            while ($row = $countStmt->fetch(PDO::FETCH_ASSOC)) {
+                $statusCounts[$row['shipping_status']] = $row['count'];
             }
 
-            $this->conn->commit();
-            return true;
-        } catch (Exception $e) {
-            $this->conn->rollBack();
-            error_log("Error creating order: " . $e->getMessage());
-            return false;
-        }
-    }
-
-    public function getOrdersByUserId($userId, $status = 'all')
-    {
-        try {
-            $query = "SELECT o.*, o.id as order_id
-                     FROM orders o 
-                     WHERE o.user_id = :user_id";
+            // Main query for orders
+            $query = "SELECT 
+                o.id,
+                o.order_date,
+                o.payment_status,
+                o.shipping_status,
+                o.total_amount,
+                od.quantity, 
+                od.subtotal,
+                pv.price, 
+                pv.id AS variant_id,
+                pv.color, 
+                pv.storage, 
+                p.product_name,
+                vi.img
+            FROM Orders o
+            JOIN Order_details od ON o.id = od.order_id
+            JOIN Product_variants pv ON od.product_variant_id = pv.id
+            JOIN Products p ON pv.product_id = p.id
+            LEFT JOIN variants_img vi ON pv.id = vi.variant_id
+            WHERE o.user_id = :user_id";
             
             if ($status !== 'all') {
                 $query .= " AND o.shipping_status = :status";
@@ -76,10 +62,42 @@ class OrderModel
             }
             $stmt->execute($params);
             
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Reorganize data to group products by order
+            $orders = [];
+            foreach ($results as $row) {
+                $orderId = $row['id'];
+                if (!isset($orders[$orderId])) {
+                    $orders[$orderId] = [
+                        'id' => $row['id'],
+                        'order_date' => $row['order_date'],
+                        'payment_status' => $row['payment_status'],
+                        'shipping_status' => $row['shipping_status'],
+                        'total_amount' => $row['total_amount'],
+                        'products' => []
+                    ];
+                }
+                
+                $orders[$orderId]['products'][] = [
+                    'product_name' => $row['product_name'],
+                    'color' => $row['color'],
+                    'storage' => $row['storage'],
+                    'quantity' => $row['quantity'],
+                    'img' => $row['img']
+                ];
+            }
+
+            return [
+                'orders' => array_values($orders),
+                'counts' => $statusCounts
+            ];
         } catch (Exception $e) {
             error_log("Error in getOrdersByUserId: " . $e->getMessage());
-            return [];
+            return [
+                'orders' => [],
+                'counts' => []
+            ];
         }
     }
 
@@ -157,6 +175,69 @@ class OrderModel
         $stmt = $this->conn->prepare($query);
         $stmt->execute(['user_id' => $userId]);
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'] ?? 0;
+    }
+
+    public function get_order_details($id) {
+        try {
+            $sql = "SELECT 
+                        o.*, 
+                        u.user_name, 
+                        u.fullname, 
+                        u.email, 
+                        u.phone_number, 
+                        od.quantity, 
+                        od.subtotal, 
+                        pv.price, 
+                        pv.id as variant_id,
+                        pv.color, 
+                        pv.ram, 
+                        pv.storage, 
+                        p.product_name,
+                        vi.img
+                    FROM 
+                        Orders o
+                    JOIN 
+                        Users u ON o.user_id = u.id
+                    JOIN 
+                        Order_details od ON o.id = od.order_id
+                    JOIN 
+                        Product_variants pv ON od.product_variant_id = pv.id
+                    JOIN 
+                        Products p ON pv.product_id = p.id
+                    LEFT JOIN
+                        variants_img vi ON pv.id = vi.variant_id
+                    WHERE
+                        o.id = ?
+                    ";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$id]);
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $products;
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+    
+    public function cancelOrder($orderId, $userId) {
+        try {
+            $query = "UPDATE orders 
+                     SET shipping_status = 'returned',
+                         updated_at = CURRENT_TIMESTAMP
+                     WHERE id = :order_id 
+                     AND user_id = :user_id
+                     AND shipping_status = 'pending'";
+            
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([
+                'order_id' => $orderId,
+                'user_id' => $userId
+            ]);
+            
+            return $stmt->rowCount() > 0;
+        } catch (Exception $e) {
+            error_log("Error in cancelOrder: " . $e->getMessage());
+            return false;
+        }
     }
 }
 ?>

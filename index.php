@@ -96,6 +96,7 @@
             'get_wards' => $pay->getWardsJson(),
             'orders' => $order->viewOrders(),
             'order_detail' => $order->getOrderDetail($_GET['id'] ?? null),
+            'cancel_order' => $order->cancelOrder(),
             default => $home->view_home(),
         };
         include './clients/views/layout/footer.php';
