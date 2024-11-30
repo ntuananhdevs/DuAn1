@@ -1,88 +1,40 @@
-<style>
-    /* CSS cho các nút */
-    .sort-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-        font-size: 14px;
-        font-weight: bold;
-        padding: 8px 12px;
-        border: 1px solid #ddd;
-        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    }
+<head>
+    <link rel="stylesheet" href="./assets/css/client.css">
+</head> 
 
-    .sort-button.active {
-        background-color: #f8d7da;
-        border-color: #dc3545;
-        color: #dc3545;
-    }
 
-    .sort-button ion-icon {
-        font-size: 16px;
-    }
 
-    .sort-button:hover {
-        background-color: #f1f1f1;
-    }
 
-    /* Tiêu đề */
-    .product-title {
-        margin: 0;
-        color: #333;
-    }
-
-    .d-flex {
-        display: flex;
-    }
-
-    .align-items-center {
-        align-items: center;
-    }
-
-    .mb-4 {
-        margin-bottom: 1.5rem;
-    }
-
-    .ms-3 {
-        margin-left: 1rem;
-    }
-
-    .rounded-pill {
-        border-radius: 50px;
-    }
-</style>
-<?php if (empty($results) || !isset($_GET['search']) || empty($_GET['search'] ?? '')) : ?>
-    <!-- Hiển thị ảnh khi không có kết quả -->
-    <img src="https://colorlib.com/wp/wp-content/uploads/sites/2/404-error-template-14.png"
-        alt="No results found"
-        style="width: 100%; height: 80%;">
+<?php if (empty($results) || !isset($_GET['search']) || empty( $_GET['search'] ?? '')) :  ?>    
+   <img src="https://colorlib.com/wp/wp-content/uploads/sites/2/404-error-template-14.png" alt="" style="width: 100% ; height: 80%;">
 <?php else: ?>
 
     <?php
-    function renderRatingStars($rating)
-    {
-        $stars = '';
-        for ($i = 1; $i <= 5; $i++) {
-            if ($rating >= $i) {
-                $stars .= '<i class="fa-solid fa-star" style="color: blue;"></i>';
-            } elseif ($rating > $i - 1 && $rating < $i) {
-                $stars .= '<i class="fa-solid fa-star-half-stroke" style="color: blue;"></i>';
-            } else {
-                $stars .= '<i class="fa-regular fa-star" style="color: lightgray;"></i>';
-            }
+
+function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $colorEmpty = 'lightgray', $size = '10px') {
+    $stars = '';
+    for ($i = 1; $i <= $maxStars; $i++) {
+        if ($rating >= $i) {
+            // Sao đầy
+            $stars .= '<i class="fa-solid fa-star" style="color: ' . $colorFull . '; font-size: ' . $size . '; margin-right: 5px;"></i>';
+        } elseif ($rating >= $i - 0.5 && $rating < $i) {
+            // Sao nửa
+            $stars .= '<i class="fa-solid fa-star-half-stroke" style="color: ' . $colorFull . '; font-size: ' . $size . '; margin-right: 5px;"></i>';
+        } else {
+            // Sao rỗng
+            $stars .= '<i class="fa-regular fa-star" style="color: ' . $colorEmpty . '; font-size: ' . $size . '; margin-right: 5px;"></i>';
         }
-        return $stars;
     }
-    ?>
+    
+    $tooltip = '<div title="Rating: ' . $rating . '/' . $maxStars . '">' . $stars . '</div>';
+    return $tooltip;
+}
 
-    <h1 class="product-title" style="margin: 30px 70px 30px; font-size: 25px;">
-        Kết quả tìm kiếm cho từ khóa: <?= htmlspecialchars($_GET['search']) ?>
-    </h1>
+?>
 
-    <div class="container">
-        <div class="d-flex align-items-center mb-4">
-            <h4 class="product-title ms-3" style="font-size: 20px;">Sắp xếp theo</h4>
+<h1 class="product-title ms-5" style="margin-top: 30px; margin-bottom: 30px; font-size: 25px">Kết quả tìm kiếm cho từ khóa  : <?= $_GET['search']?></h1>
+<div class="d-flex ms-5">
+<h4 class="product-title ms-3" style="font-size: 20px;">Sắp xếp theo</h4>
             <button type="button" class="btn btn-outline-secondary ms-3 sort-button rounded-pill " data-sort="relevance">
                 <ion-icon name="filter-outline"></ion-icon> Liên quan
             </button>
@@ -95,36 +47,24 @@
             </button>
         </div>
 
-        <div class="result-container">
-            <?php
-            // Sắp xếp mặc định theo lượt xem
-            usort($results, function ($a, $b) {
-                return $b['views'] - $a['views'];
-            });
-            ?>
-            <?php foreach ($results as $result) : ?>
-                <div class="product-item">
-                    <!-- Giảm giá -->
+<div class="container">
+<div class="result-container">
+    <?php
+    usort($results, function($a, $b) {
+        return $b['views'] - $a['views'];
+    });
+    ?>
+    <?php foreach ($results as $result) : ?>
+        <div class="product-item">
                     <div class="discount-container">
                         <p>Giảm <?= htmlspecialchars($result['discount_value']) ?>%</p>
                     </div>
-                    <!-- Hình ảnh sản phẩm -->
-                    <img src="<?= htmlspecialchars(removeLeadingDots($result['img'])) ?>"
-                        alt="<?= htmlspecialchars($result['product_name']) ?>">
-                    <hr>
-                    <!-- Tên sản phẩm -->
+                    <img src="<?= htmlspecialchars(removeLeadingDots($result['img'])) ?>" alt="<?= htmlspecialchars($result['product_name']) ?>">
                     <h5><?= htmlspecialchars($result['product_name']) ?></h5>
-
-                    <!-- Đánh giá -->
                     <div class="rating-container">
                         <div class="rating">
                             <?= renderRatingStars((int)$result['rating']) ?>
                         </div>
-                        <h7><?= htmlspecialchars($result['rating']) ?></h7>
-                        <p class="views">
-                            <ion-icon name="eye-outline"></ion-icon>
-                            <?= htmlspecialchars($result['views']) ?>
-                        </p>
                     </div>
                 
                     <div class="price-home mb-0 mt-2">
@@ -132,7 +72,6 @@
                         $original_price = floatval(str_replace('.', '', $result['Lowest_Price']));
                         $discount_value = floatval($result['discount_value']);
                         $discount_status = $result['discount_status'];
-
                         if ($discount_value > 0 && $discount_status === 'active') {
                             if ($result['discount_type'] == 'percentage') {
                                 $discounted_price = $original_price * (1 - $discount_value / 100);
@@ -152,78 +91,67 @@
                     </div>
                     <a href="?act=product_detail&id=<?= $result['id'] ?>" class="buy-now">Mua ngay</a>
                 </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
+    <?php endforeach; ?>
+</div>
+<?php endif; ?> 
+</div>
 
-<?php endif; ?>
+
+
+
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const btns = document.querySelectorAll('.sort-button');
-        const resultContainer = document.querySelector('.result-container');
-        let results = <?= json_encode($results); ?>;
+    document.addEventListener("DOMContentLoaded", function () {
+    const sortButtons = document.querySelectorAll(".sort-button");
+    const productContainer = document.querySelector(".result-container");
 
-        btns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const sortType = e.target.dataset.sort;
+    // Lấy danh sách sản phẩm ban đầu
+    const products = Array.from(document.querySelectorAll(".product-item"));
 
-                // Sắp xếp kết quả theo tiêu chí
-                switch (sortType) {
-                    case 'high-price':
-                        results.sort((a, b) => b.Lowest_Price - a.Lowest_Price);
-                        break;
-                    case 'low-price':
-                        results.sort((a, b) => a.Lowest_Price - b.Lowest_Price);
-                        break;
-                    default: // Liên quan
-                        results.sort((a, b) => b.views - a.views);
-                        break;
-                }
+    sortButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+            const sortType = this.getAttribute("data-sort");
 
-                // Cập nhật HTML
-                resultContainer.innerHTML = results.map(result => `
-                    <div class="product-item">
-                        <div class="discount-container">
-                            <p>Giảm ${result.discount_value}%</p>
-                        </div>
-                        <img src="./Upload/${result.img}" alt="${result.product_name}">
-                        <hr>
-                        <h5>${result.product_name}</h5>
-                        <div class="rating-container">
-                            <div class="rating">
-                                ${renderRatingStars(result.rating)}
-                            </div>
-                            <p class="views"><ion-icon name="eye-outline"></ion-icon> ${result.views}</p>
-                        </div>
-                        <span class="sale">
-                            Sale: 
-                            ${result.discount_value > 0 && result.discount_status === 'active' 
-                                ? `<span class="text-danger">${calculateDiscount(result)} VND</span>` 
-                                : '0 VND'}
-                            <span class="discount">${result.Lowest_Price.toLocaleString()} VNĐ</span>
-                        </span>
-                        <hr>
-                        <a href="#" class="buy-now">Mua ngay</a>
-                        <a href="?act=product_detail&id=${result.id}" class="learn-more">Xem chi tiết</a>
-                    </div>
-                `).join('');
-            });
-        });
+            // Xóa trạng thái active của các nút khác
+            sortButtons.forEach((btn) => btn.classList.remove("active"));
+            this.classList.add("active");
 
-        function calculateDiscount(result) {
-            return result.discount_type === 'percentage' ?
-                result.Lowest_Price * (1 - result.discount_value / 100) :
-                result.Lowest_Price - result.discount_value;
-        }
-
-        function renderRatingStars(rating) {
-            let stars = '';
-            for (let i = 1; i <= 5; i++) {
-                if (rating >= i) stars += `<i class="fa-solid fa-star" style="color: blue;"></i>`;
-                else if (rating > i - 1) stars += `<i class="fa-solid fa-star-half-stroke" style="color: blue;"></i>`;
-                else stars += `<i class="fa-regular fa-star" style="color: lightgray;"></i>`;
+            // Sắp xếp sản phẩm theo tiêu chí
+            let sortedProducts;
+            if (sortType === "high-price") {
+                sortedProducts = [...products].sort((a, b) => {
+                    const priceA = parseFloat(
+                        a.querySelector(".price-home p").textContent.replace(/[^0-9]/g, "")
+                    );
+                    const priceB = parseFloat(
+                        b.querySelector(".price-home p").textContent.replace(/[^0-9]/g, "")
+                    );
+                    return priceB - priceA;
+                });
+            } else if (sortType === "low-price") {
+                sortedProducts = [...products].sort((a, b) => {
+                    const priceA = parseFloat(
+                        a.querySelector(".price-home p").textContent.replace(/[^0-9]/g, "")
+                    );
+                    const priceB = parseFloat(
+                        b.querySelector(".price-home p").textContent.replace(/[^0-9]/g, "")
+                    );
+                    return priceA - priceB;
+                });
+            } else if (sortType === "relevance") {
+                sortedProducts = [...products].sort((a, b) => {
+                    const viewsA = parseInt(a.getAttribute("data-views"), 10);
+                    const viewsB = parseInt(b.getAttribute("data-views"), 10);
+                    return viewsB - viewsA;
+                });
             }
-            return stars;
-        }
+
+            // Xóa sản phẩm hiện tại và thêm sản phẩm đã sắp xếp
+            productContainer.innerHTML = "";
+            sortedProducts.forEach((product) => productContainer.appendChild(product));
+        });
     });
+});
+
 </script>
+
+
