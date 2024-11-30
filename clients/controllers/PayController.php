@@ -83,4 +83,24 @@ class PayController{
         require_once './clients/views/loadbuy.php';
     }
 
+    public function getDistrictsJson() {
+        $provinceCode = $_GET['province_code'] ?? null;
+        if ($provinceCode) {
+            $districts = $this->pay->getDistrictsByProvince($provinceCode);
+            header('Content-Type: application/json');
+            echo json_encode($districts);
+            exit;
+        }
+    }
+
+    public function getWardsJson() {
+        $districtCode = $_GET['district_code'] ?? null;
+        if ($districtCode) {
+            $wards = $this->pay->getWardsByDistrict($districtCode);
+            header('Content-Type: application/json');
+            echo json_encode($wards);
+            exit;
+        }
+    }
+
 }
