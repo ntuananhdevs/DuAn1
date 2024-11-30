@@ -1,6 +1,5 @@
 <?php
 
-// Kiểm tra trạng thái của form
 if (isset($_SESSION['register']) && $_SESSION['register'] === true) {
    $register = true; // Hiển thị form đăng ký
 } else {
@@ -109,7 +108,7 @@ if (isset($_GET['act'])) {
          </div>
       </div>
       <div class="login__register">
-         <h1 class="login__title">Create new account.</h1>
+         <h4 class="login__title">Create new account.</h4>
 
          <div class="login__area">
             <form method="POST" action="index.php?act=register" id="resigers11" class="login__form">
@@ -215,20 +214,17 @@ if (isset($_GET['act'])) {
       const buttonRegister = document.getElementById('loginButtonRegister');
       const buttonAccess = document.getElementById('loginButtonAccess');
 
-      // Áp dụng trạng thái từ PHP
       <?php if ($register) : ?>
          loginAccessRegister.classList.add('active');
       <?php else : ?>
          loginAccessRegister.classList.remove('active');
       <?php endif; ?>
 
-      // Chuyển đến form đăng ký
       buttonRegister.addEventListener('click', () => {
          window.location.href = "?act=register";
       });
 
-      // Chuyển đến form đăng nhập
       buttonAccess.addEventListener('click', () => {
-         window.location.href = "?act=login"; // Xóa session khi chuyển về đăng nhập
+         window.location.href = "?act=login"; 
       });
    </script>

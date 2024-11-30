@@ -44,9 +44,9 @@
                             <div class="form-group">
                                 <label>Phương thức thanh toán</label>
                                 <select class="form-control" name="payment_method" id="payment_method">
-                                    <option value="cod" <?php echo (isset($orderData[0]['payment_method']) && $orderData[0]['payment_method'] == 'cod') ? 'selected' : ''; ?>>COD</option>
+                                    <option value="COD" <?php echo (isset($orderData[0]['payment_method']) && $orderData[0]['payment_method'] == 'COD') ? 'selected' : ''; ?>>COD</option>
                                     <option value="bank_transfer" <?php echo (isset($orderData[0]['payment_method']) && $orderData[0]['payment_method'] == 'bank_transfer') ? 'selected' : ''; ?>>Chuyển khoản</option>
-                                    <option value="momo" <?php echo (isset($orderData[0]['payment_method']) && $orderData[0]['payment_method'] == 'momo') ? 'selected' : ''; ?>>Ví MoMo</option>
+                                    <option value="MOMO" <?php echo (isset($orderData[0]['payment_method']) && $orderData[0]['payment_method'] == 'MOMO') ? 'selected' : ''; ?>>Ví MoMo</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function handleStatusChange() {
         // Nếu phương thức thanh toán là COD
-        if (paymentStatus.value === 'cod') {
+        if (paymentStatus.value === 'COD') {
             // Chỉ cho phép chọn "Đã giao hàng" hoặc "Đang giao hàng" nếu thanh toán đã được thực hiện
             if (paymentStatus.value === 'paid') {
                 shippingStatus.value = shippingStatus.value === 'pending' ? 'in_transit' : shippingStatus.value; // Đặt trạng thái giao hàng là "Đang giao hàng" nếu đang chờ xử lý
