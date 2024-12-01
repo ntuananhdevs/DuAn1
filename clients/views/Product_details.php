@@ -367,11 +367,13 @@
                             <?php foreach ($comments as $comment) : ?>
                                 <div class="comment">
                                     <!-- Avatar -->
-                                    <div class="avt">
-                                        <img
-                                            src="./uploads/<?php echo htmlspecialchars($comment['user_avatar']); ?>"
-                                            class="user-avatar" />
-                                    </div>
+                                    <?php
+                                    $avatarPath = !empty($comment['user_avatar']) ? 'uploads/UserIMG/' . $comment['user_avatar'] : './assets/images/default-avatar.png';
+                                    ?>
+                                    <img src="<?= $avatarPath ?>"
+                                        class="profile-avatar"
+                                        id="avatar-preview"
+                                        alt="Avatar">
 
                                     <!-- User Information and Comment -->
                                     <div class="name-date">
