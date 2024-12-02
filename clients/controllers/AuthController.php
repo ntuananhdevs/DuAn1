@@ -30,13 +30,9 @@ class AuthController {
                     $namesError = "Tên đăng nhập đã tồn tại";
                 }
 
-                // if (empty($first_name)) {
-                //     $surnamesError = "Vui lòng nhập đầy đủ tên";
-                // }
-                // if (empty($last_name)) {
-                //     $surnamesError = "Vui lòng nhập đầy đủ tên";
-                // }
-                
+                if (empty($first_name && $last_name)) {
+                    $surnamesError = "Vui lòng nhập đầy đủ tên";
+                }
 
                 // Kiểm tra email
                 if (empty($email)) {
