@@ -118,12 +118,12 @@ if (isset($_GET['act'])) {
                   </div>
                   <div class="login__group grid">
                      <div class="login__box">
-                        <input type="text" name="last_name" id="surnames" placeholder=" " class="login__input">
+                        <input type="text" name="last_name" id="lastname" placeholder=" " class="login__input">
                         <label for="surnames" class="login__label">Last name</label>
                         <i class="ri-id-card-fill login__icon"></i>
                      </div>
                      <div class="login__box">
-                        <input type="text" name="first_name" id="surnames" placeholder=" " class="login__input">
+                        <input type="text" name="first_name" id="firstname" placeholder=" " class="login__input">
                         <label for="surnames" class="login__label">first name</label>
                         <i class="ri-id-card-fill login__icon"></i>
                      </div>
@@ -131,6 +131,11 @@ if (isset($_GET['act'])) {
                         <?php echo $surnamesError ?? ''; ?>
                      </div>
                   </div>
+                  <div class="login__box">
+                     <input type="hidden" name="fullname" id="fullName" placeholder=" " class="login__input" readonly>
+                     <i class="ri-id-card-fill login__icon"></i>
+                  </div>
+
 
                   <div class="login__box">
                      <input type="text" name="user_name" id="names" placeholder=" " class="login__input">
@@ -138,7 +143,7 @@ if (isset($_GET['act'])) {
                      <i class="ri-mail-fill login__icon"></i>
                   </div>
                   <div id="namesError" class="error-message" style="color: red;">
-                           <?php echo $namesError ?? ''; ?>
+                     <?php echo $namesError ?? ''; ?>
                   </div>
 
                   <div class="login__box">
@@ -230,6 +235,14 @@ if (isset($_GET['act'])) {
       });
 
       buttonAccess.addEventListener('click', () => {
-         window.location.href = "?act=login"; 
+         window.location.href = "?act=login";
       });
+      document.getElementById('lastname').addEventListener('input', updateFullName);
+      document.getElementById('firstname').addEventListener('input', updateFullName);
+
+      function updateFullName() {
+         const lastName = document.getElementById('lastname').value;
+         const firstName = document.getElementById('firstname').value;
+         document.getElementById('fullName').value = lastName + ' ' + firstName;
+      }
    </script>

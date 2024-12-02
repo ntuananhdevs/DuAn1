@@ -19,6 +19,7 @@ class AuthController {
                 $user_name = trim($_POST['user_name'] ?? '');
                 $first_name = trim($_POST['first_name'] ?? '');
                 $last_name = trim($_POST['last_name'] ?? '');
+                $fullname = trim($_POST['fullname'] ?? '');
                 $phone_number = trim($_POST['phone_number'] ?? '');
                 $email = trim($_POST['email'] ?? '');
                 $password = $_POST['password'] ?? '';
@@ -52,7 +53,7 @@ class AuthController {
                     $passwordCreateError = "Mật khẩu phải chứa cả chữ và số";
                 }
 
-                // Kiểm tra số điện thoại
+                
                 if (empty($phone_number)) {
                     $phone_numberError = "Vui lòng nhập số điện thoại";
                 } elseif (!preg_match('/^[0-9]{10}$/', $phone_number)) {
@@ -61,11 +62,11 @@ class AuthController {
                     $phone_numberError = "Số điện thoại này đã được đăng ký";
                 }
 
-                // Nếu không có lỗi thì tiến hành đăng ký
+                
                 if (empty($namesError) && empty($surnamesError) && empty($emailCreateError) && 
                     empty($phone_numberError) && empty($passwordCreateError)) {
                     try {
-                        $this->authModel->register($user_name, $first_name, $last_name, $email, $password, $phone_number);
+                        $this->authModel->register($user_name, $fullname, $first_name, $last_name, $email, $password, $phone_number);
                         $message = "Đăng ký thành công!";
                         header("Location: ?act=login");
                         exit();
