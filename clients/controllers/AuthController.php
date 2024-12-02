@@ -17,7 +17,8 @@ class AuthController {
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $user_name = trim($_POST['user_name'] ?? '');
-                $fullname = trim($_POST['fullname'] ?? '');
+                $first_name = trim($_POST['first_name'] ?? '');
+                $last_name = trim($_POST['last_name'] ?? '');
                 $phone_number = trim($_POST['phone_number'] ?? '');
                 $email = trim($_POST['email'] ?? '');
                 $password = $_POST['password'] ?? '';
@@ -29,10 +30,13 @@ class AuthController {
                     $namesError = "Tên đăng nhập đã tồn tại";
                 }
 
-                // Kiểm tra fullname
-                if (empty($fullname)) {
-                    $surnamesError = "Vui lòng nhập đầy đủ họ tên";
-                }
+                // if (empty($first_name)) {
+                //     $surnamesError = "Vui lòng nhập đầy đủ tên";
+                // }
+                // if (empty($last_name)) {
+                //     $surnamesError = "Vui lòng nhập đầy đủ tên";
+                // }
+                
 
                 // Kiểm tra email
                 if (empty($email)) {
@@ -65,7 +69,7 @@ class AuthController {
                 if (empty($namesError) && empty($surnamesError) && empty($emailCreateError) && 
                     empty($phone_numberError) && empty($passwordCreateError)) {
                     try {
-                        $this->authModel->register($user_name, $fullname, $email, $password, $phone_number);
+                        $this->authModel->register($user_name, $first_name, $last_name, $email, $password, $phone_number);
                         $message = "Đăng ký thành công!";
                         header("Location: ?act=login");
                         exit();
