@@ -97,9 +97,6 @@
                             <a href="?act=print_bill&id=<?= $order['id'] ?>" class="btn btn-success">In</a>
                         <?php else: ?>
                             <a href="?act=edit_oder&id=<?= $order['id'] ?>" class="btn btn-warning">Sửa</a>
-                            <a href="?act=delete_order&id=<?= $order['id'] ?>" 
-                               class="btn btn-danger"
-                               onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?')">Xóa</a>
                         <?php endif; ?>
                         <?php error_log("Order ID in view: " . $order['id']); ?>
                         <a href="?act=view_details&id=<?= $order['id'] ?>"  class="btn btn-primary">

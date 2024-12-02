@@ -114,10 +114,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Nếu trạng thái thanh toán là đã hoàn thành
+    
         if (paymentStatus.value === 'paid') {
             if (shippingStatus.value === 'pending' || shippingStatus.value === 'undefined') {
-                shippingStatus.value = 'in_transit'; // Đặt trạng thái giao hàng là "Đang giao hàng"
+                shippingStatus.value = 'in_transit';
             }
             return;
         }

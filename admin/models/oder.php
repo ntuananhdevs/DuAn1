@@ -5,7 +5,7 @@ class OderModel
 
     public function __construct()
     {
-        $this->conn = connectDB(); // Kết nối đến cơ sở dữ liệu
+        $this->conn = connectDB();
     }
 
     public function getAll()
