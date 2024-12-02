@@ -118,22 +118,27 @@ if (isset($_GET['act'])) {
                   </div>
                   <div class="login__group grid">
                      <div class="login__box">
-                        <input type="text" name="user_name" id="names" placeholder=" " class="login__input">
-                        <label for="names" class="login__label">Names</label>
+                        <input type="text" name="last_name" id="surnames" placeholder=" " class="login__input">
+                        <label for="surnames" class="login__label">Last name</label>
                         <i class="ri-id-card-fill login__icon"></i>
-                        <div id="namesError" class="error-message" style="color: red;">
-                           <?php echo $namesError ?? ''; ?>
-                        </div>
                      </div>
-
                      <div class="login__box">
-                        <input type="text" name="fullname" id="surnames" placeholder=" " class="login__input">
-                        <label for="surnames" class="login__label">Fullname</label>
+                        <input type="text" name="first_name" id="surnames" placeholder=" " class="login__input">
+                        <label for="surnames" class="login__label">first name</label>
                         <i class="ri-id-card-fill login__icon"></i>
                      </div>
                      <div id="surnamesError" class="error-message" style="color: red;">
                         <?php echo $surnamesError ?? ''; ?>
                      </div>
+                  </div>
+
+                  <div class="login__box">
+                     <input type="text" name="user_name" id="names" placeholder=" " class="login__input">
+                     <label for="names" class="login__label">User</label>
+                     <i class="ri-mail-fill login__icon"></i>
+                  </div>
+                  <div id="namesError" class="error-message" style="color: red;">
+                           <?php echo $namesError ?? ''; ?>
                   </div>
 
                   <div class="login__box">

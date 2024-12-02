@@ -97,7 +97,6 @@
                             <a href="?act=print_bill&id=<?= $order['id'] ?>" class="btn btn-success">In</a>
                         <?php else: ?>
                             <a href="?act=edit_oder&id=<?= $order['id'] ?>" class="btn btn-warning">Sửa</a>
-                            
                         <?php endif; ?>
                         <?php error_log("Order ID in view: " . $order['id']); ?>
                         <a href="?act=view_details&id=<?= $order['id'] ?>"  class="btn btn-primary">

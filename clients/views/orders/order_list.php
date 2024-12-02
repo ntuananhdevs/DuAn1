@@ -93,7 +93,7 @@
                     <div class="products_by_order mt-3">
                         <?php foreach ($order['products'] as $product): ?>
                             <div class="d-flex gap-3 mb-3">
-                                <img src="<?php echo $product['img']; ?>" alt="<?php echo $product['product_name']; ?>" style="width: 100px; height: 100px;">
+                                <img src="<?php echo removeLeadingDots($product['img'])  ?>" alt="<?php echo $product['product_name']; ?>" style="width: 100px; height: 100px;">
                                 <div class="product-info">
                                     <h4 style="color:#666;"><?php echo $product['product_name']; ?> (<?php echo $product['color']; ?>, <?php echo $product['storage']; ?>)</h4>
                                     <div class="price-qty" style="margin-top: 40px;">
