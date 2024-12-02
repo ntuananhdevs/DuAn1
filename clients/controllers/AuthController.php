@@ -19,6 +19,7 @@ class AuthController {
                 $user_name = trim($_POST['user_name'] ?? '');
                 $first_name = trim($_POST['first_name'] ?? '');
                 $last_name = trim($_POST['last_name'] ?? '');
+                $fullname = trim($_POST['fullname'] ?? '');
                 $phone_number = trim($_POST['phone_number'] ?? '');
                 $email = trim($_POST['email'] ?? '');
                 $password = $_POST['password'] ?? '';
@@ -65,7 +66,7 @@ class AuthController {
                 if (empty($namesError) && empty($surnamesError) && empty($emailCreateError) && 
                     empty($phone_numberError) && empty($passwordCreateError)) {
                     try {
-                        $this->authModel->register($user_name, $first_name, $last_name, $email, $password, $phone_number);
+                        $this->authModel->register($user_name, $fullname, $first_name, $last_name, $email, $password, $phone_number);
                         $message = "Đăng ký thành công!";
                         header("Location: ?act=login");
                         exit();
