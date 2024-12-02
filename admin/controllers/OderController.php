@@ -121,17 +121,7 @@ class OderController {
             $order = $this->OrderModel->getById($id);
             
             if ($order) {
-                $order = $order[0]; // Lấy dòng đầu tiên từ kết quả trả về nếu có
-                
-                // // Lấy hình ảnh từ phương thức `get_img_by_id`
-                // $img_data = $this->OrderModel->get_img_by_id($id);
-                
-                // // Nếu có hình ảnh, lấy ảnh đầu tiên
-                // if ($img_data && count($img_data) > 0) {
-                //     $img = $img_data[0]['img'];
-                // } else {
-                //     $img = null; // Không có ảnh nào, gán `img` là `null`
-                // }
+                $order = $order[0]; 
             }
     
             require_once '../admin/views/oder/OrderDetails.php';

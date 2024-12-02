@@ -21,44 +21,80 @@
                     <p><strong>Phương thức thanh toán:</strong> <?= $order['payment_method'] ?? 'Chưa có thông tin' ?></p>
                 </div>
             </div>
+            <div class="shipping_status  mb-3 ">
+                <p><strong>Trạng thái vận chuyển:</strong>
+                        <form method="POST" action="update_shipping_status" class="d-flex gap-3 align-items-center">
+                            <select name="shipping_status" class="form-select" aria-label="Chọn trạng thái vận chuyển" style="width: 200px; height: 40px;">
+                                <option value="pending" <?= $order['shipping_status'] === 'pending' ? 'selected' : '' ?>>Chờ xử lý</option>
+                                <option value="shipped" <?= $order['shipping_status'] === 'shipped' ? 'selected' : '' ?>>Đã gửi</option>
+                                <option value="delivered" <?= $order['shipping_status'] === 'delivered' ? 'selected' : '' ?>>Đã giao</option>
+                                <option value="cancelled" <?= $order['shipping_status'] === 'cancelled' ? 'selected' : '' ?>>Đã hủy</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary mt-3">Cập nhật trạng thái</button>
+                        </form>
+                    
+                </p>
+            </div>
 
-            <div class="table-responsive">
-            <table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Sản phẩm</th>
-            <th>Hình ảnh</th>
-            <th>Cấu hình</th>
-            <th>Số lượng</th>
-            <th>Đơn giá</th>
-            <th>Thành tiền</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($order_details as $order): ?>
-            <tr>
-                <td><?= $order['product_name']?></td>
-                <td>
-                        <img src="<?= $order['img'] ?? '' ?>" alt="" style="width:70px;height:auto;">
-                </td>
-                <td>
-                    <?php if ($order['color']): ?>Màu: <?= $order['color'] ?><br><?php endif; ?>
-                    <?php if ($order['ram']): ?>RAM: <?= $order['ram'] ?><br><?php endif; ?>
-                    <?php if ($order['storage']): ?>Bộ nhớ: <?= $order['storage'] ?><?php endif; ?>
-                </td>
-                <td><?= $order['quantity'] ?? 0 ?></td>
-                <td><?= number_format($order['price'] ?? 0) ?>đ</td>
-                <td><?= number_format(($order['price'] ?? 0) * ($order['quantity'] ?? 0)) ?>đ</td>
-            </tr>
-        <?php endforeach; ?>
-        
-        <!-- Dòng tổng tiền -->
-        <tr>
-            <td colspan="5" class="text-right"><strong>Tổng tiền:</strong></td>
-            <td><strong><?= number_format($order['total_amount'] ?? 0) ?>đ</strong></td>
-        </tr>
-    </tbody>
-</table>
+            <div class="table-responsive mt-3">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Hình ảnh</th>
+                            <th>Cấu hình</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Giảm giá</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $grand_total = 0;
+                        foreach ($order_details as $order):
+                            $price = $order['price'] ?? 0;
+                            $quantity = $order['quantity'] ?? 0;
+                            $discount_value = $order['discount_value'] ?? 0;
+                            $discount_type = $order['discount_type'] ?? '';
+
+                            if ($discount_type == 'percentage') {
+                                $discount = $price * $discount_value / 100;
+                            } else {
+                                $discount = $discount_value;
+                            }
+                            $subtotal = ($price * $quantity) - $discount;
+                            $grand_total += $subtotal;
+                        ?>
+                            <tr>
+                                <td><?= htmlspecialchars($order['product_name']) ?></td>
+                                <td>
+                                    <img src="<?= htmlspecialchars($order['img'] ?? '') ?>" alt="Product Image" style="width:70px;height:auto;">
+                                </td>
+                                <td>
+                                    <?php if (!empty($order['color'])): ?>Màu: <?= htmlspecialchars($order['color']) ?><br><?php endif; ?>
+                                <?php if (!empty($order['ram'])): ?>RAM: <?= htmlspecialchars($order['ram']) ?><br><?php endif; ?>
+                            <?php if (!empty($order['storage'])): ?>Bộ nhớ: <?= htmlspecialchars($order['storage']) ?><?php endif; ?>
+                                </td>
+                                <td><?= number_format($quantity) ?></td>
+                                <td><?= number_format($price) ?>đ</td>
+                                <td>
+                                    <?php if ($discount_type == 'percentage'): ?>
+                                        <?= $discount_value ?>%
+                                    <?php else: ?>
+                                        <?= number_format($discount_value) ?>đ
+                                    <?php endif; ?>
+                                </td>
+                                <td><?= number_format($subtotal) ?>đ</td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <tr>
+                            <td colspan="6" class="text-right"><strong>Tổng tiền </strong>(đã bao gồm VAT 10%):</td>
+                            <td><strong><?= number_format($grand_total * 1.10) ?>đ</strong></td>
+                        </tr>
+                    </tbody>
+
+                </table>
 
             </div>
 

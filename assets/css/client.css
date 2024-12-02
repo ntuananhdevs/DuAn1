@@ -362,8 +362,8 @@ article {
   margin: 10px 0;
 }
 
-#variant-original-price {
-  font-size: 14px;
+#variant-original-price{
+  font-size: 29px;
   color: #888;
   text-decoration: line-through;
   /* Gạch ngang giá gốc */

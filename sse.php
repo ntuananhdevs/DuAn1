@@ -3,7 +3,6 @@ header('Content-Type: text/event-stream');
 header('Cache-Control: no-cache');
 header('Connection: keep-alive');
 
-// Kết nối đến database
 require_once './commons/env.php';
 require_once './commons/core.php';
 

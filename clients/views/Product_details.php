@@ -176,7 +176,7 @@
                         <p id="variant-discount" style="font-size: 16px;"></p>
                     </div>
                     <p id="variant-price" style="font-size: 19px; font-weight: bold; color: red;"></p>
-                    <p id="variant-original-price" style="font-size: 14px; color: #888;"></p>
+                    <p id="variant-original-price" style="font-size: 29px; color: #888;"></p>
                 </div>
                 <div class="button-mcx">
                     <div class="button-container">
@@ -536,6 +536,8 @@
             }
 
             // Update form inputs with selected variant details
+            document.getElementById('selected-variant-id-now').value = selectedVariantId;
+            document.getElementById('selected-variant-price-now').value = finalPrice;
             document.getElementById('selected-variant-id').value = selectedVariantId;
             document.getElementById('selected-variant-price').value = finalPrice;
         }
