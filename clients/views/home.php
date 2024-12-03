@@ -2,23 +2,46 @@
     <link rel="stylesheet" href="./assets/css/client.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
     <link rel="icon" href="./assets/img/logo.png">
 </head>
-<div class="slide-container" data-aos="fade-down">
-    <div class="slides">
-        <?php foreach ($banners as $index => $banner) : ?>
-            <img src="./uploads/BannerIMG/<?= $banner['img_url'] ?>" class="<?= $index === 0 ? 'active' : '' ?>" alt="Banner Image <?= $index + 1 ?>">
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-aos="fade-down">
+    <!-- Indicators/Dots -->
+    <div class="carousel-indicators">
+        <?php foreach ($banners as $index => $banner): ?>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<?= $index ?>"
+                class="<?= $index === 0 ? 'active' : '' ?>"
+                aria-current="<?= $index === 0 ? 'true' : 'false' ?>"
+                aria-label="Slide <?= $index + 1 ?>"></button>
         <?php endforeach; ?>
     </div>
-    
-    <div class="dotsContainer">
-        <?php foreach ($banners as $index => $banner) : ?>
-            <span class="dot <?= $index === 0 ? 'active' : '' ?>" attr="<?= $index ?>" onclick="switchImage(this)"></span>
-            <?php endforeach; ?>
-        </div>
+
+
+    <!-- Slides -->
+    <div class="carousel-inner">
+        <?php foreach ($banners as $index => $banner): ?>
+            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                <img src="./uploads/BannerIMG/<?= htmlspecialchars($banner['img_url']) ?>" class="d-block w-100" alt="Banner Image <?= $index + 1 ?>" style="height: 600px; object-fit: cover;">
+            </div>
+        <?php endforeach; ?>
     </div>
-    
-<div class="container" data-aos="fade-up">
+
+    <!-- Navigation controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+
+<div class="container mt-5" data-aos="fade-up">
     <h1 class="event-title">Chương trình và Sự kiện</h1>
     <a href="#" class="view-all">Xem tất cả &gt;</a>
     <div class="event-container">
@@ -40,7 +63,8 @@
 <?php
 
 
-function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $colorEmpty = 'lightgray', $size = '10px') {
+function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $colorEmpty = 'lightgray', $size = '10px')
+{
     $stars = '';
     for ($i = 1; $i <= $maxStars; $i++) {
         if ($rating >= $i) {
@@ -54,7 +78,7 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
             $stars .= '<i class="fa-regular fa-star" style="color: ' . $colorEmpty . '; font-size: ' . $size . '; margin-right: 5px;"></i>';
         }
     }
-    
+
     $tooltip = '<div title="Rating: ' . $rating . '/' . $maxStars . '">' . $stars . '</div>';
     return $tooltip;
 }
@@ -63,15 +87,16 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
 ?>
 
 <div class="container" data-aos="fade-up">
-    <h1 class="product-title">Sản phẩm bán chạy</h1>
+    <h4 class="product-title mb-4 mt-4 fw-400">Sản phẩm bán chạy</h4>
     <div class="product-container-wrapper">
         <button class="scroll-btn left" onclick="scrollProducts('left')"><ion-icon name="chevron-back-outline"></ion-icon></button>
         <div class="product-container">
             <?php
-            usort($products, function($a, $b) {
+            usort($products, function ($a, $b) {
                 return $b['views'] - $a['views'];
             });
-            function limitText($text, $limit = 50) {
+            function limitText($text, $limit = 50)
+            {
                 if (mb_strlen($text) > $limit) {
                     return mb_substr($text, 0, $limit) . '...';
                 }
@@ -90,7 +115,7 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                             <?= renderRatingStars((int)$product['rating']) ?>
                         </div>
                     </div>
-                
+
                     <div class="price-home mb-0 mt-2">
                         <?php
                         $original_price = floatval(str_replace('.', '', $product['Lowest_Price']));
@@ -102,7 +127,7 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                             } else {
                                 $discounted_price = $original_price - $discount_value;
                             }
-                            
+
                             echo '<p>' . number_format($discounted_price, 0, ',', '.') . ' ₫</p>';
                         } else {
                             echo '<span>' . '0' . ' ₫</span>';
@@ -123,12 +148,12 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
 
 
 <div class="container" data-aos="fade-up">
-    <h1 class="product-title">Sản phẩm có đánh giá cao</h1>
+    <h5 class="product-title mb-4 mt-4 fw-400">Sản phẩm có đánh giá cao</h5>
     <div class="product-container-wrapper">
         <button class="scroll-btn left" onclick="scrollProducts1('left1')"><ion-icon name="chevron-back-outline"></ion-icon></button>
         <div class="product-container" id="product_container1">
             <?php
-            usort($products, function($a, $b) {
+            usort($products, function ($a, $b) {
                 return $b['rating'] - $a['rating'];
             });
             ?>
@@ -144,7 +169,7 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                             <?= renderRatingStars((int)$product['rating']) ?>
                         </div>
                     </div>
-                
+
                     <div class="price-home mb-0 mt-2">
                         <?php
                         $original_price = floatval(str_replace('.', '', $product['Lowest_Price']));
@@ -156,7 +181,7 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                             } else {
                                 $discounted_price = $original_price - $discount_value;
                             }
-                            
+
                             echo '<p>' . number_format($discounted_price, 0, ',', '.') . ' ₫</p>';
                         } else {
                             echo '<span>' . '0' . ' ₫</span>';
@@ -177,12 +202,12 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
 
 
 <div class="container" data-aos="fade-up">
-    <h1 class="product-title">Sản phẩm giảm giá</h1>
+    <h4 class="product-title mb-4 mt-4 fw-400">Sản phẩm giảm giá</h4>
     <div class="product-container-wrapper">
         <button class="scroll-btn left" onclick="scrollProducts2('left2')"><ion-icon name="chevron-back-outline"></ion-icon></button>
         <div class="product-container" id="product_container2">
             <?php
-            usort($products, function($a, $b) {
+            usort($products, function ($a, $b) {
                 return $b['discount_value'] - $a['discount_value'];
             });
             ?>
@@ -198,7 +223,7 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                             <?= renderRatingStars((int)$product['rating']) ?>
                         </div>
                     </div>
-                
+
                     <div class="price-home mb-0 mt-2">
                         <?php
                         $original_price = floatval(str_replace('.', '', $product['Lowest_Price']));
@@ -210,7 +235,7 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
                             } else {
                                 $discounted_price = $original_price - $discount_value;
                             }
-                            
+
                             echo '<p>' . number_format($discounted_price, 0, ',', '.') . ' ₫</p>';
                         } else {
                             echo '<span>' . '0' . ' ₫</span>';
@@ -230,6 +255,6 @@ function renderRatingStars($rating, $maxStars = 5, $colorFull = 'yellow', $color
 </div>
 
 <script>
-  AOS.init();
+    AOS.init();
 </script>
 <script src="./assets/js/client.js"></script>
