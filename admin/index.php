@@ -97,6 +97,7 @@
             'update_oder' => $order->update(),
             'view_details' => $order->details($_GET['id']),
             'delete_order' => $order->delete($_GET['id']),
+            'update_shipping_status' => $order->update_shipping_status(),
 
              // CRUD for Discounts
                 'discount' => $discount->index(),

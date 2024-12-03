@@ -127,5 +127,17 @@ class OrderModel
             return false;
         }
     }
+    public function returnOrder($orderId, $userId, $reason) {
+        $sql = "INSERT INTO returns (order_id, user_id, reason, created_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$orderId, $reason, $userId,]);
+        return $stmt->rowCount() > 0;
+    }
+    public function updateStatus($orderId, $status) {
+        $sql = "UPDATE orders SET shipping_status = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$status, $orderId]);
+        return $stmt->rowCount() > 0;
+    }
 
 }

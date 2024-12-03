@@ -1,7 +1,7 @@
 <div class="container my-4">
     <!-- Add jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+
     <h2 class="mb-4">Đơn hàng của tôi</h2>
 
     <!-- Order Count Alert -->
@@ -83,8 +83,8 @@
                                     <span class="badge bg-warning">Chưa thanh toán</span>
                                 <?php endif; ?>
                             </span>
-                            <span class="badge <?php echo $statusButtonStyle[$order['shipping_status']]; ?>" 
-                                  id="status-badge-<?php echo $order['id']; ?>">
+                            <span class="badge <?php echo $statusButtonStyle[$order['shipping_status']]; ?>"
+                                id="status-badge-<?php echo $order['id']; ?>">
                                 <?php echo $statusMapping[$order['shipping_status']]; ?>
                             </span>
                         </div>
@@ -109,24 +109,23 @@
                             <span class="text-muted">Tổng tiền:</span>
                             <span class="text-danger fw-bold ms-2"><?php echo number_format($order['total_amount'], 0, ',', '.'); ?>đ</span>
                         </div>
-                       
+
                         <div class="order-actions" id="order-actions-<?php echo $order['id']; ?>">
                             <?php if ($order['shipping_status'] === 'pending'): ?>
-                                <form method="POST" action="index.php?act=cancel_order" style="display: inline;" 
-                                      onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')">
+                                <form method="POST" action="index.php?act=cancel_order" style="display: inline;"
+                                    onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')">
                                     <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
                                     <button type="submit" class="btn btn-danger">
                                         <i class="fas fa-times"></i> Hủy đơn hàng
                                     </button>
                                 </form>
                             <?php elseif ($order['shipping_status'] === 'returned'): ?>
-                                <a href="index.php?act=order_detail&id=<?= $order['id'] ?>&rebuy=true" 
-                                   class="btn btn-primary">
+                                <a href="index.php?act=order_detail&id=<?= $order['id'] ?>&rebuy=true"
+                                    class="btn btn-primary">
                                     <i class="fas fa-shopping-cart"></i> Mua lại
                                 </a>
                             <?php elseif ($order['shipping_status'] === 'delivered'): ?>
-                                <a href="index.php?act=return_order&id=<?= $order['id'] ?>" 
-                                   class="btn btn-warning">
+                                <a href="#" class="btn btn-warning" onclick="showReturnOrderModal(<?= $order['id'] ?>)">
                                     <i class="fas fa-undo"></i> Trả hàng
                                 </a>
                             <?php endif; ?>
@@ -142,135 +141,156 @@
     <?php endif; ?>
 </div>
 
+
+<div id="returnOrderModal" class="custom-modal">
+    <div class="custom-modal-content">
+        <span class="closes" onclick="closeModall()">&times;</span>
+        <h5>Lý do trả hàng</h5>
+        <form action="?act=return_order" method="POST">
+            <div class="mb-3">
+                <textarea class="form-control" name="reason" id="returnReason" rows="3" required placeholder="Nhập lý do trả hàng..."></textarea>
+            </div>
+            <input type="hidden" name="shipping_status" id="shippingStatus" value="return_requested">
+            <input type="hidden" name="order_id" id="orderId" value="<?= htmlspecialchars($order_id) ?>">
+            <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>"> <!-- Lấy user_id từ session -->
+            <div class="text-end">
+                <button type="button" class="btn btn-secondary" onclick="closeModall()">Hủy</button>
+                <button type="submit" class="btn btn-primary">Gửi yêu cầu</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
-function cancelOrder(orderId) {
-    if (!confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
-        return;
-    }
-    $.ajax({
-        url: 'index.php?act=cancel_order',
-        type: 'POST',
-        data: {
-            order_id: orderId
-        },
-        dataType: 'json',
-        success: function(response) {
-            if (response.success) {
-                alert(response.message);
-                // Cập nhật UI
-                const btnCancel = $(`#btn-cancel-${orderId}`);
-                const statusBadge = $(`#status-badge-${orderId}`);
-                
-                // Thay đổi nút hủy thành nút mua lại
-                btnCancel.removeClass('btn-danger').addClass('btn-primary');
-                btnCancel.html('<i class="fas fa-shopping-cart"></i> Mua lại');
-                btnCancel.attr('onclick', `rebuyOrder(${orderId})`);
-                
-                // Cập nhật trạng thái
-                statusBadge.removeClass('bg-warning bg-info bg-success')
-                          .addClass('bg-danger')
-                          .text('Đã hủy');
-                
-                // Cập nhật số lượng đơn hàng trong các tab
-                updateOrderCounts();
-            } else {
-                alert('Không thể hủy đơn hàng. Vui lòng thử lại sau.');
+    function cancelOrder(orderId) {
+        if (!confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+            return;
+        }
+        $.ajax({
+            url: 'index.php?act=cancel_order',
+            type: 'POST',
+            data: {
+                order_id: orderId
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    alert(response.message);
+                    // Cập nhật UI
+                    const btnCancel = $(`#btn-cancel-${orderId}`);
+                    const statusBadge = $(`#status-badge-${orderId}`);
+
+                    // Thay đổi nút hủy thành nút mua lại
+                    btnCancel.removeClass('btn-danger').addClass('btn-primary');
+                    btnCancel.html('<i class="fas fa-shopping-cart"></i> Mua lại');
+                    btnCancel.attr('onclick', `rebuyOrder(${orderId})`);
+
+                    // Cập nhật trạng thái
+                    statusBadge.removeClass('bg-warning bg-info bg-success')
+                        .addClass('bg-danger')
+                        .text('Đã hủy');
+
+                    // Cập nhật số lượng đơn hàng trong các tab
+                    updateOrderCounts();
+                } else {
+                    alert('Không thể hủy đơn hàng. Vui lòng thử lại sau.');
+                }
+            },
+            error: function() {
+                alert('Đã có lỗi xảy ra. Vui lng thử lại sau.');
             }
-        },
-        error: function() {
-            alert('Đã có lỗi xảy ra. Vui lòng thử lại sau.');
-        }
-    });
-}
-
-function rebuyOrder(orderId) {
-    // Chuyển hướng đến trang chi tiết sản phẩm hoặc giỏ hàng
-    window.location.href = `index.php?act=order_detail&id=${orderId}&rebuy=true`;
-}
-function updateOrderCounts() {
-    location.reload();
-}
-
-//sse
-const eventSource = new EventSource('sse.php');  // Kết nối SSE
-console.log(eventSource);
-
-// Lắng nghe sự kiện và cập nhật trạng thái đơn hàng
-eventSource.onmessage = function(event) {
-    const data = JSON.parse(event.data);
-    const orderId = data.orderId;
-    const status = data.status;
-
-    // Cập nhật trạng thái đơn hàng trong giao diện
-    const statusBadge = document.getElementById(`status-badge-${orderId}`);
-    if (statusBadge) {
-        statusBadge.textContent = getStatusText(status);
-        statusBadge.className = getStatusClass(status);
+        });
     }
 
-    // Cập nhật các nút hành động
-    updateOrderActions(orderId, status);
-    
-    // Cập nhật số lượng đơn hàng trong các tab
-    updateTabCounts(data.orderCounts);
-};
-
-// Thêm hàm mới để cập nhật số lượng trong các tab
-function updateTabCounts(counts) {
-    // Cập nhật tổng số đơn hàng
-    const totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
-    const allTab = document.querySelector('.nav-link[href="index.php?act=orders"] .badgee');
-    if (allTab) {
-        allTab.textContent = totalCount;
-        allTab.style.display = totalCount > 0 ? '' : 'none';
+    function rebuyOrder(orderId) {
+        // Chuyển hướng đến trang chi tiết sản phẩm hoặc giỏ hàng
+        window.location.href = `index.php?act=order_detail&id=${orderId}&rebuy=true`;
     }
 
-    // Cập nhật từng trạng thái
-    const statuses = ['pending', 'in_transit', 'delivered', 'cancelled'];
-    statuses.forEach(status => {
-        const tab = document.querySelector(`.nav-link[href="index.php?act=orders&status=${status}"] .badgee`);
-        if (tab) {
-            const count = counts[status] || 0;
-            tab.textContent = count;
-            tab.style.display = count > 0 ? '' : 'none';
+    function updateOrderCounts() {
+        location.reload();
+    }
+
+    //sse
+    const eventSource = new EventSource('sse.php'); // Kết nối SSE
+    console.log(eventSource);
+
+    // Lắng nghe sự kiện và cập nhật trạng thái đơn hàng
+    eventSource.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        const orderId = data.orderId;
+        const status = data.status;
+
+        // Cập nhật trạng thái đơn hàng trong giao diện
+        const statusBadge = document.getElementById(`status-badge-${orderId}`);
+        if (statusBadge) {
+            statusBadge.textContent = getStatusText(status);
+            statusBadge.className = getStatusClass(status);
         }
-    });
-}
 
-// Hàm trả về tên trạng thái
-function getStatusText(status) {
-    const statusMapping = {
-        'pending': 'Chờ xác nhận',
-        'in_transit': 'Đang giao',
-        'delivered': 'Đã giao',
-        'returned': 'Trả hàng',
-        'cancelled': 'Đã hủy'
+        // Cập nhật các nút hành động
+        updateOrderActions(orderId, status);
+
+        // Cập nhật số lượng đơn hàng trong các tab
+        updateTabCounts(data.orderCounts);
     };
-    return statusMapping[status] || 'Không xác định';
-}
 
-// Hàm trả về lớp CSS cho badge trạng thái
-function getStatusClass(status) {
-    const statusClasses = {
-        'pending': 'badge bg-warning',
-        'in_transit': 'badge bg-info',
-        'delivered': 'badge bg-success',
-        'cancelled': 'badge bg-danger',
-        'returned': 'badge bg-warning'
-    };
-    return statusClasses[status] || 'badge bg-secondary';
-}
+    // Thêm hàm mới để cập nhật số lượng trong các tab
+    function updateTabCounts(counts) {
+        // Cập nhật tổng số đơn hàng
+        const totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
+        const allTab = document.querySelector('.nav-link[href="index.php?act=orders"] .badgee');
+        if (allTab) {
+            allTab.textContent = totalCount;
+            allTab.style.display = totalCount > 0 ? '' : 'none';
+        }
 
-// Hàm cập nhật các nút hành động của đơn hàng
-function updateOrderActions(orderId, status) {
-    const orderActions = document.getElementById(`order-actions-${orderId}`);
-    console.log(orderActions);
-    if (orderActions) {
-        orderActions.innerHTML = '';  // Xóa nội dung cũ
+        // Cập nhật từng trạng thái
+        const statuses = ['pending', 'in_transit', 'delivered', 'cancelled'];
+        statuses.forEach(status => {
+            const tab = document.querySelector(`.nav-link[href="index.php?act=orders&status=${status}"] .badgee`);
+            if (tab) {
+                const count = counts[status] || 0;
+                tab.textContent = count;
+                tab.style.display = count > 0 ? '' : 'none';
+            }
+        });
+    }
 
-        switch(status) {
-            case 'pending':
-                orderActions.innerHTML = `
+    // Hàm trả về tên trạng thái
+    function getStatusText(status) {
+        const statusMapping = {
+            'pending': 'Chờ xác nhận',
+            'in_transit': 'Đang giao',
+            'delivered': 'Đã giao',
+            'returned': 'Trả hàng',
+            'cancelled': 'Đã hủy'
+        };
+        return statusMapping[status] || 'Không xác định';
+    }
+
+    // Hàm trả về lớp CSS cho badge trạng thái
+    function getStatusClass(status) {
+        const statusClasses = {
+            'pending': 'badge bg-warning',
+            'in_transit': 'badge bg-info',
+            'delivered': 'badge bg-success',
+            'cancelled': 'badge bg-danger',
+            'returned': 'badge bg-warning'
+        };
+        return statusClasses[status] || 'badge bg-secondary';
+    }
+
+    // Hàm cập nhật các nút hành động của đơn hàng
+    function updateOrderActions(orderId, status) {
+        const orderActions = document.getElementById(`order-actions-${orderId}`);
+        console.log(orderActions);
+        if (orderActions) {
+            orderActions.innerHTML = ''; // Xóa nội dung cũ
+
+            switch (status) {
+                case 'pending':
+                    orderActions.innerHTML = `
                     <form method="POST" action="index.php?act=cancel_order" style="display: inline;" 
                           onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')">
                         <input type="hidden" name="order_id" value="${orderId}">
@@ -278,27 +298,96 @@ function updateOrderActions(orderId, status) {
                             <i class="fas fa-times"></i> Hủy đơn hàng
                         </button>
                     </form>`;
-                break;
-            case 'returned':
-                orderActions.innerHTML = `
+                    break;
+                case 'returned':
+                    orderActions.innerHTML = `
                     <a href="index.php?act=order_detail&id=${orderId}&rebuy=true" 
                        class="btn btn-primary">
                         <i class="fas fa-shopping-cart"></i> Mua lại
                     </a>`;
-                break;
-            case 'delivered':
-                orderActions.innerHTML = `
-                    <a href="index.php?act=return_order&id=${orderId}" 
-                       class="btn btn-warning">
+                    break;
+                case 'delivered':
+                    orderActions.innerHTML = `
+                    <a href="#" class="btn btn-warning" onclick="showReturnOrderModal(${orderId})">
                         <i class="fas fa-undo"></i> Trả hàng
                     </a>`;
-                break;
+                    break;
+            }
         }
     }
-}
 
+    function showReturnOrderModal(orderId) {
+        document.getElementById('orderId').value = orderId;
+        document.getElementById('returnOrderModal').style.display = 'block';
+    }
+
+    function closeModall() {
+        document.getElementById('returnOrderModal').style.display = 'none';
+    }
 </script>
 <style>
+    .custom-modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .custom-modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 8px;
+    }
+
+    .closes {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .closes:hover,
+    .closes:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .text-end {
+        text-align: right;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-secondary:hover,
+    .btn-primary:hover {
+        opacity: 0.8;
+    }
+
     .badgee {
         background-color: #ee4d2d;
         color: #fff;

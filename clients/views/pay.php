@@ -19,11 +19,11 @@
                     <div class="row mb-4">
                         <div class="col">
                             <label for="lastname" class="form-labell">Họ</label>
-                            <input type="text" class="custom-input" name="lastname" id="lastname" placeholder="Ho cua ban" value="<?php echo isset($_SESSION['user_id']) ? htmlspecialchars($user['fullname']) : htmlspecialchars($_POST['lastname'] ?? ''); ?>">
+                            <input type="text" class="custom-input" name="lastname" id="lastname" placeholder="Ho cua ban" value="<?php echo isset($_SESSION['user_id']) ? htmlspecialchars($user['last_name']) : htmlspecialchars($_POST['lastname'] ?? ''); ?>">
                         </div>
                         <div class="col">
                             <label for="firstname" class="form-labell">Đệm và Tên</label>
-                            <input type="text" class="custom-input" name="firstname" id="firstname" placeholder="Ten cua ban" value="<?php echo htmlspecialchars($_POST['firstname'] ?? ''); ?>">
+                            <input type="text" class="custom-input" name="firstname" id="firstname" placeholder="Ten cua ban" value="<?php echo isset($_SESSION['user_id']) ? htmlspecialchars($user['first_name']) : htmlspecialchars($_POST['firstname'] ?? ''); ?>">
                         </div>
                     </div>
                     <div class="row mb-4">

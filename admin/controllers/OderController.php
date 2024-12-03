@@ -26,6 +26,9 @@ class OderController {
             }
 
             $id = $_GET['id'];
+            $order_details = $this->OrderModel->get_order_details($id);
+
+            $id = $_GET['id'];
             $order = $this->OrderModel->getById($id);
             
             if (!$order || !isset($order[0])) {
@@ -181,5 +184,15 @@ class OderController {
             exit;
         }
     }
-    
+        public function update_shipping_status()
+        {
+            $shipping_status = $_POST['shipping_status'];
+            $id = $_POST['order_id'];
+
+            if ($this->OrderModel->updateStatus($id, $shipping_status)) {
+                echo "Cập nhật trạng thái đơn hàng thành công";
+                header('Location: ?act=view_details&id=' . $id);
+                exit;
+            }
+        }
 }

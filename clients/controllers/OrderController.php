@@ -13,7 +13,6 @@ class OrderController
 
         $userId = $_SESSION['user_id'];
         $status = isset($_GET['status']) ? $_GET['status'] : 'all';
-
         $result = $this->orderModel->getOrdersByUserId($userId, $status);
         $orders = $result['orders'];
         $orderCounts = $result['counts'];
@@ -24,7 +23,9 @@ class OrderController
             'in_transit' => 'Đang giao',
             'delivered' => 'Đã giao',
             'returned' => 'Trả hàng',
-            'cancelled' => 'Đã hủy'
+            'cancelled' => 'Đã hủy',
+            'return_requested' => 'Đã yêu cầu trả hàng'
+
         ];
 
         $statusButtonStyle = [
@@ -32,7 +33,8 @@ class OrderController
             'in_transit' => 'bg-info',
             'delivered' => 'bg-success',
             'cancelled' => 'bg-danger',
-            'returned' => 'bg-warning'
+            'returned' => 'bg-warning',
+            'return_requested' => 'bg-warning'
         ];
 
         require_once './clients/views/orders/order_list.php';
@@ -64,6 +66,17 @@ class OrderController
         
         header('Location: index.php?act=orders');
         exit;
+    }
+
+    public function returnOrder() {
+        $orderId = $_POST['order_id'];
+        $reason = $_POST['reason'];
+        $userId = $_SESSION['user_id'];
+        $return_request = $_POST['shipping_status'];
+        $result = $this->orderModel->returnOrder($orderId, $reason, $userId);
+
+        $this->orderModel->updateStatus($orderId, $return_request);
+        header('Location: ?act=orders');
     }
     
 }

@@ -20,7 +20,6 @@ while (true) {
     while ($order = $stmt->fetch(PDO::FETCH_ASSOC)) {
         sendOrderStatusUpdate($order['id'], $order['shipping_status']);
     }
-
-    sleep(1);
+    sleep(3);
 }
 
