@@ -3,6 +3,10 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
+<div id="toast-message" style="display: none;" class="toast-message">
+    <i class="fas fa-check-circle"></i>
+    <span>Đã thêm vào giỏ hàng thành công!</span>
+</div>
 <div class="container mt-4 mb-4">
     <!-- Header sản phẩm -->
     <div class="product-header">
@@ -176,7 +180,7 @@
                         <p id="variant-discount" style="font-size: 16px;"></p>
                     </div>
                     <p id="variant-price" style="font-size: 19px; font-weight: bold; color: red;"></p>
-                    <p id="variant-original-price" style="font-size: 14px; color: #888;"></p>
+                    <p id="variant-original-price" style="font-size: 29px; color: #888;"></p>
                 </div>
                 <div class="button-mcx">
                     <div class="button-container">
@@ -367,11 +371,13 @@
                             <?php foreach ($comments as $comment) : ?>
                                 <div class="comment">
                                     <!-- Avatar -->
-                                    <div class="avt">
-                                        <img
-                                            src="./uploads/<?php echo htmlspecialchars($comment['user_avatar']); ?>"
-                                            class="user-avatar" />
-                                    </div>
+                                    <?php
+                                    $avatarPath = !empty($comment['user_avatar']) ? 'uploads/UserIMG/' . $comment['user_avatar'] : './assets/images/default-avatar.png';
+                                    ?>
+                                    <img src="<?= $avatarPath ?>"
+                                        class="profile-avatar"
+                                        id="avatar-preview"
+                                        alt="Avatar">
 
                                     <!-- User Information and Comment -->
                                     <div class="name-date">
@@ -534,6 +540,8 @@
             }
 
             // Update form inputs with selected variant details
+            document.getElementById('selected-variant-id-now').value = selectedVariantId;
+            document.getElementById('selected-variant-price-now').value = finalPrice;
             document.getElementById('selected-variant-id').value = selectedVariantId;
             document.getElementById('selected-variant-price').value = finalPrice;
         }
@@ -872,10 +880,42 @@
                 });
             });
         });
+        
 
 
         // Khởi chạy sau khi DOM được tải
         document.addEventListener('DOMContentLoaded', setupStarRatings);
+
+        document.getElementById('add-to-cart-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Gửi form bằng AJAX
+            fetch(this.action, {
+                method: 'POST',
+                body: new FormData(this)
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Hiển thị toast message
+                const toast = document.getElementById('toast-message');
+                toast.style.display = 'flex';
+                
+                // Tự động ẩn toast sau 3 giây
+                setTimeout(() => {
+                    toast.classList.add('hide');
+                    setTimeout(() => {
+                        toast.style.display = 'none';
+                        toast.classList.remove('hide');
+                    }, 500);
+                }, 3000);
+                
+                // Cập nhật số lượng trong giỏ hàng (nếu cần)
+                // updateCartCount();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
     </script>
 <style>
     .price_products_variants{
@@ -1166,5 +1206,52 @@
 #buy-now-link, #add-to-cart-link {
     text-decoration: none;
     height: 75px;
+}
+
+/* Toast Message */
+.toast-message {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    animation: slideIn 0.5s ease-out;
+}
+
+.toast-message i {
+    font-size: 20px;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.toast-message.hide {
+    animation: slideOut 0.5s ease-out forwards;
 }
 </style>

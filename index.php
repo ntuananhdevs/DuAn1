@@ -95,8 +95,8 @@
             'get_districts' => $pay->getDistrictsJson(),
             'get_wards' => $pay->getWardsJson(),
             'orders' => $order->viewOrders(),
-            'order_detail' => $order->getOrderDetail($_GET['id'] ?? null),
             'cancel_order' => $order->cancelOrder(),
+            'return_order' => $order->returnOrder(),
             default => $home->view_home(),
         };
         include './clients/views/layout/footer.php';

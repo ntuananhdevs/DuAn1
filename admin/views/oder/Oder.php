@@ -86,6 +86,9 @@
                             case 'cancelled':
                                 echo '<span class="badge bg-danger">Đã hủy</span>';
                                 break;
+                            case 'return_requested':
+                                echo '<span class="badge bg-danger">Đã yêu cầu trả hàng</span>';
+                                break;
                             default:
                                 echo '<span class="badge bg-secondary">Không xác định</span>';
                                 break;
@@ -95,14 +98,8 @@
                     <td>
                         <?php if($order['payment_status'] == 'paid' && $order['shipping_status'] == 'delivered'): ?>
                             <a href="?act=print_bill&id=<?= $order['id'] ?>" class="btn btn-success">In</a>
-                        <?php else: ?>
-                            <a href="?act=edit_oder&id=<?= $order['id'] ?>" class="btn btn-warning">Sửa</a>
-                            <a href="?act=delete_order&id=<?= $order['id'] ?>" 
-                               class="btn btn-danger"
-                               onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?')">Xóa</a>
                         <?php endif; ?>
-                        <?php error_log("Order ID in view: " . $order['id']); ?>
-                        <a href="?act=view_details&id=<?= $order['id'] ?>"  class="btn btn-primary">
+                        <a href="?act=view_details&id=<?= $order['id'] ?>" class="btn btn-primary <?= $order['shipping_status'] == 'cancelled' ? 'disabled' : '' ?>">
                             Details
                         </a>
                     </td>

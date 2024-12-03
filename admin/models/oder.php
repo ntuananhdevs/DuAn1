@@ -5,7 +5,7 @@ class OderModel
 
     public function __construct()
     {
-        $this->conn = connectDB(); // Kết nối đến cơ sở dữ liệu
+        $this->conn = connectDB();
     }
 
     public function getAll()
@@ -50,47 +50,8 @@ class OderModel
                     pv.color, 
                     pv.ram, 
                     pv.storage, 
-                    p.product_name
-                FROM 
-                    Orders o
-                JOIN 
-                    Users u ON o.user_id = u.id
-                JOIN 
-                    Order_details od ON o.id = od.order_id
-                JOIN 
-                    Product_variants pv ON od.product_variant_id = pv.id
-                JOIN 
-                    Products p ON pv.product_id = p.id
-                WHERE 
-                    o.id = ?";
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute([$id]);
-        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        if (empty($products)) {
-            return null;
-        }
-
-        return $products;
-    }
-    public function get_order_details($id) {
-    try {
-        $sql = "SELECT 
-                    o.*, 
-                    u.user_name, 
-                    u.fullname, 
-                    u.email, 
-                    u.phone_number, 
-                    od.quantity, 
-                    od.subtotal, 
-                    pv.price, 
-                    pv.id as variant_id,
-                    pv.color, 
-                    pv.ram, 
-                    pv.storage, 
                     p.product_name,
-                    vi.img
+                    r.reason         -- Thêm cột từ bảng returns
                 FROM 
                     Orders o
                 JOIN 
@@ -102,10 +63,56 @@ class OderModel
                 JOIN 
                     Products p ON pv.product_id = p.id
                 LEFT JOIN
-                    variants_img vi ON pv.id = vi.variant_id
-                WHERE
-                    o.id = ?
-                ";
+                    Returns r ON r.order_id = o.id  -- Kết nối bảng returns
+                WHERE 
+                    o.id = ?";
+    
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$id]);
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (empty($products)) {
+            return null; // Không có dữ liệu, trả về null
+        }
+    
+        return $products; // Trả về dữ liệu
+    }
+    
+    public function get_order_details($id) {
+    try {
+        $sql = "SELECT 
+    o.*, 
+    u.user_name, 
+    u.fullname, 
+    u.email, 
+    u.phone_number, 
+    od.quantity, 
+    od.subtotal, 
+    pv.price, 
+    pv.id AS variant_id,
+    pv.color, 
+    pv.ram, 
+    pv.storage, 
+    p.product_name,
+    vi.img,
+    d.discount_type,
+    d.discount_value
+FROM 
+    Orders o
+JOIN 
+    Users u ON o.user_id = u.id
+JOIN 
+    Order_details od ON o.id = od.order_id
+JOIN 
+    Product_variants pv ON od.product_variant_id = pv.id
+JOIN 
+    Products p ON pv.product_id = p.id
+LEFT JOIN
+    Variants_img vi ON pv.id = vi.variant_id
+LEFT JOIN
+    Discounts d ON p.id = d.product_id
+WHERE
+    o.id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$id]);
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -160,33 +167,7 @@ class OderModel
             return false;
         }
     }
-//     public function getProductDetails($orderId)
-// {
-//     try {
-//         $sql = "SELECT pv.*, p.product_name, MIN(vi.img) as img
-//                 FROM order_details od
-//                 JOIN product_variants pv ON od.product_variant_id = pv.id
-//                 LEFT JOIN products p ON pv.product_id = p.id
-//                 LEFT JOIN variants_img vi ON pv.id = vi.variant_id 
-//                 WHERE od.order_id = ?
-//                 GROUP BY pv.id";
-        
-//         $stmt = $this->conn->prepare($sql);
-//         $stmt->execute([$orderId]);
-        
-//         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-//         // Ghi log để kiểm tra
-//         error_log("Products for order ID $orderId: " . print_r($products, true));
-        
-//         return $products ?: []; // Trả về mảng trống nếu không có sản phẩm nào
-//     } catch (PDOException $e) {
-//         error_log("Database Error: " . $e->getMessage());
-//         return []; // Trả về mảng trống khi gặp lỗi
-//     }
-// }
-
-
+    
     public function getOrderWithDetails($orderId)
     {
         try {
@@ -338,4 +319,26 @@ class OderModel
             return false;
         }
     }
+
+    function updateStatus($id, $status) {
+        $sql = "UPDATE orders SET 
+                shipping_status = :status,
+                payment_status = CASE 
+                    WHEN :status = 'delivered' THEN 'paid'
+                    ELSE payment_status 
+                END,
+                payment_date = CASE 
+                    WHEN :status = 'delivered' THEN CURRENT_TIMESTAMP
+                    ELSE payment_date
+                END
+                WHERE id = :id";
+                
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            ':status' => $status,
+            ':id' => $id
+        ]);
+        return $stmt->rowCount() > 0;
+    }
+
 }

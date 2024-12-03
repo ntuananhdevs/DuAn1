@@ -1,7 +1,6 @@
 <?php
     ob_start();
     
-    // Thêm các dòng include này
     require_once "./clients/models/Category.php";
     require_once "./clients/controllers/CategoryController.php";
     
@@ -55,11 +54,16 @@
             </div>
             <div class="nav-center">
                 <a href="?act=home">Trang chủ</a>
-                <?php foreach($categories as $category): ?>
-                    <a href="?act=apple_products&id=<?php echo $category['id']; ?>">
-                        <?php echo htmlspecialchars($category['category_name']); ?>
-                    </a>
-                <?php endforeach; ?>
+                <div class="dropdown">
+                    <a class="d-flex align-items-center gap-2" href="#">Sản phẩm<ion-icon name="chevron-down-outline"></ion-icon></a>
+                    <div class="dropdown-menu-cartegory">
+                        <?php foreach ($categories as $category): ?>
+                            <a href="?act=apple_products&id=<?php echo $category['id']; ?>">
+                                <?php echo htmlspecialchars($category['category_name']); ?>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
             </div>
             <div class="nav-right">
                 <div class="text">
@@ -307,3 +311,70 @@
             }
         });
     </script>
+
+    <style>
+        .nav-center .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-center .dropdown > a {
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            transition: all 0.3s ease;
+        }
+        .nav-center .dropdown-menu-cartegory {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            min-width: 200px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            padding: 8px 0;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .nav-center .dropdown-menu-cartegory a {
+            color: #333;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .nav-center .dropdown:hover .dropdown-menu-cartegory {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-center .dropdown:hover .dropdown-menu-cartegory a {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .nav-center .dropdown-menu-cartegory a:hover {
+            background-color: #f8f9fa;
+            color: #007bff;
+            transform: translateX(5px);
+        }
+        .nav-center .dropdown-menu-cartegory a:nth-child(1) { transition-delay: 0.1s; }
+        .nav-center .dropdown-menu-cartegory a:nth-child(2) { transition-delay: 0.15s; }
+        .nav-center .dropdown-menu-cartegory a:nth-child(3) { transition-delay: 0.2s; }
+        .nav-center .dropdown-menu-cartegory a:nth-child(4) { transition-delay: 0.25s; }
+        .nav-center .dropdown-menu-cartegory a:nth-child(5) { transition-delay: 0.3s; }
+    </style>

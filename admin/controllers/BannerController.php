@@ -10,7 +10,6 @@ class BannerController
 
     public function views_Banner()
     {
-        // Lấy giá trị tìm kiếm từ URL (nếu có)
         $search = $_GET['search'] ?? ''; 
     
        

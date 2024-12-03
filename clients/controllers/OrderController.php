@@ -9,16 +9,10 @@ class OrderController
         $this->orderModel = new OrderModel();
     }
 
-    public function viewOrders()
-    {
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: index.php?act=login');
-            exit;
-        }
+    public function viewOrders() {
 
         $userId = $_SESSION['user_id'];
         $status = isset($_GET['status']) ? $_GET['status'] : 'all';
-
         $result = $this->orderModel->getOrdersByUserId($userId, $status);
         $orders = $result['orders'];
         $orderCounts = $result['counts'];
@@ -28,29 +22,22 @@ class OrderController
             'pending' => 'Chờ xác nhận',
             'in_transit' => 'Đang giao',
             'delivered' => 'Đã giao',
-            'returned' => 'Đã hủy'
+            'returned' => 'Trả hàng',
+            'cancelled' => 'Đã hủy',
+            'return_requested' => 'Đã yêu cầu trả hàng'
+
         ];
 
-        // Status button style mapping
         $statusButtonStyle = [
             'pending' => 'bg-warning',
             'in_transit' => 'bg-info',
             'delivered' => 'bg-success',
-            'returned' => 'bg-danger'
+            'cancelled' => 'bg-danger',
+            'returned' => 'bg-warning',
+            'return_requested' => 'bg-warning'
         ];
 
         require_once './clients/views/orders/order_list.php';
-    }
-
-    public function getOrderDetail($orderId)
-    {
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: index.php?act=login');
-            exit;
-        }
-
-        $orderDetail = $this->orderModel->getOrderDetail($orderId);
-        require_once './clients/views/orders/order_detail.php';
     }
 
     public function cancelOrder() {
@@ -80,4 +67,16 @@ class OrderController
         header('Location: index.php?act=orders');
         exit;
     }
+
+    public function returnOrder() {
+        $orderId = $_POST['order_id'];
+        $reason = $_POST['reason'];
+        $userId = $_SESSION['user_id'];
+        $return_request = $_POST['shipping_status'];
+        $result = $this->orderModel->returnOrder($orderId, $reason, $userId);
+
+        $this->orderModel->updateStatus($orderId, $return_request);
+        header('Location: ?act=orders');
+    }
+    
 }

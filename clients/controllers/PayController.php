@@ -3,33 +3,18 @@ class PayController{
     
     public $pay;
     public $mail;
+    public $userId;
 
     public function __construct() {
         $this->pay = new Pay();
         $this->mail = new MailService();
+        $this->userId = new ProfileModel();
     }
 
     public function view_pay(){
-
+        $userId = $_SESSION['user_id'] ?? null;
         $provinces = $this->pay->get_Provinces();
-
-        // Kiểm tra xem có tỉnh nào được chọn hay không
-        $selectedProvince = isset($_POST['province']) ? $_POST['province'] : null;
-        $selectedDistrict = isset($_POST['district']) ? $_POST['district'] : null;
-        $selectedWard = isset($_POST['ward']) ? $_POST['ward'] : null;
-
-        if ($selectedProvince) {
-            // Lấy danh sách huyện theo tỉnh đã chọn
-            $districts = $this->pay->getDistrictsByProvince($selectedProvince);
-        }
-
-        // Kiểm tra xem có huyện nào được chọn hay không
-        $selectedDistrict = $_POST['district'] ?? null;
-
-        if ($selectedDistrict) {
-            // Lấy danh sách phường theo huyện đã chọn
-            $wards = $this->pay->getWardsByDistrict($selectedDistrict);
-        }
+        $user = $this->userId->getUserById($userId);
         require_once './clients/views/pay.php';
     }
 
