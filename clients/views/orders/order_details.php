@@ -1,4 +1,4 @@
-<div class="container-fluid">
+    <div class="container mt-3">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Chi tiết đơn hàng #<?= $order['id'] ?></h6>
@@ -6,9 +6,8 @@
         <div class="card-body">
             <div class="row mb-4">
                 <div class="col-md-6">
-                    <h5>Thông tin khách hàng</h5>
-                    <p><strong>Họ tên:</strong> <?= $order['user_name'] ?? $order['guest_fullname'] ?></p>
-                    <p><strong>Email:</strong> <?= $order['email'] ?? $order['guest_email'] ?></p>
+                    <h5>Thông tin của bạn</h5>
+                    <p><strong>Họ tên:</strong> <?= $order['fullname'] ?? '' ?></p>
                     <p><strong>Số điện thoại:</strong> <?= $order['phone_number'] ?? $order['guest_phone'] ?></p>
 
                     <p><strong>Địa chỉ:</strong> <?= $order['shipping_address'] ?></p>
@@ -16,7 +15,7 @@
                 <div class="col-md-6">
                     <h5>Thông tin đơn hàng</h5>
                     <p><strong>Ngày đặt:</strong> <?= date('H:i - d/m/Y', strtotime($order['order_date'])) ?? date($order['order_date'])  ?></p>
-                    <p><strong>Trạng thái thanh toán:</strong>
+                    <!-- <p><strong>Trạng thái thanh toán:</strong>
                         <?php
                         switch ($order['payment_status']) {
                             case 'unpaid':
@@ -36,7 +35,7 @@
                                 break;
                         }
                         ?>
-                    </p>
+                    </p> -->
                     <p><strong>Trạng thái vận chuyển:</strong>
                         <?php
                         switch ($order['shipping_status']) {
@@ -76,95 +75,53 @@
                         }
                         ?>
                     </p>
-                    <p><strong>Phương thức thanh toán:</strong> <?= $order['payment_method'] ?? 'Chưa có thông tin' ?></p>
+                    <p><strong>Phương thức thanh toán:</strong>
+                        <?php
+                        switch ($order['payment_method']) {
+                            case 'COD':
+                                echo 'Thanh toán khi nhận hàng';
+                                break;
+                            case 'bank_transfer':
+                                echo 'Thanh toán ngân hàng';
+                                break;
+                            case 'MOMO':
+                                echo 'Thanh toán momo';
+                                break;
+                            default:
+                                echo 'Chưa có thông tin';
+                                break;
+                        }
+                        ?>
+                    </p>
                 </div>
             </div>
-            <div class="shipping_status  mb-3 ">
-                <strong>Trạng thái vận chuyển:</strong>
-                <?php
-                $allowedTransitions = [
-                    'pending' => ['in_transit', 'cancelled'],
-                    'in_transit' => ['delivered', 'cancelled'],
-                    'delivered' => [],
-                    'cancelled' => ['return_requested'],
-                    'return_requested' => [],
-                    'return_in_process' => ['return_completed', 'return_failed'],
-                    'return_completed' => [],
-                    'return_failed' => [],
-                ];
-
-                $statusLabels = [
-                    'pending' => 'Chờ xử lý',
-                    'in_transit' => 'Đang giao hàng',
-                    'delivered' => 'Đã giao hàng',
-                    'cancelled' => 'Đã hủy',
-                    'return_requested' => 'Yêu cầu trả hàng',
-                    'return_in_process' => 'Đang chờ trả hàng',
-                    'return_completed' => 'Trả hàng thành công',
-                    'return_failed' => 'Trả hàng thất bại',
-                ];
-
-                $currentStatus = $order['shipping_status'];
-                ?>
-                <form method="POST" action="?act=<?= $currentStatus === 'return_requested' ? 'handle_return_request' : 'update_shipping_status' ?>" class="d-flex gap-3 align-items-center">
-                    <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
-                    <select name="shipping_status" class="form-select" aria-label="Chọn trạng thái vận chuyển" style="width: 250px; height: 40px;">
-                        <?php
-                        foreach ($statusLabels as $status => $label) {
-                            $disabled = !in_array($status, $allowedTransitions[$currentStatus]) && $status !== $currentStatus;
-                        ?>
-                            <option value="<?= $status  ?> "
-                                <?= $currentStatus === $status ? 'selected' : '' ?>
-                                <?= $disabled ? 'disabled' : '' ?>>
-                                <?= $label ?>
-                            </option>
-                        <?php } ?>
-                    </select>
-                    <?php if ($currentStatus !== 'return_requested' && $currentStatus !== 'return_completed'): ?>
-                        <button type="submit" class="btn <?= in_array($currentStatus, ['return_in_process', 'return_completed', 'return_failed']) ? 'btn-warning' : 'btn-primary' ?>" style="margin-top: 14px;">
-                            <?= in_array($currentStatus, ['return_in_process', 'return_completed', 'return_failed']) ? 'Xử lý yêu cầu trả hàng' : 'Cập nhật trạng thái' ?>
-                        </button>
-                    <?php endif; ?>
-                </form>
-            </div>
+           
 
             <div class="request_custommer">
-                <strong>Yêu cầu trả hàng:</strong> <br>
-                <span>Nội dung: </span><?= $order['reason'] ?? 'Chưa có yêu cầu' ?><br>
-                <span>
-                        <?=isset($order['return_date']) && !empty($order['return_date'])
-                            ? 'Ngày yêu cầu: '. date('H:i d/m/Y', strtotime($order['return_date']))
+                <?php if (isset($order['reason']) && !empty($order['reason'])): ?>
+                    <strong>Yêu cầu của bạn:</strong> <br>
+                    <span>Nội dung: </span><?= htmlspecialchars($order['reason']) ?><br>
+                    <span>
+                        <?= isset($order['return_date']) && !empty($order['return_date'])
+                            ? 'Ngày yêu cầu: ' . date('H:i d/m/Y', strtotime($order['return_date']))
                             : ''
                         ?>
-                </span>
-                <?php if ($order['reason'] && in_array($currentStatus, ['return_in_process', 'return_completed', 'return_failed'])): ?>
+                    </span>
+                <?php endif; ?>
+                <?php if (!empty($order['admin_note'])): ?>
                     <div class="reson_admin mt-3">
                         <hr class="mt-3 col-4">
                         <strong>Phản hồi của admin:</strong> <br>
-                        <span>Nội dung: </span><?= $order['admin_note'] ?? 'Chưa có lý do' ?><br>
+                        <span>Nội dung: </span><?= $order['admin_note'] ?><br>
                         <span>Ngày phản hồi: 
-                        <?=isset($order['return_updated_at']) && !empty($order['return_updated_at'])
+                        <?= isset($order['return_updated_at']) && !empty($order['return_updated_at'])
                             ? date('H:i d/m/Y', strtotime($order['return_updated_at']))
                             : ''
                         ?>
                         </span>
                     </div>
                 <?php endif; ?>
-                <?php if ($order['reason'] && $currentStatus == 'return_requested'): ?>
-                    <hr>
-                    <form method="POST" action="?act=reson_admin" style="width: 40%;">
-                        <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
-                        <input type="hidden" name="return_id" value="<?= $order['return_id'] ?? '' ?>">
-                        <div class="form-group">
-                            <label for="admin_reason">Lý do của admin:</label>
-                            <textarea name="admin_reason" id="admin_reason" cols="30" rows="2" class="form-control" required></textarea>
-                        </div>
-                        <div class="d-flex justify-content-end mt-3 gap-3">
-                            <button type="submit" class="btn btn-danger mr-2" name="action" value="return_failed">Từ chối</button>
-                            <button type="submit" class="btn btn-success" name="action" value="return_in_process">Đồng ý</button>
-                        </div>
-                    </form>
-                <?php endif; ?>
+               
             </div>
             <div class="table-responsive mt-3">
                 <table class="table table-bordered">

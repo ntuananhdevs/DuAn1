@@ -24,14 +24,28 @@
                 $action = $_POST['action'];
                 $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
                 $sessionId = $userId ? null : session_id();
-
+        
                 if ($productId > 0) {
+                    // Lấy danh sách sản phẩm trong giỏ hàng
                     $cartItems = $this->ShoppingCart->getCartItems($userId, $sessionId);
-
-                    // Ensure $cartItems is an associative array with product IDs as keys
+        
                     foreach ($cartItems as $item) {
                         if ($item['variant_id'] == $productId) {
-                            $newQuantity = ($action === 'increase') ? $item['quantity'] + 1 : max($item['quantity'] - 1, 1);
+                            // Lấy số lượng tồn kho từ database
+                            $stockQuantity = $this->ShoppingCart->getStockQuantity($productId); // Bạn cần thêm phương thức này trong ShoppingCart.
+        
+                            $newQuantity = $item['quantity'];
+                            if ($action === 'increase') {
+                                if ($item['quantity'] < $stockQuantity) {
+                                    $newQuantity = $item['quantity'] + 1;
+                                } else {
+                                    
+                                    $_SESSION['error'] = "Số lượng sản phẩm trong kho không đủ";
+                                }
+                            } elseif ($action === 'decrease') {
+                                $newQuantity = max($item['quantity'] - 1, 1);
+                            }
+        
                             $cartId = $item['cart_item_id'];
                             $this->ShoppingCart->updateCartItemQuantity($cartId, $productId, $newQuantity);
                             break;
@@ -41,6 +55,7 @@
                 header('Location: ?act=shoppingcart');
             }
         }
+        
 
         public function deleteItem() {
             if (isset($_GET['cart_item_id'])) {

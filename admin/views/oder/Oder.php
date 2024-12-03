@@ -89,6 +89,15 @@
                             case 'return_requested':
                                 echo '<span class="badge bg-danger">Đã yêu cầu trả hàng</span>';
                                 break;
+                            case 'return_in_process':
+                                echo '<span class="badge bg-info">Đang chờ trả hàng</span>';
+                                break;
+                            case 'return_completed':
+                                echo '<span class="badge bg-success">Đã hoàn hàng</span>';
+                                break;
+                            case 'return_failed':
+                                echo '<span class="badge bg-danger">Hoa don that bai</span>';
+                                break;
                             default:
                                 echo '<span class="badge bg-secondary">Không xác định</span>';
                                 break;
@@ -99,7 +108,7 @@
                         <?php if($order['payment_status'] == 'paid' && $order['shipping_status'] == 'delivered'): ?>
                             <a href="?act=print_bill&id=<?= $order['id'] ?>" class="btn btn-success">In</a>
                         <?php endif; ?>
-                        <a href="?act=view_details&id=<?= $order['id'] ?>" class="btn btn-primary <?= $order['shipping_status'] == 'cancelled' ? 'disabled' : '' ?>">
+                        <a href="?act=view_details&id=<?= $order['id'] ?>" class="btn btn-primary">
                             Details
                         </a>
                     </td>

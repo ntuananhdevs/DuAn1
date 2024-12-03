@@ -39,14 +39,35 @@ $cart_item = $cart->getCartItems($userId, $sessionId);
 
                     <button type="submit" name="action" value="increase" class="btn border px-3">+</button>
                 </form>
-            </div>
 
+            </div>
+            <?php if (isset($_SESSION['error'])): ?>
+    <div id="alertMessage" class="alert alert-danger alert-dismissible slide-in position-fixed end-0 m-3 custom-error" role="alert" style="z-index: 99999; max-width: 400px; top: 10px;">
+        <div class="d-flex align-items-center">
+            <div class="icon-container me-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M7.002 11a1 1 0 1 0 2 0 1 1 0 0 0-2 0zm.93-6.588a.58.58 0 0 0-1.16 0l-.007.286-.003 2.847c0 .307.204.58.513.58h.007c.309 0 .513-.273.513-.58L7.93 4.7l.001-.286z"/>
+                </svg>
+            </div>
+            <div class="message-container flex-grow-1 text-white">
+                <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+            </div>
+        </div>
+    </div>
+    <script>
+        setTimeout(function() {
+            const alertMessage = document.getElementById('alertMessage');
+            if (alertMessage) alertMessage.remove();
+        }, 3000);
+    </script>
+<?php endif; ?>
 
             <div class="price-prd">
                 <p class="fw-bold fs-5 mb-0" data-unit-price="<?php echo $item['price']; ?>">
                     <?php echo number_format($item['price'] * $item['quantity'], 0, ',', '.'); ?> đ
                 </p>
-                
+
                 <a href="?act=delete_items&cart_item_id=<?php echo $item['cart_item_id']; ?>" class="text-end text-info fw-550 d-block text-right" style="text-decoration: none;" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">Xóa</a>
             </div>
         </div>
@@ -146,3 +167,44 @@ $cart_item = $cart->getCartItems($userId, $sessionId);
         updateTotals();
     });
 </script>
+
+    
+<style>
+    .custom-error {
+    background-color: #dc3545; 
+    color: #ffffff; 
+    border: none; 
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+    padding: 10px 15px; 
+    animation: slideIn 0.5s ease-out; 
+}
+
+.custom-error .icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+.custom-error .message-container {
+    font-size: 14px; 
+    line-height: 1.5; 
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+</style>
+

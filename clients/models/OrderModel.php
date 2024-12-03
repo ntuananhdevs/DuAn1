@@ -139,5 +139,95 @@ class OrderModel
         $stmt->execute([$status, $orderId]);
         return $stmt->rowCount() > 0;
     }
+    public function getOrderDetail($id)
+    {
+        $query = "SELECT 
+                    o.*, 
+                    u.user_name, 
+                    u.fullname, 
+                    u.email, 
+                    u.phone_number, 
+                    od.quantity, 
+                    od.subtotal, 
+                    pv.price, 
+                    pv.color, 
+                    pv.ram, 
+                    pv.storage, 
+                    p.product_name,
+                    r.id AS return_id,
+                    r.created_at AS return_date,
+                    r.admin_note,
+                    r.updated_at AS return_updated_at,
+                    r.reason
+                FROM 
+                    Orders o
+                JOIN 
+                    Users u ON o.user_id = u.id
+                JOIN 
+                    Order_details od ON o.id = od.order_id
+                JOIN 
+                    Product_variants pv ON od.product_variant_id = pv.id
+                JOIN 
+                    Products p ON pv.product_id = p.id
+                LEFT JOIN
+                    Returns r ON r.order_id = o.id  -- Kết nối bảng returns
+                WHERE 
+                    o.id = ?";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$id]);
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($products)) {
+            return null; // Không có dữ liệu, trả về null
+        }
+
+        return $products; // Trả về dữ liệu
+    }
+    public function get_order_details($id)
+    {
+        try {
+            $sql = "SELECT 
+    o.*, 
+    u.user_name, 
+    u.fullname, 
+    u.email, 
+    u.phone_number, 
+    od.quantity, 
+    od.subtotal, 
+    pv.price, 
+    pv.id AS variant_id,
+    pv.color, 
+    pv.ram, 
+    pv.storage, 
+    p.product_name,
+    vi.img,
+    d.discount_type,
+    d.discount_value
+FROM 
+    Orders o
+JOIN 
+    Users u ON o.user_id = u.id
+JOIN 
+    Order_details od ON o.id = od.order_id
+JOIN 
+    Product_variants pv ON od.product_variant_id = pv.id
+JOIN 
+    Products p ON pv.product_id = p.id
+LEFT JOIN
+    Variants_img vi ON pv.id = vi.variant_id
+LEFT JOIN
+    Discounts d ON p.id = d.product_id
+WHERE
+    o.id = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$id]);
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $products;
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
 
 }

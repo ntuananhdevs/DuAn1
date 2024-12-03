@@ -60,4 +60,12 @@
             }
             return $result;
         }
+
+        public function getStockQuantity($productId) {
+            $query = "SELECT quantity FROM product_variants WHERE id = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([$productId]);
+            return $stmt->fetchColumn(); // Trả về số lượng tồn kho
+        }
+        
     }
