@@ -7,11 +7,12 @@
     <div id="alertMessage" class="alert alert-success alert-dismissible slide-in position-fixed end-0 m-3 custom-alert" role="alert" style="z-index: 99999; max-width: 400px; top: 10px;">
         <div class="d-flex align-items-center">
             <div class="icon-container me-2">
-            <i class="fas fa-check-circle"></i>
+                <i class="fas fa-check-circle"></i>
 
             </div>
             <div class="message-container flex-grow-1 text-white">
-                <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+                <?php echo $_SESSION['success'];
+                unset($_SESSION['success']); ?>
             </div>
         </div>
     </div>
@@ -128,37 +129,34 @@
                 <?php foreach ($listPrd_Variant as $variant): ?>
                     <?php
                     // Lấy giá gốc và thông tin giảm giá
-                    $price = $variant['price']; // Giá gốc
-                    $discount_value = $variant['discount_value']; // Giá trị giảm giá
-                    $discount_type = $variant['discount_type']; // Loại giảm giá (phần trăm hoặc số tiền)
+                    $price = $variant['price'];
+                    $discount_value = $variant['discount_value'];
+                    $discount_type = $variant['discount_type'];
+                    $quantity = $variant['quantity'];
 
                     // Tính toán giá sau giảm
-                    $discounted_price = $price; // Mặc định giá sau giảm là giá gốc
-
+                    $discounted_price = $price;
                     if ($discount_type == 'percentage' && $discount_value > 0) {
-                        // Giảm theo phần trăm
                         $discounted_price = $price - ($price * $discount_value / 100);
                     } elseif ($discount_type == 'fixed' && $discount_value > 0) {
-                        // Giảm theo số tiền
                         $discounted_price = $price - $discount_value;
                     }
-
-                    // Đảm bảo giá sau giảm không âm
                     $discounted_price = max($discounted_price, 0);
                     ?>
 
-                    <div class="option justify-content-between align-items-center mb-2"
+                    <div class="option justify-content-between align-items-center mb-2
+                        <?= $quantity == 0 ? 'disabled' : '' ?>"
                         data-id="<?= htmlspecialchars($variant['variant_id']) ?>"
                         data-color="<?= htmlspecialchars($variant['color']) ?>"
                         data-price="<?= htmlspecialchars($variant['price']) ?>"
                         data-discount-value="<?= htmlspecialchars($variant['discount_value']) ?>"
                         data-discount-type="<?= htmlspecialchars($variant['discount_type']) ?>"
+                        data-quantity="<?= htmlspecialchars($variant['quantity']) ?>"
                         onclick="selectVariant(this)">
                         <span class="fw-bold"><?= htmlspecialchars($variant['ram']) ?> /
                             <?= htmlspecialchars($variant['storage']) ?></span>
 
                         <p class="text-muted">
-                            <!-- Hiển thị giá giảm -->
                             <?php if ($discounted_price < $price): ?>
                                 <span><?= number_format($discounted_price, 0, ',', '.') ?> đ</span>
                             <?php else: ?>
@@ -188,7 +186,6 @@
                 endforeach; ?>
             </div>
 
-            <!-- Hiển thị giá biến thể đã chọn -->
             <div class="price_products_variants">
                 <div class="price-vi text-center">
                     <div class="discount_sale">
@@ -475,40 +472,45 @@
 
     <script>
         function selectVariant(element) {
+            const quantity = parseInt(element.getAttribute('data-quantity'));
+            if (quantity === 0) {
+                return; // Do not select variants with zero quantity
+            }
+
             const options = document.querySelectorAll('#variant-container .option');
 
-            // Xóa lớp "selected" khỏi tất cả các lựa chọn
+            // Remove "selected" class from all options
             options.forEach(option => option.classList.remove('selected'));
 
-            // Thêm lớp "selected" vào lựa chọn được chọn
+            // Add "selected" class to the clicked option
             element.classList.add('selected');
 
-            // Lấy ID, giá, discount_value và discount_type của biến thể được chọn
+            // Get the ID, price, discount_value, and discount_type of the selected variant
             const selectedVariantId = element.getAttribute('data-id');
-            const price = parseInt(element.getAttribute('data-price')); // Giá gốc
-            const discountValue = parseInt(element.getAttribute('data-discount-value')); // Giá trị giảm
-            const discountType = element.getAttribute('data-discount-type'); // Loại giảm giá (percentage hoặc amount)
+            const price = parseInt(element.getAttribute('data-price')); // Original price
+            const discountValue = parseInt(element.getAttribute('data-discount-value')); // Discount value
+            const discountType = element.getAttribute('data-discount-type'); // Discount type (percentage or amount)
 
-            // Tính toán giá sau khi giảm (nếu có)
+            // Calculate the final price after discount (if any)
             let finalPrice = price;
             let discountAmount = 0;
-            let discountText = ''; // Text sẽ hiển thị giảm giá
+            let discountText = ''; // Text to display discount
 
             if (discountValue > 0) {
                 if (discountType === 'percentage') {
-                    // Giảm theo tỷ lệ phần trăm
+                    // Percentage discount
                     discountAmount = price * discountValue / 100;
                     finalPrice = price - discountAmount;
                     discountText = `Sale ${discountValue}%`;
                 } else if (discountType === 'amount') {
-                    // Giảm theo số tiền
+                    // Fixed amount discount
                     discountAmount = discountValue;
                     finalPrice = price - discountAmount;
                     discountText = `Sale ${discountAmount.toLocaleString()} VND`;
                 }
             }
 
-            // Cập nhật giá hiển thị trên giao diện
+            // Update the displayed price on the interface
             const priceElement = document.getElementById('variant-price');
             const discountElement = document.getElementById('variant-discount');
             const originalPriceElement = document.getElementById('variant-original-price');
@@ -516,28 +518,18 @@
             if (priceElement) {
                 priceElement.textContent = `${finalPrice.toLocaleString()} VND`;
             }
-
+            if (discountElement) {
+                discountElement.textContent = discountText;
+            }
             if (originalPriceElement) {
                 originalPriceElement.textContent = `${price.toLocaleString()} VND`;
-                originalPriceElement.style.textDecoration = 'line-through'; // Để giá gốc có gạch ngang
             }
 
-            if (discountElement) {
-                discountElement.textContent = discountText; // Hiển thị phần trăm hoặc số tiền giảm
-            }
-
-            // Cập nhật href của thẻ <a>
-            const buyNowLink = document.getElementById('buy-now-link');
-            if (buyNowLink) {
-                const newHref = `?act=pay&id=${selectedVariantId}`;
-                buyNowLink.setAttribute('href', newHref);
-            }
-
-            // Update form inputs with selected variant details
-            document.getElementById('selected-variant-id-now').value = selectedVariantId;
-            document.getElementById('selected-variant-price-now').value = finalPrice;
+            // Update hidden inputs for form submission
             document.getElementById('selected-variant-id').value = selectedVariantId;
             document.getElementById('selected-variant-price').value = finalPrice;
+            document.getElementById('selected-variant-id-now').value = selectedVariantId;
+            document.getElementById('selected-variant-price-now').value = finalPrice;
         }
 
 
@@ -545,38 +537,36 @@
         let selectedVariantId = null; // Lưu id của biến thể được chọn
 
         function filterVariants(element) {
-            const selectedColor = element.getAttribute('data-color'); // Lấy màu sắc được chọn
-            const variants = document.querySelectorAll('#variant-container .option'); // Tất cả các biến thể
-            const colorOptions = document.querySelectorAll('.option-color'); // Tất cả các màu sắc
+            const selectedColor = element.getAttribute('data-color');
+            const colorOptions = document.querySelectorAll('.option-color');
+            const variants = document.querySelectorAll('#variant-container .option');
 
-            // Xóa lớp "selected" khỏi tất cả các màu sắc
-            colorOptions.forEach(option => {
-                option.classList.remove('selected');
-            });
+            // Remove "selected" class from all color options
+            colorOptions.forEach(option => option.classList.remove('selected'));
 
-            // Thêm lớp "selected" vào màu sắc được chọn
+            // Add "selected" class to the clicked color option
             element.classList.add('selected');
 
-            // Ẩn tất cả các biến thể
+            // Hide all variants and remove "selected" class
             variants.forEach(variant => {
                 variant.style.display = 'none';
-                variant.classList.remove('selected'); // Xóa selected từ tất cả variants
+                variant.classList.remove('selected');
             });
 
-            // Hiển thị các biến thể phù hợp và chọn biến thể đầu tiên
-            let firstMatchingVariant = null;
+            // Show and select the first available variant with non-zero quantity
+            let firstAvailableVariant = null;
             variants.forEach(variant => {
                 if (variant.getAttribute('data-color') === selectedColor) {
-                    variant.style.display = 'block'; // Hiện biến thể phù hợp
-                    if (!firstMatchingVariant) {
-                        firstMatchingVariant = variant;
+                    const quantity = parseInt(variant.getAttribute('data-quantity'));
+                    if (quantity > 0 && !firstAvailableVariant) {
+                        firstAvailableVariant = variant;
                     }
+                    variant.style.display = 'block'; // Show matching variants
                 }
             });
 
-            // Tự động chọn biến thể đầu tiên của màu đã chọn
-            if (firstMatchingVariant) {
-                selectVariant(firstMatchingVariant);
+            if (firstAvailableVariant) {
+                selectVariant(firstAvailableVariant);
             }
         }
 
@@ -667,9 +657,38 @@
             }
 
             // Tự động chọn RAM/dung lượng đầu tiên
-            const firstVariantOption = document.querySelector('#variant-container .option');
-            if (firstVariantOption) {
-                selectVariant(firstVariantOption);
+            const variants = document.querySelectorAll('#variant-container .option');
+            let firstAvailableVariant = null;
+
+            variants.forEach(variant => {
+                const quantity = parseInt(variant.getAttribute('data-quantity'));
+                if (quantity > 0 && !firstAvailableVariant) {
+                    firstAvailableVariant = variant;
+                }
+            });
+
+            if (firstAvailableVariant) {
+                selectVariant(firstAvailableVariant);
+            }
+
+            // Disable variants with zero quantity
+            variants.forEach(variant => {
+                const quantity = parseInt(variant.getAttribute('data-quantity'));
+                if (quantity === 0) {
+                    variant.classList.add('disabled');
+                    variant.style.pointerEvents = 'none';
+                    variant.style.opacity = '0.5';
+                }
+            });
+
+            // Disable main product image if all variants are out of stock
+            const allOutOfStock = Array.from(variants).every(variant => parseInt(variant.getAttribute('data-quantity')) === 0);
+            if (allOutOfStock) {
+                const mainImage = document.querySelector('.product-image');
+                if (mainImage) {
+                    mainImage.style.pointerEvents = 'none';
+                    mainImage.style.opacity = '0.5';
+                }
             }
         });
 
@@ -879,6 +898,29 @@
 
         // Khởi chạy sau khi DOM được tải
         document.addEventListener('DOMContentLoaded', setupStarRatings);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Automatically select the first available color
+            const firstColorOption = document.querySelector('.option-color');
+            if (firstColorOption) {
+                filterVariants(firstColorOption);
+            }
+
+            // Automatically select the first available variant with non-zero quantity
+            const variants = document.querySelectorAll('#variant-container .option');
+            let firstAvailableVariant = null;
+
+            variants.forEach(variant => {
+                const quantity = parseInt(variant.getAttribute('data-quantity'));
+                if (quantity > 0 && !firstAvailableVariant) {
+                    firstAvailableVariant = variant;
+                }
+            });
+
+            if (firstAvailableVariant) {
+                selectVariant(firstAvailableVariant);
+            }
+        });
     </script>
     <style>
         .price_products_variants {
@@ -906,9 +948,11 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin: 0;
             position: relative;
             z-index: 2;
+            top: 20px;
+            height: 50px;
+            text-align: left;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
@@ -950,9 +994,7 @@
             }
         }
 
-        .discount_sale {
-            animation: float 3s ease-in-out infinite;
-        }
+        
 
         /* Responsive styles */
         @media (max-width: 768px) {
@@ -970,6 +1012,7 @@
             .discount_sale {
                 background: linear-gradient(45deg, #c82333, #e74c3c);
                 box-shadow: 0 2px 10px rgba(231, 76, 60, 0.2);
+                height: 75px;
             }
         }
 
@@ -984,6 +1027,7 @@
             border: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
             overflow: hidden;
+
         }
 
         .price-vi:before {
@@ -1010,7 +1054,7 @@
         }
 
         #variant-price {
-            font-size: 28px !important;
+            font-size: 26px !important;
             font-weight: 700 !important;
             color: #dc3545 !important;
             margin-bottom: 8px;
@@ -1019,12 +1063,14 @@
         }
 
         #variant-original-price {
-            font-size: 16px !important;
-            color: #6c757d !important;
+            font-size: 29px !important;
+            color: #b0b0b0 !important;
             text-decoration: line-through;
             margin: 0;
+            font-weight: 300;
             display: block;
             position: relative;
+            top: -39px;
         }
 
         @media (max-width: 768px) {
@@ -1049,7 +1095,10 @@
             }
 
             #variant-price {
-                color: #ff4d4d !important;
+                color: #ffffff !important;
+                position: relative;
+                top: -64px;
+                right: -45px;
             }
         }
 
@@ -1229,40 +1278,57 @@
         .toast-message.hide {
             animation: slideOut 0.5s ease-out forwards;
         }
+
         .custom-alert {
-    background-color: #28a745; /* Màu xanh lá cây */
-    color: #ffffff; /* Màu trắng */
-    border: none; /* Loại bỏ viền */
-    border-radius: 10px; /* Bo góc */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Tạo hiệu ứng đổ bóng */
-    padding: 10px 15px; /* Căn chỉnh padding */
-    animation: slideIn 0.5s ease-out; /* Hiệu ứng trượt vào */
-}
+            background-color: #28a745;
+            /* Màu xanh lá cây */
+            color: #ffffff;
+            /* Màu trắng */
+            border: none;
+            /* Loại bỏ viền */
+            border-radius: 10px;
+            /* Bo góc */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            /* Tạo hiệu ứng đổ bóng */
+            padding: 10px 15px;
+            /* Căn chỉnh padding */
+            animation: slideIn 0.5s ease-out;
+            /* Hiệu ứng trượt vào */
+        }
 
-.custom-alert .icon-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(255, 255, 255, 0.2); /* Làm nền biểu tượng nhạt hơn */
-    border-radius: 50%; /* Tạo hình tròn */
-    width: 40px;
-    height: 40px;
-}
+        .custom-alert .icon-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            /* Làm nền biểu tượng nhạt hơn */
+            border-radius: 50%;
+            /* Tạo hình tròn */
+            width: 40px;
+            height: 40px;
+        }
 
-.custom-alert .message-container {
-    font-size: 14px; /* Kích thước chữ */
-    line-height: 1.5; /* Khoảng cách giữa các dòng */
-}
+        .custom-alert .message-container {
+            font-size: 14px;
+            /* Kích thước chữ */
+            line-height: 1.5;
+            /* Khoảng cách giữa các dòng */
+        }
 
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
 
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
     </style>

@@ -185,11 +185,12 @@
                 </div>
             </div>
         <?php endforeach; ?>
-    <?php else: ?>
-        <div class="alert alert-info">
-            Không có đơn hàng nào.
-        </div>
-    <?php endif; ?>
+        <?php else: ?>
+    <div class="alert alert-info custom-alert">
+        Không có đơn hàng nào.
+    </div>
+<?php endif; ?>
+
 </div>
 
 
@@ -636,4 +637,26 @@
         opacity: 1;
     }
 }
+.custom-alert {
+    background-color: #f0f9ff; 
+    border: 1px solid #b3d7ff;
+    color: #0056b3; 
+    padding: 15px 20px;
+    border-radius: 8px; 
+    font-family: 'Arial', sans-serif; 
+    font-size: 16px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex; 
+    align-items: center;
+    gap: 10px; 
+    width: 50%;
+    text-align: center;
+}
+
+.custom-alert:before {
+    content: "ℹ️"; 
+    font-size: 20px;
+    color: #0056b3;
+}
+
 </style>

@@ -1,7 +1,7 @@
     <div class="container mt-3">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Chi tiết đơn hàng #<?= $order['id'] ?></h6>
+            <h6 class="m-0 font-weight-bold text-primary">Mã đơn hàng #<?= $order['id'] ?></h6>
         </div>
         <div class="card-body">
             <div class="row mb-4">
@@ -156,7 +156,7 @@
                             <tr>
                                 <td><?= htmlspecialchars($order['product_name']) ?></td>
                                 <td>
-                                    <img src="<?= htmlspecialchars($order['img'] ?? '') ?>" alt="Product Image" style="width:70px;height:auto;">
+                                    <img src="<?= removeLeadingDots($order['img'] ?? '') ?>" alt="Product Image" style="width:70px;height:auto;">
                                 </td>
                                 <td>
                                     <?php if (!empty($order['color'])): ?>Màu: <?= htmlspecialchars($order['color']) ?><br><?php endif; ?>
