@@ -51,7 +51,11 @@ class OderModel
                     pv.ram, 
                     pv.storage, 
                     p.product_name,
-                    r.reason         -- Thêm cột từ bảng returns
+                    r.id AS return_id,
+                    r.created_at AS return_date,
+                    r.admin_note,
+                    r.updated_at AS return_updated_at,
+                    r.reason
                 FROM 
                     Orders o
                 JOIN 
@@ -66,21 +70,22 @@ class OderModel
                     Returns r ON r.order_id = o.id  -- Kết nối bảng returns
                 WHERE 
                     o.id = ?";
-    
+
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$id]);
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
         if (empty($products)) {
             return null; // Không có dữ liệu, trả về null
         }
-    
+
         return $products; // Trả về dữ liệu
     }
-    
-    public function get_order_details($id) {
-    try {
-        $sql = "SELECT 
+
+    public function get_order_details($id)
+    {
+        try {
+            $sql = "SELECT 
     o.*, 
     u.user_name, 
     u.fullname, 
@@ -113,14 +118,14 @@ LEFT JOIN
     Discounts d ON p.id = d.product_id
 WHERE
     o.id = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$id]);
-        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $products;
-    } catch (PDOException $e) {
-        return $e->getMessage();
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$id]);
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $products;
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
     }
-}
 
 
     public function update($id, $data)
@@ -167,7 +172,7 @@ WHERE
             return false;
         }
     }
-    
+
     public function getOrderWithDetails($orderId)
     {
         try {
@@ -189,29 +194,29 @@ WHERE
                     JOIN products p ON pv.product_id = p.id
                     LEFT JOIN variants_img vi ON pv.id = vi.variant_id
                     WHERE o.id = :order_id";
-    
+
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':order_id', $orderId, PDO::PARAM_INT);
-    
+
             if (!$stmt->execute()) {
                 error_log("Failed to execute query for order ID: $orderId");
                 return null;
             }
-            
+
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             if (empty($result)) {
                 error_log("No order found with ID: " . $orderId);
                 return null;
             }
-    
+
             // Get order information
             $orderInfo = $result[0];
             if (empty($orderInfo)) {
                 error_log("No order information found for ID: " . $orderId);
                 return null;
             }
-    
+
             $order = [
                 'order_info' => [
                     'id' => $orderInfo['id'] ?? null,
@@ -231,7 +236,7 @@ WHERE
                 ],
                 'products' => []
             ];
-    
+
             foreach ($result as $row) {
                 $order['products'][] = [
                     'product_name' => $row['product_name'] ?? 'Không có tên sản phẩm',
@@ -249,7 +254,7 @@ WHERE
                     'subtotal' => $row['subtotal'] ?? 0
                 ];
             }
-    
+
             // Log successful retrieval
             error_log("Order details retrieved successfully for ID: " . $orderId);
 
@@ -262,7 +267,6 @@ WHERE
             return null;
         }
         error_log(print_r($order, true));
-
     }
     public function getBySearch($search)
     {
@@ -320,11 +324,13 @@ WHERE
         }
     }
 
-    function updateStatus($id, $status) {
+    function updateStatus($id, $status)
+    {
         $sql = "UPDATE orders SET 
                 shipping_status = :status,
                 payment_status = CASE 
                     WHEN :status = 'delivered' THEN 'paid'
+                    WHEN :status = 'return_completed' THEN 'refunded'
                     ELSE payment_status 
                 END,
                 payment_date = CASE 
@@ -332,7 +338,7 @@ WHERE
                     ELSE payment_date
                 END
                 WHERE id = :id";
-                
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([
             ':status' => $status,
@@ -340,5 +346,21 @@ WHERE
         ]);
         return $stmt->rowCount() > 0;
     }
-
+    public function reson_admin($id, $reasonadmin){
+        $sql = "UPDATE returns SET admin_note = :admin_note WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            ':admin_note' => $reasonadmin,
+            ':id' => $id
+        ]);
+    }
+    public function updateStatusByreturn($id, $status) {
+        $sql = "UPDATE orders SET shipping_status = :shipping_status WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            ':shipping_status' => $status,
+            ':id' => $id
+        ]);
+        return $stmt->rowCount() > 0;
+    }
 }

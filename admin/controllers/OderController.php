@@ -81,7 +81,6 @@ class OderController {
                 header('Location: ?act=orders');
                 exit;
             }
-
             $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
             if (!$id) {
                 throw new Exception("ID không hợp lệ");
@@ -160,6 +159,37 @@ class OderController {
             exit;
         }
     }
+    public function reson_admin() {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                header('Location: ?act=orders');
+                exit;
+            }
+
+            $reson_admin = $_POST['admin_reason'] ?? '';
+            $res_admin = $_POST['action'] ?? '';
+            $order_id = $_POST['order_id'] ?? 0;
+            $return_id = $_POST['return_id'] ?? 0;
+
+            if (!$order_id || !$return_id) {
+                throw new Exception("ID đơn hàng hoặc ID trả hàng không hợp lệ");
+            }
+
+            if (empty($reson_admin)) {
+                throw new Exception("Lý do của admin không được để trống");
+            }
+
+            $this->OrderModel->reson_admin($return_id, $reson_admin);
+            $this->OrderModel->updateStatusByreturn($order_id, $res_admin);
+
+            header('Location: ?act=view_details&id=' . $order_id);
+            exit;
+        } catch (Exception $e) {
+            echo "Lỗi: " . $e->getMessage();
+            exit;
+        }
+    }
+
     
     public function delete() {
         try {

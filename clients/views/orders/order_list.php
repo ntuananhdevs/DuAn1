@@ -4,9 +4,25 @@
 
     <h2 class="mb-4">Đơn hàng của tôi</h2>
 
-    <!-- Order Count Alert -->
+    <?php if (isset($_SESSION['success'])): ?>
+    <div id="alertMessage" class="alert alert-success alert-dismissible slide-in position-fixed end-0 m-3 custom-alert" role="alert" style="z-index: 99999; max-width: 400px; top: 10px;">
+        <div class="d-flex align-items-center">
+            <div class="icon-container me-2">
+            <i class="fas fa-check-circle"></i>
 
-
+            </div>
+            <div class="message-container flex-grow-1 text-white">
+                <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+            </div>
+        </div>
+    </div>
+    <script>
+        setTimeout(function() {
+            const alertMessage = document.getElementById('alertMessage');
+            if (alertMessage) alertMessage.remove();
+        }, 3000);
+    </script>
+<?php endif; ?>
     <!-- Tab Navigation -->
     <ul class="nav nav-tabs mb-4">
         <li class="nav-item">
@@ -64,6 +80,39 @@
                 <?php endif; ?>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo isset($_GET['status']) && $_GET['status'] == 'return_requested' ? 'active' : ''; ?>"
+                href="index.php?act=orders&status=return_requested">
+                Yêu cầu trả hàng
+                <?php if (isset($orderCounts['return_requested']) && $orderCounts['return_requested'] > 0): ?>
+                    <span class="badgee">
+                        <?php echo $orderCounts['return_requested']; ?>
+                    </span>
+                <?php endif; ?>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo isset($_GET['status']) && $_GET['status'] == 'return_in_process' ? 'active' : ''; ?>"
+                href="index.php?act=orders&status=return_in_process">
+                Đang xử lý trả hàng
+                <?php if (isset($orderCounts['return_in_process']) && $orderCounts['return_in_process'] > 0): ?>
+                    <span class="badgee">
+                        <?php echo $orderCounts['return_in_process']; ?>
+                    </span>
+                <?php endif; ?>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo isset($_GET['status']) && $_GET['status'] == 'return_completed' ? 'active' : ''; ?>"
+                href="index.php?act=orders&status=return_completed">
+                Trả hàng
+                <?php if (isset($orderCounts['return_completed']) && $orderCounts['return_completed'] > 0): ?>
+                    <span class="badgee">
+                        <?php echo $orderCounts['return_completed']; ?>
+                    </span>
+                <?php endif; ?>
+            </a>
+        </li>
     </ul>
     <!-- Orders List -->
     <?php if (!empty($orders)): ?>
@@ -79,6 +128,8 @@
                             <span class="me-3">
                                 <?php if ($order['payment_status'] == 'paid'): ?>
                                     <span class="badge bg-success">Đã thanh toán</span>
+                                <?php elseif ($order['payment_status'] == 'refunded'): ?>
+                                    <span class="badge bg-info">Đã hoàn tiền</span>
                                 <?php else: ?>
                                     <span class="badge bg-warning">Chưa thanh toán</span>
                                 <?php endif; ?>
@@ -89,7 +140,6 @@
                             </span>
                         </div>
                     </div>
-
                     <div class="products_by_order mt-3">
                         <?php foreach ($order['products'] as $product): ?>
                             <div class="d-flex gap-3 mb-3">
@@ -111,6 +161,7 @@
                         </div>
 
                         <div class="order-actions" id="order-actions-<?php echo $order['id']; ?>">
+                            <a href="?act=order_detail&id=<?= $order['id'] ?>" class="btn btn-primary">Chi Tiết</a>
                             <?php if ($order['shipping_status'] === 'pending'): ?>
                                 <form method="POST" action="index.php?act=cancel_order" style="display: inline;"
                                     onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')">
@@ -550,4 +601,39 @@
         font-weight: bold;
         margin-left: 10px;
     }
+    .custom-alert {
+    background-color: #28a745; /* Màu xanh lá cây */
+    color: #ffffff; /* Màu trắng */
+    border: none; /* Loại bỏ viền */
+    border-radius: 10px; /* Bo góc */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Tạo hiệu ứng đổ bóng */
+    padding: 10px 15px; /* Căn chỉnh padding */
+    animation: slideIn 0.5s ease-out; /* Hiệu ứng trượt vào */
+}
+
+.custom-alert .icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.2); /* Làm nền biểu tượng nhạt hơn */
+    border-radius: 50%; /* Tạo hình tròn */
+    width: 40px;
+    height: 40px;
+}
+
+.custom-alert .message-container {
+    font-size: 14px; /* Kích thước chữ */
+    line-height: 1.5; /* Khoảng cách giữa các dòng */
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
 </style>

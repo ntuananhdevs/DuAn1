@@ -98,6 +98,7 @@
             'view_details' => $order->details($_GET['id']),
             'delete_order' => $order->delete($_GET['id']),
             'update_shipping_status' => $order->update_shipping_status(),
+            'reson_admin' => $order->reson_admin(),
 
              // CRUD for Discounts
                 'discount' => $discount->index(),

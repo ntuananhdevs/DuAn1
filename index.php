@@ -97,6 +97,7 @@
             'orders' => $order->viewOrders(),
             'cancel_order' => $order->cancelOrder(),
             'return_order' => $order->returnOrder(),
+            'order_detail' => $order->viewOrderDetail($_GET['id']),
             default => $home->view_home(),
         };
         include './clients/views/layout/footer.php';

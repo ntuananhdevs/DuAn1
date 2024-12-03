@@ -36,7 +36,9 @@ class ProductsContronller
         $cart_id = $this->products->get_or_creatCart($userId, $session_id);
 
         if ($this->products->add_or_UpdateItem($cart_id, $product_id, $quantity, $price)) {
+            $_SESSION['success'] = "Đã thêm sản phẩm vào giỏ hàng";
             header('Location: ?act=product_detail&id=' . $id);
+
             exit();
         } else {
             echo "Failed to add item to cart.";
