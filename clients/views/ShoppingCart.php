@@ -45,11 +45,8 @@ $cart_item = $cart->getCartItems($userId, $sessionId);
     <div id="alertMessage" class="alert alert-danger alert-dismissible slide-in position-fixed end-0 m-3 custom-error" role="alert" style="z-index: 99999; max-width: 400px; top: 10px;">
         <div class="d-flex align-items-center">
             <div class="icon-container me-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                    <path d="M7.002 11a1 1 0 1 0 2 0 1 1 0 0 0-2 0zm.93-6.588a.58.58 0 0 0-1.16 0l-.007.286-.003 2.847c0 .307.204.58.513.58h.007c.309 0 .513-.273.513-.58L7.93 4.7l.001-.286z"/>
-                </svg>
-            </div>
+            <ion-icon name="alert-circle-outline" size="large"></ion-icon>
+                </div>
             <div class="message-container flex-grow-1 text-white">
                 <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
             </div>

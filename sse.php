@@ -22,4 +22,3 @@ while (true) {
     }
     sleep(3);
 }
-

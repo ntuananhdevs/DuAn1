@@ -101,19 +101,19 @@ class OrderModel
         }
     }
 
-  
+
 
     // Lấy tổng giá trị đơn hàng đã mua
-   
+
     public function cancelOrder($orderId, $userId)
     {
         try {
             $query = "UPDATE orders 
-                     SET shipping_status = 'returned',
+                      SET shipping_status = 'cancelled',
                          updated_at = CURRENT_TIMESTAMP
-                     WHERE id = :order_id 
-                     AND user_id = :user_id
-                     AND shipping_status = 'pending'";
+                      WHERE id = :order_id 
+                        AND user_id = :user_id
+                        AND shipping_status = 'pending'";
 
             $stmt = $this->conn->prepare($query);
             $stmt->execute([
@@ -127,13 +127,15 @@ class OrderModel
             return false;
         }
     }
-    public function returnOrder($orderId, $userId, $reason) {
+    public function returnOrder($orderId, $userId, $reason)
+    {
         $sql = "INSERT INTO returns (order_id, user_id, reason, created_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP)";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$orderId, $reason, $userId,]);
         return $stmt->rowCount() > 0;
     }
-    public function updateStatus($orderId, $status) {
+    public function updateStatus($orderId, $status)
+    {
         $sql = "UPDATE orders SET shipping_status = ? WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$status, $orderId]);
@@ -228,6 +230,4 @@ WHERE
             return $e->getMessage();
         }
     }
-
-
 }

@@ -22,9 +22,9 @@ class Products
                         p.views AS views,
                         MIN(pv.price) AS Lowest_Price,                
                         MAX(pv.price) AS Highest_Price,
-                        d.discount_type AS discount_type,          -- Thêm cột discount_type
-                        d.discount_value AS discount_value,        -- Thêm cột discount_value
-                        d.status AS discount_status                -- Thêm cột status của bảng Discounts
+                        d.discount_type AS discount_type,     
+                        d.discount_value AS discount_value,        
+                        d.status AS discount_status             
                     FROM 
                         Products p
                     JOIN 

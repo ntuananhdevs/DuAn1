@@ -1,11 +1,66 @@
 <div class="container my-4">
     <!-- Add jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <?php if (isset($_SESSION['cancelOrder'])): ?>
+        <div id="alertMessage" class="alert alert-success alert-dismissible slide-in position-fixed end-0 m-3 custom-alertt" role="alert" style="z-index: 99999; max-width: 400px; top: 10px;">
+        <div class="d-flex align-items-center">
+            <div class="icon-container me-2">
+            <i class="fas fa-check-circle"></i>
 
+            </div>
+            <div class="message-container flex-grow-1 text-white">
+                <?php echo $_SESSION['cancelOrder']; unset($_SESSION['cancelOrder']); ?>
+            </div>
+        </div>
+    </div>
+    <script>
+        setTimeout(function() {
+            const alertMessage = document.getElementById('alertMessage');
+            if (alertMessage) alertMessage.remove();
+        }, 3000);
+    </script>
+<?php endif; ?>
+<style>
+.custom-alertt {
+    background-color: #28a745; /* Màu xanh lá cây */
+    color: #ffffff; /* Màu trắng */
+    border: none; /* Loại bỏ viền */
+    border-radius: 10px; /* Bo góc */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Tạo hiệu ứng đổ bóng */
+    padding: 10px 15px; /* Căn chỉnh padding */
+    animation: slideIn 0.5s ease-out; /* Hiệu ứng trượt vào */
+}
+
+.custom-alertt .icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.2); /* Làm nền biểu tượng nhạt hơn */
+    border-radius: 50%; /* Tạo hình tròn */
+    width: 40px;
+    height: 40px;
+}
+
+.custom-alertt .message-container {
+    font-size: 14px; /* Kích thước chữ */
+    line-height: 1.5; /* Khoảng cách giữa các dòng */
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+</style>
     <h2 class="mb-4">Đơn hàng của tôi</h2>
 
     <?php if (isset($_SESSION['success'])): ?>
-    <div id="alertMessage" class="alert alert-success alert-dismissible slide-in position-fixed end-0 m-3 custom-alert" role="alert" style="z-index: 99999; max-width: 400px; top: 10px;">
+    <div id="alertMessage" class="alert alert-success alert-dismissible slide-in position-fixed end-0 m-3 custom-alertt" role="alert" style="z-index: 99999; max-width: 400px; top: 10px;">
         <div class="d-flex align-items-center">
             <div class="icon-container me-2">
             <i class="fas fa-check-circle"></i>
@@ -185,11 +240,12 @@
                 </div>
             </div>
         <?php endforeach; ?>
-    <?php else: ?>
-        <div class="alert alert-info">
-            Không có đơn hàng nào.
-        </div>
-    <?php endif; ?>
+        <?php else: ?>
+    <div class="alert alert-info custom-alert">
+        Không có đơn hàng nào.
+    </div>
+<?php endif; ?>
+
 </div>
 
 
@@ -636,4 +692,26 @@
         opacity: 1;
     }
 }
+.custom-alert {
+    background-color: #f0f9ff; 
+    border: 1px solid #b3d7ff;
+    color: #0056b3; 
+    padding: 15px 20px;
+    border-radius: 8px; 
+    font-family: 'Arial', sans-serif; 
+    font-size: 16px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex; 
+    align-items: center;
+    gap: 10px; 
+    width: 50%;
+    text-align: center;
+}
+
+.custom-alert:before {
+    content: "ℹ️"; 
+    font-size: 20px;
+    color: #0056b3;
+}
+
 </style>

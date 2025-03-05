@@ -124,7 +124,7 @@
                         </div>
 
                         <div class="qr d-flex align-items-center gap-3 mt-2" style="cursor: pointer;" onclick="document.getElementById('payment-method-cod').checked = true; validateForm();">
-                            <input type="radio" name="payment-method" id="payment-method-cod" style="width: 18px; height: 18px;" value="COD">
+                            <input type="radio" name="payment-method" id="payment-method-cod" style="width: 18px; height: 18px;" value="COD" checked>
                             <img src="./assets/img/shipp.png" alt="" style="width: 40px; height: 30px; margin-right: 25px;">
                             <p class="m-0 fw-550">Thanh toán khi nhận hàng</p>
                         </div>
@@ -241,7 +241,6 @@
             const ward = document.getElementById("ward").options[document.getElementById("ward").selectedIndex].text;
             const phone = document.getElementById("phone").value;
 
-            // Tạo nội dung hiển thị
             const addressContent = `
         <p class="m-0">${firstname} ${lastname}</p>
         <p class="m-0">${address}</p>
@@ -404,10 +403,10 @@
             const orderButton = document.getElementById('orderButton');
             if (paymentSelected && checkboxChecked) {
                 orderButton.disabled = false;
-                orderButton.style.backgroundColor = '#007bff'; // Change button color to active state
+                orderButton.style.backgroundColor = '#007bff'; 
             } else {
                 orderButton.disabled = true;
-                orderButton.style.backgroundColor = '#cccccc'; // Keep button disabled color
+                orderButton.style.backgroundColor = '#cccccc'; 
             }
         }
         // Hiển thị spinner khi form được gửi
@@ -432,7 +431,6 @@
             const districtSelect = document.getElementById('district');
             const wardSelect = document.getElementById('ward');
 
-            // Xử lý khi thay đổi tỉnh
             provinceSelect.addEventListener('change', function() {
                 const provinceCode = this.value;
                 // Reset district và ward

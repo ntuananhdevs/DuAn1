@@ -1,7 +1,7 @@
     <div class="container mt-3">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Chi tiết đơn hàng #<?= $order['id'] ?></h6>
+            <h6 class="m-0 font-weight-bold text-primary">Mã đơn hàng #<?= $order['id'] ?></h6>
         </div>
         <div class="card-body">
             <div class="row mb-4">
@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-md-6">
                     <h5>Thông tin đơn hàng</h5>
-                    <p><strong>Ngày đặt:</strong> <?= date('H:i - d/m/Y', strtotime($order['order_date'])) ?? date($order['order_date'])  ?></p>
+                    <p><strong>Ngày đặt:</strong> <?= date('d/m/Y', strtotime($order['order_date'])) ?? date($order['order_date'])  ?></p>
                     <!-- <p><strong>Trạng thái thanh toán:</strong>
                         <?php
                         switch ($order['payment_status']) {
@@ -103,7 +103,7 @@
                     <span>Nội dung: </span><?= htmlspecialchars($order['reason']) ?><br>
                     <span>
                         <?= isset($order['return_date']) && !empty($order['return_date'])
-                            ? 'Ngày yêu cầu: ' . date('H:i d/m/Y', strtotime($order['return_date']))
+                            ? 'Ngày yêu cầu: ' . date('d/m/Y', strtotime($order['return_date']))
                             : ''
                         ?>
                     </span>
@@ -156,7 +156,7 @@
                             <tr>
                                 <td><?= htmlspecialchars($order['product_name']) ?></td>
                                 <td>
-                                    <img src="<?= htmlspecialchars($order['img'] ?? '') ?>" alt="Product Image" style="width:70px;height:auto;">
+                                    <img src="<?= removeLeadingDots($order['img'] ?? '') ?>" alt="Product Image" style="width:70px;height:auto;">
                                 </td>
                                 <td>
                                     <?php if (!empty($order['color'])): ?>Màu: <?= htmlspecialchars($order['color']) ?><br><?php endif; ?>
@@ -184,6 +184,24 @@
             </div>
             <div class="text-right mt-3">
                 <a href="?act=orders" class="btn btn-secondary">Quay lại</a>
+                <!-- <?php if ($order['shipping_status'] === 'pending'): ?>
+                                <form method="POST" action="index.php?act=cancel_order" style="display: inline;"
+                                    onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')">
+                                    <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-times"></i> Hủy đơn hàng
+                                    </button>
+                                </form>
+                            <?php elseif ($order['shipping_status'] === 'returned'): ?>
+                                <a href="index.php?act=order_detail&id=<?= $order['id'] ?>&rebuy=true"
+                                    class="btn btn-primary">
+                                    <i class="fas fa-shopping-cart"></i> Mua lại
+                                </a>
+                            <?php elseif ($order['shipping_status'] === 'delivered'): ?>
+                                <a href="#" class="btn btn-warning" onclick="showReturnOrderModal(<?= $order['id'] ?>)">
+                                    <i class="fas fa-undo"></i> Trả hàng
+                                </a>
+                            <?php endif; ?> -->
             </div>
         </div>
     </div>

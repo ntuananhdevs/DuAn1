@@ -84,10 +84,10 @@
                             </div>
                             <ul class="list-search">
                                 <p>Liên Kết Nhanh</p>
-                                <li><a href="?act=laptop"><ion-icon name="arrow-forward-outline"></ion-icon>Laptop</a></li>
-                                <li><a href="?act=phone"><ion-icon name="arrow-forward-outline"></ion-icon>Dien Thoai</a></li>
-                                <li><a href="#"><ion-icon name="arrow-forward-outline"></ion-icon>AirPods</a></li>
-                                <li><a href="#"><ion-icon name="arrow-forward-outline"></ion-icon>AirTag</a></li>
+                                <li><a href="?act=laptop"><ion-icon name="arrow-forward-outline"></ion-icon>Iphone 16 Pro</a></li>
+                                <li><a href="?act=phone"><ion-icon name="arrow-forward-outline"></ion-icon>Samsung S22</a></li>
+                                <li><a href="#"><ion-icon name="arrow-forward-outline"></ion-icon>Samsung S22 Ultra</a></li>
+                                <li><a href="#"><ion-icon name="arrow-forward-outline"></ion-icon>Iphone 16</a></li>
                                 <li><a href="#"><ion-icon name="arrow-forward-outline"></ion-icon>Apple Trade In</a></li>
                             </ul>
                         </div>

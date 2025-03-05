@@ -5,22 +5,22 @@
 function splitTextIntoLines($text)
 {
     $lines = preg_split('/(?<=[.?!])\s+/', $text);
-    return array_map('trim', $lines); 
+    return array_map('trim', $lines);
 }
 ?>
 
 <div class="container">
     <form action="?act=post_update_des" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="id" value="<?php echo $value['id']; ?>">
+        <input type="hidden" name="id" value="<?php echo $value['id']; ?>">
 
         <input type="hidden" name="id" value="<?php echo htmlspecialchars($value['id']); ?>">
         <label class="form-label mb-0 font-weight-bolder">Description Sentences</label>
         <ul>
             <?php
-                $sentences = splitTextIntoLines($value['description']);
-                foreach ($sentences as $sentence) {
-                    echo "<li>" . nl2br(htmlspecialchars($sentence)) . "</li>";
-                }
+            $sentences = splitTextIntoLines($value['description']);
+            foreach ($sentences as $sentence) {
+                echo "<li>" . nl2br(htmlspecialchars($sentence)) . "</li>";
+            }
             ?>
         </ul>
         <div class="mb-3">
