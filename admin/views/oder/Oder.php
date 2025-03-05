@@ -93,7 +93,7 @@
                                 echo '<span class="badge bg-info">Đang chờ trả hàng</span>';
                                 break;
                             case 'return_completed':
-                                echo '<span class="badge bg-success">Đã hoàn hàng</span>';
+                                echo '<span class="badge bg-secondary">Đã hoàn hàng</span>';
                                 break;
                             case 'return_failed':
                                 echo '<span class="badge bg-danger">Hoa don that bai</span>';

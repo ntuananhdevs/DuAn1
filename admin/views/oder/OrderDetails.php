@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-md-6">
                     <h5>Thông tin đơn hàng</h5>
-                    <p><strong>Ngày đặt:</strong> <?= date('H:i - d/m/Y', strtotime($order['order_date'])) ?? date($order['order_date'])  ?></p>
+                    <p><strong>Ngày đặt:</strong> <?= date('d/m/Y', strtotime($order['order_date'])) ?? date($order['order_date'])  ?></p>
                     <p><strong>Trạng thái thanh toán:</strong>
                         <?php
                         switch ($order['payment_status']) {
@@ -86,7 +86,7 @@
                     'pending' => ['in_transit', 'cancelled'],
                     'in_transit' => ['delivered', 'cancelled'],
                     'delivered' => [],
-                    'cancelled' => ['return_requested'],
+                    'cancelled' => [],
                     'return_requested' => [],
                     'return_in_process' => ['return_completed', 'return_failed'],
                     'return_completed' => [],
@@ -151,12 +151,12 @@
                     </div>
                 <?php endif; ?>
                 <?php if ($order['reason'] && $currentStatus == 'return_requested'): ?>
-                    <hr>
+                    <hr class="mt-3 col-6">
                     <form method="POST" action="?act=reson_admin" style="width: 40%;">
                         <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
                         <input type="hidden" name="return_id" value="<?= $order['return_id'] ?? '' ?>">
                         <div class="form-group">
-                            <label for="admin_reason">Lý do của admin:</label>
+                            <label for="admin_reason">Phản hồi khách hàng:</label>
                             <textarea name="admin_reason" id="admin_reason" cols="30" rows="2" class="form-control" required></textarea>
                         </div>
                         <div class="d-flex justify-content-end mt-3 gap-3">
